@@ -1,0 +1,14 @@
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\bin\Debug\netcoreapp2.2\Rashtan.AuditStory.API.deps.json
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\bin\Debug\netcoreapp2.2\Rashtan.AuditStory.API.runtimeconfig.json
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\bin\Debug\netcoreapp2.2\Rashtan.AuditStory.API.runtimeconfig.dev.json
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\bin\Debug\netcoreapp2.2\Rashtan.AuditStory.API.dll
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\bin\Debug\netcoreapp2.2\Rashtan.AuditStory.API.pdb
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\obj\Debug\netcoreapp2.2\Rashtan.AuditStory.API.csprojAssemblyReference.cache
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\obj\Debug\netcoreapp2.2\Rashtan.AuditStory.API.csproj.CoreCompileInputs.cache
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\obj\Debug\netcoreapp2.2\Rashtan.AuditStory.API.RazorAssemblyInfo.cache
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\obj\Debug\netcoreapp2.2\Rashtan.AuditStory.API.RazorAssemblyInfo.cs
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\obj\Debug\netcoreapp2.2\Rashtan.AuditStory.API.AssemblyInfoInputs.cache
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\obj\Debug\netcoreapp2.2\Rashtan.AuditStory.API.AssemblyInfo.cs
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\obj\Debug\netcoreapp2.2\Rashtan.AuditStory.API.RazorTargetAssemblyInfo.cache
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\obj\Debug\netcoreapp2.2\Rashtan.AuditStory.API.dll
+C:\Users\gajo3\source\repos\Rashtan.AuditStory\src\Rashtan.AuditStory.API\obj\Debug\netcoreapp2.2\Rashtan.AuditStory.API.pdb
