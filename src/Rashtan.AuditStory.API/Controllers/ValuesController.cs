@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace Rashtan.AuditStory.API.Controllers
@@ -8,7 +9,7 @@ namespace Rashtan.AuditStory.API.Controllers
     public class ValuesController : ControllerBase
     {
         // GET api/values
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult<IEnumerable<Company>> Get()
         {
             var currentUser = HttpContext.User;
