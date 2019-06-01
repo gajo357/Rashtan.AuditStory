@@ -1,24 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import AuthService from './AuthService'
+import {Switch, Route} from 'react-router-dom';
+import Home from './Home'
+
+const authService = new AuthService();
+
+function renderHome() {
+  let resultComponent = <Home auth={authService}/>;
+
+  if (!authService.isAuthenticated()) {
+    authService.login();
+    resultComponent = <div><p>Redirecting to the authentication service...</p></div>
+  }
+
+  return resultComponent;
+}
+
+function startSession(history) {
+  authService.handleAuthentication(history);
+  return <div><p>Starting session...</p></div>;
+}
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1 className="App-title">Audit Story</h1>
       </header>
+      <Switch>
+        <Route exact path="/" render={() => renderHome()}/>
+        <Route path="/startSession" render={({history}) => startSession(history)}/>
+      </Switch>
     </div>
   );
 }
