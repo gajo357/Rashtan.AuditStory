@@ -22,6 +22,13 @@ export default class AuthService {
     this.auth0.authorize();
   }
 
+  logout() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
+    window.location.href = '/';
+  }
+
   handleAuthentication(history) {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {

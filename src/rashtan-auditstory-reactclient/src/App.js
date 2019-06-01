@@ -22,10 +22,24 @@ function startSession(history) {
   return <div><p>Starting session...</p></div>;
 }
 
+function createLogoutButton() {
+  let button = null;
+
+  if (authService.isAuthenticated()) {
+      button = <button onClick={()=>authService.logout()}>Logout</button>;
+  }
+
+  return button;
+}
+
 function App() {
+
+  let logoutButton =  createLogoutButton();
+
   return (
     <div className="App">
       <header className="App-header">
+        {logoutButton}
         <h1 className="App-title">Audit Story</h1>
       </header>
       <Switch>
