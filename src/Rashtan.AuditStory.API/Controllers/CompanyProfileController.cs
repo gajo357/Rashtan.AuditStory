@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using static Rashtan.AuditStory.Dto.Company;
 
 namespace Rashtan.AuditStory.API.Controllers
@@ -14,8 +16,6 @@ namespace Rashtan.AuditStory.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<CompanyProfile>> Get()
         {
-            var currentUser = HttpContext.User;
-
             return new[]
             {
                 new CompanyProfile { Name = "Micron", Ticker = "MU" },
