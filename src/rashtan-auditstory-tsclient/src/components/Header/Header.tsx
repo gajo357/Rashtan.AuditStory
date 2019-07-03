@@ -44,11 +44,26 @@ const Header: React.FC<HeaderProps> = ({
           </Grid>
           <Grid item sm={4} xs={9} style={{ textAlign: "right" }}>
             <div>
-              <Link href="/about">About </Link>
-              <Link href="/contact">Contact </Link>
+              <Link
+                href="/about"
+                style={{ margin: "0px auto 0px 10px", cursor: "pointer" }}
+              >
+                About
+              </Link>
+              <Link
+                href="/contact"
+                style={{ margin: "0px auto 0px 10px", cursor: "pointer" }}
+              >
+                Contact
+              </Link>
               {loggedIn ? (
                 <div>
-                  <Link href="/portal">Portal </Link>
+                  <Link
+                    href="/portal"
+                    style={{ margin: "0px auto 0px 10px", cursor: "pointer" }}
+                  >
+                    Portal
+                  </Link>
                   <Button
                     style={{ margin: "0px 20px 0px auto" }}
                     onClick={logOut}

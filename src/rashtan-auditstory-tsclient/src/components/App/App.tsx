@@ -31,7 +31,7 @@ const App: React.FC = () => {
       />
       <Switch>
         <Route exact path="/">
-          <Home apiService={apiService} />
+          <Home />
         </Route>
         <Route
           path="/startSession"
