@@ -5,9 +5,11 @@ import "./App.css";
 import ApiService from "../../services/ApiService";
 import Home from "../Home/Home";
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 import About from "../About/About";
 import Contact from "../Contact/Contact";
 import Portal from "../Portal/Portal";
+import Terms from "../Terms/Terms";
 
 const apiService = new ApiService();
 const authService = apiService.authService;
@@ -46,7 +48,11 @@ const App: React.FC = () => {
         <Route exact path="/portal">
           <Portal apiService={apiService} />
         </Route>
+        <Route exact path="/terms">
+          <Terms />
+        </Route>
       </Switch>
+      <Footer />
     </div>
   );
 };
