@@ -3,6 +3,7 @@ import ApiService from "../../services/ApiService";
 import { CompanyInfo } from "../../models/CompanyInfo";
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { CreditCard } from "@material-ui/icons";
+import { Redirect } from "react-router";
 
 interface PortalProps {
   apiService: ApiService;
@@ -18,12 +19,15 @@ const Portal: React.FC<PortalProps> = ({ apiService }) => {
   useEffect(() => {
     apiService
       .getCompanies()
-      .then(response => response.json())
       .then(data => {
         setState({ companies: data });
       })
       .catch(error => console.log(error));
   }, [apiService]);
+
+  if (!apiService.isAuthenticated()) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div>

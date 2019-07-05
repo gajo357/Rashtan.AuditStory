@@ -32,7 +32,8 @@ namespace Rashtan.AuditStory.API.Controllers
                 {
                     IsTrial = true,
                     PayedUntil = DateTime.Today
-                }
+                },
+                Status = UserStatus.New
             };
         }
 

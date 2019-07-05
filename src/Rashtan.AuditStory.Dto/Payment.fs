@@ -1,6 +1,31 @@
 ﻿namespace Rashtan.AuditStory.Dto
 
 module Payment =
+    
+    [<CLIMutable>]
+    type PaymentToProcess = {
+        Nonce: string
+        Amount: decimal
+    }
+
+    [<CLIMutable>]
+    type PaymentProcessed = {
+        TransactionId: string
+        Amount: decimal
+        PayedUntil: System.DateTime
+    }
+
+    type ButtonVariant = Text = 0 | Outlined = 1 | Contained = 2
+    
+    [<CLIMutable>]
+    type PricingTier = {
+      Title: string
+      Subheader: string
+      Amount: decimal
+      Description: string[]
+      ButtonText: string
+      ButtonVariant: ButtonVariant
+    }
 
     [<CLIMutable>]
     type Payment = {
@@ -25,4 +50,31 @@ module Payment =
     
         IsTrial: bool
     }
+
+    let demoTiers = [|
+      {
+        Title = "Free trial"
+        Subheader = "Usually start here"
+        Amount = 0M
+        Description = [|"All features included"; "One month trial"; "Support"|]
+        ButtonText = "Start free trial"
+        ButtonVariant = ButtonVariant.Outlined
+      }
+      {
+        Title = "Monthly"
+        Subheader = ""
+        Amount = 2.99M
+        Description = [|"All features included"; "Support"|]
+        ButtonText = "Get monthly"
+        ButtonVariant = ButtonVariant.Contained
+      }
+      {
+        Title = "Yearly"
+        Subheader = "Most popular"
+        Amount = 29.99M
+        Description = [|"All features included"; "Support"|]
+        ButtonText = "Get yearly"
+        ButtonVariant = ButtonVariant.Outlined
+      }
+    |]
 

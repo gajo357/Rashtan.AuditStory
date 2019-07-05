@@ -1,6 +1,5 @@
 import { WebAuth, Auth0DecodedHash } from "auth0-js";
 import { AUTH_CONFIG } from "./Auth0Config";
-import { History } from "history";
 
 export default class AuthService {
   auth0: WebAuth;
@@ -27,11 +26,11 @@ export default class AuthService {
     window.location.href = "/";
   };
 
-  handleAuthentication = (history: History) => {
+  handleAuthentication = (sessionStarted: () => void) => {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        history.push("/portal");
+        sessionStarted();
       } else if (err) {
         console.log(err);
       }

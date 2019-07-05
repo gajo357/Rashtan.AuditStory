@@ -10,12 +10,33 @@ import About from "../About/About";
 import Contact from "../Contact/Contact";
 import Portal from "../Portal/Portal";
 import Terms from "../Terms/Terms";
+import AuthService from "../../services/AuthService";
+import CreateUser from "../CreateUser/CreateUser";
+import { UserStatus } from "../../models/IUserProfile";
 
-const apiService = new ApiService();
-const authService = apiService.authService;
+const authService = new AuthService();
+const apiService = new ApiService(authService);
+
+const sessionStarted = (history: History) => () => {
+  apiService
+    .getUserProfile()
+    .then(r => {
+      switch (r.status) {
+        case UserStatus.New: {
+          history.push("/createUser");
+          break;
+        }
+        default: {
+          history.push("/portal");
+          break;
+        }
+      }
+    })
+    .catch(error => console.log(error));
+};
 
 const startSession = (history: History) => {
-  authService.handleAuthentication(history);
+  authService.handleAuthentication(sessionStarted(history));
   return (
     <div>
       <p>Starting session...</p>
@@ -50,6 +71,9 @@ const App: React.FC = () => {
         </Route>
         <Route exact path="/terms">
           <Terms />
+        </Route>
+        <Route exact path="/createUser">
+          <CreateUser apiService={apiService} />
         </Route>
       </Switch>
       <Footer />

@@ -12,10 +12,14 @@ module User =
         City: string
     }
 
+    type UserStatus = Paid = 0 | Expired = 1 | Trial = 2 | New = 3
+
     [<CLIMutable>]
     type UserProfile = {
         BasicInfo: UserProfileCreate
 
         PaymentInfo: PaymentInfo
+
+        Status: UserStatus
     }
 
