@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Pricing from "./Pricing";
+import Confirmation from "./Confirmation";
 import ApiService from "../../services/ApiService";
 import { PricingTier, PaymentProcessed } from "../../models/PricingOption";
 import { Redirect } from "react-router";
@@ -97,20 +98,13 @@ const CreateUser: React.FC<Props> = ({ apiService }) => {
       case 3:
         return (
           <React.Fragment>
-            <Typography variant="h5" gutterBottom>
-              Thank you for your order.
-            </Typography>
-            <Typography variant="subtitle1">
-              Your order number is {payment ? payment.transactionId : ""}. We
-              have emailed your order confirmation, and will send you an update
-              when your order has shipped.
-            </Typography>
-            <Button
-              onClick={() => setActiveStep(activeStep + 1)}
-              className={classes.button}
-            >
-              Finish
-            </Button>
+            {payment && (
+              <Confirmation
+                payment={payment}
+                nextStep={() => setActiveStep(activeStep + 1)}
+                buttonClass={classes.button}
+              />
+            )}
           </React.Fragment>
         );
       default:

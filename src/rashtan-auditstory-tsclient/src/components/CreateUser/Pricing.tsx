@@ -10,7 +10,7 @@ import StarIcon from "@material-ui/icons/StarBorder";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { PricingTier, getButtonVariant } from "../../models/PricingOption";
+import { PricingTier } from "../../models/PricingOption";
 import ApiService from "../../services/ApiService";
 
 const useStyles = makeStyles(theme => ({
@@ -144,7 +144,7 @@ const Pricing: React.FC<Props> = ({ tierSelected, apiService }) => {
                 <CardActions>
                   <Button
                     fullWidth
-                    variant={getButtonVariant(tier)}
+                    variant="outlined"
                     color="primary"
                     onClick={() => tierSelected(tier)}
                   >

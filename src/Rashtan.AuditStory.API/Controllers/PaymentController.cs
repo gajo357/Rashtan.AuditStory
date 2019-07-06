@@ -34,6 +34,9 @@ namespace Rashtan.AuditStory.API.Controllers
         [HttpPost]
         public async Task<ActionResult<PaymentProcessed>> Post([FromBody] PaymentToProcess payment)
         {
+            if (payment.Amount <= 0)
+                return await StartFreeTrialAsync();
+
             var request = new TransactionRequest
             {
                 Amount = payment.Amount,
@@ -50,13 +53,18 @@ namespace Rashtan.AuditStory.API.Controllers
                 return Ok(new PaymentProcessed {
                     TransactionId = result.Target.AuthorizedTransactionId,
                     Amount = payment.Amount,
-                    PayedUntil = DateTime.Now.AddYears(1)
+                    PayedUntil = DateTime.Today.AddYears(1).AddDays(1)
                 });
             }
             else
             {
                 return BadRequest(result.Message);
             }
+        }
+
+        private Task<PaymentProcessed> StartFreeTrialAsync()
+        {
+            return Task.FromResult(new PaymentProcessed { PayedUntil = DateTime.Today.AddDays(31), Amount = 0M });
         }
     }
 }

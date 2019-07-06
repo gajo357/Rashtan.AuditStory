@@ -43,8 +43,12 @@ export default class ApiService {
   getTickerInfo = (ticker: string) => this.getCommand(`api/ticker${ticker}`);
 
   getPaymentToken = () => this.getCommand("api/payment").then(r => r as string);
-  postPayment = (b: PaymentToProcess) =>
-    this.postCommand("api/payment", b).then(r => r as PaymentProcessed);
+  postPayment = (b: PaymentToProcess): Promise<PaymentProcessed> =>
+    this.postCommand("api/payment", b).then(r => ({
+      transactionId: r.transactionId,
+      amount: r.amount,
+      payedUntil: new Date(Date.parse(r.payedUntil))
+    }));
 
   getPricingTiers = () =>
     this.getCommand("api/pricing").then(r => r as PricingTier[]);

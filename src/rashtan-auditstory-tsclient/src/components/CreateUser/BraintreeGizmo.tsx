@@ -1,14 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ApiService from "../../services/ApiService";
-import { PaymentProcessed } from "../../models/PricingOption";
 
 const BraintreeWebDropIn = require("braintree-web-drop-in");
 
 interface Props {
   apiService: ApiService;
   amount: number;
-  onInitialized: (buy: () => Promise<PaymentProcessed>) => void;
+  onInitialized: (buy: () => Promise<string>) => void;
 }
 
 class BraintreeGizmo extends React.Component<Props> {
@@ -55,10 +54,7 @@ class BraintreeGizmo extends React.Component<Props> {
   buy = async () => {
     // Send the nonce to your server
     const { nonce } = await this.instance.requestPaymentMethod();
-    return await this.props.apiService.postPayment({
-      nonce: nonce,
-      amount: this.props.amount
-    });
+    return nonce;
   };
 
   render() {
