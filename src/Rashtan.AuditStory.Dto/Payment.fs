@@ -20,6 +20,7 @@ module Payment =
       Title: string
       Subheader: string
       Amount: decimal
+      Star: bool
       Description: string[]
       ButtonText: string
     }
@@ -53,20 +54,23 @@ module Payment =
         Title = "Free trial"
         Subheader = "Usually start here"
         Amount = 0M
+        Star = false
         Description = [|"All features included"; "One month trial"; "Support"|]
         ButtonText = "Start free trial"
       }
       {
         Title = "Monthly"
-        Subheader = ""
-        Amount = 2.99M
+        Subheader = "30% discount"
+        Amount = 3.99M
+        Star = false
         Description = [|"All features included"; "Support"|]
         ButtonText = "Get monthly"
       }
       {
         Title = "Yearly"
-        Subheader = "Most popular"
+        Subheader = "50% discount"
         Amount = 29.99M
+        Star = true
         Description = [|"All features included"; "Support"|]
         ButtonText = "Get yearly"
       }

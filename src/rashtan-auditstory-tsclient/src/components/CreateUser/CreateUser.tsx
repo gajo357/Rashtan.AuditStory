@@ -13,7 +13,6 @@ import Confirmation from "./Confirmation";
 import ApiService from "../../services/ApiService";
 import { PricingTier, PaymentProcessed } from "../../models/PricingOption";
 import { Redirect } from "react-router";
-import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -85,14 +84,18 @@ const CreateUser: React.FC<Props> = ({ apiService }) => {
         );
       case 2:
         return (
-          <PaymentForm
-            amount={tier ? tier.amount : 0}
-            apiService={apiService}
-            paymentCompleted={r => {
-              setPayment(r);
-              setActiveStep(activeStep + 1);
-            }}
-          />
+          tier && (
+            <PaymentForm
+              tier={tier}
+              apiService={apiService}
+              paymentCompleted={r => {
+                setPayment(r);
+                setActiveStep(activeStep + 1);
+              }}
+              back={() => setActiveStep(activeStep - 1)}
+              buttonClass={classes.button}
+            />
+          )
         );
 
       case 3:

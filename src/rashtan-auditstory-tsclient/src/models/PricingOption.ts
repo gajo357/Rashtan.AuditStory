@@ -2,6 +2,7 @@ export interface PricingTier {
   title: string;
   subheader: string;
   amount: number;
+  star: boolean;
   description: string[];
   buttonText: string;
 }

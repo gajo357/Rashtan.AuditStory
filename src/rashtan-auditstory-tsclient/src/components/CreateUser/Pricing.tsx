@@ -100,23 +100,14 @@ const Pricing: React.FC<Props> = ({ tierSelected, apiService }) => {
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           {tiers.map(tier => (
-            // Enterprise card is full width at sm breakpoint
-            <Grid
-              item
-              key={tier.title}
-              xs={12}
-              sm={tier.title === "Enterprise" ? 12 : 6}
-              md={4}
-            >
+            <Grid item key={tier.title} xs={12} sm={6} md={4}>
               <Card>
                 <CardHeader
                   title={tier.title}
                   subheader={tier.subheader}
                   titleTypographyProps={{ align: "center" }}
                   subheaderTypographyProps={{ align: "center" }}
-                  action={
-                    tier.subheader === "Most popular" ? <StarIcon /> : null
-                  }
+                  action={tier.star ? <StarIcon /> : null}
                   className={classes.cardHeader}
                 />
                 <CardContent>
@@ -125,7 +116,7 @@ const Pricing: React.FC<Props> = ({ tierSelected, apiService }) => {
                       ${tier.amount}
                     </Typography>
                     <Typography variant="h6" color="textSecondary">
-                      /mo
+                      /{tier.title === "Yearly" ? "year" : "month"}
                     </Typography>
                   </div>
                   <ul>
