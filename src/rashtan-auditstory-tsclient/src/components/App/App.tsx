@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { History } from "history";
 import AppBar from "@material-ui/core/AppBar";
 import "./App.css";
@@ -105,6 +105,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           <Route exact path="/createUser">
             <CreateUser apiService={apiService} />
           </Route>
+          <Route component={() => <Redirect to="/" />} />
         </Switch>
         <Footer />
       </AppBar>
