@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { History } from "history";
+import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
+import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 import ApiService from "../../services/ApiService";
 import Home from "../Home/Home";
@@ -75,41 +76,39 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
   };
 
   return (
-    <div className={root}>
-      <AppBar position="absolute" className={appBar}>
-        <Header
-          loggedIn={isAuthenticated}
-          logIn={authService.login}
-          logOut={logOut}
+    <AppBar position="fixed" className={clsx(root, appBar)}>
+      <Header
+        loggedIn={isAuthenticated}
+        logIn={authService.login}
+        logOut={logOut}
+      />
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route
+          path="/startSession"
+          render={({ history }) => startSession(history)}
         />
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route
-            path="/startSession"
-            render={({ history }) => startSession(history)}
-          />
-          <Route exact path="/about">
-            <About />
-          </Route>
-          <Route exact path="/contact">
-            <Contact />
-          </Route>
-          <Route exact path="/portal">
-            <Portal apiService={apiService} />
-          </Route>
-          <Route exact path="/terms">
-            <Terms />
-          </Route>
-          <Route exact path="/createUser">
-            <CreateUser apiService={apiService} />
-          </Route>
-          <Route component={() => <Redirect to="/" />} />
-        </Switch>
-        <Footer />
-      </AppBar>
-    </div>
+        <Route exact path="/about">
+          <About />
+        </Route>
+        <Route exact path="/contact">
+          <Contact />
+        </Route>
+        <Route exact path="/portal">
+          <Portal apiService={apiService} />
+        </Route>
+        <Route exact path="/terms">
+          <Terms />
+        </Route>
+        <Route exact path="/createUser">
+          <CreateUser apiService={apiService} />
+        </Route>
+        <Route component={() => <Redirect to="/" />} />
+      </Switch>
+      <Footer />
+    </AppBar>
   );
 };
 

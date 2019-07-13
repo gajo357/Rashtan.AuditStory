@@ -1,10 +1,9 @@
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { Link, Toolbar, IconButton, Button } from "@material-ui/core";
+import { Toolbar, IconButton, Button } from "@material-ui/core";
 import { AccountBalanceWallet } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
 import { styleToolbar } from "../../lib/SharedStyles";
+import LocalLink from "../LocalLink/LocalLink";
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -49,27 +48,20 @@ const Header: React.FC<HeaderProps> = ({
         aria-label="Home"
         className={classes.menuButton}
       >
-        <Link to="/" component={RouterLink}>
+        <LocalLink to="/">
           <AccountBalanceWallet />
-        </Link>
+        </LocalLink>
       </IconButton>
-      <MenuIcon />
 
       <IconButton color="inherit">
-        <Link to="/about" component={RouterLink}>
-          About
-        </Link>
+        <LocalLink to="/about">About</LocalLink>
       </IconButton>
       <IconButton color="inherit">
-        <Link to="/contact" component={RouterLink}>
-          Contact
-        </Link>
+        <LocalLink to="/contact">Contact</LocalLink>
       </IconButton>
       {loggedIn && (
         <IconButton color="inherit">
-          <Link to="/portal" component={RouterLink}>
-            Portal
-          </Link>
+          <LocalLink to="/portal">Portal</LocalLink>
         </IconButton>
       )}
       {loggedIn && (
