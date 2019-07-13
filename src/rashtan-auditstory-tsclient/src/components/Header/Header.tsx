@@ -1,11 +1,32 @@
 import React from "react";
-import Link from "@material-ui/core/Link";
-import Toolbar from "@material-ui/core/Toolbar";
-import Grid from "@material-ui/core/Grid";
-import { Button } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
+import { Link, Toolbar, IconButton, Button } from "@material-ui/core";
 import { AccountBalanceWallet } from "@material-ui/icons";
-
+import { makeStyles } from "@material-ui/core/styles";
+import MenuIcon from "@material-ui/icons/Menu";
 import { styleToolbar } from "../../lib/SharedStyles";
+
+const useStyles = makeStyles(theme => ({
+  toolbar: {
+    paddingRight: 24 // keep right padding when drawer closed
+  },
+  toolbarIcon: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
+    ...theme.mixins.toolbar
+  },
+  menuButton: {
+    marginRight: 36
+  },
+  menuButtonHidden: {
+    display: "none"
+  },
+  title: {
+    flexGrow: 1
+  }
+}));
 
 interface HeaderProps {
   loggedIn: boolean;
@@ -18,69 +39,50 @@ const Header: React.FC<HeaderProps> = ({
   logIn,
   logOut
 }: HeaderProps) => {
+  const classes = useStyles();
+
   return (
-    <div
-      style={{
-        overflow: "hidden",
-        position: "relative",
-        display: "block",
-        top: "0px",
-        transition: "top 0.5s ease-in"
-      }}
-    >
-      <Toolbar style={styleToolbar}>
-        <Grid
-          container
-          direction="row"
-          justify="space-around"
-          alignItems="center"
-        >
-          <Grid item sm={6} xs={1} style={{ textAlign: "left" }}>
-            <Link href="/">
-              <AccountBalanceWallet
-                style={{ margin: "0px auto 0px 10px", cursor: "pointer" }}
-              />
-            </Link>
-          </Grid>
-          <Grid item sm={4} xs={9} style={{ textAlign: "right" }}>
-            <div>
-              <Link
-                href="/about"
-                style={{ margin: "0px auto 0px 10px", cursor: "pointer" }}
-              >
-                About
-              </Link>
-              <Link
-                href="/contact"
-                style={{ margin: "0px auto 0px 10px", cursor: "pointer" }}
-              >
-                Contact
-              </Link>
-              {loggedIn ? (
-                <div>
-                  <Link
-                    href="/portal"
-                    style={{ margin: "0px auto 0px 10px", cursor: "pointer" }}
-                  >
-                    Portal
-                  </Link>
-                  <Button
-                    style={{ margin: "0px 20px 0px auto" }}
-                    onClick={logOut}
-                  >
-                    Log out
-                  </Button>
-                </div>
-              ) : (
-                <Button style={{ margin: "0px 20px 0px auto" }} onClick={logIn}>
-                  Log in
-                </Button>
-              )}
-            </div>
-          </Grid>
-        </Grid>
-      </Toolbar>
-    </div>
+    <Toolbar style={styleToolbar} className={classes.toolbar}>
+      <IconButton
+        edge="start"
+        color="inherit"
+        aria-label="Home"
+        className={classes.menuButton}
+      >
+        <Link to="/" component={RouterLink}>
+          <AccountBalanceWallet />
+        </Link>
+      </IconButton>
+      <MenuIcon />
+
+      <IconButton color="inherit">
+        <Link to="/about" component={RouterLink}>
+          About
+        </Link>
+      </IconButton>
+      <IconButton color="inherit">
+        <Link to="/contact" component={RouterLink}>
+          Contact
+        </Link>
+      </IconButton>
+      {loggedIn && (
+        <IconButton color="inherit">
+          <Link to="/portal" component={RouterLink}>
+            Portal
+          </Link>
+        </IconButton>
+      )}
+      {loggedIn && (
+        <Button color="inherit" onClick={logOut}>
+          Log out
+        </Button>
+      )}
+      {!loggedIn && (
+        <Button color="inherit" onClick={logIn}>
+          Log in
+        </Button>
+      )}
+    </Toolbar>
   );
 };
 

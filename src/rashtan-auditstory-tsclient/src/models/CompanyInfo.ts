@@ -1,4 +1,4 @@
 export interface CompanyInfo {
-    name: string,
-    ticker: string
+  name: string;
+  ticker: string;
 }

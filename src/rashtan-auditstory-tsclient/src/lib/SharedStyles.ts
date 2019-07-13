@@ -1,5 +1,7 @@
 import { CSSProperties } from "@material-ui/styles";
 
+export const drawerWidth = 240;
+
 export const styleBigAvatar = {
   width: "80px",
   height: "80px",

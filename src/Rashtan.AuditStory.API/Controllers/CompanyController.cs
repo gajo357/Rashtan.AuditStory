@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using static Rashtan.AuditStory.Dto.Company;
 
 namespace Rashtan.AuditStory.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
     public class CompanyController : ControllerBase
@@ -21,6 +22,17 @@ namespace Rashtan.AuditStory.API.Controllers
             return new Company()
             {
                 Profile = new CompanyProfile("Micron", "MU", 100, 10),
+            };
+        }
+
+        // GET api/companyprofile
+        [HttpGet]
+        public ActionResult<IEnumerable<CompanyProfile>> GetProfiles()
+        {
+            return new[]
+            {
+                new CompanyProfile { Name = "Micron", Ticker = "MU", MarketCap = 50 * 1e9 },
+                new CompanyProfile { Name = "Microsoft", Ticker = "MSFT", MarketCap = 500 * 1e9 }
             };
         }
 

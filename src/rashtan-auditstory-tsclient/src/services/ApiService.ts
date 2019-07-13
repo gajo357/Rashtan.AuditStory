@@ -5,6 +5,7 @@ import {
   PaymentProcessed,
   PaymentToProcess
 } from "../models/PricingOption";
+import { CompanyInfo } from "../models/CompanyInfo";
 
 export default class ApiService {
   private authService: AuthService;
@@ -23,8 +24,10 @@ export default class ApiService {
     })
   });
 
-  private getCommand = (path: string) =>
-    fetch(path, this.defaultHeaders()).then(async r => await r.json());
+  private getCommand = <TResult>(path: string) =>
+    fetch(path, this.defaultHeaders()).then(
+      async r => (await r.json()) as TResult
+    );
 
   private postCommand = <TBody>(path: string, body: TBody) =>
     fetch(path, {
@@ -35,14 +38,14 @@ export default class ApiService {
 
   isAuthenticated = () => this.authService.isAuthenticated();
 
-  getCompanies = () => this.getCommand("api/companyprofile");
+  getCompanies = () =>
+    this.getCommand<CompanyInfo[]>("api/company/getprofiles");
   getCompany = (ticker: string) => this.getCommand(`api/company/${ticker}`);
 
-  getUserProfile = () =>
-    this.getCommand("api/userprofile").then((r: IUserProfile) => r);
+  getUserProfile = () => this.getCommand<IUserProfile>("api/userprofile");
   getTickerInfo = (ticker: string) => this.getCommand(`api/ticker${ticker}`);
 
-  getPaymentToken = () => this.getCommand("api/payment").then(r => r as string);
+  getPaymentToken = () => this.getCommand<string>("api/payment");
   postPayment = (b: PaymentToProcess): Promise<PaymentProcessed> =>
     this.postCommand("api/payment", b).then(r => ({
       transactionId: r.transactionId,
@@ -50,6 +53,5 @@ export default class ApiService {
       payedUntil: new Date(Date.parse(r.payedUntil))
     }));
 
-  getPricingTiers = () =>
-    this.getCommand("api/pricing").then(r => r as PricingTier[]);
+  getPricingTiers = () => this.getCommand<PricingTier[]>("api/pricing");
 }
