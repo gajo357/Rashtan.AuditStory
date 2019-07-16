@@ -4,6 +4,7 @@ import { History } from "history";
 import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import "./App.css";
 import ApiService from "../../services/ApiService";
 import Home from "../Home/Home";
@@ -11,11 +12,13 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import About from "../About/About";
 import Contact from "../Contact/Contact";
-import Portal from "../Portal/Portal";
+import PortalDashboard from "../PortalDashboard/PortalDashboard";
 import Terms from "../Terms/Terms";
 import AuthService from "../../services/AuthService";
 import CreateUser from "../CreateUser/CreateUser";
 import { UserStatus } from "../../models/IUserProfile";
+import PortalNewStory from "../PortalNewStory/PortalNewStory";
+import PortalStory from "../PortalStory/PortalStory";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -76,39 +79,63 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
   };
 
   return (
-    <AppBar position="fixed" className={clsx(root, appBar)}>
-      <Header
-        loggedIn={isAuthenticated}
-        logIn={authService.login}
-        logOut={logOut}
-      />
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route
-          path="/startSession"
-          render={({ history }) => startSession(history)}
+    <React.Fragment>
+      <CssBaseline />
+      <AppBar position="fixed" className={clsx(root, appBar)}>
+        <Header
+          loggedIn={isAuthenticated}
+          logIn={authService.login}
+          logOut={logOut}
         />
-        <Route exact path="/about">
-          <About />
-        </Route>
-        <Route exact path="/contact">
-          <Contact />
-        </Route>
-        <Route exact path="/portal">
-          <Portal apiService={apiService} />
-        </Route>
-        <Route exact path="/terms">
-          <Terms />
-        </Route>
-        <Route exact path="/createUser">
-          <CreateUser apiService={apiService} />
-        </Route>
-        <Route component={() => <Redirect to="/" />} />
-      </Switch>
-      <Footer />
-    </AppBar>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route
+            path="/startSession"
+            render={({ history }) => startSession(history)}
+          />
+          <Route exact path="/about">
+            <About />
+          </Route>
+          <Route exact path="/contact">
+            <Contact />
+          </Route>
+          <Route exact path="/terms">
+            <Terms />
+          </Route>
+          <Route exact path="/createUser">
+            <CreateUser apiService={apiService} />
+          </Route>
+          <Route
+            exact
+            path="/portal"
+            render={({ history }) => (
+              <PortalDashboard apiService={apiService} history={history} />
+            )}
+          />
+          <Route
+            exact
+            path="/portal/newstory"
+            render={({ history }) => (
+              <PortalNewStory apiService={apiService} history={history} />
+            )}
+          />
+          <Route
+            exact
+            path="/portal/story/:ticker"
+            render={({ match }) => (
+              <PortalStory
+                apiService={apiService}
+                ticker={match.params["ticker"]}
+              />
+            )}
+          />
+          <Route component={() => <Redirect to="/" />} />
+        </Switch>
+        <Footer />
+      </AppBar>
+    </React.Fragment>
   );
 };
 

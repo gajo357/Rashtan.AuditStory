@@ -12,20 +12,17 @@ namespace Rashtan.AuditStory.API.Controllers
     [Authorize]
     public class CompanyController : ControllerBase
     {
-        // GET api/company/MSFT
-        [HttpGet("{ticker}")]
-        public ActionResult<Company> Get(string ticker)
+        // GET api/company/profile?ticker=MSFT
+        [HttpGet]
+        public ActionResult<CompanyProfile> Profile([FromQuery]string ticker)
         {
             var Name = User.Identity.Name;
             var EmailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
-            return new Company()
-            {
-                Profile = new CompanyProfile("Micron", "MU", 100, 10),
-            };
+            return new CompanyProfile("Micron", ticker, 100, 10);
         }
 
-        // GET api/companyprofile
+        // GET api/company/getprofiles
         [HttpGet]
         public ActionResult<IEnumerable<CompanyProfile>> GetProfiles()
         {
@@ -38,10 +35,10 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // POST api/company
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] Company company)
+        public ActionResult<string> CreateProfile([FromBody] CompanyProfile company)
         {
             // save to database
-            return true;
+            return company.Ticker;
         }
 
         // DELETE api/company/MSFT

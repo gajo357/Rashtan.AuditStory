@@ -3,7 +3,7 @@ import { Toolbar, IconButton, Button } from "@material-ui/core";
 import { AccountBalanceWallet } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { styleToolbar } from "../../lib/SharedStyles";
-import LocalLink from "../LocalLink/LocalLink";
+import LocalLink from "../../lib/LocalLink";
 
 const useStyles = makeStyles(theme => ({
   toolbar: {

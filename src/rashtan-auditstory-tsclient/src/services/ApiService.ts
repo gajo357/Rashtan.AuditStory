@@ -6,9 +6,10 @@ import {
   PaymentToProcess
 } from "../models/PricingOption";
 import { CompanyInfo } from "../models/CompanyInfo";
+import { BASE_API } from "./Auth0Config";
 
 export default class ApiService {
-  private authService: AuthService;
+  public authService: AuthService;
 
   constructor(authService: AuthService) {
     this.authService = authService;
@@ -25,22 +26,21 @@ export default class ApiService {
   });
 
   private getCommand = <TResult>(path: string) =>
-    fetch(path, this.defaultHeaders()).then(
+    fetch(BASE_API + path, this.defaultHeaders()).then(
       async r => (await r.json()) as TResult
     );
 
   private postCommand = <TBody>(path: string, body: TBody) =>
-    fetch(path, {
+    fetch(BASE_API + path, {
       ...this.defaultHeaders(),
       body: JSON.stringify(body),
       method: "POST"
     }).then(async r => await r.json());
 
-  isAuthenticated = () => this.authService.isAuthenticated();
-
   getCompanies = () =>
     this.getCommand<CompanyInfo[]>("api/company/getprofiles");
-  getCompany = (ticker: string) => this.getCommand(`api/company/${ticker}`);
+  getCompany = (ticker: string) =>
+    this.getCommand<CompanyInfo>(`api/company/profile?ticker=${ticker}`);
 
   getUserProfile = () => this.getCommand<IUserProfile>("api/userprofile");
   getTickerInfo = (ticker: string) => this.getCommand(`api/ticker${ticker}`);
@@ -54,4 +54,9 @@ export default class ApiService {
     }));
 
   getPricingTiers = () => this.getCommand<PricingTier[]>("api/pricing");
+
+  createNewStory = (company: CompanyInfo) =>
+    this.postCommand("api/company/createProfile", company).then(
+      c => c as string
+    );
 }
