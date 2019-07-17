@@ -19,6 +19,8 @@ import CreateUser from "../CreateUser/CreateUser";
 import { UserStatus } from "../../models/IUserProfile";
 import PortalNewStory from "../PortalNewStory/PortalNewStory";
 import PortalStory from "../PortalStory/PortalStory";
+import PortalFolders from "../PortalFolders/PortalFolders";
+import PortalLayout from "../PortalLayout";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -107,6 +109,9 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           <Route exact path="/createUser">
             <CreateUser apiService={apiService} />
           </Route>
+          
+          <PortalLayout apiService={apiService}>
+          
           <Route
             exact
             path="/portal"
@@ -131,6 +136,19 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
               />
             )}
           />
+          <Route
+            exact
+            path="/portal/folder/:name"
+            render={({ history, match }) => (
+              <PortalFolders
+                apiService={apiService}
+                history={history}
+                folder={match.params["name"]}
+              />
+            )}
+          />
+          </PortalLayout>
+          
           <Route component={() => <Redirect to="/" />} />
         </Switch>
         <Footer />

@@ -6,6 +6,7 @@ import {
   PaymentToProcess
 } from "../models/PricingOption";
 import { CompanyInfo } from "../models/CompanyInfo";
+import Folder from "../models/Folder";
 import { BASE_API } from "./Auth0Config";
 
 export default class ApiService {
@@ -59,4 +60,8 @@ export default class ApiService {
     this.postCommand("api/company/createProfile", company).then(
       c => c as string
     );
+
+  getFolders = () => this.getCommand<Folder[]>("api/folder/get");
+  getFolderCompanies = (folder: string) =>
+    this.getCommand<CompanyInfo[]>(`api/folder/companies?name=${folder}`);
 }

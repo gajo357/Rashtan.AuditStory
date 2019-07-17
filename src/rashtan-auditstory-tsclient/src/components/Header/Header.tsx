@@ -65,12 +65,12 @@ const Header: React.FC<HeaderProps> = ({
         </IconButton>
       )}
       {loggedIn && (
-        <Button color="inherit" onClick={logOut}>
+        <Button color="primary" onClick={logOut}>
           Log out
         </Button>
       )}
       {!loggedIn && (
-        <Button color="inherit" onClick={logIn}>
+        <Button color="primary" onClick={logIn}>
           Log in
         </Button>
       )}

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import SideNavBar from "./SideNavBar/SideNavBar";
-import AuthService from "../services/AuthService";
+import ApiService from "../services/ApiService";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,21 +26,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface PortalProps {
-  authService: AuthService;
+  apiService: ApiService;
   children: React.ReactNode;
 }
 
-const PortaLayout: React.FC<PortalProps> = ({ authService, children }) => {
+const PortalLayout: React.FC<PortalProps> = ({ apiService, children }) => {
   const classes = useStyles();
 
-  if (!authService.isAuthenticated()) {
-    authService.login();
+  if (!apiService.authService.isAuthenticated()) {
+    apiService.authService.login();
     return <React.Fragment />;
   }
 
   return (
     <div className={classes.root}>
-      <SideNavBar />
+      <SideNavBar apiService={apiService} />
 
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -54,4 +54,4 @@ const PortaLayout: React.FC<PortalProps> = ({ authService, children }) => {
   );
 };
 
-export default PortaLayout;
+export default PortalLayout;

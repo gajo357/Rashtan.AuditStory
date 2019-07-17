@@ -3,7 +3,6 @@ import { History } from "history";
 import CompanyCard from "./CompanyCard";
 import ApiService from "../../services/ApiService";
 import { CompanyInfo } from "../../models/CompanyInfo";
-import PortalLayout from "../PortalLayout";
 
 interface PortalProps {
   apiService: ApiService;
@@ -23,11 +22,11 @@ const PortalDashboard: React.FC<PortalProps> = ({ apiService, history }) => {
   }, [apiService]);
 
   return (
-    <PortalLayout authService={apiService.authService}>
+    <React.Fragment>
       {companies.map(c => (
         <CompanyCard company={c} history={history} key={c.ticker} />
       ))}
-    </PortalLayout>
+    </React.Fragment>
   );
 };
 

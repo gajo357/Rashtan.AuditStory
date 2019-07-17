@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { Drawer, IconButton, Divider, List } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,11 +6,13 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import FolderIcon from "@material-ui/icons/Folder";
+import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import { drawerWidth } from "../../lib/SharedStyles";
 import SideNavBarElement, { SideElement } from "./SideNavBarElement";
+import ApiService from "../../services/ApiService";
 
 const useStyles = makeStyles(theme => ({
   toolbarIcon: {
@@ -42,38 +44,62 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const mainElements: SideElement[] = [
-  {
-    to: "/portal/newstory",
-    icon: <PlaylistAddIcon />,
-    text: "New story"
-  },
-  {
-    to: "/portal",
-    icon: <DashboardIcon />,
-    text: "Dashboard"
-  },
-  {
-    to: "/portal/folders",
-    icon: <FolderIcon />,
-    text: "Folders"
-  },
-  {
-    to: "/portal/reports",
-    icon: <BarChartIcon />,
-    text: "Reports"
-  },
-  {
-    to: "/portal/account",
-    icon: <AccountBoxIcon />,
-    text: "Account"
-  }
-];
+const mainElements: () => SideElement[] = () => {
+  return [
+    {
+      to: "/portal/newstory",
+      icon: <PlaylistAddIcon />,
+      text: "New story"
+    },
+    {
+      to: "/portal",
+      icon: <DashboardIcon />,
+      text: "Dashboard"
+    },
+    {
+      to: "",
+      icon: <FolderIcon />,
+      text: "Folders",
+      subItems: []
+    },
+    {
+      to: "/portal/reports",
+      icon: <BarChartIcon />,
+      text: "Reports"
+    },
+    {
+      to: "/portal/account",
+      icon: <AccountBoxIcon />,
+      text: "Account"
+    }
+  ];
+};
 
-const SideNavBar: React.FC = () => {
+interface Props {
+  apiService: ApiService;
+}
+
+const SideNavBar: React.FC<Props> = ({ apiService }) => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(true);
+  const [elements, setElements] = React.useState(mainElements());
+
+  useEffect(() => {
+    apiService.getFolders().then(folders => {
+      const e = mainElements();
+      const folder = e.find(f => f.text === "Folders");
+      if (folder) {
+        folder.subItems = folders.map(f => ({
+          to: `/portal/folder/${f.name}`,
+          icon: <FolderOpenIcon />,
+          text: f.name
+        }));
+        setElements(e);
+      }
+    });
+  }, [apiService]);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -107,7 +133,7 @@ const SideNavBar: React.FC = () => {
 
         <List>
           <React.Fragment>
-            {mainElements.map(p => (
+            {elements.map(p => (
               <SideNavBarElement {...p} key={p.text} />
             ))}
           </React.Fragment>

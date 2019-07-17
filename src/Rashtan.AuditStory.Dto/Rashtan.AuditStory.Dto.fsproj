@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Include="Common.fs" />
+    <Compile Include="Folder.fs" />
     <Compile Include="Checklist.fs" />
     <Compile Include="Company.fs" />
     <Compile Include="Payment.fs" />

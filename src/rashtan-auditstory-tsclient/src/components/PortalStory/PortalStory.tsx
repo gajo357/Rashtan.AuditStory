@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import ApiService from "../../services/ApiService";
-import PortalLayout from "../PortalLayout";
 import { CompanyInfo } from "../../models/CompanyInfo";
 
 interface Props {
@@ -19,10 +18,10 @@ const PortalStory: React.FC<Props> = ({ apiService, ticker }) => {
   if (!ticker) return <Redirect to="/portal" />;
 
   return (
-    <PortalLayout authService={apiService.authService}>
+    <React.Fragment>
       {ticker}
       {company && " - " + company.name}
-    </PortalLayout>
+    </React.Fragment>
   );
 };
 
