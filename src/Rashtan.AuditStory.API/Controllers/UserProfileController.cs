@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using System.Security.Claims;
+using Rashtan.AuditStory.API.Utils;
+using Rashtan.AuditStory.Repository.Interface;
+using System.Threading.Tasks;
 using static Rashtan.AuditStory.Dto.User;
 
 namespace Rashtan.AuditStory.API.Controllers
@@ -12,36 +12,18 @@ namespace Rashtan.AuditStory.API.Controllers
     [Authorize]
     public class UserProfileController : ControllerBase
     {
+        private IUserProfileRepository UserProfileRepository { get; }
+        public UserProfileController(IUserProfileRepository userProfileRepository)
+        {
+            UserProfileRepository = userProfileRepository;
+        }
+
         // GET api/userprofile
         [HttpGet]
-        public ActionResult<UserProfile> Get()
-        {
-            var currentUser = HttpContext.User;
-
-            var name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            var emailAddress = User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
-
-            return new UserProfile
-            {
-                BasicInfo = new UserProfileCreate
-                {
-                    Name = name,
-                    Email = emailAddress
-                },
-                PaymentInfo = new Dto.Payment.PaymentInfo
-                {
-                    IsTrial = true,
-                    PayedUntil = DateTime.Today
-                },
-                Status = UserStatus.New
-            };
-        }
+        public async Task<ActionResult<UserProfile>> Get() => await UserProfileRepository.GetProfileAsync(this.UserId());
 
         // POST api/userprofile
         [HttpPost]
-        public void Post([FromBody] UserProfile profile)
-        {
-            // save to database
-        }
+        public async Task Post([FromBody] UserProfile profile) => await UserProfileRepository.SaveProfileAsync(this.UserId(), profile);
     }
 }

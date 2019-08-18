@@ -17,7 +17,7 @@ interface BuyFunc {
 }
 
 const PaymentForm: React.FC<Props> = ({
-  tier: {amount, title},
+  tier: { amount, title, length },
   apiService,
   paymentCompleted,
   back,
@@ -28,10 +28,10 @@ const PaymentForm: React.FC<Props> = ({
   const pay = useCallback(
     (nonce: string) =>
       apiService
-        .postPayment({ amount, nonce })
+        .postPayment({ amount, nonce, length })
         .then(r => paymentCompleted(r))
         .catch(e => alert(e)),
-    [apiService, amount, paymentCompleted]
+    [apiService, amount, paymentCompleted, length]
   );
 
   useEffect(() => {
@@ -42,7 +42,9 @@ const PaymentForm: React.FC<Props> = ({
 
   return amount > 0 ? (
     <React.Fragment>
-      <Typography variant="h5">You have chosen the {title} plan that will cost you {amount}$</Typography>
+      <Typography variant="h5">
+        You have chosen the {title} plan that will cost you {amount}$
+      </Typography>
       <BraintreeGizmo
         amount={amount}
         apiService={apiService}

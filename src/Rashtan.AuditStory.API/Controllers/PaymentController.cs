@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Rashtan.AuditStory.Dto;
+using Rashtan.AuditStory.API.Utils;
+using Rashtan.AuditStory.Repository.Interface;
 using System;
 using System.Threading.Tasks;
 using static Rashtan.AuditStory.Dto.Payment;
@@ -15,7 +16,9 @@ namespace Rashtan.AuditStory.API.Controllers
     public class PaymentController : ControllerBase
     {
         private BraintreeGateway Gateway { get; }
-        public PaymentController(IConfiguration configuration)
+        private IPaymentRepository PaymentRepository { get; }
+
+        public PaymentController(IConfiguration configuration, IPaymentRepository paymentRepository)
         {
             Gateway = new BraintreeGateway
             {
@@ -24,6 +27,7 @@ namespace Rashtan.AuditStory.API.Controllers
                 PublicKey = configuration["Payment:PublicKey"],
                 PrivateKey = configuration["Payment:PrivateKey"]
             };
+            PaymentRepository = paymentRepository;
         }
 
         // GET api/payment
@@ -50,11 +54,16 @@ namespace Rashtan.AuditStory.API.Controllers
             var result = await Gateway.Transaction.SaleAsync(request);
             if (result.IsSuccess())
             {
-                return Ok(new PaymentProcessed {
+                var paymentProcessed = new PaymentProcessed
+                {
                     TransactionId = result.Target.AuthorizedTransactionId,
                     Amount = payment.Amount,
-                    PayedUntil = DateTime.Today.AddYears(1).AddDays(1)
-                });
+                    PayedUntil = DateTime.Today.AddDays(payment.Length)
+                };
+
+                await PaymentRepository.SavePaymentAsync(this.UserId(), paymentProcessed);
+
+                return paymentProcessed;
             }
             else
             {

@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Rashtan.AuditStory.API.Utils;
+using Rashtan.AuditStory.Repository.Interface;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+using System.Threading.Tasks;
 using static Rashtan.AuditStory.Dto.Company;
 
 namespace Rashtan.AuditStory.API.Controllers
@@ -12,41 +13,32 @@ namespace Rashtan.AuditStory.API.Controllers
     [Authorize]
     public class CompanyController : ControllerBase
     {
+        private ICompanyProfileRepository CompanyProfileRepository { get; }
+
+        public CompanyController(ICompanyProfileRepository companyProfileRepository)
+        {
+            CompanyProfileRepository = companyProfileRepository;
+        }
+
         // GET api/company/profile?ticker=MSFT
         [HttpGet]
-        public ActionResult<CompanyProfile> Profile([FromQuery]string ticker)
-        {
-            var Name = User.Identity.Name;
-            var EmailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-
-            return new CompanyProfile("Micron", ticker, 100, 10);
-        }
+        public async Task<ActionResult<CompanyProfile>> Profile([FromQuery]string ticker) => await CompanyProfileRepository.GetProfileAsync(this.UserId(), ticker);
 
         // GET api/company/getprofiles
         [HttpGet]
-        public ActionResult<IEnumerable<CompanyProfile>> GetProfiles()
-        {
-            return new[]
-            {
-                new CompanyProfile { Name = "Micron", Ticker = "MU", MarketCap = 50 * 1e9 },
-                new CompanyProfile { Name = "Microsoft", Ticker = "MSFT", MarketCap = 500 * 1e9 }
-            };
-        }
+        public async Task<ActionResult<IEnumerable<CompanyProfile>>> GetProfiles() => Ok(await CompanyProfileRepository.GetProfilesAsync(this.UserId()));
 
         // POST api/company
         [HttpPost]
-        public ActionResult<string> CreateProfile([FromBody] CompanyProfile company)
+        public async Task<ActionResult<string>> CreateProfile([FromBody] CompanyProfile company)
         {
+            await CompanyProfileRepository.CreateProfileAsync(this.UserId(), company);
             // save to database
             return company.Ticker;
         }
 
         // DELETE api/company/MSFT
         [HttpDelete]
-        public ActionResult<bool> Delete([FromQuery] string ticker)
-        {
-            // delete from database
-            return true;
-        }
+        public async Task<ActionResult<bool>> Delete([FromQuery] string ticker) => await CompanyProfileRepository.DeleteProfileAsync(this.UserId(), ticker);
     }
 }

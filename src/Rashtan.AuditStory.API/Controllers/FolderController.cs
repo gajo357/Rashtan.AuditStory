@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Rashtan.AuditStory.API.Utils;
 using Rashtan.AuditStory.Dto;
+using Rashtan.AuditStory.Repository.Interface;
 using System.Collections.Generic;
-using static Rashtan.AuditStory.Dto.Company;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.API.Controllers
 {
@@ -11,24 +14,15 @@ namespace Rashtan.AuditStory.API.Controllers
     [Authorize]
     public class FolderController : ControllerBase
     {
-        // GET api/folder
-        [HttpGet]
-        public ActionResult<Folder.Folder[]> Get()
+        private IFolderRepository FolderRepository { get; }
+
+        public FolderController(IFolderRepository folderRepository)
         {
-            return new[] {
-                new Folder.Folder("Wonderfull"),
-                new Folder.Folder("Too Hard"),
-                new Folder.Folder("Not good enough")
-            };
+            FolderRepository = folderRepository;
         }
 
-        // GET api/folder/companies?name=Too Hard
+        // GET api/folder
         [HttpGet]
-        public ActionResult<IEnumerable<CompanyProfile>> Companies([FromQuery]string name) => 
-            new[]
-            {
-                new CompanyProfile { Name = "Micron", Ticker = "MU", MarketCap = 50 * 1e9 },
-                new CompanyProfile { Name = "Microsoft", Ticker = "MSFT", MarketCap = 500 * 1e9 }
-            };
+        public async Task<ActionResult<IEnumerable<Folder.Folder>>> Get() => (await FolderRepository.GetFoldersAsync(this.UserId())).ToArray();
     }
 }

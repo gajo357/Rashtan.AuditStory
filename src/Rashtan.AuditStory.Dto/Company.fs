@@ -9,6 +9,7 @@ module Company =
         Ticker: string
         MarketCap: double
         NumberOfShares: int
+        Folder: string
     }
 
     [<CLIMutable>]

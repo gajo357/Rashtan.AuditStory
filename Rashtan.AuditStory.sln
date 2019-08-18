@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rashtan.AuditStory.API", "src\Rashtan.AuditStory.API\Rashtan.AuditStory.API.csproj", "{99A6DB89-B640-42C8-B4C3-D73F614B309F}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Rashtan.AuditStory.Dto", "src\Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj", "{986471A9-125C-4272-BD86-3667C2ED94B3}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Dto", "src\Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj", "{986471A9-125C-4272-BD86-3667C2ED94B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rashtan.AuditStory.MongoRepository", "src\Rashtan.AuditStory.MongoRepository\Rashtan.AuditStory.MongoRepository.csproj", "{88EE03F6-9331-4FCF-9C1A-BEA2E882DC69}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rashtan.AuditStory.Repository.Interface", "src\Rashtan.AuditStory.Repository.Interface\Rashtan.AuditStory.Repository.Interface.csproj", "{0621F660-4C9D-4C32-93C5-452475C924EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Integration.Rashtan.AuditStory.MongoDatabase", "src\Tests\Test.Integration.Rashtan.AuditStory.MongoDatabase\Test.Integration.Rashtan.AuditStory.MongoDatabase.csproj", "{205D3E53-D5A2-4088-9C46-6298D16F6120}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{986471A9-125C-4272-BD86-3667C2ED94B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{986471A9-125C-4272-BD86-3667C2ED94B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{986471A9-125C-4272-BD86-3667C2ED94B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88EE03F6-9331-4FCF-9C1A-BEA2E882DC69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88EE03F6-9331-4FCF-9C1A-BEA2E882DC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88EE03F6-9331-4FCF-9C1A-BEA2E882DC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88EE03F6-9331-4FCF-9C1A-BEA2E882DC69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0621F660-4C9D-4C32-93C5-452475C924EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0621F660-4C9D-4C32-93C5-452475C924EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0621F660-4C9D-4C32-93C5-452475C924EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0621F660-4C9D-4C32-93C5-452475C924EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{205D3E53-D5A2-4088-9C46-6298D16F6120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{205D3E53-D5A2-4088-9C46-6298D16F6120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{205D3E53-D5A2-4088-9C46-6298D16F6120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{205D3E53-D5A2-4088-9C46-6298D16F6120}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

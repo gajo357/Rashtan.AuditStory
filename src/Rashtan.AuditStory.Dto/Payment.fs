@@ -6,6 +6,7 @@ module Payment =
     type PaymentToProcess = {
         Nonce: string
         Amount: decimal
+        Length: int
     }
 
     [<CLIMutable>]
@@ -20,6 +21,7 @@ module Payment =
       Title: string
       Subheader: string
       Amount: decimal
+      Length: int
       Star: bool
       Description: string[]
       ButtonText: string
@@ -47,32 +49,5 @@ module Payment =
         PayedUntil: System.DateTime
     
         IsTrial: bool
-    }
-
-    let demoTiers = [|
-      {
-        Title = "Free trial"
-        Subheader = "Usually start here"
-        Amount = 0M
-        Star = false
-        Description = [|"All features included"; "One month trial"; "Support"|]
-        ButtonText = "Start free trial"
-      }
-      {
-        Title = "Monthly"
-        Subheader = "30% discount"
-        Amount = 3.99M
-        Star = false
-        Description = [|"All features included"; "Support"|]
-        ButtonText = "Get monthly"
-      }
-      {
-        Title = "Yearly"
-        Subheader = "50% discount"
-        Amount = 29.99M
-        Star = true
-        Description = [|"All features included"; "Support"|]
-        ButtonText = "Get yearly"
-      }
-    |]
+    }  
 
