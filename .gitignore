@@ -5,6 +5,9 @@
 /.vs/Rashtan.AuditStory
 *.suo
 *.user
+.ionide
+.vscode
+.vs
 _ReSharper.*
 bin
 obj

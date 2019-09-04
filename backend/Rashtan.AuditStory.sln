@@ -3,31 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rashtan.AuditStory.API", "src\Rashtan.AuditStory.API\Rashtan.AuditStory.API.csproj", "{99A6DB89-B640-42C8-B4C3-D73F614B309F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rashtan.AuditStory.API", "Rashtan.AuditStory.API\Rashtan.AuditStory.API.csproj", "{99A6DB89-B640-42C8-B4C3-D73F614B309F}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Dto", "src\Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj", "{986471A9-125C-4272-BD86-3667C2ED94B3}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Dto", "Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj", "{986471A9-125C-4272-BD86-3667C2ED94B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rashtan.AuditStory.MongoRepository", "src\Rashtan.AuditStory.MongoRepository\Rashtan.AuditStory.MongoRepository.csproj", "{88EE03F6-9331-4FCF-9C1A-BEA2E882DC69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rashtan.AuditStory.MongoRepository", "Rashtan.AuditStory.MongoRepository\Rashtan.AuditStory.MongoRepository.csproj", "{88EE03F6-9331-4FCF-9C1A-BEA2E882DC69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rashtan.AuditStory.Repository.Interface", "src\Rashtan.AuditStory.Repository.Interface\Rashtan.AuditStory.Repository.Interface.csproj", "{0621F660-4C9D-4C32-93C5-452475C924EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rashtan.AuditStory.Repository.Interface", "Rashtan.AuditStory.Repository.Interface\Rashtan.AuditStory.Repository.Interface.csproj", "{0621F660-4C9D-4C32-93C5-452475C924EC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Integration.Rashtan.AuditStory.MongoDatabase", "src\Tests\Test.Integration.Rashtan.AuditStory.MongoDatabase\Test.Integration.Rashtan.AuditStory.MongoDatabase.csproj", "{205D3E53-D5A2-4088-9C46-6298D16F6120}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Integration.Rashtan.AuditStory.MongoDatabase", "Tests\Test.Integration.Rashtan.AuditStory.MongoDatabase\Test.Integration.Rashtan.AuditStory.MongoDatabase.csproj", "{205D3E53-D5A2-4088-9C46-6298D16F6120}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.DbModel", "src\Rashtan.AuditStory.DbModel\Rashtan.AuditStory.DbModel.fsproj", "{2831022D-C2B0-4206-BC4E-91F8C41A0AF0}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.DbModel", "Rashtan.AuditStory.DbModel\Rashtan.AuditStory.DbModel.fsproj", "{2831022D-C2B0-4206-BC4E-91F8C41A0AF0}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.DtoDbMapper", "src\Rashtan.AuditStory.DtoDbMapper\Rashtan.AuditStory.DtoDbMapper.fsproj", "{47F8F7B2-CEFD-452B-9FC6-4BF116FCDFC4}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.DtoDbMapper", "Rashtan.AuditStory.DtoDbMapper\Rashtan.AuditStory.DtoDbMapper.fsproj", "{47F8F7B2-CEFD-452B-9FC6-4BF116FCDFC4}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Common", "src\Rashtan.AuditStory.Common\Rashtan.AuditStory.Common.fsproj", "{E2DCD7F0-C1A6-4466-9D78-177185BFDAE7}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Common", "Rashtan.AuditStory.Common\Rashtan.AuditStory.Common.fsproj", "{E2DCD7F0-C1A6-4466-9D78-177185BFDAE7}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.DtoValidation", "src\Rashtan.AuditStory.DtoValidation\Rashtan.AuditStory.DtoValidation.fsproj", "{5A85B7FD-C119-4D75-A62B-89C8FF549F16}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.DtoValidation", "Rashtan.AuditStory.DtoValidation\Rashtan.AuditStory.DtoValidation.fsproj", "{5A85B7FD-C119-4D75-A62B-89C8FF549F16}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Workflows", "src\Rashtan.AuditStory.Workflows\Rashtan.AuditStory.Workflows.fsproj", "{53001EF3-A888-4992-8B7A-2AEDBF8CC616}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Workflows", "Rashtan.AuditStory.Workflows\Rashtan.AuditStory.Workflows.fsproj", "{53001EF3-A888-4992-8B7A-2AEDBF8CC616}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Payment", "src\Rashtan.AuditStory.Payment\Rashtan.AuditStory.Payment.fsproj", "{5F21B389-51E3-4392-B2E5-87854926DCB2}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Payment", "Rashtan.AuditStory.Payment\Rashtan.AuditStory.Payment.fsproj", "{5F21B389-51E3-4392-B2E5-87854926DCB2}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test.Rashtan.AuditStory.DtoValidation", "src\Tests\Test.Rashtan.AuditStory.DtoValidation\Test.Rashtan.AuditStory.DtoValidation.fsproj", "{F7AFDC73-BF60-4A8F-8601-7B2FCDABCDE4}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test.Rashtan.AuditStory.DtoValidation", "Tests\Test.Rashtan.AuditStory.DtoValidation\Test.Rashtan.AuditStory.DtoValidation.fsproj", "{F7AFDC73-BF60-4A8F-8601-7B2FCDABCDE4}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test.Rashtan.AuditStory.Workflows", "src\Tests\Test.Rashtan.AuditStory.Workflows\Test.Rashtan.AuditStory.Workflows.fsproj", "{46B25530-E9F2-46AF-AEE5-EBCA21CFBFF1}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test.Rashtan.AuditStory.Workflows", "Tests\Test.Rashtan.AuditStory.Workflows\Test.Rashtan.AuditStory.Workflows.fsproj", "{46B25530-E9F2-46AF-AEE5-EBCA21CFBFF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
