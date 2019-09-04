@@ -1,11 +1,8 @@
 ﻿using NUnit.Framework;
+using Rashtan.AuditStory.DbModel;
 using Rashtan.AuditStory.MongoRepository;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using static Rashtan.AuditStory.Dto.Payment;
-using static Rashtan.AuditStory.Dto.User;
 
 namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
 {
@@ -19,28 +16,20 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             var repo = new UserProfileRepository(Context);
             var profile = new UserProfile
             {
-                BasicInfo = new UserProfileCreate
-                {
-                    Name = Guid.NewGuid().ToString(),
-                    City = Guid.NewGuid().ToString(),
-                    Country = Guid.NewGuid().ToString(),
-                    Email = Guid.NewGuid().ToString()
-                },
-                PaymentInfo = new PaymentInfo
-                {
-                    IsTrial = true,
-                    PayedUntil = DateTime.UtcNow
-                },
-                Status = UserStatus.Trial
+                Name = Guid.NewGuid().ToString(),
+                City = Guid.NewGuid().ToString(),
+                Country = Guid.NewGuid().ToString(),
+                Email = Guid.NewGuid().ToString(),
+                CreatedAt = DateTime.UtcNow
             };
             await repo.SaveProfileAsync(userId, profile);
 
             var savedProfile = await repo.GetProfileAsync(userId);
 
-            Assert.AreEqual(profile.BasicInfo, savedProfile.BasicInfo);
-            Assert.AreEqual(profile.Status, savedProfile.Status);
-            Assert.AreEqual(profile.PaymentInfo.IsTrial, savedProfile.PaymentInfo.IsTrial);
-            Assert.That(profile.PaymentInfo.PayedUntil, Is.EqualTo(savedProfile.PaymentInfo.PayedUntil).Within(1).Seconds);
+            Assert.AreEqual(profile.Name, savedProfile.Name);
+            Assert.AreEqual(profile.City, savedProfile.City);
+            Assert.AreEqual(profile.Country, savedProfile.Country);
+            Assert.That(profile.CreatedAt, Is.EqualTo(savedProfile.CreatedAt).Within(1).Seconds);
         }
 
         [Test]
@@ -52,19 +41,11 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             var repo = new UserProfileRepository(Context);
             var profile = new UserProfile
             {
-                BasicInfo = new UserProfileCreate
-                {
-                    Name = Guid.NewGuid().ToString(),
-                    City = Guid.NewGuid().ToString(),
-                    Country = Guid.NewGuid().ToString(),
-                    Email = Guid.NewGuid().ToString()
-                },
-                PaymentInfo = new PaymentInfo
-                {
-                    IsTrial = true,
-                    PayedUntil = DateTime.UtcNow.AddDays(31)
-                },
-                Status = UserStatus.Trial
+                Name = Guid.NewGuid().ToString(),
+                City = Guid.NewGuid().ToString(),
+                Country = Guid.NewGuid().ToString(),
+                Email = Guid.NewGuid().ToString(),
+                CreatedAt = DateTime.UtcNow
             };
             await repo.SaveProfileAsync(userId, profile);
 

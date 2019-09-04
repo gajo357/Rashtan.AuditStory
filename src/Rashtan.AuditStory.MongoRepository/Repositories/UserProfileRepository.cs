@@ -1,7 +1,7 @@
-﻿using Rashtan.AuditStory.MongoRepository.Basic;
+﻿using Rashtan.AuditStory.DbModel;
+using Rashtan.AuditStory.MongoRepository.Basic;
 using Rashtan.AuditStory.Repository.Interface;
 using System.Threading.Tasks;
-using static Rashtan.AuditStory.Dto.User;
 
 namespace Rashtan.AuditStory.MongoRepository
 {

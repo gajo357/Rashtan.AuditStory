@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="CompanyValidator.fs" />
+    <Compile Include="PaymentValidator.fs" />
+    <Compile Include="UserValidator.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rashtan.AuditStory.Common\Rashtan.AuditStory.Common.fsproj" />
+    <ProjectReference Include="..\Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.7.0" />
+  </ItemGroup>
+
+</Project>

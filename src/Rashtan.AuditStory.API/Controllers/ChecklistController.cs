@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Rashtan.AuditStory.API.Utils;
+using Rashtan.AuditStory.Dto;
 using System.Collections.Generic;
-using static Rashtan.AuditStory.Dto.Checklist;
 
 namespace Rashtan.AuditStory.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ChecklistController : ControllerBase
+    public class ChecklistController : UserBasedController
     {
         // GET api/checklist/MSFT
         [HttpGet("{ticker}")]
@@ -16,7 +17,7 @@ namespace Rashtan.AuditStory.API.Controllers
         {
             return new[]
             {
-                new ChecklistItem("Am I biased", "Not at all", Dto.Common.Understanding.Yes)
+                new ChecklistItem("Am I biased", "Not at all", Dto.Understanding.Yes)
             };
         }
 

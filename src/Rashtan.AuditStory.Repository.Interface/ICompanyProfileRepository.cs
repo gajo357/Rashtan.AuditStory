@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using static Rashtan.AuditStory.Dto.Company;
+using Rashtan.AuditStory.DbModel;
 
 namespace Rashtan.AuditStory.Repository.Interface
 {

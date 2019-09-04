@@ -6,14 +6,11 @@ namespace Rashtan.AuditStory.MongoRepository
 {
     public static class ServiceCollectionExtension
     {
-        public static void RegisterServices(this IServiceCollection services)
-        {
-            services.AddSingleton<IMongoContext, MongoContext>();
-            services.AddSingleton(typeof(IMongoRepository<>), typeof(MongoRepository<>));
-            services.AddSingleton<ICompanyProfileRepository, CompanyProfileRepository>();
-            services.AddSingleton<IFolderRepository, FolderRepository>();
-            services.AddSingleton<IPaymentRepository, PaymentRepository>();
-            services.AddSingleton<IUserProfileRepository, UserProfileRepository>();
-        }
+        public static IServiceCollection RegisterRepositoryServices(this IServiceCollection services)
+            => services.AddSingleton<IMongoContext, MongoContext>()
+                .AddSingleton(typeof(IMongoRepository<>), typeof(MongoRepository<>))
+                .AddSingleton<ICompanyProfileRepository, CompanyProfileRepository>()
+                .AddSingleton<IPaymentRepository, PaymentRepository>()
+                .AddSingleton<IUserProfileRepository, UserProfileRepository>();
     }
 }

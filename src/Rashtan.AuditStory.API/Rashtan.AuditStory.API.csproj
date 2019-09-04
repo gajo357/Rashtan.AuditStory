@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Braintree" Version="4.12.0" />
+    <PackageReference Include="Braintree" Version="4.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
@@ -14,6 +14,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj" />
     <ProjectReference Include="..\Rashtan.AuditStory.MongoRepository\Rashtan.AuditStory.MongoRepository.csproj" />
+    <ProjectReference Include="..\Rashtan.AuditStory.Payment\Rashtan.AuditStory.Payment.fsproj" />
+    <ProjectReference Include="..\Rashtan.AuditStory.Workflows\Rashtan.AuditStory.Workflows.fsproj" />
   </ItemGroup>
 
 </Project>

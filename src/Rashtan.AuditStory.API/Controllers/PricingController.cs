@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Rashtan.AuditStory.Dto.Payment;
+using Rashtan.AuditStory.Dto;
 
 namespace Rashtan.AuditStory.API.Controllers
 {

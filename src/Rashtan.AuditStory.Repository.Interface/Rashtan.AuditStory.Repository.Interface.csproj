@@ -5,9 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Rashtan.AuditStory.Dto">
-      <HintPath>..\Rashtan.AuditStory.Dto\bin\Debug\netstandard2.0\Rashtan.AuditStory.Dto.dll</HintPath>
-    </Reference>
+    <PackageReference Include="MongoDB.Bson" Version="2.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rashtan.AuditStory.DbModel\Rashtan.AuditStory.DbModel.fsproj" />
   </ItemGroup>
 
 </Project>

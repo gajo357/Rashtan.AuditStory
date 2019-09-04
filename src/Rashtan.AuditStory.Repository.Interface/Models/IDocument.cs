@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rashtan.AuditStory.MongoRepository
+namespace Rashtan.AuditStory.Repository.Interface.Models
 {
     public interface IDocument
     {

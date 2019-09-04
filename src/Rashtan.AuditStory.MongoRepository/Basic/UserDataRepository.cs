@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using Rashtan.AuditStory.MongoRepository.Models;
+using Rashtan.AuditStory.Repository.Interface.Models;
 using System.Linq;
 using System.Threading.Tasks;
 

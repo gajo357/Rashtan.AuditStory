@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace Rashtan.AuditStory.MongoRepository
+namespace Rashtan.AuditStory.Repository.Interface.Models
 {
     public class Document : IDocument
     {

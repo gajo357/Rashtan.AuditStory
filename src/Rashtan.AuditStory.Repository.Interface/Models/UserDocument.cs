@@ -1,7 +1,7 @@
-﻿namespace Rashtan.AuditStory.MongoRepository.Models
+﻿namespace Rashtan.AuditStory.Repository.Interface.Models
 {
     public class UserDocument<TData> : Document
-        where TData: class
+        where TData : class
     {
         public string UserId { get; set; }
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rashtan.AuditStory.API.Utils;
-using Rashtan.AuditStory.Dto;
 using Rashtan.AuditStory.Repository.Interface;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +11,21 @@ namespace Rashtan.AuditStory.API.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
-    public class FolderController : ControllerBase
+    public class FolderController : UserBasedController
     {
-        private IFolderRepository FolderRepository { get; }
+        private ICompanyProfileRepository CompanyProfileRepository { get; }
 
-        public FolderController(IFolderRepository folderRepository)
+        public FolderController(ICompanyProfileRepository companyProfileRepository)
         {
-            FolderRepository = folderRepository;
+            CompanyProfileRepository = companyProfileRepository;
         }
 
         // GET api/folder
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Folder.Folder>>> Get() => (await FolderRepository.GetFoldersAsync(this.UserId())).ToArray();
+        public async Task<ActionResult<IEnumerable<string>>> Get() 
+            => (await CompanyProfileRepository.GetProfilesAsync(UserId))
+            .Select(s => s.Folder)
+            .Distinct()
+            .ToArray();
     }
 }

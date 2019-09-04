@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rashtan.AuditStory.MongoRepository;
-using Rashtan.AuditStory.MongoRepository.Basic;
-using Rashtan.AuditStory.Repository.Interface;
+using Rashtan.AuditStory.Payment;
+using Rashtan.AuditStory.Workflows;
 
 namespace Rashtan.AuditStory.API
 {
@@ -22,8 +22,10 @@ namespace Rashtan.AuditStory.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(Configuration);
-            services.RegisterServices();
+            services.AddSingleton(Configuration)
+                .RegisterRepositoryServices()
+                .RegisterPaymentGizmo()
+                .RegisterWorkflows();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

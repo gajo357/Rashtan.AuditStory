@@ -1,9 +1,9 @@
 using NUnit.Framework;
+using Rashtan.AuditStory.DbModel;
 using Rashtan.AuditStory.MongoRepository;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static Rashtan.AuditStory.Dto.Company;
 
 namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
 {

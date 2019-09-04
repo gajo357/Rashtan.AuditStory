@@ -1,53 +1,31 @@
 ﻿namespace Rashtan.AuditStory.Dto
 
-module Payment =
-    
-    [<CLIMutable>]
-    type PaymentToProcess = {
-        Nonce: string
-        Amount: decimal
-        Length: int
-    }
+[<CLIMutable>]
+type PaymentToProcess = {
+    Nonce: string
+    Amount: decimal
+    Length: int
+}
 
-    [<CLIMutable>]
-    type PaymentProcessed = {
-        TransactionId: string
-        Amount: decimal
-        PayedUntil: System.DateTime
-    }
+[<CLIMutable>]
+type PaymentProcessed = {
+    Amount: decimal
+    Currency: string
 
-    [<CLIMutable>]
-    type PricingTier = {
-      Title: string
-      Subheader: string
-      Amount: decimal
-      Length: int
-      Star: bool
-      Description: string[]
-      ButtonText: string
-    }
+    Method: string
+    TransactionId: string
 
-    [<CLIMutable>]
-    type Payment = {
-        PayedUntil: System.DateTime
-       
-        PaymentNumber: int
+    PayedAt: System.DateTime
+    PayedUntil: System.DateTime
+}
 
-        Amount: double
-        Currency: string
-    }
-
-    [<CLIMutable>]
-    type FirstPayment = {
-        Payment: Payment
-
-        SuggestedBy: string
-    }
-
-    [<CLIMutable>]
-    type PaymentInfo = {
-        PayedUntil: System.DateTime
-    
-        IsTrial: bool
-    }  
-
+[<CLIMutable>]
+type PricingTier = {
+    Title: string
+    Subheader: string
+    Amount: decimal
+    Length: int
+    Star: bool
+    Description: string[]
+    ButtonText: string
+}

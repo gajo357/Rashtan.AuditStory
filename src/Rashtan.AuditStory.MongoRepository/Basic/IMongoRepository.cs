@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rashtan.AuditStory.Repository.Interface.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

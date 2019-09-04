@@ -1,44 +1,43 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rashtan.AuditStory.API.Utils;
-using Rashtan.AuditStory.Repository.Interface;
+using Rashtan.AuditStory.Dto;
+using Rashtan.AuditStory.Workflows;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using static Rashtan.AuditStory.Dto.Company;
 
 namespace Rashtan.AuditStory.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
-    public class CompanyController : ControllerBase
+    public class CompanyController : UserBasedController
     {
-        private ICompanyProfileRepository CompanyProfileRepository { get; }
+        private CompanyWorkflow CompanyProfileRepository { get; }
 
-        public CompanyController(ICompanyProfileRepository companyProfileRepository)
+        public CompanyController(CompanyWorkflow companyProfileRepository)
         {
             CompanyProfileRepository = companyProfileRepository;
         }
 
         // GET api/company/profile?ticker=MSFT
         [HttpGet]
-        public async Task<ActionResult<CompanyProfile>> Profile([FromQuery]string ticker) => await CompanyProfileRepository.GetProfileAsync(this.UserId(), ticker);
+        public async Task<ActionResult<CompanyProfile>> Profile([FromQuery]string ticker) 
+            => Unpack(await CompanyProfileRepository.GetProfileAsync(UserId, ticker));
 
         // GET api/company/getprofiles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CompanyProfile>>> GetProfiles() => Ok(await CompanyProfileRepository.GetProfilesAsync(this.UserId()));
+        public async Task<ActionResult<IEnumerable<CompanyProfile>>> GetProfiles() 
+            => Unpack(await CompanyProfileRepository.GetProfilesAsync(UserId));
 
         // POST api/company
         [HttpPost]
-        public async Task<ActionResult<string>> CreateProfile([FromBody] CompanyProfile company)
-        {
-            await CompanyProfileRepository.CreateProfileAsync(this.UserId(), company);
-            // save to database
-            return company.Ticker;
-        }
+        public async Task<ActionResult<CompanyProfile>> CreateProfile([FromBody] CompanyProfile company)
+            => Unpack(await CompanyProfileRepository.CreateProfileAsync(UserId, company));
 
         // DELETE api/company/MSFT
         [HttpDelete]
-        public async Task<ActionResult<bool>> Delete([FromQuery] string ticker) => await CompanyProfileRepository.DeleteProfileAsync(this.UserId(), ticker);
+        public async Task<ActionResult<bool>> Delete([FromQuery] string ticker) 
+            => Unpack(await CompanyProfileRepository.DeleteProfileAsync(UserId, ticker));
     }
 }
