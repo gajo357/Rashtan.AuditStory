@@ -7,7 +7,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import { CompanyInfo } from "../../models/CompanyInfo";
+import { CompanyProfile } from "../../models/CompanyProfile";
 import { History } from "history";
 
 const useStyles = makeStyles(theme => ({
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface Props {
-  company: CompanyInfo;
+  company: CompanyProfile;
   history: History;
 }
 

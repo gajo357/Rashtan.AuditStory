@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rashtan.AuditStory.API.Utils;
+using Rashtan.AuditStory.Dto;
 using System;
 using System.Threading.Tasks;
-using Rashtan.AuditStory.Dto;
 
 namespace Rashtan.AuditStory.API.Controllers
 {

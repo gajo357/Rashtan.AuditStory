@@ -3,7 +3,7 @@ import { History } from "history";
 import ApiService from "../../services/ApiService";
 import { Formik, Field, Form, FormikActions } from "formik";
 import { TextField } from "formik-material-ui";
-import { CompanyInfo } from "../../models/CompanyInfo";
+import { CompanyProfile } from "../../models/CompanyProfile";
 import { Button, InputAdornment } from "@material-ui/core";
 
 interface Props {
@@ -17,12 +17,14 @@ const PortalNewStory: React.FC<Props> = ({ apiService, history }) => {
       initialValues={{
         name: "",
         ticker: "",
+        stockExchange: "",
         numberOfShares: 0,
-        marketCap: 0
+        marketCap: 0,
+        folder: ""
       }}
       onSubmit={(
-        values: CompanyInfo,
-        { setSubmitting }: FormikActions<CompanyInfo>
+        values: CompanyProfile,
+        { setSubmitting }: FormikActions<CompanyProfile>
       ) => {
         console.log(values);
         apiService
@@ -40,6 +42,12 @@ const PortalNewStory: React.FC<Props> = ({ apiService, history }) => {
           <Field
             name="name"
             label="Company name"
+            component={TextField}
+            required
+          />
+          <Field
+            name="stockExchange"
+            label="Stock Exchange"
             component={TextField}
             required
           />

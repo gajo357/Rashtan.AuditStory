@@ -33,4 +33,13 @@ type CsResult<'TResult, 'TError> private (result: 'TResult, error: 'TError, isEr
             return CsResult.fromResult r
         } |> Async.StartAsTask
 
+type CsResult =
+    static member MapResult (map: 'TResult -> 'a) (result: CsResult<'TResult, 'TError>) =
+        match result.IsSuccess with
+        | true -> 
+            let n = map result.Result
+            CsResult<'a, 'TError>.createResult n
+        | false -> 
+            CsResult<'a, 'TError>.createError result.Error
+
 type UserDataResult<'a> = CsResult<Response<'a>, ErrorResponse>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import ApiService from "../../services/ApiService";
-import { CompanyInfo } from "../../models/CompanyInfo";
+import { CompanyProfile } from "../../models/CompanyProfile";
 
 interface Props {
   apiService: ApiService;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const PortalStory: React.FC<Props> = ({ apiService, ticker }) => {
-  const [company, setCompany] = useState<CompanyInfo>();
+  const [company, setCompany] = useState<CompanyProfile>();
 
   useEffect(() => {
     apiService.getCompany(ticker).then(c => setCompany(c));

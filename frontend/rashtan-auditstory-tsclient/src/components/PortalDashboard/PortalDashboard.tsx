@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { History } from "history";
 import CompanyCard from "./CompanyCard";
 import ApiService from "../../services/ApiService";
-import { CompanyInfo } from "../../models/CompanyInfo";
+import { CompanyProfile } from "../../models/CompanyProfile";
 
 interface PortalProps {
   apiService: ApiService;
@@ -10,7 +10,7 @@ interface PortalProps {
 }
 
 const PortalDashboard: React.FC<PortalProps> = ({ apiService, history }) => {
-  const [companies, setState] = useState<CompanyInfo[]>([]);
+  const [companies, setState] = useState<CompanyProfile[]>([]);
 
   useEffect(() => {
     apiService

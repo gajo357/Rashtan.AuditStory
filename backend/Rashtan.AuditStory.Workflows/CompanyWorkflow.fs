@@ -44,3 +44,10 @@ type CompanyWorkflow(repository: ICompanyProfileRepository, statusWorkflow: IUse
             let! b = repository.GetProfilesInFolderAsync(user, folderName) |> Async.AwaitTask
             return b |> Seq.map profileToDto
         } |> CsResult.fromAsyncResult
+
+    member __.GetFoldersAsync user = 
+        asyncResult {
+            do! statusWorkflow.CheckReadAccess user
+            let! b = repository.GetProfilesAsync(user) |> Async.AwaitTask
+            return b |> Seq.map (profileToDto >> (fun s -> s.Folder)) |> Seq.distinct
+        } |> CsResult.fromAsyncResult

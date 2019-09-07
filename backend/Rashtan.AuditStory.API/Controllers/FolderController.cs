@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rashtan.AuditStory.API.Utils;
-using Rashtan.AuditStory.Repository.Interface;
+using Rashtan.AuditStory.Dto;
+using Rashtan.AuditStory.Workflows;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.API.Controllers
@@ -13,19 +13,21 @@ namespace Rashtan.AuditStory.API.Controllers
     [Authorize]
     public class FolderController : UserBasedController
     {
-        private ICompanyProfileRepository CompanyProfileRepository { get; }
+        private CompanyWorkflow CompanyWorkflow { get; }
 
-        public FolderController(ICompanyProfileRepository companyProfileRepository)
+        public FolderController(CompanyWorkflow companyWorkflow)
         {
-            CompanyProfileRepository = companyProfileRepository;
+            CompanyWorkflow = companyWorkflow;
         }
 
-        // GET api/folder
+        // GET api/folder/folders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<string>>> Get() 
-            => (await CompanyProfileRepository.GetProfilesAsync(UserId))
-            .Select(s => s.Folder)
-            .Distinct()
-            .ToArray();
+        public async Task<ActionResult<IEnumerable<string>>> Folders() 
+            => Unpack(await CompanyWorkflow.GetFoldersAsync(UserId));
+
+        // GET api/folder/companies?name=Wonderfull
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CompanyProfile>>> Companies([FromQuery] string name)
+            => Unpack(await CompanyWorkflow.GetProfilesInFolderAsync(UserId, name));
     }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { History } from "history";
 import ApiService from "../../services/ApiService";
-import { CompanyInfo } from "../../models/CompanyInfo";
+import { CompanyProfile } from "../../models/CompanyProfile";
 import CompanyCard from "../PortalDashboard/CompanyCard";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const PortalFolders: React.FC<Props> = ({ apiService, folder, history }) => {
-  const [companies, setCompanies] = useState<CompanyInfo[]>([]);
+  const [companies, setCompanies] = useState<CompanyProfile[]>([]);
   useEffect(() => {
     apiService.getFolderCompanies(folder).then(c => setCompanies(c));
   }, [apiService, folder]);

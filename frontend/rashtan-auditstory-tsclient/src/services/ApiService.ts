@@ -5,7 +5,7 @@ import {
   PaymentProcessed,
   PaymentToProcess
 } from "../models/PricingOption";
-import { CompanyInfo } from "../models/CompanyInfo";
+import { CompanyProfile } from "../models/CompanyProfile";
 import Folder from "../models/Folder";
 import { BASE_API } from "./Auth0Config";
 
@@ -38,30 +38,37 @@ export default class ApiService {
       method: "POST"
     }).then(async r => await r.json());
 
+  private company = "api/company/";
   getCompanies = () =>
-    this.getCommand<CompanyInfo[]>("api/company/getprofiles");
+    this.getCommand<CompanyProfile[]>(`${this.company}getprofiles`);
   getCompany = (ticker: string) =>
-    this.getCommand<CompanyInfo>(`api/company/profile?ticker=${ticker}`);
+    this.getCommand<CompanyProfile>(`${this.company}profile?ticker=${ticker}`);
 
-  getUserProfile = () => this.getCommand<IUserProfile>("api/userprofile");
-  getTickerInfo = (ticker: string) => this.getCommand(`api/ticker${ticker}`);
+  createNewStory = (company: CompanyProfile) =>
+    this.postCommand(`${this.company}createProfile`, company).then(
+      c => c as string
+    );
 
-  getPaymentToken = () => this.getCommand<string>("api/payment");
+  private payment = "api/payment";
+  getPaymentToken = () => this.getCommand<string>(this.payment);
   postPayment = (b: PaymentToProcess): Promise<PaymentProcessed> =>
-    this.postCommand("api/payment", b).then(r => ({
+    this.postCommand(this.payment, b).then(r => ({
       transactionId: r.transactionId,
       amount: r.amount,
       payedUntil: new Date(Date.parse(r.payedUntil))
     }));
 
+  private user = "api/userprofile";
+  getUserProfile = () => this.getCommand<IUserProfile>(this.user);
+  saveUserProfile = (user: IUserProfile) =>
+    this.postCommand<IUserProfile>(this.user, user);
+
+  getTickerInfo = (ticker: string) => this.getCommand(`api/ticker${ticker}`);
+
   getPricingTiers = () => this.getCommand<PricingTier[]>("api/pricing");
 
-  createNewStory = (company: CompanyInfo) =>
-    this.postCommand("api/company/createProfile", company).then(
-      c => c as string
-    );
-
-  getFolders = () => this.getCommand<Folder[]>("api/folder/get");
+  private folder = "api/folder/";
+  getFolders = () => this.getCommand<Folder[]>(`${this.folder}folders`);
   getFolderCompanies = (folder: string) =>
-    this.getCommand<CompanyInfo[]>(`api/folder/companies?name=${folder}`);
+    this.getCommand<CompanyProfile[]>(`${this.folder}companies?name=${folder}`);
 }
