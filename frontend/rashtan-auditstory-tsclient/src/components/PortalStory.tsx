@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
-import ApiService from "../../services/ApiService";
-import { CompanyProfile } from "../../models/CompanyProfile";
+import ApiService from "../services/ApiService";
+import { CompanyProfile } from "../models/CompanyProfile";
 
 interface Props {
   apiService: ApiService;

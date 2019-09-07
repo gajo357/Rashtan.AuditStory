@@ -7,19 +7,19 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import "./App.css";
 import ApiService from "../../services/ApiService";
-import Home from "../Home/Home";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import About from "../About/About";
-import Contact from "../Contact/Contact";
+import Home from "../Home";
+import Header from "../Header";
+import Footer from "../Footer";
+import About from "../About";
+import Contact from "../Contact";
 import PortalDashboard from "../PortalDashboard/PortalDashboard";
-import Terms from "../Terms/Terms";
+import Terms from "../Terms";
 import AuthService from "../../services/AuthService";
 import CreateUser from "../CreateUser/CreateUser";
 import { UserStatus } from "../../models/IUserProfile";
-import PortalNewStory from "../PortalNewStory/PortalNewStory";
-import PortalStory from "../PortalStory/PortalStory";
-import PortalFolders from "../PortalFolders/PortalFolders";
+import PortalNewStory from "../PortalNewStory";
+import PortalStory from "../PortalStory";
+import PortalFolders from "../PortalFolders";
 import PortalLayout from "../PortalLayout";
 
 const useStyles = makeStyles(theme => ({
@@ -109,46 +109,45 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           <Route exact path="/createUser">
             <CreateUser apiService={apiService} />
           </Route>
-          
+
           <PortalLayout apiService={apiService}>
-          
-          <Route
-            exact
-            path="/portal"
-            render={({ history }) => (
-              <PortalDashboard apiService={apiService} history={history} />
-            )}
-          />
-          <Route
-            exact
-            path="/portal/newstory"
-            render={({ history }) => (
-              <PortalNewStory apiService={apiService} history={history} />
-            )}
-          />
-          <Route
-            exact
-            path="/portal/story/:ticker"
-            render={({ match }) => (
-              <PortalStory
-                apiService={apiService}
-                ticker={match.params["ticker"]}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/portal/folder/:name"
-            render={({ history, match }) => (
-              <PortalFolders
-                apiService={apiService}
-                history={history}
-                folder={match.params["name"]}
-              />
-            )}
-          />
+            <Route
+              exact
+              path="/portal"
+              render={({ history }) => (
+                <PortalDashboard apiService={apiService} history={history} />
+              )}
+            />
+            <Route
+              exact
+              path="/portal/newstory"
+              render={({ history }) => (
+                <PortalNewStory apiService={apiService} history={history} />
+              )}
+            />
+            <Route
+              exact
+              path="/portal/story/:ticker"
+              render={({ match }) => (
+                <PortalStory
+                  apiService={apiService}
+                  ticker={match.params["ticker"]}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/portal/folder/:name"
+              render={({ history, match }) => (
+                <PortalFolders
+                  apiService={apiService}
+                  history={history}
+                  folder={match.params["name"]}
+                />
+              )}
+            />
           </PortalLayout>
-          
+
           <Route component={() => <Redirect to="/" />} />
         </Switch>
         <Footer />

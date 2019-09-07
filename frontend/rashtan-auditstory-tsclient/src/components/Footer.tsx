@@ -3,7 +3,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
 import { Link, Typography } from "@material-ui/core";
 
-import { styleToolbar } from "../../lib/SharedStyles";
+import { styleToolbar } from "../lib/SharedStyles";
 
 const Footer: React.FC = () => (
   <div>

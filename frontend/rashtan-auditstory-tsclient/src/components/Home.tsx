@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
-import { styleRaisedButton, styleH1 } from "../../lib/SharedStyles";
+import { styleRaisedButton, styleH1 } from "../lib/SharedStyles";
 
 const Home: React.FC = () => (
   <div style={{ padding: "10px 8%", fontSize: "15px" }}>

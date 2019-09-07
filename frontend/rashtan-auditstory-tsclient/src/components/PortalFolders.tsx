@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { History } from "history";
-import ApiService from "../../services/ApiService";
-import { CompanyProfile } from "../../models/CompanyProfile";
-import CompanyCard from "../PortalDashboard/CompanyCard";
+import ApiService from "../services/ApiService";
+import { CompanyProfile } from "../models/CompanyProfile";
+import CompanyCard from "./PortalDashboard/CompanyCard";
 
 interface Props {
   apiService: ApiService;

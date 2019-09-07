@@ -1,9 +1,9 @@
 import React from "react";
 import { History } from "history";
-import ApiService from "../../services/ApiService";
+import ApiService from "../services/ApiService";
 import { Formik, Field, Form, FormikActions } from "formik";
 import { TextField } from "formik-material-ui";
-import { CompanyProfile } from "../../models/CompanyProfile";
+import { CompanyProfile } from "../models/CompanyProfile";
 import { Button, InputAdornment } from "@material-ui/core";
 
 interface Props {
