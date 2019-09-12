@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  backend:
+    image: "audit-story-back"
+    build:
+      context: ./backend
+      dockerfile: Rashtan.AuditStory.API/Dockerfile
+    ports:
+      - "44326:80"
+  frontend:
+    image: "audit-story-front"
+    build:
+      context: ./frontend/rashtan-auditstory-tsclient
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - "backend"
