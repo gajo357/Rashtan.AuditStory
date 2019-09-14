@@ -28,19 +28,24 @@ const useStyles = makeStyles(theme => ({
 interface PortalProps {
   apiService: ApiService;
   children: React.ReactNode;
+  logOut: () => void;
 }
 
-const PortalLayout: React.FC<PortalProps> = ({ apiService, children }) => {
+const PortalLayout: React.FC<PortalProps> = ({
+  apiService,
+  children,
+  logOut
+}) => {
   const classes = useStyles();
 
   if (!apiService.authService.isAuthenticated()) {
-    apiService.authService.login();
-    return <React.Fragment />;
+    apiService.authService.logIn();
+    return <></>;
   }
 
   return (
     <div className={classes.root}>
-      <SideNavBar apiService={apiService} />
+      <SideNavBar apiService={apiService} logOut={logOut} />
 
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

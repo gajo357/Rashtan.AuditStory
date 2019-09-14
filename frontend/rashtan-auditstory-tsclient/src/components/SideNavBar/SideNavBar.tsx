@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
-import { Drawer, IconButton, Divider, List } from "@material-ui/core";
+import {
+  Drawer,
+  IconButton,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -10,6 +18,7 @@ import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { drawerWidth } from "../../lib/SharedStyles";
 import SideNavBarElement, { SideElement } from "./SideNavBarElement";
 import ApiService from "../../services/ApiService";
@@ -77,9 +86,10 @@ const mainElements: () => SideElement[] = () => {
 
 interface Props {
   apiService: ApiService;
+  logOut: () => void;
 }
 
-const SideNavBar: React.FC<Props> = ({ apiService }) => {
+const SideNavBar: React.FC<Props> = ({ apiService, logOut }) => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(true);
@@ -118,9 +128,12 @@ const SideNavBar: React.FC<Props> = ({ apiService }) => {
       >
         <div className={classes.toolbarIcon}>
           {open && (
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
+            <>
+              <p>Audit Story</p>
+              <IconButton onClick={handleDrawerClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </>
           )}
           {!open && (
             <IconButton onClick={handleDrawerOpen}>
@@ -136,6 +149,12 @@ const SideNavBar: React.FC<Props> = ({ apiService }) => {
             {elements.map(p => (
               <SideNavBarElement {...p} key={p.text} />
             ))}
+            <ListItem button onClick={() => logOut()}>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Log out" />
+            </ListItem>
           </React.Fragment>
         </List>
       </Drawer>

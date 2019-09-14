@@ -37,20 +37,24 @@ const SideNavBarElement: React.FC<SideElement> = ({
   const [open, setOpen] = useState(false);
 
   return subItems ? (
-    <React.Fragment>
-      <ListItem button onClick={() => setOpen(!open)}>
-        <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText primary={text} />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {subItems.map(s => (
-            <SideNavBarElement {...s} key={s.text} className={nested} />
-          ))}
-        </List>
-      </Collapse>
-    </React.Fragment>
+    subItems.length === 0 ? (
+      <></>
+    ) : (
+      <React.Fragment>
+        <ListItem button onClick={() => setOpen(!open)}>
+          <ListItemIcon>{icon}</ListItemIcon>
+          <ListItemText primary={text} />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {subItems.map(s => (
+              <SideNavBarElement {...s} key={s.text} className={nested} />
+            ))}
+          </List>
+        </Collapse>
+      </React.Fragment>
+    )
   ) : (
     <LocalLink to={to} underline="none" color="textPrimary">
       <ListItem button className={className}>

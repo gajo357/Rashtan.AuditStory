@@ -1,5 +1,5 @@
 import { WebAuth, Auth0DecodedHash } from "auth0-js";
-import { AUTH_CONFIG } from "./Auth0Config";
+import { AUTH_CONFIG, BASE_ADDRESS } from "./Auth0Config";
 
 export default class AuthService {
   auth0: WebAuth;
@@ -15,15 +15,15 @@ export default class AuthService {
     });
   }
 
-  login = () => {
+  logIn = () => {
     this.auth0.authorize();
   };
 
-  logout = () => {
+  logOut = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
-    window.location.href = "/";
+    this.auth0.logout({ returnTo: BASE_ADDRESS });
   };
 
   handleAuthentication = (sessionStarted: () => void) => {

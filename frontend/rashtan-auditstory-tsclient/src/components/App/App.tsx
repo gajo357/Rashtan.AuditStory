@@ -76,41 +76,50 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
   };
 
   const logOut = () => {
-    authService.logout();
+    authService.logOut();
     setAuthenticated(false);
   };
+
+  const header = () => (
+    <Header
+      loggedIn={isAuthenticated}
+      logIn={authService.logIn}
+      logOut={logOut}
+    />
+  );
 
   return (
     <React.Fragment>
       <CssBaseline />
       <AppBar position="fixed" className={clsx(root, appBar)}>
-        <Header
-          loggedIn={isAuthenticated}
-          logIn={authService.login}
-          logOut={logOut}
-        />
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
           <Route
             path="/startSession"
             render={({ history }) => startSession(history)}
           />
+
+          <Route exact path="/">
+            {header()}
+            <Home />
+          </Route>
           <Route exact path="/about">
+            {header()}
             <About />
           </Route>
           <Route exact path="/contact">
+            {header()}
             <Contact />
           </Route>
           <Route exact path="/terms">
+            {header()}
             <Terms />
           </Route>
           <Route exact path="/createUser">
+            {header()}
             <CreateUser apiService={apiService} />
           </Route>
 
-          <PortalLayout apiService={apiService}>
+          <PortalLayout apiService={apiService} logOut={logOut}>
             <Route
               exact
               path="/portal"
