@@ -7,6 +7,9 @@ open Rashtan.AuditStory.DtoDbMapper.UserMapper
 open Rashtan.AuditStory.Common
 
 type UserProfileWorkflow(repository: IUserProfileRepository, statusWorkflow: IUserStatusWorkflow) =
+    member __.GetUserStatusAsync user = 
+        statusWorkflow.GetUserStatusAsync(user) |> Async.StartAsTask
+
     member __.GetProfileAsync user = 
         asyncResult {
             do! statusWorkflow.CheckReadAccess user

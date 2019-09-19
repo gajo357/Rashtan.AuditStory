@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Rashtan.AuditStory.API.Utils;
 using Rashtan.AuditStory.Dto;
-using System;
 using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.API.Controllers
@@ -26,11 +25,6 @@ namespace Rashtan.AuditStory.API.Controllers
         // POST api/payment
         [HttpPost]
         public async Task<ActionResult<PaymentProcessed>> Post([FromBody] PaymentToProcess payment) 
-            => Unpack(await PaymentWorkflow.SavePaymentAsync(UserId, payment));
-
-        private Task<PaymentProcessed> StartFreeTrialAsync()
-        {
-            return Task.FromResult(new PaymentProcessed { PayedUntil = DateTime.Today.AddDays(31), Amount = 0M });
-        }
+            => Unpack(await PaymentWorkflow.SavePaymentAsync(UserId, payment));        
     }
 }

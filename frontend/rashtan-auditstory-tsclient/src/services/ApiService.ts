@@ -1,5 +1,5 @@
 import AuthService from "./AuthService";
-import { IUserProfile } from "../models/IUserProfile";
+import { UserStatus } from "../models/IUserProfile";
 import {
   PricingTier,
   PaymentProcessed,
@@ -8,6 +8,7 @@ import {
 import { CompanyProfile } from "../models/CompanyProfile";
 import Folder from "../models/Folder";
 import { BASE_API } from "./Auth0Config";
+import { UserInfo } from "../models/UserInfo";
 
 export default class ApiService {
   public authService: AuthService;
@@ -58,10 +59,15 @@ export default class ApiService {
       payedUntil: new Date(Date.parse(r.payedUntil))
     }));
 
-  private user = "api/userprofile";
-  getUserProfile = () => this.getCommand<IUserProfile>(this.user);
-  saveUserProfile = (user: IUserProfile) =>
-    this.postCommand<IUserProfile>(this.user, user);
+  getUserStatus = () => this.getCommand<UserStatus>("api/userstatus");
+
+  private userProfile = "api/userprofile";
+  getUserProfile = () => this.getCommand<UserInfo>(this.userProfile);
+  saveUserProfile = (user: UserInfo) =>
+    this.postCommand<UserInfo>(this.userProfile, user);
+
+  startFreeTrial = (user: UserInfo) =>
+    this.postCommand<UserInfo>("api/freeTrial", user);
 
   getTickerInfo = (ticker: string) => this.getCommand(`api/ticker${ticker}`);
 

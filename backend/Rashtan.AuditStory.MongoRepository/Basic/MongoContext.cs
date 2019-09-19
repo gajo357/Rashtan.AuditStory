@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
+using Rashtan.AuditStory.Repository.Interface.Models;
 
 namespace Rashtan.AuditStory.MongoRepository.Basic
 {
@@ -20,6 +21,8 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
         }
 
         public IMongoCollection<TEntity> GetCollection<TEntity>() => Database.GetCollection<TEntity>(typeof(TEntity).Name);
+        public IMongoCollection<UserDocument<TEntity>> GetUserDataCollection<TEntity>() 
+            where TEntity : class => Database.GetCollection<UserDocument<TEntity>>(typeof(TEntity).Name);
 
         public void DropDatabase() => MongoClient.DropDatabase(DatabaseName);
     }

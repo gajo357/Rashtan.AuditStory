@@ -6,7 +6,6 @@ import AppBar from "@material-ui/core/AppBar";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import "./App.css";
-import ApiService from "../../services/ApiService";
 import Home from "../Home";
 import Header from "../Header";
 import Footer from "../Footer";
@@ -14,8 +13,9 @@ import About from "../About";
 import Contact from "../Contact";
 import PortalDashboard from "../PortalDashboard/PortalDashboard";
 import Terms from "../Terms";
+import ApiService from "../../services/ApiService";
 import AuthService from "../../services/AuthService";
-import CreateUser from "../CreateUser/CreateUser";
+import CreateUser from "../CreateUser";
 import { UserStatus } from "../../models/IUserProfile";
 import PortalNewStory from "../PortalNewStory";
 import PortalStory from "../PortalStory";
@@ -48,9 +48,9 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
 
   const sessionStarted = (history: History) => () => {
     apiService
-      .getUserProfile()
+      .getUserStatus()
       .then(r => {
-        switch (r.status) {
+        switch (r) {
           case UserStatus.New: {
             history.push("/createUser");
             break;
@@ -114,10 +114,16 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             {header()}
             <Terms />
           </Route>
-          <Route exact path="/createUser">
-            {header()}
-            <CreateUser apiService={apiService} />
-          </Route>
+          <Route
+            exact
+            path="/createUser"
+            render={({ history }) => (
+              <>
+                {header()}
+                <CreateUser apiService={apiService} history={history} />
+              </>
+            )}
+          />
 
           <PortalLayout apiService={apiService} logOut={logOut}>
             <Route

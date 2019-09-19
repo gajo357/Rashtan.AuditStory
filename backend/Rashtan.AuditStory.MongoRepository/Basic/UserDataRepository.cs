@@ -9,7 +9,8 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
     public class UserDataRepository<TData> : MongoRepository<UserDocument<TData>>
         where TData: class
     {
-        protected UserDataRepository(IMongoContext context) : base(context)
+        protected UserDataRepository(IMongoContext context) 
+            : base(context.GetUserDataCollection<TData>())
         {
         }
 
@@ -17,13 +18,13 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
 
         protected async Task<bool> DeleteAsync(string userId, params DataFilter<string>[] dataFilters)
         {
-            var result = await DbSet.DeleteOneAsync(BuildFilter(userId, dataFilters));
+            var result = await Collection.DeleteOneAsync(BuildFilter(userId, dataFilters));
             return result.IsAcknowledged;
         }
 
         protected async Task<TData> GetOneAsync(string userId, params DataFilter<string>[] dataFilters)
         {
-            var result = await DbSet.FindAsync(BuildFilter(userId, dataFilters));
+            var result = await Collection.FindAsync(BuildFilter(userId, dataFilters));
             var data = await result.FirstOrDefaultAsync();
 
             return data?.Data;
@@ -31,7 +32,7 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
 
         protected async Task<TData[]> GetAllAsync(string userId, params DataFilter<string>[] dataFilters)
         {
-            var result = await DbSet.FindAsync(BuildFilter(userId, dataFilters));
+            var result = await Collection.FindAsync(BuildFilter(userId, dataFilters));
 
             var list = await result.ToListAsync();
             return list.Select(s => s.Data).ToArray();

@@ -1,10 +1,7 @@
 export enum UserStatus {
-  Paid = 0,
-  Expired = 1,
-  Trial = 2,
-  New = 3
-}
-
-export interface IUserProfile {
-  status: UserStatus;
+  New = 0,
+  Trial = 1,
+  TrialExpired = 2,
+  Paying = 3,
+  Expired = 4
 }

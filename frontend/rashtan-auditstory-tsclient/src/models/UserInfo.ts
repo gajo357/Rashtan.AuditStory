@@ -1,6 +1,5 @@
 export interface UserInfo {
-  firstName: string;
-  lastName: string;
+  name: string;
   city: string;
   state: string;
   country: string;

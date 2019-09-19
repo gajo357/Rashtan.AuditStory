@@ -1,7 +1,7 @@
-FROM alpine as builder
+FROM node:10 as builder
 
 # install Node and yarn
-RUN apk add nodejs yarn
+# RUN apk add nodejs yarn
 
 # Work directory where we copy the code
 WORKDIR /app

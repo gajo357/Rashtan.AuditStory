@@ -6,7 +6,6 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Typography from "@material-ui/core/Typography";
-import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Pricing from "./Pricing";
 import Confirmation from "./Confirmation";
@@ -51,13 +50,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const steps = ["User info", "Payment plan", "Payment", "Confirmation"];
+const steps = ["Payment plan", "Payment", "Confirmation"];
 
 interface Props {
   apiService: ApiService;
 }
 
-const CreateUser: React.FC<Props> = ({ apiService }) => {
+const PortalPayment: React.FC<Props> = ({ apiService }) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [tier, setTier] = React.useState<PricingTier | null>(null);
@@ -67,13 +66,6 @@ const CreateUser: React.FC<Props> = ({ apiService }) => {
     switch (activeStep) {
       case 0:
         return (
-          <AddressForm
-            saveUserInfo={u => {}}
-            skip={() => setActiveStep(activeStep + 1)}
-          />
-        );
-      case 1:
-        return (
           <Pricing
             apiService={apiService}
             tierSelected={t => {
@@ -82,7 +74,7 @@ const CreateUser: React.FC<Props> = ({ apiService }) => {
             }}
           />
         );
-      case 2:
+      case 1:
         return (
           tier && (
             <PaymentForm
@@ -98,7 +90,7 @@ const CreateUser: React.FC<Props> = ({ apiService }) => {
           )
         );
 
-      case 3:
+      case 2:
         return (
           <React.Fragment>
             {payment && (
@@ -130,17 +122,11 @@ const CreateUser: React.FC<Props> = ({ apiService }) => {
               </Step>
             ))}
           </Stepper>
-          <React.Fragment>
-            {activeStep === steps.length ? (
-              <Redirect to="/portal" />
-            ) : (
-              <React.Fragment>{getStepContent()}</React.Fragment>
-            )}
-          </React.Fragment>
+          <React.Fragment>{getStepContent()}</React.Fragment>
         </Paper>
       </main>
     </React.Fragment>
   );
 };
 
-export default CreateUser;
+export default PortalPayment;

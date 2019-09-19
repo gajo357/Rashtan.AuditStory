@@ -12,7 +12,7 @@ interface Props {
   buttonClass: string;
 }
 
-interface BuyFunc {
+interface NonceFunc {
   func: () => Promise<string>;
 }
 
@@ -23,7 +23,7 @@ const PaymentForm: React.FC<Props> = ({
   back,
   buttonClass
 }) => {
-  const [buyFunc, setBuyFunc] = useState<BuyFunc | null>(null);
+  const [nonceFunc, setNonceFunc] = useState<NonceFunc | null>(null);
 
   const pay = useCallback(
     (nonce: string) =>
@@ -40,7 +40,7 @@ const PaymentForm: React.FC<Props> = ({
     }
   }, [amount, pay]);
 
-  return amount > 0 ? (
+  return (
     <React.Fragment>
       <Typography variant="h5">
         You have chosen the {title} plan that will cost you {amount}$
@@ -48,16 +48,16 @@ const PaymentForm: React.FC<Props> = ({
       <BraintreeGizmo
         amount={amount}
         apiService={apiService}
-        onInitialized={b => setBuyFunc({ func: b })}
+        onInitialized={nonce => setNonceFunc({ func: nonce })}
       />
-      {buyFunc ? (
+      {nonceFunc ? (
         <React.Fragment>
           <Button variant="outlined" onClick={back} className={buttonClass}>
             Back
           </Button>
           <Button
             variant="contained"
-            onClick={() => buyFunc.func().then(pay)}
+            onClick={() => nonceFunc.func().then(pay)}
             className={buttonClass}
           >
             Buy
@@ -66,10 +66,6 @@ const PaymentForm: React.FC<Props> = ({
       ) : (
         <Typography variant="h5">Loading</Typography>
       )}
-    </React.Fragment>
-  ) : (
-    <React.Fragment>
-      <Typography variant="h5">Starting free trial</Typography>
     </React.Fragment>
   );
 };
