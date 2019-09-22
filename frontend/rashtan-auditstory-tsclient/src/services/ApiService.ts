@@ -6,7 +6,6 @@ import {
   PaymentToProcess
 } from "../models/PricingOption";
 import { CompanyProfile } from "../models/CompanyProfile";
-import Folder from "../models/Folder";
 import { BASE_API } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
 
@@ -74,7 +73,7 @@ export default class ApiService {
   getPricingTiers = () => this.getCommand<PricingTier[]>("api/pricing");
 
   private folder = "api/folder/";
-  getFolders = () => this.getCommand<Folder[]>(`${this.folder}folders`);
+  getFolders = () => this.getCommand<string[]>(`${this.folder}folders`);
   getFolderCompanies = (folder: string) =>
     this.getCommand<CompanyProfile[]>(`${this.folder}companies?name=${folder}`);
 }

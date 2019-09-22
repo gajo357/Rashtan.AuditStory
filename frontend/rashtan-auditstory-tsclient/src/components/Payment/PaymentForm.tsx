@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import BraintreeGizmo from "./BraintreeGizmo";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "antd";
 import ApiService from "../../services/ApiService";
 import { PaymentProcessed, PricingTier } from "../../models/PricingOption";
 
@@ -9,7 +9,6 @@ interface Props {
   tier: PricingTier;
   paymentCompleted: (r: PaymentProcessed) => void;
   back: () => void;
-  buttonClass: string;
 }
 
 interface NonceFunc {
@@ -20,8 +19,7 @@ const PaymentForm: React.FC<Props> = ({
   tier: { amount, title, length },
   apiService,
   paymentCompleted,
-  back,
-  buttonClass
+  back
 }) => {
   const [nonceFunc, setNonceFunc] = useState<NonceFunc | null>(null);
 
@@ -41,10 +39,10 @@ const PaymentForm: React.FC<Props> = ({
   }, [amount, pay]);
 
   return (
-    <React.Fragment>
-      <Typography variant="h5">
+    <Typography>
+      <Typography.Title>
         You have chosen the {title} plan that will cost you {amount}$
-      </Typography>
+      </Typography.Title>
       <BraintreeGizmo
         amount={amount}
         apiService={apiService}
@@ -52,21 +50,17 @@ const PaymentForm: React.FC<Props> = ({
       />
       {nonceFunc ? (
         <React.Fragment>
-          <Button variant="outlined" onClick={back} className={buttonClass}>
+          <Button type="default" onClick={back}>
             Back
           </Button>
-          <Button
-            variant="contained"
-            onClick={() => nonceFunc.func().then(pay)}
-            className={buttonClass}
-          >
+          <Button type="primary" onClick={() => nonceFunc.func().then(pay)}>
             Buy
           </Button>
         </React.Fragment>
       ) : (
-        <Typography variant="h5">Loading</Typography>
+        <Typography.Title>Loading</Typography.Title>
       )}
-    </React.Fragment>
+    </Typography>
   );
 };
 

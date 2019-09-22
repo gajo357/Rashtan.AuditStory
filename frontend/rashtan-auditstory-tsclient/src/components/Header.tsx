@@ -1,31 +1,6 @@
 import React from "react";
-import { Toolbar, IconButton, Button } from "@material-ui/core";
-import { AccountBalanceWallet } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
-import { styleToolbar } from "../lib/SharedStyles";
-import LocalLink from "../lib/LocalLink";
-
-const useStyles = makeStyles(theme => ({
-  toolbar: {
-    paddingRight: 24 // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 8px",
-    ...theme.mixins.toolbar
-  },
-  menuButton: {
-    marginRight: 36
-  },
-  menuButtonHidden: {
-    display: "none"
-  },
-  title: {
-    flexGrow: 1
-  }
-}));
+import { Layout, Icon, Menu } from "antd";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   loggedIn: boolean;
@@ -38,43 +13,37 @@ const Header: React.FC<HeaderProps> = ({
   logIn,
   logOut
 }: HeaderProps) => {
-  const classes = useStyles();
-
   return (
-    <Toolbar style={styleToolbar} className={classes.toolbar}>
-      <IconButton
-        edge="start"
-        color="inherit"
-        aria-label="Home"
-        className={classes.menuButton}
-      >
-        <LocalLink to="/">
-          <AccountBalanceWallet />
-        </LocalLink>
-      </IconButton>
-
-      <IconButton color="inherit">
-        <LocalLink to="/about">About</LocalLink>
-      </IconButton>
-      <IconButton color="inherit">
-        <LocalLink to="/contact">Contact</LocalLink>
-      </IconButton>
-      {loggedIn && (
-        <IconButton color="inherit">
-          <LocalLink to="/portal">Portal</LocalLink>
-        </IconButton>
-      )}
-      {loggedIn && (
-        <Button color="primary" onClick={logOut}>
-          Log out
-        </Button>
-      )}
-      {!loggedIn && (
-        <Button color="primary" onClick={logIn}>
-          Log in
-        </Button>
-      )}
-    </Toolbar>
+    <Layout.Header>
+      <Menu theme="dark" mode="horizontal" style={{ lineHeight: "64px" }}>
+        <Menu.Item key="0">
+          <Link to="/">
+            <Icon type="wallet" />
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="1">
+          <Link to="/about">About</Link>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <Link to="/contact">Contact</Link>
+        </Menu.Item>
+        {loggedIn && (
+          <Menu.Item key="3">
+            <Link to="/portal">Portal</Link>
+          </Menu.Item>
+        )}
+        {loggedIn && (
+          <Menu.Item key="4" color="primary" onClick={logOut}>
+            Log out
+          </Menu.Item>
+        )}
+        {!loggedIn && (
+          <Menu.Item key="5" color="primary" onClick={logIn}>
+            Log in
+          </Menu.Item>
+        )}
+      </Menu>
+    </Layout.Header>
   );
 };
 

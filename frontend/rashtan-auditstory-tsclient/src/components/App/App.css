@@ -1,5 +1,8 @@
+@import "~antd/dist/antd.css";
+
 .App {
   text-align: center;
+  position: "fixed";
 }
 
 .App-logo {
@@ -21,6 +24,10 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.root {
+  flex-grow: 1;
 }
 
 @keyframes App-logo-spin {

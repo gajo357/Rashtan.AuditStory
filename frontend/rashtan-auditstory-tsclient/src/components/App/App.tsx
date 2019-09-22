@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { History } from "history";
-import clsx from "clsx";
-import AppBar from "@material-ui/core/AppBar";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import "./App.css";
 import Home from "../Home";
 import Header from "../Header";
@@ -21,19 +17,7 @@ import PortalNewStory from "../PortalNewStory";
 import PortalStory from "../PortalStory";
 import PortalFolders from "../PortalFolders";
 import PortalLayout from "../PortalLayout";
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
-  }
-}));
+import { Layout } from "antd";
 
 interface Props {
   apiService: ApiService;
@@ -41,7 +25,6 @@ interface Props {
 }
 
 const App: React.FC<Props> = ({ apiService, authService }) => {
-  const { appBar, root } = useStyles();
   const [isAuthenticated, setAuthenticated] = useState(
     authService.isAuthenticated()
   );
@@ -89,9 +72,8 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
   );
 
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <AppBar position="fixed" className={clsx(root, appBar)}>
+    <div className={"app root"}>
+      <Layout>
         <Switch>
           <Route
             path="/startSession"
@@ -101,18 +83,22 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           <Route exact path="/">
             {header()}
             <Home />
+            <Footer />
           </Route>
           <Route exact path="/about">
             {header()}
             <About />
+            <Footer />
           </Route>
           <Route exact path="/contact">
             {header()}
             <Contact />
+            <Footer />
           </Route>
           <Route exact path="/terms">
             {header()}
             <Terms />
+            <Footer />
           </Route>
           <Route
             exact
@@ -121,6 +107,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
               <>
                 {header()}
                 <CreateUser apiService={apiService} history={history} />
+                <Footer />
               </>
             )}
           />
@@ -165,9 +152,8 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
 
           <Route component={() => <Redirect to="/" />} />
         </Switch>
-        <Footer />
-      </AppBar>
-    </React.Fragment>
+      </Layout>
+    </div>
   );
 };
 

@@ -1,36 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { History } from "history";
-import { Button, Grid, Typography, Container } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { Formik, Field, Form, FormikActions } from "formik";
-import { TextField } from "formik-material-ui";
+import { Button, Typography, Form, Input, Icon, Spin } from "antd";
 import { UserInfo } from "../models/UserInfo";
 import { UserStatus } from "../models/IUserProfile";
 import ApiService from "../services/ApiService";
+import { FormComponentProps } from "antd/lib/form";
 
-const useStyles = makeStyles(theme => ({
-  heroContent: {
-    padding: theme.spacing(8, 0, 6)
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(1)
-  }
-}));
+const { Item } = Form;
 
-interface Props {
+interface Props extends FormComponentProps<UserInfo> {
   apiService: ApiService;
   history: History;
 }
 
-const CreateUser: React.FC<Props> = ({ apiService, history }) => {
-  const classes = useStyles();
-
+const CreateUser: React.FC<Props> = ({
+  apiService,
+  history,
+  form: {
+    validateFields,
+    getFieldDecorator,
+    getFieldError,
+    getFieldsError,
+    isFieldTouched
+  }
+}) => {
   const [loaded, setLoaded] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
+
   useEffect(() => {
     apiService.getUserStatus().then(c => {
       if (c === UserStatus.New) {
@@ -41,87 +37,90 @@ const CreateUser: React.FC<Props> = ({ apiService, history }) => {
     });
   }, [apiService, history]);
 
-  return loaded ? (
-    <Formik
-      initialValues={{
-        name: "",
-        city: "",
-        state: "",
-        country: ""
-      }}
-      onSubmit={(
-        values: UserInfo,
-        { setSubmitting }: FormikActions<UserInfo>
-      ) => {
+  useEffect(() => {
+    validateFields();
+  }, [validateFields]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    validateFields((err, values: UserInfo) => {
+      if (!err) {
+        console.log("Received values of form: ", values);
+      } else {
+        setSubmitting(true);
         apiService.startFreeTrial(values).then(_ => {
-          setSubmitting(false);
           history.push("/portal");
         });
-      }}
-      render={({ isSubmitting }) => (
-        <Form>
-          <Container
-            maxWidth="sm"
-            component="main"
-            className={classes.heroContent}
-          >
-            <Typography variant="h6" gutterBottom>
-              User info
-            </Typography>
-          </Container>
+      }
+    });
+  };
 
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <Field
-                required
-                name="name"
-                label="Name (or nickname)"
-                component={TextField}
-                fullWidth
-                autoComplete="fname"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Field
-                name="city"
-                label="City"
-                component={TextField}
-                fullWidth
-                autoComplete="billing address-level2"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Field
-                name="state"
-                label="State/Province/Region"
-                component={TextField}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Field
-                required
-                name="country"
-                label="Country"
-                component={TextField}
-                fullWidth
-                autoComplete="billing country"
-              />
-            </Grid>
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              className={classes.button}
-            >
-              Start free trial
-            </Button>
-          </Grid>
-        </Form>
-      )}
-    ></Formik>
-  ) : (
-    <></>
+  const hasErrors = (fieldsError: any) => {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
+  };
+
+  const formItemLayout = {
+    labelCol: { span: 6 },
+    wrapperCol: { span: 14 }
+  };
+
+  // Only show error after a field is touched.
+  const usernameError = isFieldTouched("username") && getFieldError("username");
+
+  return (
+    <Spin spinning={!loaded} tip="Loading" size="large">
+      <Form {...formItemLayout} layout="horizontal" onSubmit={handleSubmit}>
+        <Item>
+          <Typography.Title>User info</Typography.Title>
+        </Item>
+
+        <Item
+          {...formItemLayout}
+          validateStatus={usernameError ? "error" : ""}
+          help={usernameError || ""}
+          label="Username"
+        >
+          {getFieldDecorator("username", {
+            rules: [{ required: true, message: "Please input your username!" }]
+          })(
+            <Input
+              autoComplete="fname"
+              name="username"
+              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+              placeholder="Username"
+            />
+          )}
+        </Item>
+        <Item label="City">
+          <Input
+            autoComplete="billing address-level2"
+            name="city"
+            placeholder="City"
+          />
+        </Item>
+        <Item label="State/Province/Region">
+          <Input name="state" placeholder="State/Province/Region" />
+        </Item>
+        <Item label="Country">
+          <Input
+            autoComplete="billing country"
+            name="country"
+            placeholder="Country"
+          />
+        </Item>
+        <Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={hasErrors(getFieldsError())}
+            loading={isSubmitting}
+          >
+            Start free trial
+          </Button>
+        </Item>
+      </Form>
+    </Spin>
   );
 };
 
-export default CreateUser;
+export default Form.create<Props>({ name: "horizontal_login" })(CreateUser);

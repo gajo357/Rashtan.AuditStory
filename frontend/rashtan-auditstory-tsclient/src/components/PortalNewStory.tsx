@@ -1,81 +1,160 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { History } from "history";
+import { Button, Form, Spin, Input } from "antd";
 import ApiService from "../services/ApiService";
-import { Formik, Field, Form, FormikActions } from "formik";
-import { TextField } from "formik-material-ui";
 import { CompanyProfile } from "../models/CompanyProfile";
-import { Button, InputAdornment } from "@material-ui/core";
+import { FormComponentProps } from "antd/lib/form";
+import { UserStatus } from "../models/IUserProfile";
 
-interface Props {
+const { Item } = Form;
+
+interface Props extends FormComponentProps<CompanyProfile> {
   apiService: ApiService;
   history: History;
 }
 
-const PortalNewStory: React.FC<Props> = ({ apiService, history }) => {
-  return (
-    <Formik
-      initialValues={{
-        name: "",
-        ticker: "",
-        stockExchange: "",
-        numberOfShares: 0,
-        marketCap: 0,
-        folder: ""
-      }}
-      onSubmit={(
-        values: CompanyProfile,
-        { setSubmitting }: FormikActions<CompanyProfile>
-      ) => {
-        console.log(values);
+const PortalNewStory: React.FC<Props> = ({
+  apiService,
+  history,
+  form: {
+    validateFields,
+    getFieldsError,
+    getFieldDecorator,
+    isFieldTouched,
+    getFieldError
+  }
+}) => {
+  const [loaded, setLoaded] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    apiService.getUserStatus().then(c => {
+      if (c === UserStatus.Paying || c === UserStatus.Trial) {
+        setLoaded(true);
+      } else {
+        history.push("/portal");
+      }
+    });
+  }, [apiService, history]);
+
+  useEffect(() => {
+    validateFields();
+  }, [validateFields]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    validateFields((err, values: CompanyProfile) => {
+      if (!err) {
+        console.log("Received values of form: ", values);
+        setSubmitting(true);
         apiService
           .createNewStory(values)
           .then(c => {
             history.push(`/portal/story/${c}`);
           })
           .catch(e => {
-            alert(JSON.stringify(e, null, 2));
             setSubmitting(false);
+            alert(JSON.stringify(e, null, 2));
           });
-      }}
-      render={({ isSubmitting }) => (
-        <Form>
-          <Field
-            name="name"
-            label="Company name"
-            component={TextField}
-            required
-          />
-          <Field
-            name="stockExchange"
-            label="Stock Exchange"
-            component={TextField}
-            required
-          />
-          <Field name="ticker" label="Ticker" component={TextField} required />
-          <Field
-            name="numberOfShares"
-            label="Number of shares outstanding"
-            component={TextField}
-            type="number"
-          />
-          <Field
-            name="marketCap"
-            label="Market cap"
-            component={TextField}
-            type="number"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
-              )
-            }}
-          />
-          <Button disabled={isSubmitting} type="submit">
+      } else {
+        console.log(err);
+      }
+    });
+  };
+
+  const hasErrors = (fieldsError: any) => {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
+  };
+
+  // Only show error after a field is touched.
+  const nameProp = "name";
+  const seProp = "stockExchange";
+  const tickerProp = "ticker";
+  const noSharesProp = "numberOfShares";
+  const marketCapProp = "marketCap";
+  const hasError = (p: string) => isFieldTouched(p) && getFieldError(p);
+  const validateStatus = (p: string) => (hasError(p) ? "error" : "");
+  const help = (p: string) => hasError(p) || "";
+
+  return (
+    <Spin spinning={!loaded} tip="Loading" size="large">
+      <Form layout="horizontal" onSubmit={handleSubmit}>
+        <Item
+          label="Company name"
+          validateStatus={validateStatus(nameProp)}
+          help={help(nameProp)}
+        >
+          {getFieldDecorator(nameProp, {
+            rules: [{ required: true, message: "Please input company's name!" }]
+          })(<Input />)}
+        </Item>
+
+        <Item
+          label="Stock Exchange"
+          validateStatus={validateStatus(seProp)}
+          help={help(seProp)}
+        >
+          {getFieldDecorator(seProp, {
+            rules: [
+              {
+                required: true,
+                message:
+                  "Please input the Stock Exchange where company is being traded!"
+              }
+            ]
+          })(<Input />)}
+        </Item>
+
+        <Item
+          label="Ticker"
+          validateStatus={validateStatus(tickerProp)}
+          help={help(tickerProp)}
+        >
+          {getFieldDecorator(tickerProp, {
+            rules: [{ required: true, message: "Please input Ticker symbol!" }]
+          })(<Input />)}
+        </Item>
+
+        <Item
+          label="Number of shares outstanding"
+          validateStatus={validateStatus(noSharesProp)}
+          help={help(noSharesProp)}
+        >
+          {getFieldDecorator(noSharesProp, {
+            rules: [
+              {
+                required: true,
+                message: "Please input Number of Shares Outstanding!"
+              }
+            ]
+          })(<Input type="number" />)}
+        </Item>
+
+        <Item
+          label="Market cap"
+          validateStatus={validateStatus(marketCapProp)}
+          help={help(marketCapProp)}
+        >
+          {getFieldDecorator(marketCapProp, {
+            rules: [
+              { required: true, message: "Please input Market Capitalization!" }
+            ]
+          })(<Input type="number" />)}
+        </Item>
+
+        <Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={isSubmitting && hasErrors(getFieldsError())}
+            loading={isSubmitting}
+          >
             Create
           </Button>
-        </Form>
-      )}
-    />
+        </Item>
+      </Form>
+    </Spin>
   );
 };
 
-export default PortalNewStory;
+export default Form.create<Props>({ name: "horizontal_login" })(PortalNewStory);
