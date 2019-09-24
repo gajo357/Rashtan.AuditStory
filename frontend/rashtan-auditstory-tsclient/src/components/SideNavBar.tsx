@@ -13,12 +13,12 @@ export interface SideElement {
 const mainElements: () => SideElement[] = () => {
   return [
     {
-      to: "/portal/newstory",
+      to: "/newstory",
       icon: <Icon type="file-add" />,
       text: "New story"
     },
     {
-      to: "/portal",
+      to: "/",
       icon: <Icon type="dashboard" />,
       text: "Dashboard"
     },
@@ -29,12 +29,12 @@ const mainElements: () => SideElement[] = () => {
       subItems: []
     },
     {
-      to: "/portal/reports",
+      to: "/reports",
       icon: <Icon type="bar-chart" />,
       text: "Reports"
     },
     {
-      to: "/portal/account",
+      to: "/account",
       icon: <Icon type="user" />,
       text: "Account"
     }
@@ -56,7 +56,7 @@ const SideNavBar: React.FC<Props> = ({ apiService, logOut }) => {
       const folder = e.find(f => f.text === "Folders");
       if (folder) {
         folder.subItems = folders.map(f => ({
-          to: `/portal/folder/${f}`,
+          to: `/folder/${f}`,
           icon: <Icon type="folder-open" />,
           text: f
         }));

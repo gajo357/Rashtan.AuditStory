@@ -32,7 +32,7 @@ const CreateUser: React.FC<Props> = ({
       if (c === UserStatus.New) {
         setLoaded(true);
       } else {
-        history.push("/portal");
+        history.push("/");
       }
     });
   }, [apiService, history]);
@@ -49,7 +49,7 @@ const CreateUser: React.FC<Props> = ({
       } else {
         setSubmitting(true);
         apiService.startFreeTrial(values).then(_ => {
-          history.push("/portal");
+          history.push("/");
         });
       }
     });

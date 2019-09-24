@@ -32,7 +32,7 @@ const PortalNewStory: React.FC<Props> = ({
       if (c === UserStatus.Paying || c === UserStatus.Trial) {
         setLoaded(true);
       } else {
-        history.push("/portal");
+        history.push("/");
       }
     });
   }, [apiService, history]);
@@ -50,7 +50,7 @@ const PortalNewStory: React.FC<Props> = ({
         apiService
           .createNewStory(values)
           .then(c => {
-            history.push(`/portal/story/${c}`);
+            history.push(`/story/${c}`);
           })
           .catch(e => {
             setSubmitting(false);

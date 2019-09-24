@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { History } from "history";
 import "./App.css";
-import Home from "../Home";
-import Header from "../Header";
 import Footer from "../Footer";
-import About from "../About";
-import Contact from "../Contact";
 import PortalDashboard from "../PortalDashboard/PortalDashboard";
 import Terms from "../Terms";
 import ApiService from "../../services/ApiService";
@@ -25,10 +21,6 @@ interface Props {
 }
 
 const App: React.FC<Props> = ({ apiService, authService }) => {
-  const [isAuthenticated, setAuthenticated] = useState(
-    authService.isAuthenticated()
-  );
-
   const sessionStarted = (history: History) => () => {
     apiService
       .getUserStatus()
@@ -39,14 +31,12 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             break;
           }
           default: {
-            history.push("/portal");
+            history.push("/");
             break;
           }
         }
       })
       .catch(error => console.log(error));
-
-    setAuthenticated(authService.isAuthenticated());
   };
 
   const startSession = (history: History) => {
@@ -60,16 +50,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
 
   const logOut = () => {
     authService.logOut();
-    setAuthenticated(false);
   };
-
-  const header = () => (
-    <Header
-      loggedIn={isAuthenticated}
-      logIn={authService.logIn}
-      logOut={logOut}
-    />
-  );
 
   return (
     <div className={"app root"}>
@@ -80,23 +61,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             render={({ history }) => startSession(history)}
           />
 
-          <Route exact path="/">
-            {header()}
-            <Home />
-            <Footer />
-          </Route>
-          <Route exact path="/about">
-            {header()}
-            <About />
-            <Footer />
-          </Route>
-          <Route exact path="/contact">
-            {header()}
-            <Contact />
-            <Footer />
-          </Route>
           <Route exact path="/terms">
-            {header()}
             <Terms />
             <Footer />
           </Route>
@@ -105,7 +70,6 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             path="/createUser"
             render={({ history }) => (
               <>
-                {header()}
                 <CreateUser apiService={apiService} history={history} />
                 <Footer />
               </>
@@ -115,21 +79,21 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           <PortalLayout apiService={apiService} logOut={logOut}>
             <Route
               exact
-              path="/portal"
+              path="/"
               render={({ history }) => (
                 <PortalDashboard apiService={apiService} history={history} />
               )}
             />
             <Route
               exact
-              path="/portal/newstory"
+              path="/newstory"
               render={({ history }) => (
                 <PortalNewStory apiService={apiService} history={history} />
               )}
             />
             <Route
               exact
-              path="/portal/story/:ticker"
+              path="/story/:ticker"
               render={({ match }) => (
                 <PortalStory
                   apiService={apiService}
@@ -139,7 +103,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             />
             <Route
               exact
-              path="/portal/folder/:name"
+              path="/folder/:name"
               render={({ history, match }) => (
                 <PortalFolders
                   apiService={apiService}

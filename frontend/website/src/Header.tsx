@@ -2,17 +2,7 @@ import React from "react";
 import { Layout, Icon, Menu } from "antd";
 import { Link } from "react-router-dom";
 
-interface HeaderProps {
-  loggedIn: boolean;
-  logIn: () => void;
-  logOut: () => void;
-}
-
-const Header: React.FC<HeaderProps> = ({
-  loggedIn,
-  logIn,
-  logOut
-}: HeaderProps) => {
+const Header: React.FC = () => {
   return (
     <Layout.Header>
       <Menu theme="dark" mode="horizontal" style={{ lineHeight: "64px" }}>
@@ -27,21 +17,13 @@ const Header: React.FC<HeaderProps> = ({
         <Menu.Item key="2">
           <Link to="/contact">Contact</Link>
         </Menu.Item>
-        {loggedIn && (
-          <Menu.Item key="3">
-            <Link to="/portal">Portal</Link>
-          </Menu.Item>
-        )}
-        {loggedIn && (
-          <Menu.Item key="4" color="primary" onClick={logOut}>
-            Log out
-          </Menu.Item>
-        )}
-        {!loggedIn && (
-          <Menu.Item key="5" color="primary" onClick={logIn}>
-            Log in
-          </Menu.Item>
-        )}
+        <a
+          href="https://portal.auditstory.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Portal
+        </a>
       </Menu>
     </Layout.Header>
   );

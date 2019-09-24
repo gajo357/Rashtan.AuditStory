@@ -15,7 +15,7 @@ const PortalStory: React.FC<Props> = ({ apiService, ticker }) => {
     apiService.getCompany(ticker).then(c => setCompany(c));
   }, [apiService, ticker]);
 
-  if (!ticker) return <Redirect to="/portal" />;
+  if (!ticker) return <Redirect to="/" />;
 
   return (
     <React.Fragment>

@@ -59,7 +59,7 @@ const PortalPayment: React.FC<Props> = ({ apiService, history }) => {
             {payment && (
               <Confirmation
                 payment={payment}
-                nextStep={() => history.push("/portal")}
+                nextStep={() => history.push("/")}
               />
             )}
           </React.Fragment>

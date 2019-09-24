@@ -15,7 +15,7 @@ const CompanyCard: React.FC<Props> = ({
   history
 }) => {
   const editStory = () => {
-    history.push(`/portal/story/${ticker}`);
+    history.push(`/story/${ticker}`);
   };
 
   return (
