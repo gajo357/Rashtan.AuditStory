@@ -92,7 +92,7 @@ const SideNavBar: React.FC<Props> = ({ apiService, logOut }) => {
         {elements.map(e =>
           e.subItems ? (
             e.subItems.length === 0 ? (
-              <></>
+              <React.Fragment key={e.text}></React.Fragment>
             ) : (
               <Menu.SubMenu
                 key={e.text}
@@ -110,8 +110,9 @@ const SideNavBar: React.FC<Props> = ({ apiService, logOut }) => {
             renderElement(e)
           )
         )}
-
-        <Divider />
+        <Menu.Item key="divider">
+          <Divider />
+        </Menu.Item>
 
         <Menu.Item key="Logout" onClick={_ => logOut()}>
           <Icon type="logout"></Icon>
