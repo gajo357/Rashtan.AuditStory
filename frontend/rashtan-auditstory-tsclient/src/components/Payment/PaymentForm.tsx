@@ -1,11 +1,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import BraintreeGizmo from "./BraintreeGizmo";
 import { Button, Typography } from "antd";
-import ApiService from "../../services/ApiService";
+import IApiService from "../../services/IApiService";
 import { PaymentProcessed, PricingTier } from "../../models/PricingOption";
+import { showError } from "../../models/Errors";
 
 interface Props {
-  apiService: ApiService;
+  apiService: IApiService;
   tier: PricingTier;
   paymentCompleted: (r: PaymentProcessed) => void;
   back: () => void;
@@ -27,8 +28,8 @@ const PaymentForm: React.FC<Props> = ({
     (nonce: string) =>
       apiService
         .postPayment({ amount, nonce, length })
-        .then(r => paymentCompleted(r))
-        .catch(e => alert(e)),
+        .then(paymentCompleted)
+        .catch(showError),
     [apiService, amount, paymentCompleted, length]
   );
 

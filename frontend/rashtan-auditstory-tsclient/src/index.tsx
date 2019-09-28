@@ -5,10 +5,11 @@ import App from "./components/App/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import AuthService from "./services/AuthService";
-import ApiService from "./services/ApiService";
+// import ApiService from "./services/ApiService";
+import MockedApiService from "./services/MockedApiService";
 
 const authService = new AuthService();
-const apiService = new ApiService(authService);
+const apiService = new MockedApiService(authService);
 
 ReactDOM.render(
   <BrowserRouter>

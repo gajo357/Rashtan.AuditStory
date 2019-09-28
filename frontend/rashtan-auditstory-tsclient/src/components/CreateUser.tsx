@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { History } from "history";
 import { Button, Typography, Form, Input, Icon, Spin } from "antd";
 import { UserInfo } from "../models/UserInfo";
-import { UserStatus } from "../models/IUserProfile";
-import ApiService from "../services/ApiService";
+import { UserStatus } from "../models/UserStatus";
+import IApiService from "../services/IApiService";
 import { FormComponentProps } from "antd/lib/form";
+import { showError } from "../models/Errors";
 
 const { Item } = Form;
 
 interface Props extends FormComponentProps<UserInfo> {
-  apiService: ApiService;
+  apiService: IApiService;
   history: History;
 }
 
@@ -28,13 +29,16 @@ const CreateUser: React.FC<Props> = ({
   const [isSubmitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    apiService.getUserStatus().then(c => {
-      if (c === UserStatus.New) {
-        setLoaded(true);
-      } else {
-        history.push("/");
-      }
-    });
+    apiService
+      .getUserStatus()
+      .then(c => {
+        if (c === UserStatus.New) {
+          setLoaded(true);
+        } else {
+          history.push("/");
+        }
+      })
+      .catch(showError);
   }, [apiService, history]);
 
   useEffect(() => {
@@ -45,8 +49,6 @@ const CreateUser: React.FC<Props> = ({
     e.preventDefault();
     validateFields((err, values: UserInfo) => {
       if (!err) {
-        console.log("Received values of form: ", values);
-      } else {
         setSubmitting(true);
         apiService.startFreeTrial(values).then(_ => {
           history.push("/");

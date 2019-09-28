@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { Menu, Icon, Layout, Divider } from "antd";
-import ApiService from "../services/ApiService";
+import IApiService from "../services/IApiService";
 import { Link } from "react-router-dom";
+import { showError } from "../models/Errors";
 
 export interface SideElement {
   to: string;
@@ -42,7 +43,7 @@ const mainElements: () => SideElement[] = () => {
 };
 
 interface Props {
-  apiService: ApiService;
+  apiService: IApiService;
   logOut: () => void;
 }
 
@@ -50,19 +51,24 @@ const SideNavBar: React.FC<Props> = ({ apiService, logOut }) => {
   const [open, setOpen] = React.useState(true);
   const [elements, setElements] = React.useState(mainElements());
 
+  const foldersPopulated = (folders: string[]) => {
+    const e = mainElements();
+    const folder = e.find(f => f.text === "Folders");
+    if (folder) {
+      folder.subItems = folders.map(f => ({
+        to: `/folder/${f}`,
+        icon: <Icon type="folder-open" />,
+        text: f
+      }));
+      setElements(e);
+    }
+  };
+
   useEffect(() => {
-    apiService.getFolders().then(folders => {
-      const e = mainElements();
-      const folder = e.find(f => f.text === "Folders");
-      if (folder) {
-        folder.subItems = folders.map(f => ({
-          to: `/folder/${f}`,
-          icon: <Icon type="folder-open" />,
-          text: f
-        }));
-        setElements(e);
-      }
-    });
+    apiService
+      .getFolders()
+      .then(foldersPopulated)
+      .catch(showError);
   }, [apiService]);
 
   const onCollapse = (collapsed: boolean) => {

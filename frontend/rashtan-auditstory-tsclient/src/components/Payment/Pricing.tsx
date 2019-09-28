@@ -1,19 +1,23 @@
 import React from "react";
 import { Button, Typography, Card, Row, Col, Icon } from "antd";
 import { PricingTier } from "../../models/PricingOption";
-import ApiService from "../../services/ApiService";
+import IApiService from "../../services/IApiService";
+import { showError } from "../../models/Errors";
 
 const { Meta } = Card;
 
 interface Props {
-  apiService: ApiService;
+  apiService: IApiService;
   tierSelected: (s: PricingTier) => void;
 }
 
 const Pricing: React.FC<Props> = ({ tierSelected, apiService }) => {
   const [tiers, setTiers] = React.useState<PricingTier[]>([]);
   React.useEffect(() => {
-    apiService.getPricingTiers().then(t => setTiers(t));
+    apiService
+      .getPricingTiers()
+      .then(setTiers)
+      .catch(showError);
   }, [apiService]);
 
   return (

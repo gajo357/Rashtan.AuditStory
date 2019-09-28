@@ -1,11 +1,11 @@
 import React from "react";
 import { Layout } from "antd";
 import SideNavBar from "./SideNavBar";
-import ApiService from "../services/ApiService";
+import IApiService from "../services/IApiService";
 import Footer from "./Footer";
 
 interface PortalProps {
-  apiService: ApiService;
+  apiService: IApiService;
   children: React.ReactNode;
   logOut: () => void;
 }

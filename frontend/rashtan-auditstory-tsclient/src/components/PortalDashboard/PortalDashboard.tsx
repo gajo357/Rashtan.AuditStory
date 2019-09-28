@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { History } from "history";
 import CompanyCard from "./CompanyCard";
-import ApiService from "../../services/ApiService";
+import IApiService from "../../services/IApiService";
 import { CompanyProfile } from "../../models/CompanyProfile";
+import { showError } from "../../models/Errors";
 
 interface PortalProps {
-  apiService: ApiService;
+  apiService: IApiService;
   history: History;
 }
 
 const PortalDashboard: React.FC<PortalProps> = ({ apiService, history }) => {
-  const [companies, setState] = useState<CompanyProfile[]>([]);
+  const [companies, setCompanies] = useState<CompanyProfile[]>([]);
 
   useEffect(() => {
     apiService
       .getCompanies()
-      .then(data => {
-        setState(data);
-      })
-      .catch(error => console.log(error));
+      .then(setCompanies)
+      .catch(showError);
   }, [apiService]);
 
   return (

@@ -4,13 +4,13 @@ import { Typography, Steps } from "antd";
 import PaymentForm from "./PaymentForm";
 import Pricing from "./Pricing";
 import Confirmation from "./Confirmation";
-import ApiService from "../../services/ApiService";
+import IApiService from "../../services/IApiService";
 import { PricingTier, PaymentProcessed } from "../../models/PricingOption";
 
 const { Step } = Steps;
 
 interface Props {
-  apiService: ApiService;
+  apiService: IApiService;
   history: History;
 }
 

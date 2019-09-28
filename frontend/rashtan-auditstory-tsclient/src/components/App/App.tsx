@@ -5,18 +5,19 @@ import "./App.css";
 import Footer from "../Footer";
 import PortalDashboard from "../PortalDashboard/PortalDashboard";
 import Terms from "../Terms";
-import ApiService from "../../services/ApiService";
+import IApiService from "../../services/IApiService";
 import AuthService from "../../services/AuthService";
 import CreateUser from "../CreateUser";
-import { UserStatus } from "../../models/IUserProfile";
+import { UserStatus } from "../../models/UserStatus";
 import PortalNewStory from "../PortalNewStory";
 import PortalStory from "../PortalStory";
 import PortalFolders from "../PortalFolders";
 import PortalLayout from "../PortalLayout";
 import { Layout } from "antd";
+import { showError } from "../../models/Errors";
 
 interface Props {
-  apiService: ApiService;
+  apiService: IApiService;
   authService: AuthService;
 }
 
@@ -36,7 +37,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           }
         }
       })
-      .catch(error => console.log(error));
+      .catch(showError);
   };
 
   const startSession = (history: History) => {

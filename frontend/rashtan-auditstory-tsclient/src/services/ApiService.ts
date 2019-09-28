@@ -1,5 +1,5 @@
 import AuthService from "./AuthService";
-import { UserStatus } from "../models/IUserProfile";
+import { UserStatus } from "../models/UserStatus";
 import {
   PricingTier,
   PaymentProcessed,
@@ -8,8 +8,15 @@ import {
 import { CompanyProfile } from "../models/CompanyProfile";
 import { BASE_API } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
+import IApiService from "./IApiService";
+import {
+  ResponseError,
+  ValidationError,
+  UserError,
+  showError
+} from "../models/Errors";
 
-export default class ApiService {
+export default class ApiService implements IApiService {
   public authService: AuthService;
 
   constructor(authService: AuthService) {
@@ -26,17 +33,32 @@ export default class ApiService {
     })
   });
 
+  private unwrapResponse = async <TResult>(r: Response) => {
+    const json = await r.json();
+    if (r.ok) {
+      return json as TResult;
+    } else if (r.status === 400) {
+      const re = json as ResponseError;
+      if (re.property) {
+        throw new ValidationError(re.property, re.message);
+      }
+      throw new UserError(r.status, re.message);
+    }
+
+    throw new Error(json);
+  };
+
   private getCommand = <TResult>(path: string) =>
-    fetch(BASE_API + path, this.defaultHeaders()).then(
-      async r => (await r.json()) as TResult
+    fetch(BASE_API + path, this.defaultHeaders()).then(r =>
+      this.unwrapResponse<TResult>(r)
     );
 
-  private postCommand = <TBody>(path: string, body: TBody) =>
+  private postCommand = <TBody, TResult>(path: string, body: TBody) =>
     fetch(BASE_API + path, {
       ...this.defaultHeaders(),
       body: JSON.stringify(body),
       method: "POST"
-    }).then(async r => await r.json());
+    }).then(r => this.unwrapResponse<TResult>(r));
 
   private company = "api/company/";
   getCompanies = () =>
@@ -45,14 +67,15 @@ export default class ApiService {
     this.getCommand<CompanyProfile>(`${this.company}profile?ticker=${ticker}`);
 
   createNewStory = (company: CompanyProfile) =>
-    this.postCommand(`${this.company}createProfile`, company).then(
-      c => c as string
+    this.postCommand<CompanyProfile, string>(
+      `${this.company}createProfile`,
+      company
     );
 
   private payment = "api/payment";
   getPaymentToken = () => this.getCommand<string>(this.payment);
-  postPayment = (b: PaymentToProcess): Promise<PaymentProcessed> =>
-    this.postCommand(this.payment, b).then(r => ({
+  postPayment = (b: PaymentToProcess) =>
+    this.postCommand<PaymentToProcess, any>(this.payment, b).then(r => ({
       transactionId: r.transactionId,
       amount: r.amount,
       payedUntil: new Date(Date.parse(r.payedUntil))
@@ -63,12 +86,10 @@ export default class ApiService {
   private userProfile = "api/userprofile";
   getUserProfile = () => this.getCommand<UserInfo>(this.userProfile);
   saveUserProfile = (user: UserInfo) =>
-    this.postCommand<UserInfo>(this.userProfile, user);
+    this.postCommand<UserInfo, UserInfo>(this.userProfile, user);
 
   startFreeTrial = (user: UserInfo) =>
-    this.postCommand<UserInfo>("api/freeTrial", user);
-
-  getTickerInfo = (ticker: string) => this.getCommand(`api/ticker${ticker}`);
+    this.postCommand<UserInfo, UserInfo>("api/freeTrial", user);
 
   getPricingTiers = () => this.getCommand<PricingTier[]>("api/pricing");
 

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { History } from "history";
 import { Button, Form, Spin, Input } from "antd";
-import ApiService from "../services/ApiService";
+import IApiService from "../services/IApiService";
 import { CompanyProfile } from "../models/CompanyProfile";
 import { FormComponentProps } from "antd/lib/form";
-import { UserStatus } from "../models/IUserProfile";
+import { UserStatus } from "../models/UserStatus";
+import { showError } from "../models/Errors";
 
 const { Item } = Form;
 
 interface Props extends FormComponentProps<CompanyProfile> {
-  apiService: ApiService;
+  apiService: IApiService;
   history: History;
 }
 
@@ -28,13 +29,16 @@ const PortalNewStory: React.FC<Props> = ({
   const [isSubmitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    apiService.getUserStatus().then(c => {
-      if (c === UserStatus.Paying || c === UserStatus.Trial) {
-        setLoaded(true);
-      } else {
-        history.push("/");
-      }
-    });
+    apiService
+      .getUserStatus()
+      .then(c => {
+        if (c === UserStatus.Paying || c === UserStatus.Trial) {
+          setLoaded(true);
+        } else {
+          history.push("/");
+        }
+      })
+      .catch(showError);
   }, [apiService, history]);
 
   useEffect(() => {
