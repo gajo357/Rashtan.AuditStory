@@ -14,9 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="TestUserStatusWorkflow.fs" />
     <Compile Include="TestCompanyWorkflow.fs" />
-    <Compile Include="TestPaymentWorkflow.fs" />
     <Compile Include="TestUserProfileWorkflow.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
@@ -24,7 +22,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Rashtan.AuditStory.Common\Rashtan.AuditStory.Common.fsproj" />
     <ProjectReference Include="..\..\Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj" />
-    <ProjectReference Include="..\..\Rashtan.AuditStory.Payment\Rashtan.AuditStory.Payment.fsproj" />
     <ProjectReference Include="..\..\Rashtan.AuditStory.Repository.Interface\Rashtan.AuditStory.Repository.Interface.csproj" />
     <ProjectReference Include="..\..\Rashtan.AuditStory.Workflows\Rashtan.AuditStory.Workflows.fsproj" />
     <ProjectReference Include="..\Test.Rashtan.AuditStory.DtoValidation\Test.Rashtan.AuditStory.DtoValidation.fsproj" />

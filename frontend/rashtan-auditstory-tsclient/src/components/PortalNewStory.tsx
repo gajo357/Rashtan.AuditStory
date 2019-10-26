@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { History } from "history";
-import { Button, Form, Spin, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import IApiService from "../services/IApiService";
 import { CompanyStoryCreate } from "../models/Company";
 import { FormComponentProps } from "antd/lib/form";
-import { UserStatus } from "../models/UserStatus";
 import { showError } from "../models/Errors";
 
 const { Item } = Form;
@@ -25,21 +24,7 @@ const PortalNewStory: React.FC<Props> = ({
     getFieldError
   }
 }) => {
-  const [loaded, setLoaded] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    apiService
-      .getUserStatus()
-      .then(c => {
-        if (c === UserStatus.Paying || c === UserStatus.Trial) {
-          setLoaded(true);
-        } else {
-          history.push("/");
-        }
-      })
-      .catch(showError);
-  }, [apiService, history]);
 
   useEffect(() => {
     validateFields();
@@ -78,30 +63,28 @@ const PortalNewStory: React.FC<Props> = ({
   const help = (p: string) => hasError(p) || "";
 
   return (
-    <Spin spinning={!loaded} tip="Loading" size="large">
-      <Form layout="horizontal" onSubmit={handleSubmit}>
-        <Item
-          label="Company name"
-          validateStatus={validateStatus(nameProp)}
-          help={help(nameProp)}
-        >
-          {getFieldDecorator(nameProp, {
-            rules: [{ required: true, message: "Please input company's name!" }]
-          })(<Input />)}
-        </Item>
+    <Form layout="horizontal" onSubmit={handleSubmit}>
+      <Item
+        label="Company name"
+        validateStatus={validateStatus(nameProp)}
+        help={help(nameProp)}
+      >
+        {getFieldDecorator(nameProp, {
+          rules: [{ required: true, message: "Please input company's name!" }]
+        })(<Input />)}
+      </Item>
 
-        <Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            disabled={isSubmitting && hasErrors(getFieldsError())}
-            loading={isSubmitting}
-          >
-            Create
-          </Button>
-        </Item>
-      </Form>
-    </Spin>
+      <Item>
+        <Button
+          type="primary"
+          htmlType="submit"
+          disabled={isSubmitting && hasErrors(getFieldsError())}
+          loading={isSubmitting}
+        >
+          Create
+        </Button>
+      </Item>
+    </Form>
   );
 };
 

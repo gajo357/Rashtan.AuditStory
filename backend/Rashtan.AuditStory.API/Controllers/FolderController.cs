@@ -23,7 +23,7 @@ namespace Rashtan.AuditStory.API.Controllers
         // GET api/folder/folders
         [HttpGet]
         public async Task<ActionResult<IEnumerable<string>>> Folders() 
-            => Unpack(await CompanyWorkflow.GetFoldersAsync(UserId));
+            => Unpack(await CompanyWorkflow.GetFoldersAsync<string>(UserId));
 
         // GET api/folder/companies?name=Wonderfull
         [HttpGet]

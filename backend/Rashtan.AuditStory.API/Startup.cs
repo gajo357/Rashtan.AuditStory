@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using Rashtan.AuditStory.MongoRepository;
-using Rashtan.AuditStory.Payment;
 using Rashtan.AuditStory.Workflows;
 
 namespace Rashtan.AuditStory.API
@@ -25,7 +24,6 @@ namespace Rashtan.AuditStory.API
         {
             services.AddSingleton(Configuration)
                 .RegisterRepositoryServices()
-                .RegisterPaymentGizmo()
                 .RegisterWorkflows();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>

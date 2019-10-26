@@ -1,10 +1,4 @@
 import AuthService from "./AuthService";
-import { UserStatus } from "../models/UserStatus";
-import {
-  PricingTier,
-  PaymentProcessed,
-  PaymentToProcess
-} from "../models/PricingOption";
 import {
   CompanyProfile,
   CompanyStory,
@@ -13,12 +7,7 @@ import {
 import { BASE_API } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
-import {
-  ResponseError,
-  ValidationError,
-  UserError,
-  showError
-} from "../models/Errors";
+import { ResponseError, ValidationError, UserError } from "../models/Errors";
 
 export default class ApiService implements IApiService {
   public authService: AuthService;
@@ -93,26 +82,10 @@ export default class ApiService implements IApiService {
   deleteCompanyStory = (id: string) =>
     this.deleteCommand<boolean>(`${this.story}${id}`);
 
-  private payment = "api/payment";
-  getPaymentToken = () => this.getCommand<string>(this.payment);
-  postPayment = (b: PaymentToProcess) =>
-    this.postCommand<PaymentToProcess, any>(this.payment, b).then(r => ({
-      transactionId: r.transactionId,
-      amount: r.amount,
-      payedUntil: new Date(Date.parse(r.payedUntil))
-    }));
-
-  getUserStatus = () => this.getCommand<UserStatus>("api/userstatus");
-
   private userProfile = "api/userprofile";
   getUserProfile = () => this.getCommand<UserInfo>(this.userProfile);
   saveUserProfile = (user: UserInfo) =>
     this.postCommand<UserInfo, UserInfo>(this.userProfile, user);
-
-  startFreeTrial = (user: UserInfo) =>
-    this.postCommand<UserInfo, UserInfo>("api/freeTrial", user);
-
-  getPricingTiers = () => this.getCommand<PricingTier[]>("api/pricing");
 
   private folder = "api/folder/";
   getFolders = () => this.getCommand<string[]>(`${this.folder}folders`);

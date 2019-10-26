@@ -23,11 +23,9 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.DtoValid
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Workflows", "Rashtan.AuditStory.Workflows\Rashtan.AuditStory.Workflows.fsproj", "{53001EF3-A888-4992-8B7A-2AEDBF8CC616}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Rashtan.AuditStory.Payment", "Rashtan.AuditStory.Payment\Rashtan.AuditStory.Payment.fsproj", "{5F21B389-51E3-4392-B2E5-87854926DCB2}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Test.Rashtan.AuditStory.DtoValidation", "Tests\Test.Rashtan.AuditStory.DtoValidation\Test.Rashtan.AuditStory.DtoValidation.fsproj", "{F7AFDC73-BF60-4A8F-8601-7B2FCDABCDE4}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test.Rashtan.AuditStory.DtoValidation", "Tests\Test.Rashtan.AuditStory.DtoValidation\Test.Rashtan.AuditStory.DtoValidation.fsproj", "{F7AFDC73-BF60-4A8F-8601-7B2FCDABCDE4}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test.Rashtan.AuditStory.Workflows", "Tests\Test.Rashtan.AuditStory.Workflows\Test.Rashtan.AuditStory.Workflows.fsproj", "{46B25530-E9F2-46AF-AEE5-EBCA21CFBFF1}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Test.Rashtan.AuditStory.Workflows", "Tests\Test.Rashtan.AuditStory.Workflows\Test.Rashtan.AuditStory.Workflows.fsproj", "{46B25530-E9F2-46AF-AEE5-EBCA21CFBFF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,10 +73,6 @@ Global
 		{53001EF3-A888-4992-8B7A-2AEDBF8CC616}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53001EF3-A888-4992-8B7A-2AEDBF8CC616}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53001EF3-A888-4992-8B7A-2AEDBF8CC616}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F21B389-51E3-4392-B2E5-87854926DCB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F21B389-51E3-4392-B2E5-87854926DCB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F21B389-51E3-4392-B2E5-87854926DCB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F21B389-51E3-4392-B2E5-87854926DCB2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7AFDC73-BF60-4A8F-8601-7B2FCDABCDE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F7AFDC73-BF60-4A8F-8601-7B2FCDABCDE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7AFDC73-BF60-4A8F-8601-7B2FCDABCDE4}.Release|Any CPU.ActiveCfg = Release|Any CPU

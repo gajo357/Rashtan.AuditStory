@@ -1,10 +1,4 @@
 import AuthService from "./AuthService";
-import { UserStatus } from "../models/UserStatus";
-import {
-  PricingTier,
-  PaymentProcessed,
-  PaymentToProcess
-} from "../models/PricingOption";
 import {
   CompanyProfile,
   CompanyStory,
@@ -72,16 +66,6 @@ export default class MockedApiService implements IApiService {
   saveCompanyStory = (_: CompanyStory) => this.resolved<boolean>(true);
   deleteCompanyStory = () => this.resolved<boolean>(true);
 
-  getPaymentToken = () => this.resolved<string>("");
-  postPayment = (b: PaymentToProcess) =>
-    this.resolved<PaymentProcessed>({
-      transactionId: "sadfasd",
-      amount: b.amount,
-      payedUntil: new Date(Date.now())
-    });
-
-  getUserStatus = () => this.resolved<UserStatus>(UserStatus.Paying);
-
   getUserProfile = () =>
     this.resolved<UserInfo>({
       name: "Alan",
@@ -90,10 +74,6 @@ export default class MockedApiService implements IApiService {
       country: "US"
     });
   saveUserProfile = (user: UserInfo) => this.resolved<UserInfo>(user);
-
-  startFreeTrial = (user: UserInfo) => this.resolved<UserInfo>(user);
-
-  getPricingTiers = () => this.resolved<PricingTier[]>([]);
 
   getFolders = () => this.resolved<string[]>(["Wonderfull"]);
   getFolderCompanies = () => this.resolved<CompanyProfile[]>([this.micron]);

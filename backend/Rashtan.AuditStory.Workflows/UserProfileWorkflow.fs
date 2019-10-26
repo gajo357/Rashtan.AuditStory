@@ -6,13 +6,9 @@ open Rashtan.AuditStory.DtoValidation.UserValidator
 open Rashtan.AuditStory.DtoDbMapper.UserMapper
 open Rashtan.AuditStory.Common
 
-type UserProfileWorkflow(repository: IUserProfileRepository, statusWorkflow: IUserStatusWorkflow) =
-    member __.GetUserStatusAsync user = 
-        statusWorkflow.GetUserStatusAsync(user) |> Async.StartAsTask
-
+type UserProfileWorkflow(repository: IUserProfileRepository) =
     member __.GetProfileAsync user = 
         asyncResult {
-            do! statusWorkflow.CheckReadAccess user
             let! b = repository.GetProfileAsync(user) |> Async.AwaitTask
             return b |> toDto
         } |> CsResult.fromAsyncResult

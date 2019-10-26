@@ -17,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj" />
     <ProjectReference Include="..\Rashtan.AuditStory.MongoRepository\Rashtan.AuditStory.MongoRepository.csproj" />
-    <ProjectReference Include="..\Rashtan.AuditStory.Payment\Rashtan.AuditStory.Payment.fsproj" />
     <ProjectReference Include="..\Rashtan.AuditStory.Workflows\Rashtan.AuditStory.Workflows.fsproj" />
   </ItemGroup>
 

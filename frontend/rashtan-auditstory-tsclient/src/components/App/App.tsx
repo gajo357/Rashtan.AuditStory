@@ -7,14 +7,12 @@ import PortalDashboard from "../PortalDashboard/PortalDashboard";
 import Terms from "../Terms";
 import IApiService from "../../services/IApiService";
 import AuthService from "../../services/AuthService";
-import CreateUser from "../CreateUser";
-import { UserStatus } from "../../models/UserStatus";
+import EditUser from "../EditUser";
 import PortalNewStory from "../PortalNewStory";
 import Story from "../Story/Story";
 import PortalFolders from "../PortalFolders";
 import PortalLayout from "../PortalLayout";
 import { Layout } from "antd";
-import { showError } from "../../models/Errors";
 
 interface Props {
   apiService: IApiService;
@@ -23,21 +21,7 @@ interface Props {
 
 const App: React.FC<Props> = ({ apiService, authService }) => {
   const sessionStarted = (history: History) => () => {
-    apiService
-      .getUserStatus()
-      .then(r => {
-        switch (r) {
-          case UserStatus.New: {
-            history.push("/createUser");
-            break;
-          }
-          default: {
-            history.push("/");
-            break;
-          }
-        }
-      })
-      .catch(showError);
+    history.push("/");
   };
 
   const startSession = (history: History) => {
@@ -66,16 +50,6 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             <Terms />
             <Footer />
           </Route>
-          <Route
-            exact
-            path="/createUser"
-            render={({ history }) => (
-              <>
-                <CreateUser apiService={apiService} history={history} />
-                <Footer />
-              </>
-            )}
-          />
 
           <PortalLayout apiService={apiService} logOut={logOut}>
             <Route
@@ -110,6 +84,9 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
                 />
               )}
             />
+            <Route exact path="/account">
+              <EditUser apiService={apiService} />
+            </Route>
           </PortalLayout>
 
           <Route component={() => <Redirect to="/" />} />

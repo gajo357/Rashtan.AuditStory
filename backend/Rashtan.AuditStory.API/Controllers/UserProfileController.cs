@@ -20,7 +20,7 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // GET api/userprofile
         [HttpGet]
-        public async Task<ActionResult<UserProfile>> Get() => Unpack(await UserProfileWorkflow.GetProfileAsync(UserId));
+        public async Task<ActionResult<UserProfile>> Get() => Unpack(await UserProfileWorkflow.GetProfileAsync<string>(UserId));
 
         // POST api/userprofile
         [HttpPost]

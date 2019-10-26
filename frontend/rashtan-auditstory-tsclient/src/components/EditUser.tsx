@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { History } from "history";
 import { Button, Typography, Form, Input, Icon, Spin } from "antd";
 import { UserInfo } from "../models/UserInfo";
-import { UserStatus } from "../models/UserStatus";
 import IApiService from "../services/IApiService";
 import { FormComponentProps } from "antd/lib/form";
 import { showError } from "../models/Errors";
@@ -11,18 +9,17 @@ const { Item } = Form;
 
 interface Props extends FormComponentProps<UserInfo> {
   apiService: IApiService;
-  history: History;
 }
 
-const CreateUser: React.FC<Props> = ({
+const EditUser: React.FC<Props> = ({
   apiService,
-  history,
   form: {
     validateFields,
     getFieldDecorator,
     getFieldError,
     getFieldsError,
-    isFieldTouched
+    isFieldTouched,
+    setFieldsValue
   }
 }) => {
   const [loaded, setLoaded] = useState(false);
@@ -30,16 +27,13 @@ const CreateUser: React.FC<Props> = ({
 
   useEffect(() => {
     apiService
-      .getUserStatus()
+      .getUserProfile()
       .then(c => {
-        if (c === UserStatus.New) {
-          setLoaded(true);
-        } else {
-          history.push("/");
-        }
+        setFieldsValue(c);
+        setLoaded(true);
       })
       .catch(showError);
-  }, [apiService, history]);
+  }, [apiService, setFieldsValue]);
 
   useEffect(() => {
     validateFields();
@@ -50,9 +44,13 @@ const CreateUser: React.FC<Props> = ({
     validateFields((err, values: UserInfo) => {
       if (!err) {
         setSubmitting(true);
-        apiService.startFreeTrial(values).then(_ => {
-          history.push("/");
-        });
+        apiService
+          .saveUserProfile(values)
+          .then(_ => setSubmitting(false))
+          .catch(e => {
+            showError(e);
+            setSubmitting(false);
+          });
       }
     });
   };
@@ -125,4 +123,4 @@ const CreateUser: React.FC<Props> = ({
   );
 };
 
-export default Form.create<Props>({ name: "horizontal_login" })(CreateUser);
+export default Form.create<Props>({ name: "horizontal_login" })(EditUser);

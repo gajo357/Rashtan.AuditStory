@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="UserStatusWorkflow.fs" />
     <Compile Include="CompanyWorkflow.fs" />
-    <Compile Include="PaymentWorkflow.fs" />
     <Compile Include="UserProfileWorkflow.fs" />
     <Compile Include="ServiceCollectionExtension.fs" />
   </ItemGroup>
@@ -22,7 +20,6 @@
     <ProjectReference Include="..\Rashtan.AuditStory.DtoDbMapper\Rashtan.AuditStory.DtoDbMapper.fsproj" />
     <ProjectReference Include="..\Rashtan.AuditStory.DtoValidation\Rashtan.AuditStory.DtoValidation.fsproj" />
     <ProjectReference Include="..\Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj" />
-    <ProjectReference Include="..\Rashtan.AuditStory.Payment\Rashtan.AuditStory.Payment.fsproj" />
     <ProjectReference Include="..\Rashtan.AuditStory.Repository.Interface\Rashtan.AuditStory.Repository.Interface.csproj" />
   </ItemGroup>
 

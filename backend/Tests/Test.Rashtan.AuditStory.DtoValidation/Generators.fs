@@ -70,47 +70,17 @@ type InvalidCompanyProfileGenerator =
             }
         } |> Arb.fromGen
 
-
-type ValidPaymentGenerator =
-    static member PaymentToProcess() = 
-        gen {
-            let! nonce = ValidTypesGenerator.String().Generator
-            let! amount = ValidTypesGenerator.Decimal().Generator
-            let! length = ValidTypesGenerator.Int().Generator
-            
-            return {
-                Nonce = nonce
-                Amount = amount
-                Length = length
-            }
-        } |> Arb.fromGen
-
-type InvalidPaymentGenerator =
-    static member PaymentToProcess() = 
-        gen {
-            let! nonce = InvalidTypesGenerator.String().Generator
-            let! amount = InvalidTypesGenerator.Decimal().Generator
-            let! length = InvalidTypesGenerator.Int().Generator
-            
-            return {
-                Nonce = nonce
-                Amount = amount
-                Length = length
-            }
-        } |> Arb.fromGen
-
-
 type InvalidUserGenerator =
     static member UserProfile() = 
         gen {
-            let! nonce = InvalidTypesGenerator.String().Generator
+            let! name = InvalidTypesGenerator.String().Generator
             let! email = InvalidTypesGenerator.String().Generator
             let! country = InvalidTypesGenerator.String().Generator
             let! city = InvalidTypesGenerator.String().Generator
             let! createdAt = InvalidTypesGenerator.Date().Generator
             
             return {
-                Name = nonce
+                Name = name
                 Email = email
                 Country = country
                 City = city

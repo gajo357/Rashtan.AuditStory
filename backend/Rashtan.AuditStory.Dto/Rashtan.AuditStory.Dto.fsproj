@@ -8,7 +8,6 @@
     <Compile Include="Common.fs" />
     <Compile Include="Checklist.fs" />
     <Compile Include="Company.fs" />
-    <Compile Include="Payment.fs" />
     <Compile Include="User.fs" />
   </ItemGroup>
 

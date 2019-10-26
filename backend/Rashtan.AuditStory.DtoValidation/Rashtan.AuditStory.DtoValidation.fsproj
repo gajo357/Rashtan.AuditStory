@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Compile Include="CompanyValidator.fs" />
-    <Compile Include="PaymentValidator.fs" />
     <Compile Include="UserValidator.fs" />
   </ItemGroup>
 
