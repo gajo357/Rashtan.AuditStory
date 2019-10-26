@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { History } from "history";
 import IApiService from "../services/IApiService";
-import { CompanyProfile } from "../models/CompanyProfile";
+import { CompanyProfile } from "../models/Company";
 import CompanyCard from "./PortalDashboard/CompanyCard";
 import { showError } from "../models/Errors";
 
@@ -23,7 +23,7 @@ const PortalFolders: React.FC<Props> = ({ apiService, folder, history }) => {
   return (
     <React.Fragment>
       {companies.map(c => (
-        <CompanyCard company={c} history={history} key={c.ticker} />
+        <CompanyCard company={c} history={history} key={c.id} />
       ))}
     </React.Fragment>
   );

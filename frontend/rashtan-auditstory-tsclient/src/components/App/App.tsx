@@ -10,7 +10,7 @@ import AuthService from "../../services/AuthService";
 import CreateUser from "../CreateUser";
 import { UserStatus } from "../../models/UserStatus";
 import PortalNewStory from "../PortalNewStory";
-import PortalStory from "../PortalStory";
+import Story from "../Story/Story";
 import PortalFolders from "../PortalFolders";
 import PortalLayout from "../PortalLayout";
 import { Layout } from "antd";
@@ -94,12 +94,9 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             />
             <Route
               exact
-              path="/story/:ticker"
+              path="/story/:id"
               render={({ match }) => (
-                <PortalStory
-                  apiService={apiService}
-                  ticker={match.params["ticker"]}
-                />
+                <Story apiService={apiService} id={match.params["id"]} />
               )}
             />
             <Route

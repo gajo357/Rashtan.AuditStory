@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { History } from "history";
 import { Button, Form, Spin, Input } from "antd";
 import IApiService from "../services/IApiService";
-import { CompanyProfile } from "../models/CompanyProfile";
+import { CompanyStoryCreate } from "../models/Company";
 import { FormComponentProps } from "antd/lib/form";
 import { UserStatus } from "../models/UserStatus";
 import { showError } from "../models/Errors";
 
 const { Item } = Form;
 
-interface Props extends FormComponentProps<CompanyProfile> {
+interface Props extends FormComponentProps<CompanyStoryCreate> {
   apiService: IApiService;
   history: History;
 }
@@ -47,18 +47,19 @@ const PortalNewStory: React.FC<Props> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    validateFields((err, values: CompanyProfile) => {
+    validateFields((err, values: CompanyStoryCreate) => {
       if (!err) {
         console.log("Received values of form: ", values);
         setSubmitting(true);
         apiService
           .createNewStory(values)
           .then(c => {
+            setSubmitting(false);
             history.push(`/story/${c}`);
           })
           .catch(e => {
             setSubmitting(false);
-            alert(JSON.stringify(e, null, 2));
+            showError(e);
           });
       } else {
         console.log(err);
@@ -72,10 +73,6 @@ const PortalNewStory: React.FC<Props> = ({
 
   // Only show error after a field is touched.
   const nameProp = "name";
-  const seProp = "stockExchange";
-  const tickerProp = "ticker";
-  const noSharesProp = "numberOfShares";
-  const marketCapProp = "marketCap";
   const hasError = (p: string) => isFieldTouched(p) && getFieldError(p);
   const validateStatus = (p: string) => (hasError(p) ? "error" : "");
   const help = (p: string) => hasError(p) || "";
@@ -91,59 +88,6 @@ const PortalNewStory: React.FC<Props> = ({
           {getFieldDecorator(nameProp, {
             rules: [{ required: true, message: "Please input company's name!" }]
           })(<Input />)}
-        </Item>
-
-        <Item
-          label="Stock Exchange"
-          validateStatus={validateStatus(seProp)}
-          help={help(seProp)}
-        >
-          {getFieldDecorator(seProp, {
-            rules: [
-              {
-                required: true,
-                message:
-                  "Please input the Stock Exchange where company is being traded!"
-              }
-            ]
-          })(<Input />)}
-        </Item>
-
-        <Item
-          label="Ticker"
-          validateStatus={validateStatus(tickerProp)}
-          help={help(tickerProp)}
-        >
-          {getFieldDecorator(tickerProp, {
-            rules: [{ required: true, message: "Please input Ticker symbol!" }]
-          })(<Input />)}
-        </Item>
-
-        <Item
-          label="Number of shares outstanding"
-          validateStatus={validateStatus(noSharesProp)}
-          help={help(noSharesProp)}
-        >
-          {getFieldDecorator(noSharesProp, {
-            rules: [
-              {
-                required: true,
-                message: "Please input Number of Shares Outstanding!"
-              }
-            ]
-          })(<Input type="number" />)}
-        </Item>
-
-        <Item
-          label="Market cap"
-          validateStatus={validateStatus(marketCapProp)}
-          help={help(marketCapProp)}
-        >
-          {getFieldDecorator(marketCapProp, {
-            rules: [
-              { required: true, message: "Please input Market Capitalization!" }
-            ]
-          })(<Input type="number" />)}
         </Item>
 
         <Item>

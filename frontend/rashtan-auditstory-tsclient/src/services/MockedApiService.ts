@@ -5,7 +5,14 @@ import {
   PaymentProcessed,
   PaymentToProcess
 } from "../models/PricingOption";
-import { CompanyProfile } from "../models/CompanyProfile";
+import {
+  CompanyProfile,
+  CompanyStory,
+  CompanyStoryRevenue,
+  CompanyStoryManagement,
+  CompanyCompetition,
+  MoatKind
+} from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { UserError } from "../models/Errors";
@@ -22,19 +29,48 @@ export default class MockedApiService implements IApiService {
     Promise.reject<T>(new UserError(400, "Some error"));
 
   private micron = {
+    id: "Micron",
     name: "Micron Technologies",
+    industry: "Semiconductor",
     numberOfShares: 1,
-    ticker: "MU",
-    stockExchange: "NYSE",
     marketCap: 100,
+    website: "",
     folder: "Wonderfull"
+  };
+  private micronStory = {
+    profile: this.micron,
+    moat: {
+      kinds: [MoatKind.Brand],
+      mainAdvantage: "",
+      durable: "",
+
+      bvps: 0,
+      eps: 0,
+      ocps: 0,
+      sgr: 0,
+
+      comment: ""
+    },
+    management: new CompanyStoryManagement(),
+    revenue: new CompanyStoryRevenue(),
+    competition: new CompanyCompetition(),
+    parts: [
+      {
+        title: "meaning",
+        content: "",
+        comment: ""
+      }
+    ]
   };
 
   getCompanies = () => this.resolved<CompanyProfile[]>([this.micron]);
-  getCompany = (ticker: string) => this.rejected<CompanyProfile>();
+  getCompany = () => this.rejected<CompanyProfile>();
 
-  createNewStory = (company: CompanyProfile) =>
-    this.resolved<string>(company.ticker);
+  createNewStory = () => this.resolved<string>(this.micron.id);
+
+  getCompanyStory = () => this.resolved<CompanyStory>(this.micronStory);
+  saveCompanyStory = (_: CompanyStory) => this.resolved<boolean>(true);
+  deleteCompanyStory = () => this.resolved<boolean>(true);
 
   getPaymentToken = () => this.resolved<string>("");
   postPayment = (b: PaymentToProcess) =>
@@ -60,6 +96,5 @@ export default class MockedApiService implements IApiService {
   getPricingTiers = () => this.resolved<PricingTier[]>([]);
 
   getFolders = () => this.resolved<string[]>(["Wonderfull"]);
-  getFolderCompanies = (folder: string) =>
-    this.resolved<CompanyProfile[]>([this.micron]);
+  getFolderCompanies = () => this.resolved<CompanyProfile[]>([this.micron]);
 }

@@ -5,7 +5,11 @@ import {
   PaymentProcessed,
   PaymentToProcess
 } from "../models/PricingOption";
-import { CompanyProfile } from "../models/CompanyProfile";
+import {
+  CompanyProfile,
+  CompanyStory,
+  CompanyStoryCreate
+} from "../models/Company";
 import { BASE_API } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
@@ -52,6 +56,11 @@ export default class ApiService implements IApiService {
     fetch(BASE_API + path, this.defaultHeaders()).then(r =>
       this.unwrapResponse<TResult>(r)
     );
+  private deleteCommand = <TResult>(path: string) =>
+    fetch(BASE_API + path, {
+      ...this.defaultHeaders(),
+      method: "DELETE"
+    }).then(r => this.unwrapResponse<TResult>(r));
 
   private postCommand = <TBody, TResult>(path: string, body: TBody) =>
     fetch(BASE_API + path, {
@@ -60,17 +69,29 @@ export default class ApiService implements IApiService {
       method: "POST"
     }).then(r => this.unwrapResponse<TResult>(r));
 
+  private putCommand = <TBody, TResult>(path: string, body: TBody) =>
+    fetch(BASE_API + path, {
+      ...this.defaultHeaders(),
+      body: JSON.stringify(body),
+      method: "PUT"
+    }).then(r => this.unwrapResponse<TResult>(r));
+
   private company = "api/company/";
   getCompanies = () =>
     this.getCommand<CompanyProfile[]>(`${this.company}getprofiles`);
-  getCompany = (ticker: string) =>
-    this.getCommand<CompanyProfile>(`${this.company}profile?ticker=${ticker}`);
-
-  createNewStory = (company: CompanyProfile) =>
-    this.postCommand<CompanyProfile, string>(
+  createNewStory = (company: CompanyStoryCreate) =>
+    this.putCommand<CompanyStoryCreate, string>(
       `${this.company}createProfile`,
       company
     );
+
+  private story = "api/story/";
+  getCompanyStory = (id: string) =>
+    this.getCommand<CompanyStory>(`${this.story}${id}`);
+  saveCompanyStory = (company: CompanyStory) =>
+    this.postCommand<CompanyStory, boolean>(this.story, company);
+  deleteCompanyStory = (id: string) =>
+    this.deleteCommand<boolean>(`${this.story}${id}`);
 
   private payment = "api/payment";
   getPaymentToken = () => this.getCommand<string>(this.payment);

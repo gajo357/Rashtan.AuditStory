@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Card, Typography, Col } from "antd";
-import { CompanyProfile } from "../../models/CompanyProfile";
+import { CompanyProfile } from "../../models/Company";
 import { History } from "history";
 
 const { Meta } = Card;
@@ -11,15 +11,15 @@ interface Props {
 }
 
 const CompanyCard: React.FC<Props> = ({
-  company: { ticker, name },
+  company: { id, name, website },
   history
 }) => {
   const editStory = () => {
-    history.push(`/story/${ticker}`);
+    history.push(`/story/${id}`);
   };
 
   return (
-    <Col key={ticker} xs={12} sm={6} md={4}>
+    <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
       <Card
         actions={[
           <Button size="small" color="primary" onClick={editStory}>
@@ -38,13 +38,8 @@ const CompanyCard: React.FC<Props> = ({
           title={name}
           description={
             <Typography>
-              <Typography.Title>
-                {name} ({ticker})
-              </Typography.Title>
-              <Typography>
-                This is a media card. You can use this section to describe the
-                content.
-              </Typography>
+              <Typography.Title>{name}</Typography.Title>
+              <Typography.Paragraph>{website}</Typography.Paragraph>
             </Typography>
           }
         />

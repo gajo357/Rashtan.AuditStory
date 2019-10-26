@@ -1,4 +1,8 @@
-import { CompanyProfile } from "../models/CompanyProfile";
+import {
+  CompanyProfile,
+  CompanyStory,
+  CompanyStoryCreate
+} from "../models/Company";
 import {
   PaymentToProcess,
   PaymentProcessed,
@@ -12,20 +16,20 @@ export default interface IApiService {
   authService: AuthService;
 
   getCompanies: () => Promise<CompanyProfile[]>;
-  getCompany: (ticker: string) => Promise<CompanyProfile>;
+  createNewStory: (company: CompanyStoryCreate) => Promise<string>;
 
-  createNewStory: (company: CompanyProfile) => Promise<string>;
+  getCompanyStory: (id: string) => Promise<CompanyStory>;
+  saveCompanyStory: (story: CompanyStory) => Promise<boolean>;
+  deleteCompanyStory: (id: string) => Promise<boolean>;
 
   getPaymentToken: () => Promise<string>;
   postPayment: (b: PaymentToProcess) => Promise<PaymentProcessed>;
   getUserStatus: () => Promise<UserStatus>;
+  startFreeTrial: (user: UserInfo) => Promise<UserInfo>;
+  getPricingTiers: () => Promise<PricingTier[]>;
 
   getUserProfile: () => Promise<UserInfo>;
   saveUserProfile: (user: UserInfo) => Promise<UserInfo>;
-
-  startFreeTrial: (user: UserInfo) => Promise<UserInfo>;
-
-  getPricingTiers: () => Promise<PricingTier[]>;
 
   getFolders: () => Promise<string[]>;
   getFolderCompanies: (folder: string) => Promise<CompanyProfile[]>;
