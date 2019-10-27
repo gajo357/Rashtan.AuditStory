@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Icon } from "antd";
+import { List, Icon, Typography } from "antd";
 
 export type WithStoryPartProps<TData> = StoryPartBasicProps<TData>;
 
@@ -28,8 +28,10 @@ function StoryPartWrap<TData>(
           key={id}
           actions={remove && [<Icon type="delete" onClick={remove} />]}
         >
-          <List.Item.Meta title={title} />
-          <PartContent {...this.props} />
+          <List.Item.Meta
+            title={<Typography.Title>{title}</Typography.Title>}
+            description={<PartContent {...this.props} />}
+          />
         </List.Item>
       );
     }

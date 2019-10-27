@@ -84,9 +84,11 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
                 />
               )}
             />
-            <Route exact path="/account">
-              <EditUser apiService={apiService} />
-            </Route>
+            <Route
+              exact
+              path="/account"
+              component={() => <EditUser apiService={apiService} />}
+            />
           </PortalLayout>
 
           <Route component={() => <Redirect to="/" />} />

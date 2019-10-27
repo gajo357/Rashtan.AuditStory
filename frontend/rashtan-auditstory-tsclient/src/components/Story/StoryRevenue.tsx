@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Input, InputNumber, Icon, Button, Divider, Table, Drawer } from "antd";
+import {
+  Input,
+  InputNumber,
+  Icon,
+  Button,
+  Divider,
+  Table,
+  Drawer,
+  Typography
+} from "antd";
 import { CompanyStoryRevenue, Revenue } from "../../models/Company";
 import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
 import RevenueEdit, { RevenueEditProps } from "./RevenueEdit";
@@ -8,6 +17,7 @@ import {
   replaceElement,
   removeElement
 } from "../../models/ArrayUpdate";
+import Label from "../Label";
 
 const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
   data,
@@ -84,24 +94,28 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
     };
 
     return (
-      <>
-        <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
+      <div>
+        <Typography.Title level={4}>{title}</Typography.Title>
+        <Button onClick={handleAdd} style={{ marginBottom: 16 }}>
           <Icon type="plus" /> Add revenue stream
         </Button>
-
-        <Table title={() => title} columns={columns} dataSource={revenues} />
-      </>
+        {revenues.length > 0 && (
+          <Table columns={columns} dataSource={revenues} />
+        )}
+      </div>
     );
   };
 
   return (
     <>
-      <InputNumber
-        placeholder="Total revenue"
-        min={1}
-        defaultValue={data.totalRevenue}
-        onChange={e => e && dataChanged({ ...data, totalRevenue: e })}
-      />
+      <Label id="totalRevenue" label="Total revenue">
+        <InputNumber
+          placeholder="Total revenue"
+          min={1}
+          defaultValue={data.totalRevenue}
+          onChange={e => e && dataChanged({ ...data, totalRevenue: e })}
+        />
+      </Label>
       {createItems(
         "Revenue by locations",
         "Location (country, state...)",
@@ -119,11 +133,13 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
         ...data,
         byProduct: v
       }))}
-      <Input
-        addonBefore="Comment"
-        defaultValue={data.comment}
-        onChange={e => dataChanged({ ...data, comment: e.target.value })}
-      />
+      <Label id="comment" label="Comment">
+        <Input
+          placeholder="Comment"
+          defaultValue={data.comment}
+          onChange={e => dataChanged({ ...data, comment: e.target.value })}
+        />
+      </Label>
       {revenueEdit && (
         <Drawer title="Edit revenue stream" visible>
           <RevenueEdit {...revenueEdit} />

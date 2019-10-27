@@ -1,12 +1,5 @@
 import AuthService from "./AuthService";
-import {
-  CompanyProfile,
-  CompanyStory,
-  CompanyStoryRevenue,
-  CompanyStoryManagement,
-  CompanyCompetition,
-  MoatKind
-} from "../models/Company";
+import { CompanyProfile, CompanyStory, MoatKind } from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { UserError } from "../models/Errors";
@@ -45,13 +38,34 @@ export default class MockedApiService implements IApiService {
 
       comment: ""
     },
-    management: new CompanyStoryManagement(),
-    revenue: new CompanyStoryRevenue(),
-    competition: new CompanyCompetition(),
+    management: {
+      ceoTrust: false,
+      ceoTenure: 0,
+      ceoCandor: "",
+      ceoComment: "",
+
+      roe: 0,
+      roic: 0,
+      debt: 0,
+
+      comment: ""
+    },
+    revenue: {
+      totalRevenue: 0,
+      byLocation: [],
+      byClient: [],
+      byProduct: [],
+      comment: ""
+    },
+    competition: {
+      competitors: [],
+      industryGrowth: "",
+      comment: ""
+    },
     parts: [
       {
-        title: "meaning",
-        content: "",
+        title: "Meaning",
+        content: "Custom meaning",
         comment: ""
       }
     ]

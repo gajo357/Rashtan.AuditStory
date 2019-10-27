@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Drawer, Input, Table, Button, Divider, Icon } from "antd";
 import { CompanyCompetition, CompanyCompetitor } from "../../models/Company";
 import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
+import Label from "../Label";
 import CompanyCompetitorEdit, {
   CompanyCompetitorEditProps
 } from "./CompanyCompetitorEdit";
@@ -85,22 +86,30 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
 
   return (
     <>
-      <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
+      <Button onClick={handleAdd} style={{ marginBottom: 16 }}>
         <Icon type="plus" /> Add competitor
       </Button>
-      <Table columns={columns} dataSource={data.competitors}></Table>
+      {data.competitors.length > 0 && (
+        <Table columns={columns} dataSource={data.competitors}></Table>
+      )}
 
-      <Input
-        placeholder="Industry growth comment"
-        defaultValue={data.industryGrowth}
-        onChange={e => dataChanged({ ...data, industryGrowth: e.target.value })}
-      />
+      <Label id="industryGrowth" label="Industry growth">
+        <Input
+          placeholder="Industry growth comment"
+          defaultValue={data.industryGrowth}
+          onChange={e =>
+            dataChanged({ ...data, industryGrowth: e.target.value })
+          }
+        />
+      </Label>
 
-      <Input
-        placeholder="Comment"
-        defaultValue={data.comment}
-        onChange={e => dataChanged({ ...data, comment: e.target.value })}
-      />
+      <Label id="comment" label="Comment">
+        <Input
+          placeholder="Comment"
+          defaultValue={data.comment}
+          onChange={e => dataChanged({ ...data, comment: e.target.value })}
+        />
+      </Label>
 
       {competitorEdit && (
         <Drawer title="Edit competitor" visible>

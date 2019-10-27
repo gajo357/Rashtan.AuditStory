@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
-import { Spin, List, Row, Col, Icon } from "antd";
+import { Spin, List, Row, Col, Icon, Button } from "antd";
 import IApiService from "../../services/IApiService";
 import { CompanyStory } from "../../models/Company";
 import { showError } from "../../models/Errors";
@@ -24,6 +24,7 @@ interface Props {
 const Story: React.FC<Props> = ({ apiService, id }) => {
   const [company, setCompany] = useState<CompanyStory>();
   const [unsavedChanges, setUnsavedChanges] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -51,13 +52,12 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
       <Spin spinning={!company} tip="Loading" size="large">
         {company && (
           <List>
-            <List.Item key="profile">
-              <List.Item.Meta title={company.profile.name} />
-              <StoryProfile
-                profile={company.profile}
-                onChange={p => updateCompany({ ...company, profile: p })}
-              />
-            </List.Item>
+            <StoryProfile
+              title={company.profile.name}
+              id="profile"
+              data={company.profile}
+              dataChanged={p => updateCompany({ ...company, profile: p })}
+            />
 
             <StoryRevenue
               title="Revenue Streams"
@@ -109,10 +109,12 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
       </Spin>
       {company && (
         <Row type="flex" justify="end">
-          <Col span={4}>
-            <Icon
-              type="plus-circle"
-              onClick={() => {
+          <Col>
+            <Button
+              type="primary"
+              size="large"
+              shape="circle"
+              onClick={_ => {
                 const parts = addElement(company.parts, {
                   title: "custom",
                   content: "",
@@ -120,16 +122,32 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
                 });
                 updateCompany({ ...company, parts: parts });
               }}
-            ></Icon>
-            <Icon
-              type="save"
-              onClick={_ =>
+            >
+              <Icon type="plus-circle" />
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              type="primary"
+              size="large"
+              shape="circle"
+              loading={saving}
+              onClick={_ => {
+                setSaving(true);
                 apiService
                   .saveCompanyStory(company)
-                  .then()
-                  .catch(showError)
-              }
-            ></Icon>
+                  .then(_ => {
+                    setSaving(false);
+                    setUnsavedChanges(false);
+                  })
+                  .catch(e => {
+                    showError(e);
+                    setSaving(false);
+                  });
+              }}
+            >
+              <Icon type="save" />
+            </Button>
           </Col>
         </Row>
       )}

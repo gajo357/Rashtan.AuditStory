@@ -26,17 +26,17 @@ export interface CompanyProfile {
   folder: string;
 }
 
-export class CompanyStoryManagement {
-  ceoTrust: boolean = false;
-  ceoTenure: number = 0;
-  ceoCandor: string = "";
-  ceoComment: string = "";
+export interface CompanyStoryManagement {
+  ceoTrust: boolean;
+  ceoTenure: number;
+  ceoCandor: string;
+  ceoComment: string;
 
-  roe: number = 0;
-  roic: number = 0;
-  debt: number = 0;
+  roe: number;
+  roic: number;
+  debt: number;
 
-  comment: string = "";
+  comment: string;
 }
 
 export enum MoatKind {
@@ -47,23 +47,23 @@ export enum MoatKind {
   Switching = 4
 }
 
-export class CompanyStoryMoat {
-  kinds: MoatKind[] = [];
-  mainAdvantage: string = "";
-  durable: string = "";
+export interface CompanyStoryMoat {
+  kinds: MoatKind[];
+  mainAdvantage: string;
+  durable: string;
 
-  bvps: number = 0;
-  eps: number = 0;
-  ocps: number = 0;
-  sgr: number = 0;
+  bvps: number;
+  eps: number;
+  ocps: number;
+  sgr: number;
 
-  comment: string = "";
+  comment: string;
 }
 
-export class CompanyCompetition {
-  competitors: CompanyCompetitor[] = [];
-  industryGrowth: string = "";
-  comment: string = "";
+export interface CompanyCompetition {
+  competitors: CompanyCompetitor[];
+  industryGrowth: string;
+  comment: string;
 }
 
 export interface CompanyCompetitor {
@@ -72,12 +72,12 @@ export interface CompanyCompetitor {
   marketShare: number;
 }
 
-export class CompanyStoryRevenue {
-  totalRevenue: number = 0;
-  byLocation: Revenue[] = [];
-  byClient: Revenue[] = [];
-  byProduct: Revenue[] = [];
-  comment: string = "";
+export interface CompanyStoryRevenue {
+  totalRevenue: number;
+  byLocation: Revenue[];
+  byClient: Revenue[];
+  byProduct: Revenue[];
+  comment: string;
 }
 
 export interface Revenue {

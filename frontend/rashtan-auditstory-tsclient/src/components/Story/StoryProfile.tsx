@@ -1,55 +1,66 @@
 import React from "react";
 import { Input, InputNumber } from "antd";
+import Label from "../Label";
 import { CompanyProfile } from "../../models/Company";
+import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
 
-interface Props {
-  onChange: (profile: CompanyProfile) => void;
-  profile: CompanyProfile;
-}
-
-const StoryProfile: React.FC<Props> = ({ profile, onChange }) => {
+const StoryProfile: React.FC<WithStoryPartProps<CompanyProfile>> = ({
+  data,
+  dataChanged
+}) => {
   return (
-    <>
-      <Input
-        placeholder="Company name"
-        defaultValue={profile.name}
-        onChange={e => onChange({ ...profile, name: e.target.value })}
-        required
-      />
+    <div>
+      <Label id="name" label="Company name">
+        <Input
+          id="name"
+          placeholder="Company name"
+          defaultValue={data.name}
+          onChange={e => dataChanged({ ...data, name: e.target.value })}
+          required
+        />
+      </Label>
 
       <Input.Group compact>
-        <InputNumber
-          placeholder="Number of shares outstanding"
-          min={1}
-          step={1}
-          defaultValue={profile.numberOfShares}
-          onChange={e => e && onChange({ ...profile, numberOfShares: e })}
-          required
-        />
-        <InputNumber
-          placeholder="Market cap"
-          min={0}
-          step={1}
-          defaultValue={profile.marketCap}
-          onChange={e => e && onChange({ ...profile, marketCap: e })}
-          required
-        />
+        <Label id="numberOfShares" label="Shares outstanding">
+          <InputNumber
+            placeholder="Number of shares outstanding"
+            min={1}
+            step={1}
+            defaultValue={data.numberOfShares}
+            onChange={e => e && dataChanged({ ...data, numberOfShares: e })}
+            required
+          />
+        </Label>
+        <Label id="marketCap" label="Market cap">
+          <InputNumber
+            placeholder="Market cap"
+            min={0}
+            step={1}
+            defaultValue={data.marketCap}
+            onChange={e => e && dataChanged({ ...data, marketCap: e })}
+            required
+          />
+        </Label>
       </Input.Group>
 
-      <Input
-        placeholder="Industry"
-        defaultValue={profile.industry}
-        onChange={e => onChange({ ...profile, industry: e.target.value })}
-        required
-      />
-      <Input
-        placeholder="Folder"
-        defaultValue={profile.folder}
-        onChange={e => onChange({ ...profile, folder: e.target.value })}
-        required
-      />
-    </>
+      <Label id="industry" label="Industry">
+        <Input
+          placeholder="Industry"
+          defaultValue={data.industry}
+          onChange={e => dataChanged({ ...data, industry: e.target.value })}
+          required
+        />
+      </Label>
+      <Label id="folder" label="Folder">
+        <Input
+          placeholder="Folder"
+          defaultValue={data.folder}
+          onChange={e => dataChanged({ ...data, folder: e.target.value })}
+          required
+        />
+      </Label>
+    </div>
   );
 };
 
-export default StoryProfile;
+export default StoryPartWrap(StoryProfile);

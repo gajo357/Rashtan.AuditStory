@@ -115,7 +115,7 @@ const EditUser: React.FC<Props> = ({
             disabled={hasErrors(getFieldsError())}
             loading={isSubmitting}
           >
-            Start free trial
+            Save
           </Button>
         </Item>
       </Form>

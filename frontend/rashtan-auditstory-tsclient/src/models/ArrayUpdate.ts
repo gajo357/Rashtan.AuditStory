@@ -1,6 +1,10 @@
 const replaceElement = <T>(array: T[], original: T, replacement: T) => {
-  const index = array.findIndex(r => r === original);
-  return array.splice(index, 1, replacement);
+  return array.map(r => {
+    if (r === original) {
+      return replacement;
+    }
+    return r;
+  });
 };
 
 const removeElement = <T>(array: T[], elem: T) => array.filter(r => r !== elem);
