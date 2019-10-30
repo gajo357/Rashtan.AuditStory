@@ -11,7 +11,7 @@ const StoryManagement: React.FC<WithStoryPartProps<CompanyStoryManagement>> = ({
   return (
     <>
       <Form.Item label="Trust the CEO?">
-        {getFieldDecorator("ceoTrust")(
+        {getFieldDecorator("ceoTrust", { valuePropName: "checked" })(
           <Switch title="Do you trust the CEO with your pension?" />
         )}
       </Form.Item>

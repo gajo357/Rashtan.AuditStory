@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
-import { List, Spin, Icon, Button } from "antd";
+import { List, Spin, Button, Tooltip } from "antd";
 import IApiService from "../../services/IApiService";
 import { CompanyStory } from "../../models/Company";
 import { showError } from "../../models/Errors";
@@ -52,38 +52,82 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
       <Spin spinning={!company} tip="Loading" size="large">
         {company && (
           <>
-            <List>
+            <List
+              itemLayout="vertical"
+              size="large"
+              footer={
+                <div>
+                  <Button
+                    size="large"
+                    onClick={_ => {
+                      const parts = addElement(company.parts, {
+                        title: "custom",
+                        content: "",
+                        comment: ""
+                      });
+                      updateCompany({ ...company, parts: parts });
+                    }}
+                    icon="plus-circle"
+                  >
+                    Add custom part
+                  </Button>
+                  <Tooltip placement="topLeft" title="Save story">
+                    <Button
+                      type="primary"
+                      size="large"
+                      icon="save"
+                      style={{ marginLeft: 10 }}
+                      loading={saving}
+                      onClick={_ => {
+                        console.log(company);
+                        setSaving(true);
+                        apiService
+                          .saveCompanyStory(company)
+                          .then(_ => {
+                            setSaving(false);
+                            setUnsavedChanges(false);
+                          })
+                          .catch(e => {
+                            showError(e);
+                            setSaving(false);
+                          });
+                      }}
+                    />
+                  </Tooltip>
+                </div>
+              }
+            >
               <StoryProfile
                 title={company.profile.name}
-                id="profile"
+                key={0}
                 data={company.profile}
                 dataChanged={p => updateCompany({ ...company, profile: p })}
               />
 
               <StoryRevenue
                 title="Revenue Streams"
-                id="revenue"
+                key={1}
                 data={company.revenue}
                 dataChanged={p => updateCompany({ ...company, revenue: p })}
               />
 
               <StoryCompetition
                 title="Competition"
-                id="competition"
+                key={2}
                 data={company.competition}
                 dataChanged={p => updateCompany({ ...company, competition: p })}
               />
 
               <StoryMoat
                 title="Moat"
-                id="moat"
+                key={3}
                 data={company.moat}
                 dataChanged={p => updateCompany({ ...company, moat: p })}
               />
 
               <StoryManagement
                 title="Management"
-                id="management"
+                key={4}
                 data={company.management}
                 dataChanged={p => updateCompany({ ...company, management: p })}
               />
@@ -92,7 +136,7 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
                 return (
                   <StoryCustomPart
                     title={part.title}
-                    id={i.toString()}
+                    key={i + 5}
                     data={part}
                     remove={() => {
                       const c = removeElement(company.parts, part);
@@ -106,42 +150,6 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
                 );
               })}
             </List>
-            <Button
-              size="large"
-              shape="circle"
-              onClick={_ => {
-                const parts = addElement(company.parts, {
-                  title: "custom",
-                  content: "",
-                  comment: ""
-                });
-                updateCompany({ ...company, parts: parts });
-              }}
-            >
-              <Icon type="plus-circle" />
-            </Button>
-
-            <Button
-              type="primary"
-              size="large"
-              loading={saving}
-              onClick={_ => {
-                console.log(company);
-                setSaving(true);
-                apiService
-                  .saveCompanyStory(company)
-                  .then(_ => {
-                    setSaving(false);
-                    setUnsavedChanges(false);
-                  })
-                  .catch(e => {
-                    showError(e);
-                    setSaving(false);
-                  });
-              }}
-            >
-              <Icon type="save" />
-            </Button>
           </>
         )}
       </Spin>

@@ -20,7 +20,6 @@ export interface StoryPartBasicProps<TData> {
   remove?: () => void;
   dataChanged: (data: TData) => void;
   title: string;
-  id: string;
 }
 
 function StoryPartWrap<TData>(
@@ -32,7 +31,6 @@ function StoryPartWrap<TData>(
     }
   })((props: WithStoryPartProps<TData>) => {
     const {
-      id,
       title,
       remove,
       data,
@@ -40,12 +38,22 @@ function StoryPartWrap<TData>(
     } = props;
 
     return (
-      <List.Item
-        key={id}
-        actions={remove && [<Icon type="delete" onClick={remove} />]}
-      >
+      <List.Item>
         <List.Item.Meta
-          title={<Typography.Title>{title}</Typography.Title>}
+          title={
+            <span>
+              <Typography.Title>
+                {title}
+                {remove && (
+                  <Icon
+                    type="delete"
+                    onClick={remove}
+                    style={{ marginLeft: 10 }}
+                  />
+                )}
+              </Typography.Title>
+            </span>
+          }
           description={
             <Form>
               <PartContent
