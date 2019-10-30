@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Input,
   InputNumber,
@@ -7,7 +7,8 @@ import {
   Divider,
   Table,
   Drawer,
-  Typography
+  Typography,
+  Form
 } from "antd";
 import { CompanyStoryRevenue, Revenue } from "../../models/Company";
 import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
@@ -17,12 +18,15 @@ import {
   replaceElement,
   removeElement
 } from "../../models/ArrayUpdate";
-import Label from "../Label";
 
 const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
   data,
-  dataChanged
+  dataChanged,
+  getFieldDecorator,
+  setFieldsValue
 }) => {
+  useEffect(setFieldsValue, []);
+
   const [revenueEdit, setRevenueEdit] = useState<RevenueEditProps | undefined>(
     undefined
   );
@@ -94,7 +98,7 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
     };
 
     return (
-      <div>
+      <Form.Item>
         <Typography.Title level={4}>{title}</Typography.Title>
         <Button onClick={handleAdd} style={{ marginBottom: 16 }}>
           <Icon type="plus" /> Add revenue stream
@@ -102,20 +106,17 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
         {revenues.length > 0 && (
           <Table columns={columns} dataSource={revenues} />
         )}
-      </div>
+      </Form.Item>
     );
   };
 
   return (
     <>
-      <Label id="totalRevenue" label="Total revenue">
-        <InputNumber
-          placeholder="Total revenue"
-          min={1}
-          defaultValue={data.totalRevenue}
-          onChange={e => e && dataChanged({ ...data, totalRevenue: e })}
-        />
-      </Label>
+      <Form.Item label="Total revenue">
+        {getFieldDecorator("totalRevenue")(
+          <InputNumber placeholder="Total revenue" min={1} />
+        )}
+      </Form.Item>
       {createItems(
         "Revenue by locations",
         "Location (country, state...)",
@@ -133,13 +134,9 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
         ...data,
         byProduct: v
       }))}
-      <Label id="comment" label="Comment">
-        <Input
-          placeholder="Comment"
-          defaultValue={data.comment}
-          onChange={e => dataChanged({ ...data, comment: e.target.value })}
-        />
-      </Label>
+      <Form.Item label="Comment">
+        {getFieldDecorator("comment")(<Input placeholder="Comment" />)}
+      </Form.Item>
       {revenueEdit && (
         <Drawer title="Edit revenue stream" visible>
           <RevenueEdit {...revenueEdit} />

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { Drawer, Input, Table, Button, Divider, Icon } from "antd";
+import React, { useState, useEffect } from "react";
+import { Drawer, Input, Table, Button, Divider, Icon, Form } from "antd";
 import { CompanyCompetition, CompanyCompetitor } from "../../models/Company";
 import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
-import Label from "../Label";
 import CompanyCompetitorEdit, {
   CompanyCompetitorEditProps
 } from "./CompanyCompetitorEdit";
@@ -14,8 +13,12 @@ import {
 
 const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
   data,
-  dataChanged
+  dataChanged,
+  getFieldDecorator,
+  setFieldsValue
 }) => {
+  useEffect(setFieldsValue, []);
+
   const [competitorEdit, setCompetitorEdit] = useState<
     CompanyCompetitorEditProps | undefined
   >(undefined);
@@ -86,30 +89,26 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
 
   return (
     <>
-      <Button onClick={handleAdd} style={{ marginBottom: 16 }}>
-        <Icon type="plus" /> Add competitor
-      </Button>
-      {data.competitors.length > 0 && (
-        <Table columns={columns} dataSource={data.competitors}></Table>
-      )}
+      <Form.Item>
+        <Button onClick={handleAdd} style={{ marginBottom: 16 }}>
+          <Icon type="plus" /> Add competitor
+        </Button>
+      </Form.Item>
+      <Form.Item>
+        {data.competitors.length > 0 && (
+          <Table columns={columns} dataSource={data.competitors}></Table>
+        )}
+      </Form.Item>
 
-      <Label id="industryGrowth" label="Industry growth">
-        <Input
-          placeholder="Industry growth comment"
-          defaultValue={data.industryGrowth}
-          onChange={e =>
-            dataChanged({ ...data, industryGrowth: e.target.value })
-          }
-        />
-      </Label>
+      <Form.Item label="Industry growth">
+        {getFieldDecorator("industryGrowth")(
+          <Input placeholder="Industry growth comment" />
+        )}
+      </Form.Item>
 
-      <Label id="comment" label="Comment">
-        <Input
-          placeholder="Comment"
-          defaultValue={data.comment}
-          onChange={e => dataChanged({ ...data, comment: e.target.value })}
-        />
-      </Label>
+      <Form.Item label="Comment">
+        {getFieldDecorator("comment")(<Input placeholder="Comment" />)}
+      </Form.Item>
 
       {competitorEdit && (
         <Drawer title="Edit competitor" visible>

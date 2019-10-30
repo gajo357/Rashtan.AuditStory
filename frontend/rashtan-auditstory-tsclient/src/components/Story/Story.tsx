@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
-import { Spin, List, Row, Col, Icon, Button } from "antd";
+import { List, Spin, Icon, Button } from "antd";
 import IApiService from "../../services/IApiService";
 import { CompanyStory } from "../../models/Company";
 import { showError } from "../../models/Errors";
@@ -51,67 +51,62 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
 
       <Spin spinning={!company} tip="Loading" size="large">
         {company && (
-          <List>
-            <StoryProfile
-              title={company.profile.name}
-              id="profile"
-              data={company.profile}
-              dataChanged={p => updateCompany({ ...company, profile: p })}
-            />
+          <>
+            <List>
+              <StoryProfile
+                title={company.profile.name}
+                id="profile"
+                data={company.profile}
+                dataChanged={p => updateCompany({ ...company, profile: p })}
+              />
 
-            <StoryRevenue
-              title="Revenue Streams"
-              id="revenue"
-              data={company.revenue}
-              dataChanged={p => updateCompany({ ...company, revenue: p })}
-            />
+              <StoryRevenue
+                title="Revenue Streams"
+                id="revenue"
+                data={company.revenue}
+                dataChanged={p => updateCompany({ ...company, revenue: p })}
+              />
 
-            <StoryCompetition
-              title="Competition"
-              id="competition"
-              data={company.competition}
-              dataChanged={p => updateCompany({ ...company, competition: p })}
-            />
+              <StoryCompetition
+                title="Competition"
+                id="competition"
+                data={company.competition}
+                dataChanged={p => updateCompany({ ...company, competition: p })}
+              />
 
-            <StoryMoat
-              title="Moat"
-              id="moat"
-              data={company.moat}
-              dataChanged={p => updateCompany({ ...company, moat: p })}
-            />
+              <StoryMoat
+                title="Moat"
+                id="moat"
+                data={company.moat}
+                dataChanged={p => updateCompany({ ...company, moat: p })}
+              />
 
-            <StoryManagement
-              title="Management"
-              id="management"
-              data={company.management}
-              dataChanged={p => updateCompany({ ...company, management: p })}
-            />
+              <StoryManagement
+                title="Management"
+                id="management"
+                data={company.management}
+                dataChanged={p => updateCompany({ ...company, management: p })}
+              />
 
-            {company.parts.map(part => {
-              return (
-                <StoryCustomPart
-                  title={part.title}
-                  id={part.title}
-                  data={part}
-                  remove={() => {
-                    const c = removeElement(company.parts, part);
-                    updateCompany({ ...company, parts: c });
-                  }}
-                  dataChanged={p => {
-                    const c = replaceElement(company.parts, part, p);
-                    updateCompany({ ...company, parts: c });
-                  }}
-                />
-              );
-            })}
-          </List>
-        )}
-      </Spin>
-      {company && (
-        <Row type="flex" justify="end">
-          <Col>
+              {company.parts.map((part, i) => {
+                return (
+                  <StoryCustomPart
+                    title={part.title}
+                    id={i.toString()}
+                    data={part}
+                    remove={() => {
+                      const c = removeElement(company.parts, part);
+                      updateCompany({ ...company, parts: c });
+                    }}
+                    dataChanged={p => {
+                      const c = replaceElement(company.parts, part, p);
+                      updateCompany({ ...company, parts: c });
+                    }}
+                  />
+                );
+              })}
+            </List>
             <Button
-              type="primary"
               size="large"
               shape="circle"
               onClick={_ => {
@@ -125,14 +120,13 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
             >
               <Icon type="plus-circle" />
             </Button>
-          </Col>
-          <Col>
+
             <Button
               type="primary"
               size="large"
-              shape="circle"
               loading={saving}
               onClick={_ => {
+                console.log(company);
                 setSaving(true);
                 apiService
                   .saveCompanyStory(company)
@@ -148,9 +142,9 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
             >
               <Icon type="save" />
             </Button>
-          </Col>
-        </Row>
-      )}
+          </>
+        )}
+      </Spin>
     </>
   );
 };

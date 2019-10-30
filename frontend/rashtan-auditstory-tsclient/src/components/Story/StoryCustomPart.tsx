@@ -1,39 +1,26 @@
-import React from "react";
-import { Input } from "antd";
+import React, { useEffect } from "react";
+import { Input, Form } from "antd";
 import { CompanyStoryCustomPart } from "../../models/Company";
 import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
-import Label from "../Label";
 
 const StoryCustomPart: React.FC<WithStoryPartProps<CompanyStoryCustomPart>> = ({
-  data,
-  dataChanged
+  getFieldDecorator,
+  setFieldsValue
 }) => {
+  useEffect(setFieldsValue, []);
   return (
     <>
-      <Label id="title" label="Title">
-        <Input
-          id="title"
-          placeholder="Title"
-          defaultValue={data.title}
-          onChange={e => dataChanged({ ...data, title: e.target.value })}
-        />
-      </Label>
+      <Form.Item label="Title">
+        {getFieldDecorator("title")(<Input placeholder="Title" />)}
+      </Form.Item>
 
-      <Label id="content" label="Content">
-        <Input
-          placeholder="Content"
-          defaultValue={data.content}
-          onChange={e => dataChanged({ ...data, content: e.target.value })}
-        />
-      </Label>
+      <Form.Item label="Content">
+        {getFieldDecorator("content")(<Input placeholder="Content" />)}
+      </Form.Item>
 
-      <Label id="comment" label="Comment">
-        <Input
-          placeholder="Comment"
-          defaultValue={data.comment}
-          onChange={e => dataChanged({ ...data, comment: e.target.value })}
-        />
-      </Label>
+      <Form.Item label="Comment">
+        {getFieldDecorator("comment")(<Input placeholder="Comment" />)}
+      </Form.Item>
     </>
   );
 };
