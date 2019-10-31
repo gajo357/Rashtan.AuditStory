@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Drawer, Input, Table, Button, Divider, Icon, Form } from "antd";
+import { Drawer, Input, Table, Button, Divider, Form } from "antd";
 import { CompanyCompetition, CompanyCompetitor } from "../../models/Company";
 import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
 import CompanyCompetitorEdit, {
@@ -90,15 +90,15 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
   return (
     <>
       <Form.Item>
-        <Button onClick={handleAdd} style={{ marginBottom: 16 }}>
-          <Icon type="plus" /> Add competitor
+        <Button onClick={handleAdd} style={{ marginBottom: 16 }} icon="plus">
+          Add competitor
         </Button>
       </Form.Item>
-      <Form.Item>
-        {data.competitors.length > 0 && (
+      {data.competitors.length > 0 && (
+        <Form.Item>
           <Table columns={columns} dataSource={data.competitors}></Table>
-        )}
-      </Form.Item>
+        </Form.Item>
+      )}
 
       <Form.Item label="Industry growth">
         {getFieldDecorator("industryGrowth")(

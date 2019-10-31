@@ -42,7 +42,6 @@ export default class MockedApiService implements IApiService {
       ceoTrust: true,
       ceoTenure: 0,
       ceoCandor: "",
-      ceoComment: "",
 
       roe: 0,
       roic: 0,
@@ -66,7 +65,6 @@ export default class MockedApiService implements IApiService {
       {
         title: "Meaning",
         content: "Custom meaning",
-        comment: ""
       }
     ]
   };

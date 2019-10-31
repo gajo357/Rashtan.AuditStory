@@ -30,7 +30,6 @@ export interface CompanyStoryManagement {
   ceoTrust: boolean;
   ceoTenure: number;
   ceoCandor: string;
-  ceoComment: string;
 
   roe: number;
   roic: number;
@@ -88,5 +87,4 @@ export interface Revenue {
 export interface CompanyStoryCustomPart {
   title: string;
   content: string;
-  comment: string;
 }

@@ -53,6 +53,7 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
         {company && (
           <>
             <List
+              style={{ margin: 5 }}
               itemLayout="vertical"
               size="large"
               footer={
@@ -62,8 +63,7 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
                     onClick={_ => {
                       const parts = addElement(company.parts, {
                         title: "custom",
-                        content: "",
-                        comment: ""
+                        content: ""
                       });
                       updateCompany({ ...company, parts: parts });
                     }}

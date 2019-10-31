@@ -17,10 +17,6 @@ const StoryCustomPart: React.FC<WithStoryPartProps<CompanyStoryCustomPart>> = ({
       <Form.Item label="Content">
         {getFieldDecorator("content")(<Input placeholder="Content" />)}
       </Form.Item>
-
-      <Form.Item label="Comment">
-        {getFieldDecorator("comment")(<Input placeholder="Comment" />)}
-      </Form.Item>
     </>
   );
 };

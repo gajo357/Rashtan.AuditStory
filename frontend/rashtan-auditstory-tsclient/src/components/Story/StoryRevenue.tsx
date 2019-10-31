@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Input,
   InputNumber,
-  Icon,
   Button,
   Divider,
   Table,
@@ -100,8 +99,8 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
     return (
       <Form.Item>
         <Typography.Title level={4}>{title}</Typography.Title>
-        <Button onClick={handleAdd} style={{ marginBottom: 16 }}>
-          <Icon type="plus" /> Add revenue stream
+        <Button onClick={handleAdd} style={{ marginBottom: 16 }} icon="plus">
+          Add revenue stream
         </Button>
         {revenues.length > 0 && (
           <Table columns={columns} dataSource={revenues} />

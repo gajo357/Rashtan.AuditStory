@@ -28,12 +28,6 @@ const StoryManagement: React.FC<WithStoryPartProps<CompanyStoryManagement>> = ({
         )}
       </Form.Item>
 
-      <Form.Item label="Comment on the CEO">
-        {getFieldDecorator("ceoComment")(
-          <Input placeholder="Comment on the CEO" />
-        )}
-      </Form.Item>
-
       <Input.Group>
         <Form.Item label="ROE">
           {getFieldDecorator("roe")(
