@@ -32,6 +32,7 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
     apiService
       .getCompanyStory(id)
       .then(setCompany)
+      .then(() => setUnsavedChanges(false))
       .catch(showError);
   }, [apiService, id]);
 

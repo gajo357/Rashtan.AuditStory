@@ -21,7 +21,7 @@ export default class MockedApiService implements IApiService {
     industry: "Semiconductor",
     numberOfShares: 1,
     marketCap: 100,
-    website: "",
+    website: "https://www.micron.com/",
     folder: "Wonderfull"
   };
   private micronStory = {

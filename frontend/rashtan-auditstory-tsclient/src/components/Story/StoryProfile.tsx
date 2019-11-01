@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
-import { Form, Input, InputNumber } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, InputNumber, Button } from "antd";
 import { CompanyProfile } from "../../models/Company";
 import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
 
 const { Item } = Form;
 
 const StoryProfile: React.FC<WithStoryPartProps<CompanyProfile>> = ({
+  data,
   getFieldDecorator,
   setFieldsValue
 }) => {
   useEffect(setFieldsValue, []);
-
+  const [website, setWebsite] = useState<string>(data.website);
+  const onWebsiteChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWebsite(e.target.value);
+  };
   return (
     <>
       <Item label="Company name">
@@ -20,9 +24,24 @@ const StoryProfile: React.FC<WithStoryPartProps<CompanyProfile>> = ({
       </Item>
 
       <Item label="Website">
-        {getFieldDecorator("webiste", {
+        {getFieldDecorator("website", {
           rules: [{ required: true, message: "Website is required" }]
-        })(<Input placeholder="Company website" />)}
+        })(
+          <Input
+            placeholder="Company website"
+            addonBefore={
+              website && (
+                <Button
+                  icon="global"
+                  type="link"
+                  href={website}
+                  target="_blank"
+                />
+              )
+            }
+            onChange={onWebsiteChanged}
+          />
+        )}
       </Item>
 
       <Input.Group compact>
