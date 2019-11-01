@@ -1,24 +1,57 @@
-import React, { useEffect } from "react";
-import { Input, Form } from "antd";
+import React from "react";
+import { Input, Form, List, Typography, Icon } from "antd";
 import { CompanyStoryCustomPart } from "../../models/Company";
-import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
+import ReactQuill from "react-quill";
 
-const StoryCustomPart: React.FC<WithStoryPartProps<CompanyStoryCustomPart>> = ({
-  getFieldDecorator,
-  setFieldsValue
-}) => {
-  useEffect(setFieldsValue, []);
+interface Props {
+  data: CompanyStoryCustomPart;
+  remove: () => void;
+  dataChanged: (data: CompanyStoryCustomPart) => void;
+}
+
+const StoryCustomPart: React.FC<Props> = ({ data, remove, dataChanged }) => {
+  const handleContentChange = (content: string) => {
+    dataChanged({ ...data, content: content });
+  };
+
+  const titleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dataChanged({ ...data, title: e.target.value });
+  };
+
   return (
-    <>
-      <Form.Item label="Title">
-        {getFieldDecorator("title")(<Input placeholder="Title" />)}
-      </Form.Item>
+    <List.Item>
+      <List.Item.Meta
+        title={
+          <span>
+            <Typography.Title>
+              {data.title}
+              <Icon type="delete" onClick={remove} style={{ marginLeft: 10 }} />
+            </Typography.Title>
+          </span>
+        }
+        description={
+          <>
+            <Form.Item label="Title" labelAlign="left">
+              <Input
+                placeholder="Title"
+                defaultValue={data.title}
+                onChange={titleChanged}
+              />
+            </Form.Item>
 
-      <Form.Item label="Content">
-        {getFieldDecorator("content")(<Input placeholder="Content" />)}
-      </Form.Item>
-    </>
+            <Form.Item>
+              <ReactQuill
+                theme="snow"
+                placeholder="Write whatever you want:)"
+                value={data.content}
+                onChange={handleContentChange}
+              />
+            </Form.Item>
+          </>
+        }
+      />
+    </List.Item>
   );
 };
 
-export default StoryPartWrap(StoryCustomPart);
+export default StoryCustomPart;

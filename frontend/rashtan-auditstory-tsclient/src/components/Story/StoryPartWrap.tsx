@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Icon, Typography, Form } from "antd";
+import { List, Typography, Form } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { GetFieldDecoratorOptions } from "antd/lib/form/Form";
 
@@ -17,7 +17,6 @@ export interface InternalProps {
 
 export interface StoryPartBasicProps<TData> {
   data: TData;
-  remove?: () => void;
   dataChanged: (data: TData) => void;
   title: string;
 }
@@ -32,7 +31,6 @@ function StoryPartWrap<TData>(
   })((props: WithStoryPartProps<TData>) => {
     const {
       title,
-      remove,
       data,
       form: { getFieldDecorator, setFieldsValue }
     } = props;
@@ -42,16 +40,7 @@ function StoryPartWrap<TData>(
         <List.Item.Meta
           title={
             <span>
-              <Typography.Title>
-                {title}
-                {remove && (
-                  <Icon
-                    type="delete"
-                    onClick={remove}
-                    style={{ marginLeft: 10 }}
-                  />
-                )}
-              </Typography.Title>
+              <Typography.Title>{title}</Typography.Title>
             </span>
           }
           description={

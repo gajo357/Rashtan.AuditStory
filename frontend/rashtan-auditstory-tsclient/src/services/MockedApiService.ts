@@ -64,7 +64,7 @@ export default class MockedApiService implements IApiService {
     parts: [
       {
         title: "Meaning",
-        content: "Custom meaning",
+        content: "<p><strong><u>Custom meaning</u></strong></p>"
       }
     ]
   };

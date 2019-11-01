@@ -135,7 +135,6 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
               {company.parts.map((part, i) => {
                 return (
                   <StoryCustomPart
-                    title={part.title}
                     key={i + 5}
                     data={part}
                     remove={() => {
