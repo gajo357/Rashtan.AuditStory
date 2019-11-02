@@ -39,9 +39,13 @@ export default class MockedApiService implements IApiService {
       comment: ""
     },
     management: {
-      ceoTrust: true,
+      ceoTrust: 1.5,
+      ceoFounder: true,
+      ceoMajorShareholder: true,
       ceoTenure: 0,
-      ceoCandor: "",
+
+      ceoCandor: 2.5,
+      ableAndTalented: 3.5,
 
       roe: 0,
       roic: 0,

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Input, Switch, InputNumber, Form } from "antd";
+import { Input, Switch, InputNumber, Form, Rate } from "antd";
 import { CompanyStoryManagement } from "../../models/Company";
 import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
 
@@ -10,11 +10,18 @@ const StoryManagement: React.FC<WithStoryPartProps<CompanyStoryManagement>> = ({
   useEffect(setFieldsValue, []);
   return (
     <>
-      <Form.Item label="Trust the CEO?">
-        {getFieldDecorator("ceoTrust", { valuePropName: "checked" })(
-          <Switch title="Do you trust the CEO with your pension?" />
-        )}
-      </Form.Item>
+      <Input.Group compact>
+        <Form.Item label="Is the CEO the founder?">
+          {getFieldDecorator("ceoFounder", { valuePropName: "checked" })(
+            <Switch title="Is the CEO the founder?" />
+          )}
+        </Form.Item>
+        <Form.Item label="Is the CEO a major shareholder?">
+          {getFieldDecorator("ceoMajorShareholder", {
+            valuePropName: "checked"
+          })(<Switch title="Is the CEO a major shareholder?" />)}
+        </Form.Item>
+      </Input.Group>
 
       <Form.Item label="CEO tenure">
         {getFieldDecorator("ceoTenure")(
@@ -22,10 +29,14 @@ const StoryManagement: React.FC<WithStoryPartProps<CompanyStoryManagement>> = ({
         )}
       </Form.Item>
 
+      <Form.Item label="Trust the CEO?">
+        {getFieldDecorator("ceoTrust")(<Rate allowHalf={true} />)}
+      </Form.Item>
       <Form.Item label="CEO candor">
-        {getFieldDecorator("ceoCandor")(
-          <Input placeholder="CEO candor in his/her communication?" />
-        )}
+        {getFieldDecorator("ceoCandor")(<Rate allowHalf={true} />)}
+      </Form.Item>
+      <Form.Item label="Management able and talented?">
+        {getFieldDecorator("ableAndTalented")(<Rate allowHalf={true} />)}
       </Form.Item>
 
       <Input.Group>

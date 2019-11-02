@@ -27,9 +27,13 @@ export interface CompanyProfile {
 }
 
 export interface CompanyStoryManagement {
-  ceoTrust: boolean;
+  ceoTrust: number;
+  ceoFounder: boolean;
+  ceoMajorShareholder: boolean;
   ceoTenure: number;
-  ceoCandor: string;
+
+  ceoCandor: number;
+  ableAndTalented: number;
 
   roe: number;
   roic: number;
