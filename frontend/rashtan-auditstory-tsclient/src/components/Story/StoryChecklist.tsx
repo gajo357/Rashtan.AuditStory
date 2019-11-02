@@ -14,6 +14,10 @@ const StoryChecklist: React.FC<WithStoryPartProps<ChecklistItem[]>> = ({
   dataChanged,
   extraData
 }) => {
+  const unusedItems =
+    extraData &&
+    extraData.filter(s => !data.some(d => d.question === s.question));
+
   const addNewItem = () => addItem({ question: "", response: 0 });
 
   const addItem = (item: ChecklistItem) => {
@@ -61,20 +65,22 @@ const StoryChecklist: React.FC<WithStoryPartProps<ChecklistItem[]>> = ({
         </Input.Group>
       ))}
 
-      <Form.Item>
-        <Button type="dashed" onClick={addNewItem}>
-          <Icon type="plus" /> Add item
-        </Button>
-      </Form.Item>
+      {!data.some(s => s.question === "") && (
+        <Form.Item>
+          <Button type="dashed" onClick={addNewItem}>
+            <Icon type="plus" /> Add item
+          </Button>
+        </Form.Item>
+      )}
 
-      {extraData && extraData.length > 0 && (
+      {unusedItems && unusedItems.length > 0 && (
         <List
           itemLayout="vertical"
           size="large"
           pagination={{
             pageSize: 3
           }}
-          dataSource={extraData}
+          dataSource={unusedItems}
           renderItem={item => (
             <List.Item key={item.question} onClick={() => addItem(item)}>
               <List.Item.Meta description={item.question} />
