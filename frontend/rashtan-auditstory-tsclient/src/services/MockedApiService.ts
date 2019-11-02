@@ -1,5 +1,10 @@
 import AuthService from "./AuthService";
-import { CompanyProfile, CompanyStory, MoatKind } from "../models/Company";
+import {
+  CompanyProfile,
+  CompanyStory,
+  MoatKind,
+  ChecklistItem
+} from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { UserError } from "../models/Errors";
@@ -70,6 +75,10 @@ export default class MockedApiService implements IApiService {
         title: "Meaning",
         content: "<p><strong><u>Custom meaning</u></strong></p>"
       }
+    ],
+    checklist: [
+      { question: "Are any gurus invested in it?", response: 0.5 },
+      { question: "Does it align with your values?", response: 2.5 }
     ]
   };
 
@@ -93,4 +102,11 @@ export default class MockedApiService implements IApiService {
 
   getFolders = () => this.resolved<string[]>(["Wonderfull"]);
   getFolderCompanies = () => this.resolved<CompanyProfile[]>([this.micron]);
+
+  getChecklistItems = () =>
+    this.resolved<ChecklistItem[]>([
+      { question: "Do you understand the company?", response: 1.5 },
+      { question: "Are you affected by latest fad?", response: 4.5 },
+      { question: "Are rushed by someone to buy?", response: 4.5 }
+    ]);
 }

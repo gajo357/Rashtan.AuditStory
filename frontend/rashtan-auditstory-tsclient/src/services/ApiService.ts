@@ -2,7 +2,8 @@ import AuthService from "./AuthService";
 import {
   CompanyProfile,
   CompanyStory,
-  CompanyStoryCreate
+  CompanyStoryCreate,
+  ChecklistItem
 } from "../models/Company";
 import { BASE_API } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
@@ -91,4 +92,7 @@ export default class ApiService implements IApiService {
   getFolders = () => this.getCommand<string[]>(`${this.folder}folders`);
   getFolderCompanies = (folder: string) =>
     this.getCommand<CompanyProfile[]>(`${this.folder}companies?name=${folder}`);
+
+  getChecklistItems = () =>
+    this.getCommand<ChecklistItem[]>("api/checklistItems");
 }

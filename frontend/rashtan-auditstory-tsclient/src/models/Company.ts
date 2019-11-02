@@ -13,6 +13,8 @@ export interface CompanyStory {
   moat: CompanyStoryMoat;
 
   parts: CompanyStoryCustomPart[];
+
+  checklist: ChecklistItem[];
 }
 
 export interface CompanyProfile {
@@ -91,4 +93,9 @@ export interface Revenue {
 export interface CompanyStoryCustomPart {
   title: string;
   content: string;
+}
+
+export interface ChecklistItem {
+  question: string;
+  response: number;
 }

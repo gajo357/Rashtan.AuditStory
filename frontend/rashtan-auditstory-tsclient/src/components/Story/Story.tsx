@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
 import { List, Spin, Button, Tooltip } from "antd";
 import IApiService from "../../services/IApiService";
-import { CompanyStory } from "../../models/Company";
+import { CompanyStory, ChecklistItem } from "../../models/Company";
 import { showError } from "../../models/Errors";
 import StoryProfile from "./StoryProfile";
 import StoryRevenue from "./StoryRevenue";
@@ -10,6 +10,7 @@ import StoryManagement from "./StoryManagement";
 import StoryMoat from "./StoryMoat";
 import StoryCompetition from "./StoryCompetition";
 import StoryCustomPart from "./StoryCustomPart";
+import StoryChecklist from "./StoryChecklist";
 import {
   addElement,
   replaceElement,
@@ -23,6 +24,7 @@ interface Props {
 
 const Story: React.FC<Props> = ({ apiService, id }) => {
   const [company, setCompany] = useState<CompanyStory>();
+  const [extraItems, setExtraItems] = useState<ChecklistItem[]>([]);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -35,6 +37,13 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
       .then(() => setUnsavedChanges(false))
       .catch(showError);
   }, [apiService, id]);
+
+  useEffect(() => {
+    apiService
+      .getChecklistItems()
+      .then(setExtraItems)
+      .catch(showError);
+  }, [apiService]);
 
   if (!id) return <Redirect to="/" />;
 
@@ -149,6 +158,14 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
                   />
                 );
               })}
+
+              <StoryChecklist
+                key={100}
+                title="Checklist"
+                data={company.checklist}
+                dataChanged={p => updateCompany({ ...company, checklist: p })}
+                extraData={extraItems}
+              />
             </List>
           </>
         )}

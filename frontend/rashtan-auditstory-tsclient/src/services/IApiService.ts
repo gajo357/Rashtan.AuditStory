@@ -1,7 +1,8 @@
 import {
   CompanyProfile,
   CompanyStory,
-  CompanyStoryCreate
+  CompanyStoryCreate,
+  ChecklistItem
 } from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
 import AuthService from "./AuthService";
@@ -21,4 +22,6 @@ export default interface IApiService {
 
   getFolders: () => Promise<string[]>;
   getFolderCompanies: (folder: string) => Promise<CompanyProfile[]>;
+
+  getChecklistItems: () => Promise<ChecklistItem[]>;
 }

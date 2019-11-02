@@ -19,6 +19,7 @@ export interface StoryPartBasicProps<TData> {
   data: TData;
   dataChanged: (data: TData) => void;
   title: string;
+  extraData?: TData;
 }
 
 function StoryPartWrap<TData>(
