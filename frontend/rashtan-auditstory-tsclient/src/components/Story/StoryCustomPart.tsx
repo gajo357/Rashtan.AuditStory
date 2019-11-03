@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Form, List, Typography, Icon } from "antd";
-import { CompanyStoryCustomPart } from "../../models/Company";
 import ReactQuill from "react-quill";
+import { CompanyStoryCustomPart } from "../../models/Company";
 
 interface Props {
   data: CompanyStoryCustomPart;

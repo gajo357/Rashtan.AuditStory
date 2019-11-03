@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { Input, InputNumber, Select, Form } from "antd";
 import { CompanyStoryMoat, MoatKind } from "../../models/Company";
-import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
+import StoryPartWrap, {
+  WithStoryPartProps,
+  formItemLayout
+} from "./StoryPartWrap";
 
 const { Option } = Select;
 
@@ -13,7 +16,7 @@ const StoryMoat: React.FC<WithStoryPartProps<CompanyStoryMoat>> = ({
 
   return (
     <>
-      <Form.Item label="Kinds of moat">
+      <Form.Item label="Kinds of moat" {...formItemLayout}>
         {getFieldDecorator("kinds")(
           <Select placeholder="Kinds of moat" mode="multiple">
             <Option value={MoatKind.Brand}>Brand</Option>
@@ -24,18 +27,18 @@ const StoryMoat: React.FC<WithStoryPartProps<CompanyStoryMoat>> = ({
           </Select>
         )}
       </Form.Item>
-      <Form.Item label="Main advantage">
+      <Form.Item label="Main advantage" {...formItemLayout}>
         {getFieldDecorator("mainAdvantage")(
           <Input placeholder="Main advantage" />
         )}
       </Form.Item>
 
-      <Form.Item label="Is moat durable?">
+      <Form.Item label="Is moat durable?" {...formItemLayout}>
         {getFieldDecorator("durable")(<Input placeholder="Is moat durable?" />)}
       </Form.Item>
 
       <Input.Group>
-        <Form.Item label="BVPS growth (%)">
+        <Form.Item label="BVPS growth (%)" {...formItemLayout}>
           {getFieldDecorator("bvps")(
             <InputNumber
               placeholder="Book Value per Share growth (%)"
@@ -43,7 +46,7 @@ const StoryMoat: React.FC<WithStoryPartProps<CompanyStoryMoat>> = ({
             />
           )}
         </Form.Item>
-        <Form.Item label="EPS growth (%)">
+        <Form.Item label="EPS growth (%)" {...formItemLayout}>
           {getFieldDecorator("eps")(
             <InputNumber
               placeholder="Earnings per Share growth (%)"
@@ -51,7 +54,7 @@ const StoryMoat: React.FC<WithStoryPartProps<CompanyStoryMoat>> = ({
             />
           )}
         </Form.Item>
-        <Form.Item label="OCPS growth (%)">
+        <Form.Item label="OCPS growth (%)" {...formItemLayout}>
           {getFieldDecorator("ocps")(
             <InputNumber
               placeholder="Operating Cash per Share growth (%)"
@@ -59,7 +62,7 @@ const StoryMoat: React.FC<WithStoryPartProps<CompanyStoryMoat>> = ({
             />
           )}
         </Form.Item>
-        <Form.Item label="Sales growth (%)">
+        <Form.Item label="Sales growth (%)" {...formItemLayout}>
           {getFieldDecorator("sgr")(
             <InputNumber placeholder="Sales growth (%)" step={0.1} />
           )}

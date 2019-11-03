@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, InputNumber, Button } from "antd";
 import { CompanyProfile } from "../../models/Company";
-import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
+import StoryPartWrap, {
+  WithStoryPartProps,
+  formItemLayout
+} from "./StoryPartWrap";
 
 const { Item } = Form;
 
@@ -17,13 +20,13 @@ const StoryProfile: React.FC<WithStoryPartProps<CompanyProfile>> = ({
   };
   return (
     <>
-      <Item label="Company name">
+      <Item label="Company name" {...formItemLayout}>
         {getFieldDecorator("name", {
           rules: [{ required: true, message: "Company name is required" }]
         })(<Input placeholder="Company name" />)}
       </Item>
 
-      <Item label="Website">
+      <Item label="Website" {...formItemLayout}>
         {getFieldDecorator("website", {
           rules: [{ required: true, message: "Website is required" }]
         })(
@@ -44,27 +47,25 @@ const StoryProfile: React.FC<WithStoryPartProps<CompanyProfile>> = ({
         )}
       </Item>
 
-      <Input.Group compact>
-        <Item label="Shares outstanding">
-          {getFieldDecorator("numberOfShares")(
-            <InputNumber
-              placeholder="Number of shares outstanding"
-              min={1}
-              step={1}
-            />
-          )}
-        </Item>
-        <Item label="Market cap">
-          {getFieldDecorator("marketCap")(
-            <InputNumber placeholder="Market cap" min={0} step={1} />
-          )}
-        </Item>
-      </Input.Group>
+      <Item label="Shares outstanding" {...formItemLayout}>
+        {getFieldDecorator("numberOfShares")(
+          <InputNumber
+            placeholder="Number of shares outstanding"
+            min={1}
+            step={1}
+          />
+        )}
+      </Item>
+      <Item label="Market cap" {...formItemLayout}>
+        {getFieldDecorator("marketCap")(
+          <InputNumber placeholder="Market cap" min={0} step={1} />
+        )}
+      </Item>
 
-      <Item label="Industry">
+      <Item label="Industry" {...formItemLayout}>
         {getFieldDecorator("industry")(<Input placeholder="Industry" />)}
       </Item>
-      <Item label="Folder">
+      <Item label="Folder" {...formItemLayout}>
         {getFieldDecorator("folder")(<Input placeholder="Folder" />)}
       </Item>
     </>

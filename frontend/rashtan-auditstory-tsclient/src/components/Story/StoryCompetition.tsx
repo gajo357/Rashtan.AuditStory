@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Drawer, Input, Table, Button, Divider, Form } from "antd";
 import { CompanyCompetition, CompanyCompetitor } from "../../models/Company";
-import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
+import StoryPartWrap, {
+  WithStoryPartProps,
+  formItemLayout
+} from "./StoryPartWrap";
 import CompanyCompetitorEdit, {
   CompanyCompetitorEditProps
 } from "./CompanyCompetitorEdit";
@@ -100,7 +103,7 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
         </Form.Item>
       )}
 
-      <Form.Item label="Industry growth">
+      <Form.Item label="Industry growth" {...formItemLayout}>
         {getFieldDecorator("industryGrowth")(
           <Input placeholder="Industry growth comment" />
         )}
@@ -111,7 +114,11 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
       </Form.Item>
 
       {competitorEdit && (
-        <Drawer title="Edit competitor" visible>
+        <Drawer
+          title="Edit competitor"
+          visible
+          onClose={() => setCompetitorEdit(undefined)}
+        >
           <CompanyCompetitorEdit {...competitorEdit} />
         </Drawer>
       )}

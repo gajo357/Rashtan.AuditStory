@@ -10,7 +10,10 @@ import {
   Form
 } from "antd";
 import { CompanyStoryRevenue, Revenue } from "../../models/Company";
-import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
+import StoryPartWrap, {
+  WithStoryPartProps,
+  formItemLayout
+} from "./StoryPartWrap";
 import RevenueEdit, { RevenueEditProps } from "./RevenueEdit";
 import {
   addElement,
@@ -111,7 +114,7 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
 
   return (
     <>
-      <Form.Item label="Total revenue">
+      <Form.Item label="Total revenue" {...formItemLayout}>
         {getFieldDecorator("totalRevenue")(
           <InputNumber placeholder="Total revenue" min={1} />
         )}
@@ -137,7 +140,11 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
         {getFieldDecorator("comment")(<Input placeholder="Comment" />)}
       </Form.Item>
       {revenueEdit && (
-        <Drawer title="Edit revenue stream" visible>
+        <Drawer
+          title="Edit revenue stream"
+          visible
+          onClose={() => setRevenueEdit(undefined)}
+        >
           <RevenueEdit {...revenueEdit} />
         </Drawer>
       )}

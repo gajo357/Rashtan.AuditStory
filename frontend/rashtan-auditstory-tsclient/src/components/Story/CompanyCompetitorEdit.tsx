@@ -45,7 +45,7 @@ const CompanyCompetitorEdit: React.FC<Props> = ({
   const help = (p: string) => hasError(p) || "";
 
   return (
-    <Form layout="vertical" onSubmit={handleSubmit}>
+    <Form layout="horizontal" onSubmit={handleSubmit}>
       <Form.Item
         label="Name"
         validateStatus={validateStatus("name")}

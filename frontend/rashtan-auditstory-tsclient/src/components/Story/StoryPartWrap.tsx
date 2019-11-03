@@ -3,6 +3,11 @@ import { List, Typography, Form } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { GetFieldDecoratorOptions } from "antd/lib/form/Form";
 
+export const formItemLayout = {
+  labelCol: { span: 3 },
+  wrapperCol: { span: 14 }
+};
+
 export type WithStoryPartProps<TData> = FormComponentProps<TData> &
   StoryPartBasicProps<TData> &
   InternalProps;
@@ -45,7 +50,7 @@ function StoryPartWrap<TData>(
             </span>
           }
           description={
-            <Form>
+            <Form layout="horizontal">
               <PartContent
                 {...props}
                 getFieldDecorator={getFieldDecorator}

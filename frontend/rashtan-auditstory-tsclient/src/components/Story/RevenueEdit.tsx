@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Form, Input, Button, InputNumber } from "antd";
-import { Revenue } from "../../models/Company";
 import { FormComponentProps } from "antd/lib/form";
+import { Revenue } from "../../models/Company";
 
 export interface RevenueEditProps {
   data: Revenue;
@@ -47,7 +47,7 @@ const RevenueEdit: React.FC<Props> = ({
   const help = (p: string) => hasError(p) || "";
 
   return (
-    <Form layout="vertical" onSubmit={handleSubmit}>
+    <Form layout="horizontal" onSubmit={handleSubmit}>
       <Form.Item
         label={streamName}
         validateStatus={validateStatus("stream")}
