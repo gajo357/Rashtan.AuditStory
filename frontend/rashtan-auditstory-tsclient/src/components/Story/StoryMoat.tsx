@@ -70,7 +70,9 @@ const StoryMoat: React.FC<WithStoryPartProps<CompanyStoryMoat>> = ({
       </Input.Group>
 
       <Form.Item label="Comment">
-        {getFieldDecorator("comment")(<Input placeholder="Comment" />)}
+        {getFieldDecorator("comment")(
+          <Input.TextArea placeholder="Comment" rows={2} />
+        )}
       </Form.Item>
     </>
   );

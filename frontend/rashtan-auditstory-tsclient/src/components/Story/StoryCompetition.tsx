@@ -110,7 +110,9 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
       </Form.Item>
 
       <Form.Item label="Comment">
-        {getFieldDecorator("comment")(<Input placeholder="Comment" />)}
+        {getFieldDecorator("comment")(
+          <Input.TextArea placeholder="Comment" rows={2} />
+        )}
       </Form.Item>
 
       {competitorEdit && (

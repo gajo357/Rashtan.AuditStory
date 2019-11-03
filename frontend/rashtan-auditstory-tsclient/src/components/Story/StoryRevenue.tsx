@@ -137,7 +137,9 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
         byProduct: v
       }))}
       <Form.Item label="Comment">
-        {getFieldDecorator("comment")(<Input placeholder="Comment" />)}
+        {getFieldDecorator("comment")(
+          <Input.TextArea placeholder="Comment" rows={2} />
+        )}
       </Form.Item>
       {revenueEdit && (
         <Drawer
