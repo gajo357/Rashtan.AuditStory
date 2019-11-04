@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Common.fs" />
-    <Compile Include="Checklist.fs" />
+    <Compile Include="Valuations.fs" />
     <Compile Include="Company.fs" />
     <Compile Include="User.fs" />
   </ItemGroup>

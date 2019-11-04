@@ -1,17 +1,22 @@
-﻿namespace Rashtan.AuditStory.DtoValidation
+﻿module Rashtan.AuditStory.DtoValidation.CompanyValidator
 
-module CompanyValidator =
-    open Rashtan.AuditStory.Common
-    open Rashtan.AuditStory.Dto
-    open Result
+open Rashtan.AuditStory.Common
+open Rashtan.AuditStory.Dto
+open Result
 
-    let validateProfile (dto: CompanyProfile) = result {
-        do! Common.validateAlphanumeric "Name" dto.Name
-        do! Common.validateAlphanumeric "Ticker" dto.Ticker
-        do! Common.validateAlphanumeric "Stock Exchange" dto.StockExchange
-        //let! folder = Common.validateNotEmpty "Folder" dto.Folder
-        do! Common.validateMinimum "Market Cap" 0. dto.MarketCap
-        do! Common.validateMinimum "Number of shares" 0 dto.NumberOfShares
 
-        return dto
-    }
+let validateCreateStory (dto: CompanyStoryCreate) = result {
+    do! Common.validateAlphanumeric "Name" dto.Name
+    do! Common.validateNotEmpty "Website" dto.Website
+}
+
+let validateProfile (dto: Profile) = result {
+    do! Common.validateAlphanumeric "Name" dto.Name
+    do! Common.validateNotEmpty "Website" dto.Website
+}
+
+let validateStory (dto: Story) = result {
+    do! validateProfile dto.Profile
+
+    return dto
+}

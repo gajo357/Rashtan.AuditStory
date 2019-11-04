@@ -100,9 +100,6 @@ export default class MockedApiService implements IApiService {
     });
   saveUserProfile = (user: UserInfo) => this.resolved<UserInfo>(user);
 
-  getFolders = () => this.resolved<string[]>(["Wonderfull"]);
-  getFolderCompanies = () => this.resolved<CompanyProfile[]>([this.micron]);
-
   getChecklistItems = () =>
     this.resolved<ChecklistItem[]>([
       { question: "Do you understand the company?", response: 1.5 },

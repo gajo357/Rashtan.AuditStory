@@ -6,125 +6,135 @@ open Test.Rashtan.AuditStory.DtoValidation
 open Rashtan.AuditStory.Common
 open Rashtan.AuditStory.Workflows
 open Rashtan.AuditStory.Repository.Interface
-open Rashtan.AuditStory.DtoDbMapper.CompanyMapper
+open Rashtan.AuditStory.DtoDbMapper
 open Foq
 
 [<TestFixture>]
 type TestCompanyWorkflow () =
 
     [<Property(Arbitrary = [| typeof<InvalidCompanyProfileGenerator> |])>]
-    member __.``CreateProfileAsync does not save invalid dto`` user dto = 
+    member __.``SaveStoryAsync does not save invalid dto`` user dto = 
         async {
-            let cpr = Mock<ICompanyProfileRepository>().Create()
-            let cw = CompanyWorkflow(cpr)
+            let cpr = Mock<ICompanyStoryRepository>().Create()
+            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
+                <@
+                m.GetCurrentDateTime() --> System.DateTime.Today
+                @>
+            )
+            let cw = CompanyWorkflow(cpr, dtp)
 
-            let! result = cw.CreateProfileAsync(user, dto) |> Async.AwaitTask
+            let! result = cw.SaveStoryAsync(user, dto) |> Async.AwaitTask
             return result.IsError
         } |> Async.RunSynchronously
     
     [<Property(Arbitrary = [| typeof<ValidCompanyProfileGenerator> |])>]
-    member __.``CreateProfileAsync saves valid dto`` user dto = 
+    member __.``SaveStoryAsync saves valid dto`` user dto = 
         async {
-            let cpr = Mock<ICompanyProfileRepository>.With(fun m ->
+            let dto = { CompanyFromDbMapper.emptyStory with Profile = dto }
+            let cpr = Mock<ICompanyStoryRepository>.With(fun m ->
                 <@
-                m.CreateProfileAsync(user, any()) --> System.Threading.Tasks.Task.CompletedTask
+                m.SaveStoryAsync(user, any()) --> System.Threading.Tasks.Task.CompletedTask
                 @>
             )
-            let cw = CompanyWorkflow(cpr)
+            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
+                <@
+                m.GetCurrentDateTime() --> System.DateTime.Today
+                @>
+            )
+            let cw = CompanyWorkflow(cpr, dtp)
 
-            let! result = cw.CreateProfileAsync(user, dto) |> Async.AwaitTask
+            let! result = cw.SaveStoryAsync(user, dto) |> Async.AwaitTask
 
-            return result.Result = dto
+            return result.Result = true
         } |> Async.RunSynchronously
 
     [<Property(Arbitrary = [| typeof<InvalidTypesGenerator> |])>]
-    member __.``DeleteProfileAsync does not delete invalid ticker`` user ticker = 
+    member __.``DeleteStoryAsync does not delete invalid id`` user id = 
         async {
-            let cpr = Mock<ICompanyProfileRepository>().Create()
-            let cw = CompanyWorkflow(cpr)
+            let cpr = Mock<ICompanyStoryRepository>().Create()
+            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
+                <@
+                m.GetCurrentDateTime() --> System.DateTime.Today
+                @>
+            )
+            let cw = CompanyWorkflow(cpr, dtp)
 
-            let! result = cw.DeleteProfileAsync(user, ticker) |> Async.AwaitTask
-            return result.Error.StartsWith "Ticker: "
+            let! result = cw.DeleteStoryAsync(user, id) |> Async.AwaitTask
+            return result.Error.StartsWith "Id: "
         } |> Async.RunSynchronously
     
     [<Property(Arbitrary = [| typeof<ValidTypesGenerator> |])>]
-    member __.``DeleteProfileAsync deletes valid ticker`` user ticker success = 
+    member __.``DeleteStoryAsync deletes valid id`` user id success = 
         async {
-            let cpr = Mock<ICompanyProfileRepository>.With(fun m ->
+            let cpr = Mock<ICompanyStoryRepository>.With(fun m ->
                 <@
-                m.DeleteProfileAsync(user, ticker) --> System.Threading.Tasks.Task.FromResult success
+                m.DeleteStoryAsync(user, id) --> System.Threading.Tasks.Task.FromResult success
                 @>
             )
-            let cw = CompanyWorkflow(cpr)
+            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
+                <@
+                m.GetCurrentDateTime() --> System.DateTime.Today
+                @>
+            )
+            let cw = CompanyWorkflow(cpr, dtp)
 
-            let! result = cw.DeleteProfileAsync(user, ticker) |> Async.AwaitTask
+            let! result = cw.DeleteStoryAsync(user, id.ToString()) |> Async.AwaitTask
 
             return result.Result = success
         } |> Async.RunSynchronously
 
     
     [<Property(Arbitrary = [| typeof<InvalidTypesGenerator> |])>]
-    member __.``GetProfileAsync does not get with invalid ticker`` user ticker = 
+    member __.``GetStoryAsync does not get with invalid id`` user id = 
         async {
-            let cpr = Mock<ICompanyProfileRepository>().Create()
-            let cw = CompanyWorkflow(cpr)
+            let cpr = Mock<ICompanyStoryRepository>().Create()
+            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
+                <@
+                m.GetCurrentDateTime() --> System.DateTime.Today
+                @>
+            )
+            let cw = CompanyWorkflow(cpr, dtp)
 
-            let! result = cw.GetProfileAsync(user, ticker) |> Async.AwaitTask
-            return result.Error.StartsWith "Ticker: "
+            let! result = cw.GetStoryAsync(user, id) |> Async.AwaitTask
+            return result.Error.StartsWith "Id: "
         } |> Async.RunSynchronously
 
     [<Property(Arbitrary = [| typeof<ValidTypesGenerator> |])>]
-    member __.``GetProfileAsync deletes with valid ticker`` user ticker profile = 
+    member __.``GetStoryAsync deletes with valid id`` user id profile = 
         async {
-            let cpr = Mock<ICompanyProfileRepository>.With(fun m ->
+            let cpr = Mock<ICompanyStoryRepository>.With(fun m ->
                 <@
-                m.GetProfileAsync(user, ticker) --> System.Threading.Tasks.Task.FromResult profile
+                m.GetStoryAsync(user, id) --> System.Threading.Tasks.Task.FromResult profile
                 @>
             )
-            let cw = CompanyWorkflow(cpr)
+            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
+                <@
+                m.GetCurrentDateTime() --> System.DateTime.Today
+                @>
+            )
+            let cw = CompanyWorkflow(cpr, dtp)
 
-            let! result = cw.GetProfileAsync(user, ticker) |> Async.AwaitTask
+            let! result = cw.GetStoryAsync(user, id.ToString()) |> Async.AwaitTask
 
-            return result.Result = profileToDto profile
+            return result.Result = CompanyFromDbMapper.story profile
         } |> Async.RunSynchronously
 
     [<Property(Arbitrary = [| typeof<ValidTypesGenerator> |])>]
     member __.``GetProfilesAsync gets valid profiles`` user profile = 
         async {
-            let cpr = Mock<ICompanyProfileRepository>.With(fun m ->
+            let cpr = Mock<ICompanyStoryRepository>.With(fun m ->
                 <@
                 m.GetProfilesAsync(user) --> ([ profile ] |> List.toSeq |> System.Threading.Tasks.Task.FromResult)
                 @>
             )
-            let cw = CompanyWorkflow(cpr)
+            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
+                <@
+                m.GetCurrentDateTime() --> System.DateTime.Today
+                @>
+            )
+            let cw = CompanyWorkflow(cpr, dtp)
 
             let! result = cw.GetProfilesAsync(user) |> Async.AwaitTask
 
-            return (Seq.toList result.Result) = List.map profileToDto [ profile ]
-        } |> Async.RunSynchronously
-
-
-    [<Property(Arbitrary = [| typeof<InvalidTypesGenerator> |])>]
-    member __.``GetProfilesInFolderAsync does not get with invalid folder`` user folder = 
-        async {
-            let cpr = Mock<ICompanyProfileRepository>().Create()
-            let cw = CompanyWorkflow(cpr)
-
-            let! result = cw.GetProfilesInFolderAsync(user, folder) |> Async.AwaitTask
-            return result.Error.StartsWith "Folder: "
-        } |> Async.RunSynchronously
-    
-    [<Property(Arbitrary = [| typeof<ValidTypesGenerator> |])>]
-    member __.``GetProfilesInFolderAsync gets with valid folder`` user folder profile = 
-        async {
-            let cpr = Mock<ICompanyProfileRepository>.With(fun m ->
-                <@
-                m.GetProfilesInFolderAsync(user, folder) --> ([ profile ] |> List.toSeq |> System.Threading.Tasks.Task.FromResult)
-                @>
-            )
-            let cw = CompanyWorkflow(cpr)
-
-            let! result = cw.GetProfilesInFolderAsync(user, folder) |> Async.AwaitTask
-
-            return (Seq.toList result.Result) = List.map profileToDto [ profile ]
+            return (Seq.toList result.Result) = List.map CompanyFromDbMapper.profile [ profile ]
         } |> Async.RunSynchronously

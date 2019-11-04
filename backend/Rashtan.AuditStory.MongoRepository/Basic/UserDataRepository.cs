@@ -16,13 +16,13 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
 
         protected async Task AddAsync(string userId, TData data) => await Add(new UserDocument<TData> { Data = data, UserId = userId });
 
-        protected async Task<bool> DeleteAsync(string userId, params DataFilter<string>[] dataFilters)
+        protected async Task<bool> DeleteAsync<TFilterValue>(string userId, params DataFilter<TFilterValue>[] dataFilters)
         {
             var result = await Collection.DeleteOneAsync(BuildFilter(userId, dataFilters));
             return result.IsAcknowledged;
         }
 
-        protected async Task<TData> GetOneAsync(string userId, params DataFilter<string>[] dataFilters)
+        protected async Task<TData> GetOneAsync<TFilterValue>(string userId, params DataFilter<TFilterValue>[] dataFilters)
         {
             var result = await Collection.FindAsync(BuildFilter(userId, dataFilters));
             var data = await result.FirstOrDefaultAsync();
@@ -40,7 +40,7 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
 
         protected DataFilter<TValue> CreateDataFilter<TValue>(string field, TValue value) => new DataFilter<TValue>(field, value);
 
-        private FilterDefinition<UserDocument<TData>> BuildFilter(string userId, params DataFilter<string>[] dataFilters)
+        protected FilterDefinition<UserDocument<TData>> BuildFilter<TFilterValue>(string userId, params DataFilter<TFilterValue>[] dataFilters)
         {
             var builder = Builders<UserDocument<TData>>.Filter;
             var filters = builder.Eq(p => p.UserId, userId);

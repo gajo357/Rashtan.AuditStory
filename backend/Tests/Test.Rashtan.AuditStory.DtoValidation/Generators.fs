@@ -8,6 +8,7 @@ type InvalidTypesGenerator =
     static member Double() = Arb.Default.Float() |> Arb.mapFilter (fun s -> - (abs s)) (fun s -> s < 0.)
     static member Decimal() = Arb.Default.Decimal() |> Arb.mapFilter (fun s -> - (abs s)) (fun s -> s < 0m)
     static member Date() = Arb.Default.DateTime() |> Arb.filter(fun s -> s.Year > 2019)
+    static member Guid() = Arb.Default.Guid() |> Arb.mapFilter (fun _ -> System.Guid.Empty) (fun _ -> true)
     static member String() = 
         Arb.Default.String() |> Arb.filter(fun s -> 
             match System.String.IsNullOrEmpty s with
@@ -21,6 +22,7 @@ type ValidTypesGenerator =
     static member Double() = Arb.Default.Float() |> Arb.mapFilter abs System.Double.IsFinite
     static member Decimal() = Arb.Default.Decimal() |> Arb.mapFilter abs (fun _ -> true)
     static member Date() = Arb.Default.DateTime() |> Arb.filter(fun s -> s.Year <= 2019)
+    static member Guid() = Arb.Default.Guid() |> Arb.filter(fun s -> not (s = System.Guid.Empty))
     static member String() = 
         Arb.Default.String() |> Arb.filter(fun s -> 
             match System.String.IsNullOrEmpty s with
@@ -31,42 +33,72 @@ type ValidTypesGenerator =
 
 
 type ValidCompanyProfileGenerator =
-    static member CompanyProfile() = 
+    static member Profile() = 
         gen {
+            let! id = ValidTypesGenerator.Guid().Generator
             let! name = ValidTypesGenerator.String().Generator
-            let! ticker = ValidTypesGenerator.String().Generator
-            let! se = ValidTypesGenerator.String().Generator
+            let! website = ValidTypesGenerator.String().Generator
+            let! le = ValidTypesGenerator.Date().Generator
             let! folder = ValidTypesGenerator.String().Generator
             let! mc = ValidTypesGenerator.Double().Generator
             let! ns = ValidTypesGenerator.Int().Generator
+            let! industry = ValidTypesGenerator.String().Generator
             
             return {
+                Id = id
+                LastEdited = le
                 Name = name
-                Ticker = ticker
-                StockExchange = se
-                Folder = folder
+                Website = website
                 MarketCap = mc
                 NumberOfShares = ns
+                Industry = industry
+                Folder = folder
+            }
+        } |> Arb.fromGen
+        
+    static member ProfileCreate() = 
+        gen {
+            let! name = ValidTypesGenerator.String().Generator
+            let! website = ValidTypesGenerator.String().Generator
+                
+            return {
+                Name = name
+                Website = website
             }
         } |> Arb.fromGen
 
 type InvalidCompanyProfileGenerator =
-    static member CompanyProfile() = 
+    static member Profile() = 
         gen {
+            let! id = InvalidTypesGenerator.Guid().Generator
             let! name = InvalidTypesGenerator.String().Generator
-            let! ticker = InvalidTypesGenerator.String().Generator
-            let! se = InvalidTypesGenerator.String().Generator
+            let! website = InvalidTypesGenerator.String().Generator
+            let! le = InvalidTypesGenerator.Date().Generator
             let! folder = InvalidTypesGenerator.String().Generator
             let! mc = InvalidTypesGenerator.Double().Generator
             let! ns = InvalidTypesGenerator.Int().Generator
+            let! industry = InvalidTypesGenerator.String().Generator
             
             return {
+                Id = id
+                LastEdited = le
                 Name = name
-                Ticker = ticker
-                StockExchange = se
-                Folder = folder
+                Website = website
                 MarketCap = mc
                 NumberOfShares = ns
+                Industry = industry
+                Folder = folder
+            }
+        } |> Arb.fromGen
+
+    static member ProfileCreate() = 
+        gen {
+            let! name = InvalidTypesGenerator.String().Generator
+            let! website = InvalidTypesGenerator.String().Generator
+                
+            return {
+                Name = name
+                Website = website
             }
         } |> Arb.fromGen
 

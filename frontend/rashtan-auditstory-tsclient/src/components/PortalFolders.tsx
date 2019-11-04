@@ -15,8 +15,8 @@ const PortalFolders: React.FC<Props> = ({ apiService, folder, history }) => {
   const [companies, setCompanies] = useState<CompanyProfile[]>([]);
   useEffect(() => {
     apiService
-      .getFolderCompanies(folder)
-      .then(setCompanies)
+      .getCompanies()
+      .then(cs => setCompanies(cs.filter(c => c.folder === folder)))
       .catch(showError);
   }, [apiService, folder]);
 

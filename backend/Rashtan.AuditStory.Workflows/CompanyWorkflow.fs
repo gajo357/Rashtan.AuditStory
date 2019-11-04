@@ -3,45 +3,39 @@
 open Rashtan.AuditStory.Repository.Interface
 open Rashtan.AuditStory.Common.AsyncResult
 open Rashtan.AuditStory.DtoValidation.CompanyValidator
-open Rashtan.AuditStory.DtoDbMapper.CompanyMapper
+open Rashtan.AuditStory.DtoDbMapper
 open Rashtan.AuditStory.Common
 
-type CompanyWorkflow(repository: ICompanyProfileRepository) =   
-    member __.CreateProfileAsync(user, dto) = 
+type CompanyWorkflow(repository: ICompanyStoryRepository, dateTimeProvider: IDateTimeProvider) =       
+    member __.GetStoryAsync(user, id) = 
+       asyncResult {
+           let! id = Common.validateGuid "Id" id
+           let! b = repository.GetStoryAsync(user, id) |> Async.AwaitTask
+           return b |> CompanyFromDbMapper.story
+       } |> CsResult.fromAsyncResult
+    member __.SaveStoryAsync(user, dto) = 
         asyncResult {
-            let! dto = validateProfile dto
-            let db = profileToDb dto
-            do! repository.CreateProfileAsync(user, db) |> Async.AwaitTask
-            return dto
+            let! dto = validateStory dto
+            let db = CompanyToDbMapper.story dateTimeProvider.GetCurrentDateTime dto
+            do! repository.SaveStoryAsync(user, db) |> Async.AwaitTask
+            return true
         } |> CsResult.fromAsyncResult
-
-    member __.DeleteProfileAsync(user, ticker) = 
+    member __.DeleteStoryAsync(user, id) = 
         asyncResult {
-            do! Common.validateAlphanumeric "Ticker" ticker
-            let! b = repository.DeleteProfileAsync(user, ticker) |> Async.AwaitTask
+            let! id = Common.validateGuid "Id" id
+            let! b = repository.DeleteStoryAsync(user, id) |> Async.AwaitTask
             return b
         } |> CsResult.fromAsyncResult
-        
-    member __.GetProfileAsync(user, ticker) = 
-        asyncResult {
-            do! Common.validateAlphanumeric "Ticker" ticker
-            let! b = repository.GetProfileAsync(user, ticker) |> Async.AwaitTask
-            return b |> profileToDto
-        } |> CsResult.fromAsyncResult
+
     member __.GetProfilesAsync(user) = 
         asyncResult {
             let! b = repository.GetProfilesAsync(user) |> Async.AwaitTask
-            return b |> Seq.map profileToDto
+            return b |> Seq.map CompanyFromDbMapper.profile
         } |> CsResult.fromAsyncResult
-    member __.GetProfilesInFolderAsync(user, folderName) = 
+    member __.CreateStoryAsync(user, dto) = 
         asyncResult {
-            do! Common.validateAlphanumeric "Folder" folderName
-            let! b = repository.GetProfilesInFolderAsync(user, folderName) |> Async.AwaitTask
-            return b |> Seq.map profileToDto
-        } |> CsResult.fromAsyncResult
-
-    member __.GetFoldersAsync user = 
-        asyncResult {
-            let! b = repository.GetProfilesAsync(user) |> Async.AwaitTask
-            return b |> Seq.map (profileToDto >> (fun s -> s.Folder)) |> Seq.distinct
+            do! validateCreateStory dto
+            let db = CompanyToDbMapper.createStory dateTimeProvider.GetCurrentDateTime dto
+            do! repository.SaveStoryAsync(user, db) |> Async.AwaitTask
+            return db.Profile.Id
         } |> CsResult.fromAsyncResult

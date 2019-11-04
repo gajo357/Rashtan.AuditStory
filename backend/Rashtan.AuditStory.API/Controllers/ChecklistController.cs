@@ -11,22 +11,14 @@ namespace Rashtan.AuditStory.API.Controllers
     [Authorize]
     public class ChecklistController : UserBasedController
     {
-        // GET api/checklist/MSFT
-        [HttpGet("{ticker}")]
+        // GET api/checklist
+        [HttpGet]
         public ActionResult<IEnumerable<ChecklistItem>> Get()
         {
             return new[]
             {
-                new ChecklistItem("Am I biased", "Not at all", Dto.Understanding.Yes)
+                new ChecklistItem("Am I biased", 3.5)
             };
-        }
-
-        // POST api/checklist
-        [HttpPost]
-        public ActionResult<bool> Post([FromBody] ChecklistItem company)
-        {
-            // save to database
-            return true;
         }
     }
 }

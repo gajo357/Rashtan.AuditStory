@@ -66,33 +66,23 @@ export default class ApiService implements IApiService {
       method: "PUT"
     }).then(r => this.unwrapResponse<TResult>(r));
 
-  private company = "api/company/";
-  getCompanies = () =>
-    this.getCommand<CompanyProfile[]>(`${this.company}getprofiles`);
+  private company = "api/company";
+  getCompanies = () => this.getCommand<CompanyProfile[]>(this.company);
   createNewStory = (company: CompanyStoryCreate) =>
-    this.putCommand<CompanyStoryCreate, string>(
-      `${this.company}createProfile`,
-      company
-    );
+    this.putCommand<CompanyStoryCreate, string>(this.company, company);
 
-  private story = "api/story/";
+  private story = "api/story";
   getCompanyStory = (id: string) =>
-    this.getCommand<CompanyStory>(`${this.story}${id}`);
+    this.getCommand<CompanyStory>(`${this.story}?id=${id}`);
   saveCompanyStory = (company: CompanyStory) =>
     this.postCommand<CompanyStory, boolean>(this.story, company);
   deleteCompanyStory = (id: string) =>
-    this.deleteCommand<boolean>(`${this.story}${id}`);
+    this.deleteCommand<boolean>(`${this.story}?id=${id}`);
 
   private userProfile = "api/userprofile";
   getUserProfile = () => this.getCommand<UserInfo>(this.userProfile);
   saveUserProfile = (user: UserInfo) =>
     this.postCommand<UserInfo, UserInfo>(this.userProfile, user);
 
-  private folder = "api/folder/";
-  getFolders = () => this.getCommand<string[]>(`${this.folder}folders`);
-  getFolderCompanies = (folder: string) =>
-    this.getCommand<CompanyProfile[]>(`${this.folder}companies?name=${folder}`);
-
-  getChecklistItems = () =>
-    this.getCommand<ChecklistItem[]>("api/checklistItems");
+  getChecklistItems = () => this.getCommand<ChecklistItem[]>("api/checklist");
 }

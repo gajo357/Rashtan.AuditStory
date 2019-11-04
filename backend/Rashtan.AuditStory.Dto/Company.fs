@@ -1,121 +1,109 @@
 ﻿namespace Rashtan.AuditStory.Dto
 
 [<CLIMutable>]
-type CompanyProfile = {
-    Name: string
-    Ticker: string
-    StockExchange: string
-    MarketCap: double
-    NumberOfShares: int
-    Folder: string
+type ChecklistItem = {
+    Question: string
+    Response: double
 }
 
 [<CLIMutable>]
-type Meaning = {
-    FoundBy: string
-    ReasonsToOwn: string array
+type CustomPart = {
+    Title: string
+    Content: string
+}
+
+[<CLIMutable>]
+type RevenueItem = {
+    Stream: string
+    Percent: double
+}
+
+[<CLIMutable>]
+type Revenue = {
+    TotalRevenue: double
+    ByLocation: RevenueItem[]
+    ByClient: RevenueItem[]
+    ByProduct: RevenueItem[]
     Comment: string
 }
+
+[<CLIMutable>]
+type Competitor = {
+    Name: string
+    MarketCap: double
+    MarketShare: double
+}
+
+[<CLIMutable>]
+type Competition = {
+    Competitors: Competitor[]
+    IndustryGrowth: string
+    Comment: string
+}
+
+type MoatKind = Brand=0 | Price=1 | Secrets=2 | Toll=3 | Switching=4 
 
 [<CLIMutable>]
 type Moat = {
-    Description: string
-    WhyIsDurable: string
-    NumbersConfirm: bool
+    Kinds: MoatKind[]
+    MainAdvantage: string
+    Durable: string
 
-    BookValuePerShare: double
-    EarningsPerShare: double
-    OperatingCashPerShare: double
-    SalesGrowthRate: double
+    Bvps: double
+    Eps: double
+    Ocps: double
+    Sgr: double
 
-    ProblemsInRecentYears: string
-    Comment: string
+    Comment: string;
 }
 
 [<CLIMutable>]
 type Management = {
-    CeoName: string
-    CeoDescription: string
-    Tenure: bool
-    IsCeoHonest: bool
+    CeoTrust: double
+    CeoFounder: bool
+    CeoMajorShareholder: bool
+    CeoTenure: double
 
-    ROIC: double
-    ROE: double
+    CeoCandor: double
+    AbleAndTalented: double
+
+    Roe: double
+    Roic: double
     Debt: double
 
-    Comment: string
+    Comment: string;
 }
 
 [<CLIMutable>]
-type MarginOfSafety = {
-    EpsTtm: double
-    Growth: double
-    EstimatedPE: double
-    Marr: double
-}
+type Profile = {
+    Id: System.Guid
 
-[<CLIMutable>]
-type TenCap = {
-    PreTaxProfit: double
-    DepritiationAndAmortization: double
-    AccountsReceivable: double
-    AccountsPayable: double
-    MaintenanceCapex: double
-}
-
-[<CLIMutable>]
-type PaybackTime = {
-    FreeCashFlow: double
-    Growth: double
-}
-
-[<CLIMutable>]
-type Valuations = {
-    Mos: MarginOfSafety
-    TenCap: TenCap
-    PaybackTime: PaybackTime
-}
-
-[<CLIMutable>]
-type GuruFollow = {
-    Guru: string
-    PercentOfPortfolio: double
-    AvgPricePaid: double
-}
+    LastEdited: System.DateTime
     
-[<CLIMutable>]
-type Industry = {
     Name: string
-    Growth: string
-
-    Understanding: Understanding
-    Competition: CompanyProfile array
+    Industry: string
+    NumberOfShares: int
+    MarketCap: double
+    Website: string
+    Folder: string
 }
 
 [<CLIMutable>]
-type Inversion = {
-    Inversion: string
-    Rebuttal: string
+type Story = {
+    Profile: Profile;
+    Revenue: Revenue;
+    Competition: Competition;
+
+    Management: Management;
+    Moat: Moat;
+
+    Parts: CustomPart[];
+
+    Checklist: ChecklistItem[];
 }
 
 [<CLIMutable>]
-type Company = {
-    Profile: CompanyProfile
-
-    Industry: Industry
-
-    Gurus: GuruFollow array
-        
-    Meaning: Meaning
-    Moat: Moat
-    Management: Management
-    Valuations: Valuations
-
-    Inversions: Inversion array
-
-    Event: string
-
-    Decision: string
-
-    FinalComment: string
+type CompanyStoryCreate = {
+    Name: string
+    Website: string
 }

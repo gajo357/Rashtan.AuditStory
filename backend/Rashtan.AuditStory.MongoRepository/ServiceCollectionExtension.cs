@@ -9,8 +9,7 @@ namespace Rashtan.AuditStory.MongoRepository
         public static IServiceCollection RegisterRepositoryServices(this IServiceCollection services)
             => services.AddSingleton<IMongoContext, MongoContext>()
                 .AddSingleton(typeof(IMongoRepository<>), typeof(MongoRepository<>))
-                .AddSingleton<ICompanyProfileRepository, CompanyProfileRepository>()
-                .AddSingleton<IPaymentRepository, PaymentRepository>()
+                .AddSingleton<ICompanyStoryRepository, CompanyStoryRepository>()
                 .AddSingleton<IUserProfileRepository, UserProfileRepository>();
     }
 }

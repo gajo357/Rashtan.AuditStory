@@ -3,41 +3,32 @@ using Microsoft.AspNetCore.Mvc;
 using Rashtan.AuditStory.API.Utils;
 using Rashtan.AuditStory.Dto;
 using Rashtan.AuditStory.Workflows;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.API.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public class CompanyController : UserBasedController
     {
-        private CompanyWorkflow CompanyProfileRepository { get; }
+        private CompanyWorkflow CompanyWorkflow { get; }
 
-        public CompanyController(CompanyWorkflow companyProfileRepository)
+        public CompanyController(CompanyWorkflow companyWorkflow)
         {
-            CompanyProfileRepository = companyProfileRepository;
+            CompanyWorkflow = companyWorkflow;
         }
 
-        // GET api/company/profile?ticker=MSFT
+        // GET api/company
         [HttpGet]
-        public async Task<ActionResult<CompanyProfile>> Profile([FromQuery]string ticker) 
-            => Unpack(await CompanyProfileRepository.GetProfileAsync(UserId, ticker));
-
-        // GET api/company/getprofiles
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CompanyProfile>>> GetProfiles() 
-            => Unpack(await CompanyProfileRepository.GetProfilesAsync<string>(UserId));
+        public async Task<ActionResult<IEnumerable<Profile>>> GetProfiles() 
+            => Unpack(await CompanyWorkflow.GetProfilesAsync<string>(UserId));
 
         // POST api/company
         [HttpPost]
-        public async Task<ActionResult<CompanyProfile>> CreateProfile([FromBody] CompanyProfile company)
-            => Unpack(await CompanyProfileRepository.CreateProfileAsync(UserId, company));
-
-        // DELETE api/company/MSFT
-        [HttpDelete]
-        public async Task<ActionResult<bool>> Delete([FromQuery] string ticker) 
-            => Unpack(await CompanyProfileRepository.DeleteProfileAsync(UserId, ticker));
+        public async Task<ActionResult<Guid>> CreateProfile([FromBody] CompanyStoryCreate company)
+            => Unpack(await CompanyWorkflow.CreateStoryAsync(UserId, company));
     }
 }

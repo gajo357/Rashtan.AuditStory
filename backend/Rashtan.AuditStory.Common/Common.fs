@@ -8,6 +8,8 @@ type ValidationError = {
 type UserStatus = New=0 | Trial=1 | TrialExpired=2 | Paying=3 | Expired=4
 
 module Common =
+    open System
+
     let validateNotEmpty prop str = 
         match System.String.IsNullOrEmpty str with
         | false -> Ok ()
@@ -26,4 +28,15 @@ module Common =
             Error (sprintf "%s: Has to be bigger than %A" prop min)
         else 
             Ok ()
+            
+    let validateGuid prop str =
+        let mutable result = Guid.Empty;
+        match Guid.TryParse(str, &result) with
+        | true -> Ok result            
+        | false -> Error (sprintf "%s: String is not a Guid" prop)
+                
+    let validateGuidNotEmpty prop (str: Guid) =
+        match str = Guid.Empty with
+        | true -> Error (sprintf "%s: Cannot be empty" prop)
+        | false -> Ok()
 

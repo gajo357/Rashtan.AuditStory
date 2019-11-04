@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="CompanyMapper.fs" />
+    <Compile Include="CompanyFromDbMapper.fs" />
+    <Compile Include="CompanyToDbMapper.fs" />
     <Compile Include="UserMapper.fs" />
   </ItemGroup>
 

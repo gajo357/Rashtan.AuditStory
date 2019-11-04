@@ -20,8 +20,5 @@ export default interface IApiService {
   getUserProfile: () => Promise<UserInfo>;
   saveUserProfile: (user: UserInfo) => Promise<UserInfo>;
 
-  getFolders: () => Promise<string[]>;
-  getFolderCompanies: (folder: string) => Promise<CompanyProfile[]>;
-
   getChecklistItems: () => Promise<ChecklistItem[]>;
 }

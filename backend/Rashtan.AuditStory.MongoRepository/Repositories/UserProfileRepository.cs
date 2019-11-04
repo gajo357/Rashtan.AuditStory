@@ -11,7 +11,7 @@ namespace Rashtan.AuditStory.MongoRepository
         {
         }
 
-        public async Task<UserProfile> GetProfileAsync(string userId) => await GetOneAsync(userId);
+        public async Task<UserProfile> GetProfileAsync(string userId) => await GetOneAsync<string>(userId);
 
         public async Task SaveProfileAsync(string userId, UserProfile profile) => await AddAsync(userId, profile);
     }

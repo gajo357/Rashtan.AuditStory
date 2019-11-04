@@ -66,8 +66,8 @@ const SideNavBar: React.FC<Props> = ({ apiService, logOut }) => {
 
   useEffect(() => {
     apiService
-      .getFolders()
-      .then(foldersPopulated)
+      .getCompanies()
+      .then(c => foldersPopulated(c.map(s => s.folder).filter((s, i, ar) => ar.includes(s))))
       .catch(showError);
   }, [apiService]);
 
