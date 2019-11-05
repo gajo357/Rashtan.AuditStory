@@ -24,7 +24,7 @@ const PortalLayout: React.FC<PortalProps> = ({
     <Layout style={{ minHeight: "100vh" }}>
       <SideNavBar apiService={apiService} logOut={logOut} />
       <Layout>
-        <Layout.Content>{children}</Layout.Content>
+        <Layout.Content style={{ marginLeft: 5 }}>{children}</Layout.Content>
         <Footer />
       </Layout>
     </Layout>

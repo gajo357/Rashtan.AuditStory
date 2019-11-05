@@ -14,11 +14,6 @@ export interface SideElement {
 const mainElements: () => SideElement[] = () => {
   return [
     {
-      to: "/newstory",
-      icon: <Icon type="file-add" />,
-      text: "New story"
-    },
-    {
       to: "/",
       icon: <Icon type="dashboard" />,
       text: "Dashboard"
@@ -67,7 +62,11 @@ const SideNavBar: React.FC<Props> = ({ apiService, logOut }) => {
   useEffect(() => {
     apiService
       .getCompanies()
-      .then(c => foldersPopulated(c.map(s => s.folder).filter((s, i, ar) => ar.includes(s))))
+      .then(c =>
+        foldersPopulated(
+          c.map(s => s.folder).filter((s, i, ar) => ar.includes(s))
+        )
+      )
       .catch(showError);
   }, [apiService]);
 
@@ -89,6 +88,13 @@ const SideNavBar: React.FC<Props> = ({ apiService, logOut }) => {
   return (
     <Layout.Sider collapsible collapsed={!open} onCollapse={onCollapse}>
       <Menu theme="dark" mode="inline">
+        {renderElement({
+          icon: <Icon type="file-add" />,
+          text: "New Story",
+          to: "/newStory"
+        })}
+        <Divider />
+
         {elements.map(e =>
           e.subItems ? (
             e.subItems.length === 0 ? (
@@ -110,10 +116,8 @@ const SideNavBar: React.FC<Props> = ({ apiService, logOut }) => {
             renderElement(e)
           )
         )}
-        <Menu.Item key="divider">
-          <Divider />
-        </Menu.Item>
 
+        <Divider />
         <Menu.Item key="Logout" onClick={_ => logOut()}>
           <Icon type="logout"></Icon>
           <span>Log out</span>

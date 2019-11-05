@@ -71,7 +71,18 @@ const PortalNewStory: React.FC<Props> = ({
       >
         {getFieldDecorator(nameProp, {
           rules: [{ required: true, message: "Please input company's name!" }]
-        })(<Input />)}
+        })(<Input placeholder="Name" />)}
+      </Item>
+      <Item
+        label="Website"
+        validateStatus={validateStatus("website")}
+        help={help("website")}
+      >
+        {getFieldDecorator("website", {
+          rules: [
+            { required: true, message: "Please input company's website!" }
+          ]
+        })(<Input placeholder="Website" />)}
       </Item>
 
       <Item>
