@@ -43,6 +43,16 @@ const formatUserError: React.FC<UserError> = e => {
   );
 };
 
+const formatUnknownError: React.FC<Error> = e => {
+  return (
+    <div>
+      <p>Error name: {e.name}</p>
+      <p>{e.message}</p>
+      {e.stack && <p>{e.stack}</p>}
+    </div>
+  );
+};
+
 const showError = (e: Error) => {
   if (e instanceof ValidationError) {
     Modal.warning({
@@ -57,7 +67,7 @@ const showError = (e: Error) => {
   } else {
     Modal.error({
       title: "An error has occured",
-      content: e
+      content: formatUnknownError(e)
     });
   }
 };
