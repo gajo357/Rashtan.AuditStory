@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Form, List, Typography, Icon } from "antd";
+import { Input, Form, List, Icon } from "antd";
 import ReactQuill from "react-quill";
 import { CompanyStoryCustomPart } from "../../models/Company";
 
@@ -23,10 +23,8 @@ const StoryCustomPart: React.FC<Props> = ({ data, remove, dataChanged }) => {
       <List.Item.Meta
         title={
           <span>
-            <Typography.Title>
-              {data.title}
-              <Icon type="delete" onClick={remove} style={{ marginLeft: 10 }} />
-            </Typography.Title>
+            {data.title}
+            <Icon type="delete" onClick={remove} style={{ marginLeft: 10 }} />
           </span>
         }
         description={

@@ -1,4 +1,4 @@
-import { WebAuth, Auth0DecodedHash } from "auth0-js";
+import { WebAuth } from "auth0-js";
 import { AUTH_CONFIG, BASE_ADDRESS } from "./Auth0Config";
 
 export default class AuthService {
@@ -21,37 +21,38 @@ export default class AuthService {
 
   logOut = () => {
     localStorage.removeItem("access_token");
-    localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
     this.auth0.logout({ returnTo: BASE_ADDRESS });
   };
 
-  handleAuthentication = (sessionStarted: () => void) => {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-        sessionStarted();
-      } else if (err) {
-        console.log(err);
-      }
+  handleAuthentication = () => {
+    return new Promise((resolve, reject) => {
+      this.auth0.parseHash((err, authResult) => {
+        if (err) return reject(`${err.error}: ${err.errorDescription}`);
+        if (!authResult || !authResult.accessToken) {
+          return reject("No token");
+        }
+
+        this.setSession(authResult.expiresIn, authResult.accessToken);
+        resolve();
+      });
     });
   };
 
-  setSession = (authResult: Auth0DecodedHash) => {
-    const expiresIn =
-      authResult.expiresIn == null ? 0 : authResult.expiresIn * 1000;
+  setSession = (expiresIn: number | undefined, accessToken: string) => {
+    expiresIn = expiresIn ? expiresIn * 1000 : 0;
     let expiresAt = JSON.stringify(expiresIn + new Date().getTime());
-    if (authResult.accessToken != null)
-      localStorage.setItem("access_token", authResult.accessToken);
-    if (authResult.idToken != null)
-      localStorage.setItem("id_token", authResult.idToken);
     localStorage.setItem("expires_at", expiresAt);
+    localStorage.setItem("access_token", accessToken);
   };
 
   isAuthenticated = () => {
     const expiresAtString = localStorage.getItem("expires_at");
-    const expiresAt = expiresAtString == null ? 0 : JSON.parse(expiresAtString);
-    return new Date().getTime() < expiresAt;
+    if (!expiresAtString) return false;
+    const expiresAt = JSON.parse(expiresAtString);
+    const currentTime = new Date().getTime();
+
+    return currentTime < expiresAt;
   };
 
   getAccessToken = () => {

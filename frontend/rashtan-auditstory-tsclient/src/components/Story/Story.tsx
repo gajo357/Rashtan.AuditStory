@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
-import { List, Spin, Button, Tooltip } from "antd";
+import { Spin, Button, Tooltip, PageHeader, Layout, Row, Col } from "antd";
 import IApiService from "../../services/IApiService";
 import { CompanyStory, ChecklistItem } from "../../models/Company";
 import { showError } from "../../models/Errors";
@@ -20,9 +20,10 @@ import {
 interface Props {
   apiService: IApiService;
   id: string;
+  goHome: () => void;
 }
 
-const Story: React.FC<Props> = ({ apiService, id }) => {
+const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
   const [company, setCompany] = useState<CompanyStory>();
   const [extraItems, setExtraItems] = useState<ChecklistItem[]>([]);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
@@ -61,16 +62,91 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
 
       <Spin spinning={!company} tip="Loading" size="large">
         {company && (
-          <>
-            <List
-              style={{ margin: 5 }}
-              itemLayout="vertical"
-              size="large"
-              footer={
-                <div>
+          <div style={{ position: "relative", minHeight: "100%" }}>
+            <PageHeader
+              title={company.profile.name}
+              onBack={goHome}
+              style={{ paddingBottom: 50 }}
+            >
+              <Layout.Content>
+                <StoryProfile
+                  title="Profile"
+                  key={0}
+                  data={company.profile}
+                  dataChanged={p => updateCompany({ ...company, profile: p })}
+                />
+
+                <StoryRevenue
+                  title="Revenue Streams"
+                  key={1}
+                  data={company.revenue}
+                  dataChanged={p => updateCompany({ ...company, revenue: p })}
+                />
+
+                <StoryCompetition
+                  title="Competition"
+                  key={2}
+                  data={company.competition}
+                  dataChanged={p =>
+                    updateCompany({ ...company, competition: p })
+                  }
+                />
+
+                <StoryMoat
+                  title="Moat"
+                  key={3}
+                  data={company.moat}
+                  dataChanged={p => updateCompany({ ...company, moat: p })}
+                />
+
+                <StoryManagement
+                  title="Management"
+                  key={4}
+                  data={company.management}
+                  dataChanged={p =>
+                    updateCompany({ ...company, management: p })
+                  }
+                />
+
+                {company.parts.map((part, i) => {
+                  return (
+                    <StoryCustomPart
+                      key={i + 5}
+                      data={part}
+                      remove={() => {
+                        const c = removeElement(company.parts, part);
+                        updateCompany({ ...company, parts: c });
+                      }}
+                      dataChanged={p => {
+                        const c = replaceElement(company.parts, part, p);
+                        updateCompany({ ...company, parts: c });
+                      }}
+                    />
+                  );
+                })}
+
+                <StoryChecklist
+                  key={100}
+                  title="Checklist"
+                  data={company.checklist}
+                  dataChanged={p => updateCompany({ ...company, checklist: p })}
+                  extraData={extraItems}
+                />
+              </Layout.Content>
+            </PageHeader>
+            <div
+              style={{
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                backgroundColor: "white"
+              }}
+            >
+              <Row>
+                <Col span={12}>
                   <Button
-                    size="large"
-                    onClick={_ => {
+                    onClick={() => {
                       const parts = addElement(company.parts, {
                         title: "custom",
                         content: ""
@@ -81,19 +157,21 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
                   >
                     Add custom part
                   </Button>
+                </Col>
+
+                <Col span={12} push={8}>
                   <Tooltip placement="topLeft" title="Save story">
                     <Button
                       type="primary"
-                      size="large"
                       icon="save"
                       style={{ marginLeft: 10 }}
                       loading={saving}
-                      onClick={_ => {
+                      onClick={() => {
                         console.log(company);
                         setSaving(true);
                         apiService
                           .saveCompanyStory(company)
-                          .then(_ => {
+                          .then(() => {
                             setSaving(false);
                             setUnsavedChanges(false);
                           })
@@ -104,70 +182,10 @@ const Story: React.FC<Props> = ({ apiService, id }) => {
                       }}
                     />
                   </Tooltip>
-                </div>
-              }
-            >
-              <StoryProfile
-                title={company.profile.name}
-                key={0}
-                data={company.profile}
-                dataChanged={p => updateCompany({ ...company, profile: p })}
-              />
-
-              <StoryRevenue
-                title="Revenue Streams"
-                key={1}
-                data={company.revenue}
-                dataChanged={p => updateCompany({ ...company, revenue: p })}
-              />
-
-              <StoryCompetition
-                title="Competition"
-                key={2}
-                data={company.competition}
-                dataChanged={p => updateCompany({ ...company, competition: p })}
-              />
-
-              <StoryMoat
-                title="Moat"
-                key={3}
-                data={company.moat}
-                dataChanged={p => updateCompany({ ...company, moat: p })}
-              />
-
-              <StoryManagement
-                title="Management"
-                key={4}
-                data={company.management}
-                dataChanged={p => updateCompany({ ...company, management: p })}
-              />
-
-              {company.parts.map((part, i) => {
-                return (
-                  <StoryCustomPart
-                    key={i + 5}
-                    data={part}
-                    remove={() => {
-                      const c = removeElement(company.parts, part);
-                      updateCompany({ ...company, parts: c });
-                    }}
-                    dataChanged={p => {
-                      const c = replaceElement(company.parts, part, p);
-                      updateCompany({ ...company, parts: c });
-                    }}
-                  />
-                );
-              })}
-
-              <StoryChecklist
-                key={100}
-                title="Checklist"
-                data={company.checklist}
-                dataChanged={p => updateCompany({ ...company, checklist: p })}
-                extraData={extraItems}
-              />
-            </List>
-          </>
+                </Col>
+              </Row>
+            </div>
+          </div>
         )}
       </Spin>
     </>

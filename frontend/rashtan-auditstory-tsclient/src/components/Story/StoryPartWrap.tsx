@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Typography, Form } from "antd";
+import { List, Form } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { GetFieldDecoratorOptions } from "antd/lib/form/Form";
 
@@ -44,11 +44,7 @@ function StoryPartWrap<TData>(
     return (
       <List.Item>
         <List.Item.Meta
-          title={
-            <span>
-              <Typography.Title>{title}</Typography.Title>
-            </span>
-          }
+          title={title}
           description={
             <Form layout="horizontal">
               <PartContent

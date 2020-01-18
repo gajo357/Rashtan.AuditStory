@@ -1,18 +1,16 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, RouteProps, Redirect } from "react-router-dom";
 import { History } from "history";
 import "./App.css";
 import Footer from "../Footer";
-import PortalDashboard from "../PortalDashboard/PortalDashboard";
 import Terms from "../Terms";
 import IApiService from "../../services/IApiService";
 import AuthService from "../../services/AuthService";
 import EditUser from "../EditUser";
-import PortalNewStory from "../PortalNewStory";
 import Story from "../Story/Story";
-import PortalFolders from "../PortalFolders";
-import PortalLayout from "../PortalLayout";
-import { Layout } from "antd";
+import Home from "../Home";
+import { showError } from "../../models/Errors";
+import { Typography, Button } from "antd";
 
 interface Props {
   apiService: IApiService;
@@ -25,7 +23,10 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
   };
 
   const startSession = (history: History) => {
-    authService.handleAuthentication(sessionStarted(history));
+    authService
+      .handleAuthentication()
+      .then(sessionStarted(history))
+      .catch(showError);
     return (
       <div>
         <p>Starting session...</p>
@@ -33,67 +34,68 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
     );
   };
 
-  const logOut = () => {
-    authService.logOut();
+  const CustomRoute = (props: RouteProps) => {
+    if (authService.isAuthenticated()) {
+      return <Route {...props} />;
+    }
+    return <Redirect to="/login" />;
   };
 
   return (
     <div className={"app root"}>
-      <Layout>
-        <Switch>
-          <Route
-            path="/startSession"
-            render={({ history }) => startSession(history)}
-          />
+      <Switch>
+        <Route
+          path="/startSession"
+          render={({ history }) => startSession(history)}
+        />
+        <Route exact path="/login">
+          <div>
+            <Typography.Title>AuditStory</Typography.Title>
+            <Button
+              icon="login"
+              type="primary"
+              onClick={() => authService.logIn()}
+            >
+              Log In
+            </Button>
+          </div>
+        </Route>
 
-          <Route exact path="/terms">
-            <Terms />
-            <Footer />
-          </Route>
+        <CustomRoute exact path="/terms">
+          <Terms />
+          <Footer />
+        </CustomRoute>
 
-          <PortalLayout apiService={apiService} logOut={logOut}>
-            <Route
-              exact
-              path="/"
-              render={({ history }) => (
-                <PortalDashboard apiService={apiService} history={history} />
-              )}
+        <CustomRoute
+          exact
+          path="/"
+          render={({ history }) => (
+            <Home
+              apiService={apiService}
+              history={history}
+              logOut={authService.logOut}
             />
-            <Route
-              exact
-              path="/newstory"
-              render={({ history }) => (
-                <PortalNewStory apiService={apiService} history={history} />
-              )}
-            />
-            <Route
-              exact
-              path="/story/:id"
-              render={({ match }) => (
-                <Story apiService={apiService} id={match.params["id"]} />
-              )}
-            />
-            <Route
-              exact
-              path="/folder/:name"
-              render={({ history, match }) => (
-                <PortalFolders
-                  apiService={apiService}
-                  history={history}
-                  folder={match.params["name"]}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/account"
-              component={() => <EditUser apiService={apiService} />}
-            />
-          </PortalLayout>
+          )}
+        />
 
-          <Route component={() => <Redirect to="/" />} />
-        </Switch>
-      </Layout>
+        <CustomRoute
+          exact
+          path="/story/:id"
+          render={({ match, history }) => (
+            <Story
+              apiService={apiService}
+              id={match.params["id"]}
+              goHome={() => history.push("/")}
+            />
+          )}
+        />
+        <CustomRoute
+          exact
+          path="/account"
+          component={() => <EditUser apiService={apiService} />}
+        />
+        <CustomRoute component={() => <Redirect to="/" />} />
+      </Switch>
     </div>
   );
 };

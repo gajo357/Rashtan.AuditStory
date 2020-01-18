@@ -3,12 +3,14 @@ import {
   CompanyProfile,
   CompanyStory,
   CompanyStoryCreate,
-  ChecklistItem
+  ChecklistItem,
+  CompanyQuickInfo
 } from "../models/Company";
 import { BASE_API } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { ResponseError, ValidationError, UserError } from "../models/Errors";
+import Category from "../models/Category";
 
 export default class ApiService implements IApiService {
   public authService: AuthService;
@@ -67,7 +69,10 @@ export default class ApiService implements IApiService {
     }).then(r => this.unwrapResponse<TResult>(r));
 
   private company = "api/company";
-  getCompanies = () => this.getCommand<CompanyProfile[]>(this.company);
+  getCompanies = () =>
+    this.getCommand<any[]>(this.company).then(comps =>
+      comps.map(c => ({ ...c, dateEdited: new Date(c.dateEdited) }))
+    );
   createNewStory = (company: CompanyStoryCreate) =>
     this.putCommand<CompanyStoryCreate, string>(this.company, company);
 
@@ -83,6 +88,11 @@ export default class ApiService implements IApiService {
   getUserProfile = () => this.getCommand<UserInfo>(this.userProfile);
   saveUserProfile = (user: UserInfo) =>
     this.postCommand<UserInfo, UserInfo>(this.userProfile, user);
+
+  private category = "api/category";
+  getCategories = () => this.getCommand<Category[]>(this.category);
+  saveCategory = (category: Category) =>
+    this.postCommand<Category, Category>(this.category, category);
 
   getChecklistItems = () => this.getCommand<ChecklistItem[]>("api/checklist");
 }

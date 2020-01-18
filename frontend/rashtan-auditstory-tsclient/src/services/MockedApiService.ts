@@ -3,11 +3,13 @@ import {
   CompanyProfile,
   CompanyStory,
   MoatKind,
-  ChecklistItem
+  ChecklistItem,
+  CompanyQuickInfo
 } from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { UserError } from "../models/Errors";
+import Category from "../models/Category";
 
 export default class MockedApiService implements IApiService {
   public authService: AuthService;
@@ -82,7 +84,25 @@ export default class MockedApiService implements IApiService {
     ]
   };
 
-  getCompanies = () => this.resolved<CompanyProfile[]>([this.micron]);
+  getCompanies = () =>
+    this.resolved<CompanyQuickInfo[]>([
+      {
+        id: "12345678",
+        name: "Micron Technologies",
+        flags: 0,
+        star: true,
+        category: "Wonderfull",
+        dateEdited: new Date(Date.now())
+      },
+      {
+        id: "12345677",
+        name: "GrafTech",
+        flags: 3,
+        star: false,
+        category: "Wonderfull",
+        dateEdited: new Date(Date.now())
+      }
+    ]);
   getCompany = () => this.rejected<CompanyProfile>();
 
   createNewStory = () => this.resolved<string>(this.micron.id);
@@ -99,6 +119,19 @@ export default class MockedApiService implements IApiService {
       country: "US"
     });
   saveUserProfile = (user: UserInfo) => this.resolved<UserInfo>(user);
+
+  getCategories = () =>
+    this.resolved<Category[]>([
+      {
+        name: "Wonderfull",
+        color: "#009688"
+      },
+      {
+        name: "Not understand",
+        color: "#FFC107"
+      }
+    ]);
+  saveCategory = (category: Category) => this.resolved<Category>(category);
 
   getChecklistItems = () =>
     this.resolved<ChecklistItem[]>([

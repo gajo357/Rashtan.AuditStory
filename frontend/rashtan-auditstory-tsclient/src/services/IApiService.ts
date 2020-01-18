@@ -1,16 +1,17 @@
 import {
-  CompanyProfile,
+  CompanyQuickInfo,
   CompanyStory,
   CompanyStoryCreate,
   ChecklistItem
 } from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
 import AuthService from "./AuthService";
+import Category from "../models/Category";
 
 export default interface IApiService {
   authService: AuthService;
 
-  getCompanies: () => Promise<CompanyProfile[]>;
+  getCompanies: () => Promise<CompanyQuickInfo[]>;
   createNewStory: (company: CompanyStoryCreate) => Promise<string>;
 
   getCompanyStory: (id: string) => Promise<CompanyStory>;
@@ -21,4 +22,7 @@ export default interface IApiService {
   saveUserProfile: (user: UserInfo) => Promise<UserInfo>;
 
   getChecklistItems: () => Promise<ChecklistItem[]>;
+
+  getCategories: () => Promise<Category[]>;
+  saveCategory: (category: Category) => Promise<Category>;
 }

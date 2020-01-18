@@ -17,6 +17,16 @@ export interface CompanyStory {
   checklist: ChecklistItem[];
 }
 
+export interface CompanyQuickInfo {
+  id: string;
+
+  name: string;
+  star: boolean;
+  flags: number;
+  dateEdited: Date;
+  category: string;
+}
+
 export interface CompanyProfile {
   id: string;
 
