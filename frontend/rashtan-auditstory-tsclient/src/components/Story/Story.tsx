@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
-import { Spin, Button, Tooltip, PageHeader, Layout, Row, Col } from "antd";
+import { Spin, Button, Tooltip, PageHeader, Row, Col, List } from "antd";
 import IApiService from "../../services/IApiService";
 import { CompanyStory, ChecklistItem } from "../../models/Company";
 import { showError } from "../../models/Errors";
@@ -68,7 +68,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
               onBack={goHome}
               style={{ paddingBottom: 50 }}
             >
-              <Layout.Content>
+              <List>
                 <StoryProfile
                   title="Profile"
                   key={0}
@@ -132,7 +132,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   dataChanged={p => updateCompany({ ...company, checklist: p })}
                   extraData={extraItems}
                 />
-              </Layout.Content>
+              </List>
             </PageHeader>
             <div
               style={{

@@ -15,7 +15,7 @@ interface Props {
 
 const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
   const [open, setOpen] = React.useState(false);
-  const [category, setCategory] = React.useState("");
+  const [category, setCategory] = React.useState<Category | undefined>();
   const [companies, setCompanies] = React.useState<CompanyQuickInfo[]>([]);
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [favourite, setFavourite] = React.useState(false);
@@ -36,7 +36,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
 
   const categoryToColorMap = (name: string) => {
     const c = categories.find(c => c.name === name);
-    return c ? c.color : "#0000";
+    return c ? c.color : "#FFFFFF";
   };
   const onClose = () => setOpen(false);
 
@@ -61,16 +61,16 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
               .then(setCategories)
               .catch(showError)
               .finally(() => {
-                setCategory(c.name);
+                setCategory(c);
                 onClose();
               });
           }}
           onCategorySelected={c => {
-            setCategory(c.name);
+            setCategory(c);
             onClose();
           }}
           clearFilters={() => {
-            setCategory("");
+            setCategory(undefined);
             setFavourite(false);
             onClose();
           }}
@@ -82,19 +82,19 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         ></MainMenu>
       </Drawer>
       <PageHeader
-        title={category ? category : "All stories"}
+        title={category ? category.name : "All stories"}
         backIcon={<Icon type="menu"></Icon>}
         onBack={() => setOpen(true)}
       >
         <List
           dataSource={companies.filter(
-            c =>
-              (category === "" || c.category === category) &&
-              (!favourite || c.star)
+            s =>
+              (!category || s.category === category.name) &&
+              (!favourite || s.star)
           )}
           renderItem={(item: CompanyQuickInfo) => (
             <List.Item
-              color={categoryToColorMap(item.category)}
+              style={{ backgroundColor: categoryToColorMap(item.category) }}
               onClick={() => history.push(`/story/${item.id}`)}
               actions={[
                 item.star && <Icon type="star-o" />,

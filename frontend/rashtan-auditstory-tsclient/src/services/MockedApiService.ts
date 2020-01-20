@@ -120,18 +120,21 @@ export default class MockedApiService implements IApiService {
     });
   saveUserProfile = (user: UserInfo) => this.resolved<UserInfo>(user);
 
-  getCategories = () =>
-    this.resolved<Category[]>([
-      {
-        name: "Wonderfull",
-        color: "#009688"
-      },
-      {
-        name: "Not understand",
-        color: "#FFC107"
-      }
-    ]);
-  saveCategory = (category: Category) => this.resolved<Category>(category);
+  categories = [
+    {
+      name: "Wonderfull",
+      color: "#009688"
+    },
+    {
+      name: "Not understand",
+      color: "#FFC107"
+    }
+  ];
+  getCategories = () => this.resolved<Category[]>(this.categories);
+  saveCategory = (category: Category) => {
+    this.categories.push(category);
+    return this.resolved<Category>(category);
+  };
 
   getChecklistItems = () =>
     this.resolved<ChecklistItem[]>([

@@ -101,7 +101,9 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
 
     return (
       <Form.Item>
-        <Typography.Title level={4}>{title}</Typography.Title>
+        <Typography.Text strong style={{ display: "block" }}>
+          {title}
+        </Typography.Text>
         <Button onClick={handleAdd} style={{ marginBottom: 16 }} icon="plus">
           Add revenue stream
         </Button>
