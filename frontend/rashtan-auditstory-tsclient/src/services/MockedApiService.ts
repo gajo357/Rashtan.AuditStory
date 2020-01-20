@@ -92,7 +92,8 @@ export default class MockedApiService implements IApiService {
         flags: 0,
         star: true,
         category: "Wonderfull",
-        dateEdited: new Date(Date.now())
+        dateEdited: new Date(Date.now()),
+        tags: ["semiconductor"]
       },
       {
         id: "12345677",
@@ -100,7 +101,8 @@ export default class MockedApiService implements IApiService {
         flags: 3,
         star: false,
         category: "Wonderfull",
-        dateEdited: new Date(Date.now())
+        dateEdited: new Date(Date.now()),
+        tags: ["steel", "cheap"]
       }
     ]);
   getCompany = () => this.rejected<CompanyProfile>();

@@ -25,6 +25,7 @@ export interface CompanyQuickInfo {
   flags: number;
   dateEdited: Date;
   category: string;
+  tags: string[];
 }
 
 export interface CompanyProfile {

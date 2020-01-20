@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { History } from "history";
-import { PageHeader, Icon, Drawer, List } from "antd";
+import { PageHeader, Icon, Drawer, List, Tag } from "antd";
 import IApiService from "../services/IApiService";
 import { CompanyQuickInfo } from "../models/Company";
 import { showError } from "../models/Errors";
@@ -87,31 +87,43 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         onBack={() => setOpen(true)}
       >
         <List
+          itemLayout="vertical"
           dataSource={companies.filter(
             s =>
               (!category || s.category === category.name) &&
               (!favourite || s.star)
           )}
-          renderItem={(item: CompanyQuickInfo) => (
-            <List.Item
-              style={{ backgroundColor: categoryToColorMap(item.category) }}
-              onClick={() => history.push(`/story/${item.id}`)}
-              actions={[
-                item.star && <Icon type="star-o" />,
-                item.flags > 0 && (
-                  <span>
-                    <Icon type="flag-o" style={{ marginRight: 8 }} />
-                    {item.flags}
-                  </span>
-                )
-              ]}
-            >
-              <List.Item.Meta
-                title={item.name}
-                description={item.dateEdited.toLocaleString()}
-              />
-            </List.Item>
-          )}
+          renderItem={(item: CompanyQuickInfo) => {
+            const favs = [];
+            if (item.star) favs.push(<Icon key="star" type="star-o" />);
+            if (item.flags)
+              favs.push(
+                <span key="flag">
+                  <Icon
+                    type="flag"
+                    theme="twoTone"
+                    twoToneColor="red"
+                    style={{ marginRight: 8 }}
+                  />
+                  {item.flags}
+                </span>
+              );
+            return (
+              <List.Item
+                style={{ backgroundColor: categoryToColorMap(item.category) }}
+                onClick={() => history.push(`/story/${item.id}`)}
+                actions={item.tags.map(tag => (
+                  <Tag>{tag}</Tag>
+                ))}
+              >
+                <List.Item.Meta
+                  title={item.name}
+                  description={item.dateEdited.toLocaleString()}
+                />
+                {favs}
+              </List.Item>
+            );
+          }}
         ></List>
       </PageHeader>
     </div>
