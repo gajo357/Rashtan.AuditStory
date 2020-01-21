@@ -22,17 +22,20 @@ export default class MockedApiService implements IApiService {
   private rejected = <T>() =>
     Promise.reject<T>(new UserError(400, "Some error"));
 
-  private micron = {
-    id: "Micron",
-    name: "Micron Technologies",
-    industry: "Semiconductor",
-    numberOfShares: 1,
-    marketCap: 100,
-    website: "https://www.micron.com/",
-    folder: "Wonderfull"
-  };
   private micronStory = {
-    profile: this.micron,
+    id: "12345678",
+    category: "Wonderfull",
+    flags: [],
+    star: true,
+    dateEdited: new Date(Date.now()),
+    tags: ["semiconductor"],
+    profile: {
+      name: "Micron Technologies",
+      industry: "Semiconductor",
+      numberOfShares: 1,
+      marketCap: 100,
+      website: "https://www.micron.com/"
+    },
     moat: {
       kinds: [MoatKind.Brand],
       mainAdvantage: "",
@@ -107,7 +110,7 @@ export default class MockedApiService implements IApiService {
     ]);
   getCompany = () => this.rejected<CompanyProfile>();
 
-  createNewStory = () => this.resolved<string>(this.micron.id);
+  createNewStory = () => this.resolved<string>(this.micronStory.id);
 
   getCompanyStory = () => this.resolved<CompanyStory>(this.micronStory);
   saveCompanyStory = (_: CompanyStory) => this.resolved<boolean>(true);

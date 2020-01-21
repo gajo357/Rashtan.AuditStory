@@ -47,15 +47,6 @@ const StoryProfile: React.FC<WithStoryPartProps<CompanyProfile>> = ({
         )}
       </Item>
 
-      <Item label="Shares outstanding" {...formItemLayout}>
-        {getFieldDecorator("numberOfShares")(
-          <InputNumber
-            placeholder="Number of shares outstanding"
-            min={1}
-            step={1}
-          />
-        )}
-      </Item>
       <Item label="Market cap" {...formItemLayout}>
         {getFieldDecorator("marketCap")(
           <InputNumber placeholder="Market cap" min={0} step={1} />
@@ -64,9 +55,6 @@ const StoryProfile: React.FC<WithStoryPartProps<CompanyProfile>> = ({
 
       <Item label="Industry" {...formItemLayout}>
         {getFieldDecorator("industry")(<Input placeholder="Industry" />)}
-      </Item>
-      <Item label="Folder" {...formItemLayout}>
-        {getFieldDecorator("folder")(<Input placeholder="Folder" />)}
       </Item>
     </>
   );

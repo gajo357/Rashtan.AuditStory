@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
-import { Spin, Button, Tooltip, PageHeader, Row, Col, List } from "antd";
+import {
+  Spin,
+  Button,
+  Tooltip,
+  PageHeader,
+  Row,
+  Col,
+  List,
+  Select,
+  Icon
+} from "antd";
 import IApiService from "../../services/IApiService";
 import { CompanyStory, ChecklistItem } from "../../models/Company";
 import { showError } from "../../models/Errors";
@@ -16,6 +26,7 @@ import {
   replaceElement,
   removeElement
 } from "../../models/ArrayUpdate";
+import Category from "../../models/Category";
 
 interface Props {
   apiService: IApiService;
@@ -28,6 +39,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
   const [extraItems, setExtraItems] = useState<ChecklistItem[]>([]);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [categories, setCategories] = React.useState<Category[]>([]);
 
   useEffect(() => {
     if (!id) return;
@@ -43,6 +55,11 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
     apiService
       .getChecklistItems()
       .then(setExtraItems)
+      .catch(showError);
+
+    apiService
+      .getCategories()
+      .then(setCategories)
       .catch(showError);
   }, [apiService]);
 
@@ -69,23 +86,83 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
               style={{ paddingBottom: 50 }}
             >
               <List>
+                <List.Item
+                  key="Heading"
+                  extra={<Icon type="more"></Icon>}
+                  actions={[
+                    <Icon
+                      type="star"
+                      theme="twoTone"
+                      twoToneColor={company.star ? "#FFEB3B" : "#555555"}
+                      onClick={() =>
+                        updateCompany({ ...company, star: !company.star })
+                      }
+                    />,
+                    company.flags.length > 0 && (
+                      <span>
+                        <Icon type="flag" theme="twoTone" twoToneColor="red" />
+                        {company.flags.length}
+                      </span>
+                    )
+                  ]}
+                >
+                  <List.Item.Meta
+                    title={
+                      <Select
+                        loading={categories.length === 0}
+                        placeholder="Select category"
+                        defaultValue={company.category}
+                        onChange={(v: string) =>
+                          updateCompany({ ...company, category: v })
+                        }
+                      >
+                        {categories.map(c => (
+                          <Select.Option value={c.name}>
+                            <span>
+                              <Icon
+                                type="book"
+                                theme="twoTone"
+                                twoToneColor={c.color}
+                              />
+                              {c.name}
+                            </span>
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    }
+                    description={
+                      <span>
+                        <Icon type="tags" />
+                        Tags:
+                        <Select
+                          mode="tags"
+                          onChange={(v: string[]) =>
+                            updateCompany({ ...company, tags: v })
+                          }
+                          defaultValue={company.tags}
+                        />
+                      </span>
+                    }
+                  ></List.Item.Meta>
+                </List.Item>
+
                 <StoryProfile
                   title="Profile"
-                  key={0}
+                  key="Profile"
                   data={company.profile}
                   dataChanged={p => updateCompany({ ...company, profile: p })}
                 />
 
                 <StoryRevenue
                   title="Revenue Streams"
-                  key={1}
+                  key="Revenue Streams"
                   data={company.revenue}
                   dataChanged={p => updateCompany({ ...company, revenue: p })}
                 />
 
                 <StoryCompetition
                   title="Competition"
-                  key={2}
+                  key="Competition"
                   data={company.competition}
                   dataChanged={p =>
                     updateCompany({ ...company, competition: p })
@@ -94,14 +171,14 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
 
                 <StoryMoat
                   title="Moat"
-                  key={3}
+                  key="Moat"
                   data={company.moat}
                   dataChanged={p => updateCompany({ ...company, moat: p })}
                 />
 
                 <StoryManagement
                   title="Management"
-                  key={4}
+                  key="Management"
                   data={company.management}
                   dataChanged={p =>
                     updateCompany({ ...company, management: p })
@@ -171,14 +248,9 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                         setSaving(true);
                         apiService
                           .saveCompanyStory(company)
-                          .then(() => {
-                            setSaving(false);
-                            setUnsavedChanges(false);
-                          })
-                          .catch(e => {
-                            showError(e);
-                            setSaving(false);
-                          });
+                          .then(() => setUnsavedChanges(false))
+                          .catch(showError)
+                          .finally(() => setSaving(false));
                       }}
                     />
                   </Tooltip>

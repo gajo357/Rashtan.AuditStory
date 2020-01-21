@@ -5,6 +5,14 @@ export interface CompanyStoryCreate {
 }
 
 export interface CompanyStory {
+  id: string;
+
+  dateEdited: Date;
+  star: boolean;
+  tags: string[];
+  flags: string[];
+  category: string;
+
   profile: CompanyProfile;
   revenue: CompanyStoryRevenue;
   competition: CompanyCompetition;
@@ -29,14 +37,10 @@ export interface CompanyQuickInfo {
 }
 
 export interface CompanyProfile {
-  id: string;
-
   name: string;
   industry: string;
-  numberOfShares: number;
   marketCap: number;
   website: string;
-  folder: string;
 }
 
 export interface CompanyStoryManagement {
