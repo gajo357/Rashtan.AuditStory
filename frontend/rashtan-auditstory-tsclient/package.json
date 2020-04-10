@@ -12,7 +12,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "^4.3.4",
     "antd": "^3.23.3",
-    "auth0-js": "^9.11.1",
+    "auth0-js": "^9.13.2",
     "braintree-web-drop-in": "^1.18.0",
     "braintree-web-drop-in-react": "^1.0.8",
     "js-levenshtein": "^1.1.6",
