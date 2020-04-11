@@ -42,7 +42,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
   };
 
   return (
-    <div className={"app root"}>
+    <div className={"App root"}>
       <Switch>
         <Route
           path="/startSession"

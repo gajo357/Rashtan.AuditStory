@@ -8,10 +8,6 @@ export interface CompanyStory {
   id: string;
 
   dateEdited: Date;
-  star: boolean;
-  tags: string[];
-  flags: string[];
-  category: string;
 
   profile: CompanyProfile;
   revenue: CompanyStoryRevenue;
@@ -41,6 +37,10 @@ export interface CompanyProfile {
   industry: string;
   marketCap: number;
   website: string;
+  star: boolean;
+  tags: string[];
+  flags: string[];
+  category: string;
 }
 
 export interface CompanyStoryManagement {
@@ -64,7 +64,7 @@ export enum MoatKind {
   Price = 1,
   Secrets = 2,
   Toll = 3,
-  Switching = 4
+  Switching = 4,
 }
 
 export interface CompanyStoryMoat {

@@ -4,7 +4,7 @@ import {
   CompanyStory,
   MoatKind,
   ChecklistItem,
-  CompanyQuickInfo
+  CompanyQuickInfo,
 } from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
@@ -24,17 +24,17 @@ export default class MockedApiService implements IApiService {
 
   private micronStory = {
     id: "12345678",
-    category: "Wonderfull",
-    flags: [],
-    star: true,
     dateEdited: new Date(Date.now()),
-    tags: ["semiconductor"],
     profile: {
       name: "Micron Technologies",
       industry: "Semiconductor",
       numberOfShares: 1,
       marketCap: 100,
-      website: "https://www.micron.com/"
+      website: "https://www.micron.com/",
+      tags: ["semiconductor"],
+      category: "Wonderfull",
+      flags: [],
+      star: true,
     },
     moat: {
       kinds: [MoatKind.Brand],
@@ -46,7 +46,7 @@ export default class MockedApiService implements IApiService {
       ocps: 0,
       sgr: 0,
 
-      comment: ""
+      comment: "",
     },
     management: {
       ceoTrust: 1.5,
@@ -61,30 +61,30 @@ export default class MockedApiService implements IApiService {
       roic: 0,
       debt: 0,
 
-      comment: ""
+      comment: "",
     },
     revenue: {
       totalRevenue: 0,
       byLocation: [],
       byClient: [],
       byProduct: [],
-      comment: ""
+      comment: "",
     },
     competition: {
       competitors: [],
       industryGrowth: "",
-      comment: ""
+      comment: "",
     },
     parts: [
       {
         title: "Meaning",
-        content: "<p><strong><u>Custom meaning</u></strong></p>"
-      }
+        content: "<p><strong><u>Custom meaning</u></strong></p>",
+      },
     ],
     checklist: [
       { question: "Are any gurus invested in it?", response: 0.5 },
-      { question: "Does it align with your values?", response: 2.5 }
-    ]
+      { question: "Does it align with your values?", response: 2.5 },
+    ],
   };
 
   getCompanies = () =>
@@ -96,7 +96,7 @@ export default class MockedApiService implements IApiService {
         star: true,
         category: "Wonderfull",
         dateEdited: new Date(Date.now()),
-        tags: ["semiconductor"]
+        tags: ["semiconductor"],
       },
       {
         id: "12345677",
@@ -105,8 +105,8 @@ export default class MockedApiService implements IApiService {
         star: false,
         category: "Wonderfull",
         dateEdited: new Date(Date.now()),
-        tags: ["steel", "cheap"]
-      }
+        tags: ["steel", "cheap"],
+      },
     ]);
   getCompany = () => this.rejected<CompanyProfile>();
 
@@ -121,19 +121,19 @@ export default class MockedApiService implements IApiService {
       name: "Alan",
       city: "NY",
       state: "Penn",
-      country: "US"
+      country: "US",
     });
   saveUserProfile = (user: UserInfo) => this.resolved<UserInfo>(user);
 
   categories = [
     {
       name: "Wonderfull",
-      color: "#009688"
+      color: "#009688",
     },
     {
       name: "Not understand",
-      color: "#FFC107"
-    }
+      color: "#FFC107",
+    },
   ];
   getCategories = () => this.resolved<Category[]>(this.categories);
   saveCategory = (category: Category) => {
@@ -145,6 +145,6 @@ export default class MockedApiService implements IApiService {
     this.resolved<ChecklistItem[]>([
       { question: "Do you understand the company?", response: 1.5 },
       { question: "Are you affected by latest fad?", response: 4.5 },
-      { question: "Are rushed by someone to buy?", response: 4.5 }
+      { question: "Are rushed by someone to buy?", response: 4.5 },
     ]);
 }

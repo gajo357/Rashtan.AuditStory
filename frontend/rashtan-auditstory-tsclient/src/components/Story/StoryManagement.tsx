@@ -3,59 +3,66 @@ import { Input, Switch, InputNumber, Form, Rate } from "antd";
 import { CompanyStoryManagement } from "../../models/Company";
 import StoryPartWrap, {
   WithStoryPartProps,
-  formItemLayout
+  FormItemProps,
+  FormItem,
 } from "./StoryPartWrap";
+
+const FormItemLocal: React.FC<FormItemProps> = ({ label, children }) => (
+  <FormItem label={label} labelCol={6}>
+    {children}
+  </FormItem>
+);
 
 const StoryManagement: React.FC<WithStoryPartProps<CompanyStoryManagement>> = ({
   getFieldDecorator,
-  setFieldsValue
+  setFieldsValue,
 }) => {
   useEffect(setFieldsValue, []);
   return (
     <>
-      <Form.Item label="Is the CEO the founder?" {...formItemLayout}>
+      <FormItemLocal label="Is the CEO the founder?">
         {getFieldDecorator("ceoFounder", { valuePropName: "checked" })(
           <Switch title="Is the CEO the founder?" />
         )}
-      </Form.Item>
-      <Form.Item label="Is the CEO a major shareholder?" {...formItemLayout}>
+      </FormItemLocal>
+      <FormItemLocal label="Is the CEO a major shareholder?">
         {getFieldDecorator("ceoMajorShareholder", {
-          valuePropName: "checked"
+          valuePropName: "checked",
         })(<Switch title="Is the CEO a major shareholder?" />)}
-      </Form.Item>
+      </FormItemLocal>
 
-      <Form.Item label="CEO tenure" {...formItemLayout}>
+      <FormItemLocal label="CEO tenure">
         {getFieldDecorator("ceoTenure")(
           <InputNumber placeholder="CEO tenure" min={0} step={1} />
         )}
-      </Form.Item>
+      </FormItemLocal>
 
-      <Form.Item label="Trust the CEO?" {...formItemLayout}>
+      <FormItemLocal label="Trust the CEO?">
         {getFieldDecorator("ceoTrust")(<Rate allowHalf={true} />)}
-      </Form.Item>
-      <Form.Item label="CEO candor" {...formItemLayout}>
+      </FormItemLocal>
+      <FormItemLocal label="CEO candor">
         {getFieldDecorator("ceoCandor")(<Rate allowHalf={true} />)}
-      </Form.Item>
-      <Form.Item label="Management able and talented?" {...formItemLayout}>
+      </FormItemLocal>
+      <FormItemLocal label="Management able and talented?">
         {getFieldDecorator("ableAndTalented")(<Rate allowHalf={true} />)}
-      </Form.Item>
+      </FormItemLocal>
 
       <Input.Group>
-        <Form.Item label="ROE" {...formItemLayout}>
+        <FormItemLocal label="ROE">
           {getFieldDecorator("roe")(
             <InputNumber placeholder="ROE" step={0.1} />
           )}
-        </Form.Item>
-        <Form.Item label="ROIC" {...formItemLayout}>
+        </FormItemLocal>
+        <FormItemLocal label="ROIC">
           {getFieldDecorator("roic")(
             <InputNumber placeholder="ROIC" step={0.1} />
           )}
-        </Form.Item>
-        <Form.Item label="Debt over Earnings" {...formItemLayout}>
+        </FormItemLocal>
+        <FormItemLocal label="Debt over Earnings">
           {getFieldDecorator("debt")(
             <InputNumber placeholder="Debt over Earnings" min={0} step={0.1} />
           )}
-        </Form.Item>
+        </FormItemLocal>
       </Input.Group>
 
       <Form.Item label="Comment">

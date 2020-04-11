@@ -3,13 +3,12 @@ import { Redirect, Prompt } from "react-router";
 import {
   Spin,
   Button,
-  Tooltip,
   PageHeader,
-  Row,
-  Col,
-  List,
-  Select,
-  Icon
+  Carousel,
+  Dropdown,
+  Menu,
+  Modal,
+  Icon,
 } from "antd";
 import IApiService from "../../services/IApiService";
 import { CompanyStory, ChecklistItem } from "../../models/Company";
@@ -24,9 +23,12 @@ import StoryChecklist from "./StoryChecklist";
 import {
   addElement,
   replaceElement,
-  removeElement
+  removeElement,
 } from "../../models/ArrayUpdate";
 import Category from "../../models/Category";
+import styles from "./Story-styles";
+
+const { confirm } = Modal;
 
 interface Props {
   apiService: IApiService;
@@ -52,15 +54,9 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
   }, [apiService, id]);
 
   useEffect(() => {
-    apiService
-      .getChecklistItems()
-      .then(setExtraItems)
-      .catch(showError);
+    apiService.getChecklistItems().then(setExtraItems).catch(showError);
 
-    apiService
-      .getCategories()
-      .then(setCategories)
-      .catch(showError);
+    apiService.getCategories().then(setCategories).catch(showError);
   }, [apiService]);
 
   if (!id) return <Redirect to="/" />;
@@ -69,6 +65,54 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
     setCompany(c);
     setUnsavedChanges(true);
   };
+
+  const menu = company && (
+    <Menu selectable={false}>
+      <Menu.Item
+        onClick={() => {
+          const parts = addElement(company.parts, {
+            title: "custom",
+            content: "",
+          });
+          updateCompany({ ...company, parts: parts });
+        }}
+      >
+        <Icon type="plus-circle" />
+        Custom part
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          confirm({
+            title: "Are you sure delete this story?",
+            onOk() {
+              apiService
+                .deleteCompanyStory(company.id)
+                .catch(showError)
+                .then(goHome);
+            },
+          });
+        }}
+      >
+        <Icon type="delete" />
+        Delete
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          console.log(company);
+          setSaving(true);
+          apiService
+            .saveCompanyStory(company)
+            .then(() => setUnsavedChanges(false))
+            .catch(showError)
+            .finally(() => setSaving(false));
+        }}
+        disabled={saving}
+      >
+        <Icon type="save" />
+        Save
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <>
@@ -79,184 +123,77 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
 
       <Spin spinning={!company} tip="Loading" size="large">
         {company && (
-          <div style={{ position: "relative", minHeight: "100%" }}>
+          <div style={styles.root}>
             <PageHeader
               title={company.profile.name}
               onBack={goHome}
-              style={{ paddingBottom: 50 }}
+              style={styles.pageHeader}
+              extra={
+                <Dropdown key="more" overlay={menu}>
+                  <Button icon="more" style={styles.moreButton}></Button>
+                </Dropdown>
+              }
             >
-              <List>
-                <List.Item
-                  key="Heading"
-                  extra={<Icon type="more"></Icon>}
-                  actions={[
-                    <Icon
-                      type="star"
-                      theme="twoTone"
-                      twoToneColor={company.star ? "#FFEB3B" : "#555555"}
-                      onClick={() =>
-                        updateCompany({ ...company, star: !company.star })
-                      }
-                    />,
-                    company.flags.length > 0 && (
-                      <span>
-                        <Icon type="flag" theme="twoTone" twoToneColor="red" />
-                        {company.flags.length}
-                      </span>
-                    )
-                  ]}
-                >
-                  <List.Item.Meta
-                    title={
-                      <Select
-                        loading={categories.length === 0}
-                        placeholder="Select category"
-                        defaultValue={company.category}
-                        onChange={(v: string) =>
-                          updateCompany({ ...company, category: v })
-                        }
-                      >
-                        {categories.map(c => (
-                          <Select.Option value={c.name}>
-                            <span>
-                              <Icon
-                                type="book"
-                                theme="twoTone"
-                                twoToneColor={c.color}
-                              />
-                              {c.name}
-                            </span>
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    }
-                    description={
-                      <span>
-                        <Icon type="tags" />
-                        Tags:
-                        <Select
-                          mode="tags"
-                          onChange={(v: string[]) =>
-                            updateCompany({ ...company, tags: v })
-                          }
-                          defaultValue={company.tags}
-                        />
-                      </span>
-                    }
-                  ></List.Item.Meta>
-                </List.Item>
-
+              <Carousel dotPosition="top" style={styles.carousel}>
                 <StoryProfile
                   title="Profile"
-                  key="Profile"
-                  data={company.profile}
-                  dataChanged={p => updateCompany({ ...company, profile: p })}
+                  data={{ ...company.profile, categories }}
+                  dataChanged={(p) => updateCompany({ ...company, profile: p })}
                 />
 
                 <StoryRevenue
                   title="Revenue Streams"
-                  key="Revenue Streams"
                   data={company.revenue}
-                  dataChanged={p => updateCompany({ ...company, revenue: p })}
+                  dataChanged={(p) => updateCompany({ ...company, revenue: p })}
                 />
 
                 <StoryCompetition
                   title="Competition"
-                  key="Competition"
                   data={company.competition}
-                  dataChanged={p =>
+                  dataChanged={(p) =>
                     updateCompany({ ...company, competition: p })
                   }
                 />
 
                 <StoryMoat
                   title="Moat"
-                  key="Moat"
                   data={company.moat}
-                  dataChanged={p => updateCompany({ ...company, moat: p })}
+                  dataChanged={(p) => updateCompany({ ...company, moat: p })}
                 />
 
                 <StoryManagement
                   title="Management"
-                  key="Management"
                   data={company.management}
-                  dataChanged={p =>
+                  dataChanged={(p) =>
                     updateCompany({ ...company, management: p })
                   }
                 />
 
-                {company.parts.map((part, i) => {
-                  return (
-                    <StoryCustomPart
-                      key={i + 5}
-                      data={part}
-                      remove={() => {
-                        const c = removeElement(company.parts, part);
-                        updateCompany({ ...company, parts: c });
-                      }}
-                      dataChanged={p => {
-                        const c = replaceElement(company.parts, part, p);
-                        updateCompany({ ...company, parts: c });
-                      }}
-                    />
-                  );
-                })}
+                {company.parts.map((part) => (
+                  <StoryCustomPart
+                    key={part.title}
+                    data={part}
+                    remove={() => {
+                      const c = removeElement(company.parts, part);
+                      updateCompany({ ...company, parts: c });
+                    }}
+                    dataChanged={(p) => {
+                      const c = replaceElement(company.parts, part, p);
+                      updateCompany({ ...company, parts: c });
+                    }}
+                  />
+                ))}
 
                 <StoryChecklist
-                  key={100}
                   title="Checklist"
                   data={company.checklist}
-                  dataChanged={p => updateCompany({ ...company, checklist: p })}
+                  dataChanged={(p) =>
+                    updateCompany({ ...company, checklist: p })
+                  }
                   extraData={extraItems}
                 />
-              </List>
+              </Carousel>
             </PageHeader>
-            <div
-              style={{
-                position: "fixed",
-                bottom: 0,
-                left: 0,
-                width: "100%",
-                backgroundColor: "white"
-              }}
-            >
-              <Row>
-                <Col span={12}>
-                  <Button
-                    onClick={() => {
-                      const parts = addElement(company.parts, {
-                        title: "custom",
-                        content: ""
-                      });
-                      updateCompany({ ...company, parts: parts });
-                    }}
-                    icon="plus-circle"
-                  >
-                    Add custom part
-                  </Button>
-                </Col>
-
-                <Col span={12} push={8}>
-                  <Tooltip placement="topLeft" title="Save story">
-                    <Button
-                      type="primary"
-                      icon="save"
-                      style={{ marginLeft: 10 }}
-                      loading={saving}
-                      onClick={() => {
-                        console.log(company);
-                        setSaving(true);
-                        apiService
-                          .saveCompanyStory(company)
-                          .then(() => setUnsavedChanges(false))
-                          .catch(showError)
-                          .finally(() => setSaving(false));
-                      }}
-                    />
-                  </Tooltip>
-                </Col>
-              </Row>
-            </div>
           </div>
         )}
       </Spin>

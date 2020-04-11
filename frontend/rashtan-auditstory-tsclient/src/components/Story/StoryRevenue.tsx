@@ -7,25 +7,22 @@ import {
   Table,
   Drawer,
   Typography,
-  Form
+  Form,
 } from "antd";
 import { CompanyStoryRevenue, Revenue } from "../../models/Company";
-import StoryPartWrap, {
-  WithStoryPartProps,
-  formItemLayout
-} from "./StoryPartWrap";
+import StoryPartWrap, { WithStoryPartProps, FormItem } from "./StoryPartWrap";
 import RevenueEdit, { RevenueEditProps } from "./RevenueEdit";
 import {
   addElement,
   replaceElement,
-  removeElement
+  removeElement,
 } from "../../models/ArrayUpdate";
 
 const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
   data,
   dataChanged,
   getFieldDecorator,
-  setFieldsValue
+  setFieldsValue,
 }) => {
   useEffect(setFieldsValue, []);
 
@@ -44,12 +41,12 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
       {
         title: streamColumn,
         dataIndex: "stream",
-        key: "stream"
+        key: "stream",
       },
       {
         title: "Percent",
         dataIndex: "percent",
-        key: "percent"
+        key: "percent",
       },
       {
         title: "",
@@ -57,7 +54,7 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
         render: (_: string, record: Revenue) => (
           <span>
             <Button
-              onClick={_ => {
+              onClick={(_) => {
                 setRevenueEdit({
                   data: record,
                   onSave: (d: Revenue) => {
@@ -66,7 +63,7 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
                     onCancel();
                   },
                   onCancel: onCancel,
-                  streamName: streamColumn
+                  streamName: streamColumn,
                 });
               }}
             >
@@ -74,7 +71,7 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
             </Button>
             <Divider type="vertical" />
             <Button
-              onClick={_ => {
+              onClick={(_) => {
                 const c = removeElement(revenues, record);
                 dataChanged(createData(c));
               }}
@@ -82,8 +79,8 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
               Delete
             </Button>
           </span>
-        )
-      }
+        ),
+      },
     ];
 
     const handleAdd = () => {
@@ -95,7 +92,7 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
           onCancel();
         },
         onCancel: onCancel,
-        streamName: streamColumn
+        streamName: streamColumn,
       });
     };
 
@@ -116,28 +113,33 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
 
   return (
     <>
-      <Form.Item label="Total revenue" {...formItemLayout}>
+      <FormItem label="Total revenue">
         {getFieldDecorator("totalRevenue")(
           <InputNumber placeholder="Total revenue" min={1} />
         )}
-      </Form.Item>
+      </FormItem>
       {createItems(
         "Revenue by locations",
         "Location (country, state...)",
         data.byLocation,
-        v => ({
+        (v) => ({
           ...data,
-          byLocation: v
+          byLocation: v,
         })
       )}
-      {createItems("Revenue by client", "Client name", data.byClient, v => ({
+      {createItems("Revenue by client", "Client name", data.byClient, (v) => ({
         ...data,
-        byClient: v
+        byClient: v,
       }))}
-      {createItems("Revenue by product", "Product name", data.byProduct, v => ({
-        ...data,
-        byProduct: v
-      }))}
+      {createItems(
+        "Revenue by product",
+        "Product name",
+        data.byProduct,
+        (v) => ({
+          ...data,
+          byProduct: v,
+        })
+      )}
       <Form.Item label="Comment">
         {getFieldDecorator("comment")(
           <Input.TextArea placeholder="Comment" rows={2} />

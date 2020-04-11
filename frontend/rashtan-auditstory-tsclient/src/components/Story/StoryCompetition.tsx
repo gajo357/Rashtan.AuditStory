@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Drawer, Input, Table, Button, Divider, Form } from "antd";
 import { CompanyCompetition, CompanyCompetitor } from "../../models/Company";
-import StoryPartWrap, {
-  WithStoryPartProps,
-  formItemLayout
-} from "./StoryPartWrap";
+import StoryPartWrap, { WithStoryPartProps, FormItem } from "./StoryPartWrap";
 import CompanyCompetitorEdit, {
-  CompanyCompetitorEditProps
+  CompanyCompetitorEditProps,
 } from "./CompanyCompetitorEdit";
 import {
   addElement,
   replaceElement,
-  removeElement
+  removeElement,
 } from "../../models/ArrayUpdate";
 
 const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
   data,
   dataChanged,
   getFieldDecorator,
-  setFieldsValue
+  setFieldsValue,
 }) => {
   useEffect(setFieldsValue, []);
 
@@ -32,17 +29,17 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
     {
       title: "Name",
       dataIndex: "name",
-      key: "name"
+      key: "name",
     },
     {
       title: "Market Cap",
       dataIndex: "marketCap",
-      key: "marketCap"
+      key: "marketCap",
     },
     {
       title: "Market Share (%)",
       dataIndex: "marketShare",
-      key: "marketShare"
+      key: "marketShare",
     },
     {
       title: "",
@@ -50,7 +47,7 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
       render: (_: string, record: CompanyCompetitor) => (
         <span>
           <Button
-            onClick={_ => {
+            onClick={(_) => {
               setCompetitorEdit({
                 data: record,
                 onSave: (d: CompanyCompetitor) => {
@@ -58,7 +55,7 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
                   dataChanged({ ...data, competitors: c });
                   onCancel();
                 },
-                onCancel: onCancel
+                onCancel: onCancel,
               });
             }}
           >
@@ -66,7 +63,7 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
           </Button>
           <Divider type="vertical" />
           <Button
-            onClick={_ => {
+            onClick={(_) => {
               const c = removeElement(data.competitors, record);
               dataChanged({ ...data, competitors: c });
             }}
@@ -74,8 +71,8 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
             Delete
           </Button>
         </span>
-      )
-    }
+      ),
+    },
   ];
 
   const handleAdd = () => {
@@ -86,7 +83,7 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
         dataChanged({ ...data, competitors: c });
         onCancel();
       },
-      onCancel: onCancel
+      onCancel: onCancel,
     });
   };
 
@@ -103,11 +100,11 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
         </Form.Item>
       )}
 
-      <Form.Item label="Industry growth" {...formItemLayout}>
+      <FormItem label="Industry growth">
         {getFieldDecorator("industryGrowth")(
           <Input placeholder="Industry growth comment" />
         )}
-      </Form.Item>
+      </FormItem>
 
       <Form.Item label="Comment">
         {getFieldDecorator("comment")(

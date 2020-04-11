@@ -1,4 +1,3 @@
-import "./Story.css";
 import React from "react";
 import { Input, Rate, Form, Icon, Button, List } from "antd";
 import { ChecklistItem } from "../../models/Company";
@@ -6,17 +5,18 @@ import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
 import {
   addElement,
   replaceElement,
-  removeElement
+  removeElement,
 } from "../../models/ArrayUpdate";
+import styles from "./Story-styles";
 
 const StoryChecklist: React.FC<WithStoryPartProps<ChecklistItem[]>> = ({
   data,
   dataChanged,
-  extraData
+  extraData,
 }) => {
   const unusedItems =
     extraData &&
-    extraData.filter(s => !data.some(d => d.question === s.question));
+    extraData.filter((s) => !data.some((d) => d.question === s.question));
 
   const addNewItem = () => addItem({ question: "", response: 0 });
 
@@ -35,13 +35,13 @@ const StoryChecklist: React.FC<WithStoryPartProps<ChecklistItem[]>> = ({
 
   return (
     <>
-      {data.map(item => (
+      {data.map((item) => (
         <Input.Group compact key={item.question}>
-          <Form.Item style={{ width: "40%" }}>
+          <Form.Item style={styles.checklistQuestion}>
             <Input
               placeholder="Checklist item"
               defaultValue={item.question}
-              onChange={v =>
+              onChange={(v) =>
                 itemChanged(item, { ...item, question: v.target.value })
               }
             />
@@ -49,23 +49,22 @@ const StoryChecklist: React.FC<WithStoryPartProps<ChecklistItem[]>> = ({
 
           <Form.Item>
             <Rate
-              style={{ marginLeft: 10, marginRight: 10 }}
+              style={styles.checklistRating}
               allowHalf={true}
               defaultValue={item.response}
-              onChange={v => itemChanged(item, { ...item, response: v })}
+              onChange={(v) => itemChanged(item, { ...item, response: v })}
             />
           </Form.Item>
 
           <Icon
-            style={{ marginTop: 5 }}
-            className="dynamic-delete-button"
+            style={styles.checklistDelete}
             type="minus-circle-o"
             onClick={() => remove(item)}
           />
         </Input.Group>
       ))}
 
-      {!data.some(s => s.question === "") && (
+      {!data.some((s) => s.question === "") && (
         <Form.Item>
           <Button type="dashed" onClick={addNewItem}>
             <Icon type="plus" /> Add item
@@ -78,10 +77,10 @@ const StoryChecklist: React.FC<WithStoryPartProps<ChecklistItem[]>> = ({
           itemLayout="vertical"
           size="large"
           pagination={{
-            pageSize: 3
+            pageSize: 3,
           }}
           dataSource={unusedItems}
-          renderItem={item => (
+          renderItem={(item) => (
             <List.Item key={item.question} onClick={() => addItem(item)}>
               <List.Item.Meta description={item.question} />
             </List.Item>

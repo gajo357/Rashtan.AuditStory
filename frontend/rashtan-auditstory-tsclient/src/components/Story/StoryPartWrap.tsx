@@ -1,12 +1,27 @@
 import React from "react";
-import { List, Form } from "antd";
+import { Form, Typography } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { GetFieldDecoratorOptions } from "antd/lib/form/Form";
 
-export const formItemLayout = {
-  labelCol: { span: 3 },
-  wrapperCol: { span: 14 }
-};
+export interface FormItemProps {
+  label: string;
+  children: React.ReactNode;
+  labelCol?: number;
+}
+
+export const FormItem: React.FC<FormItemProps> = ({
+  label,
+  children,
+  labelCol,
+}) => (
+  <Form.Item
+    label={label}
+    labelCol={{ span: labelCol ?? 3 }}
+    wrapperCol={{ span: 14 }}
+  >
+    {children}
+  </Form.Item>
+);
 
 export type WithStoryPartProps<TData> = FormComponentProps<TData> &
   StoryPartBasicProps<TData> &
@@ -33,29 +48,25 @@ function StoryPartWrap<TData>(
   return Form.create<FormComponentProps<TData> & StoryPartBasicProps<TData>>({
     onValuesChange({ data, dataChanged }, values) {
       dataChanged({ ...data, ...values });
-    }
+    },
   })((props: WithStoryPartProps<TData>) => {
     const {
       title,
       data,
-      form: { getFieldDecorator, setFieldsValue }
+      form: { getFieldDecorator, setFieldsValue },
     } = props;
 
     return (
-      <List.Item>
-        <List.Item.Meta
-          title={title}
-          description={
-            <Form layout="horizontal">
-              <PartContent
-                {...props}
-                getFieldDecorator={getFieldDecorator}
-                setFieldsValue={() => setFieldsValue(data)}
-              />
-            </Form>
-          }
-        />
-      </List.Item>
+      <>
+        <Typography.Title level={3}>{title}</Typography.Title>
+        <Form layout="horizontal">
+          <PartContent
+            {...props}
+            getFieldDecorator={getFieldDecorator}
+            setFieldsValue={() => setFieldsValue(data)}
+          />
+        </Form>
+      </>
     );
   });
 }

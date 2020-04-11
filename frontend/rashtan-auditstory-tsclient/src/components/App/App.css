@@ -1,9 +1,14 @@
 @import "~antd/dist/antd.css";
 @import "~react-quill/dist/quill.snow.css";
 
+.root {
+  flex-grow: 1;
+}
+
 .App {
   text-align: center;
   position: "fixed";
+  background-color: "rgba(0, 0, 0, 0.3)";
 }
 
 .App-logo {
@@ -25,10 +30,6 @@
 
 .App-link {
   color: #61dafb;
-}
-
-.root {
-  flex-grow: 1;
 }
 
 @keyframes App-logo-spin {
