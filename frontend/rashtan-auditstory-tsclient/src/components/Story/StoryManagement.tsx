@@ -8,7 +8,7 @@ import StoryPartWrap, {
 } from "./StoryPartWrap";
 
 const FormItemLocal: React.FC<FormItemProps> = (props) => (
-  <FormItem {...props} labelCol={4} />
+  <FormItem {...props} labelCol={6} />
 );
 
 const StoryManagement: React.FC<StoryPartBasicProps<
@@ -16,31 +16,31 @@ const StoryManagement: React.FC<StoryPartBasicProps<
 >> = () => (
   <>
     <FormItemLocal
-      label="Is the CEO the founder?"
+      label="Is the CEO the founder"
       name="ceoFounder"
       valuePropName="checked"
     >
-      <Switch title="Is the CEO the founder?" />
+      <Switch title="Is the CEO the founder" />
     </FormItemLocal>
     <FormItemLocal
-      label="Is the CEO a major shareholder?"
+      label="Is the CEO a major shareholder"
       name="ceoMajorShareholder"
       valuePropName="checked"
     >
-      <Switch title="Is the CEO a major shareholder?" />
+      <Switch title="Is the CEO a major shareholder" />
     </FormItemLocal>
 
     <FormItemLocal label="CEO tenure" name="ceoTenure">
       <InputNumber placeholder="CEO tenure" min={0} step={1} />
     </FormItemLocal>
 
-    <FormItemLocal label="Trust the CEO?" name="ceoTrust">
+    <FormItemLocal label="Trust the CEO" name="ceoTrust">
       <Rate allowHalf={true} />
     </FormItemLocal>
     <FormItemLocal label="CEO candor" name="ceoCandor">
       <Rate allowHalf={true} />
     </FormItemLocal>
-    <FormItemLocal label="Management able and talented?" name="ableAndTalented">
+    <FormItemLocal label="Management able and talented" name="ableAndTalented">
       <Rate allowHalf={true} />
     </FormItemLocal>
 

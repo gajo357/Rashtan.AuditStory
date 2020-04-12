@@ -1,116 +1,39 @@
-import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import {
-  Form,
-  Input,
-  InputNumber,
-  Button,
-  Divider,
-  Table,
-  Drawer,
-  Typography,
-} from "antd";
+import React from "react";
+import { Form, Input, InputNumber } from "antd";
 import { CompanyStoryRevenue, Revenue } from "../../models/Company";
 import StoryPartWrap, { StoryPartBasicProps, FormItem } from "./StoryPartWrap";
-import RevenueEdit, { RevenueEditProps } from "./RevenueEdit";
-import {
-  addElement,
-  replaceElement,
-  removeElement,
-} from "../../models/ArrayUpdate";
+import EditableTable, { ColumnInfo } from "./../EditableTable";
 
 const StoryRevenue: React.FC<StoryPartBasicProps<CompanyStoryRevenue>> = ({
   data,
   dataChanged,
 }) => {
-  const [revenueEdit, setRevenueEdit] = useState<RevenueEditProps | undefined>(
-    undefined
-  );
-  const onCancel = () => setRevenueEdit(undefined);
-
   const createItems = (
     title: string,
     streamColumn: string,
     revenues: Revenue[],
     createData: (value: Revenue[]) => CompanyStoryRevenue
   ) => {
-    const columns = [
+    const columns: ColumnInfo[] = [
       {
         title: streamColumn,
-        dataIndex: "stream",
         key: "stream",
+        type: "text",
       },
       {
         title: "Percent",
-        dataIndex: "percent",
         key: "percent",
-      },
-      {
-        title: "",
-        key: "edit",
-        render: (_: string, record: Revenue) => (
-          <span>
-            <Button
-              onClick={(_) => {
-                setRevenueEdit({
-                  data: record,
-                  onSave: (d: Revenue) => {
-                    const c = replaceElement(revenues, record, d);
-                    dataChanged(createData(c));
-                    onCancel();
-                  },
-                  onCancel: onCancel,
-                  streamName: streamColumn,
-                });
-              }}
-            >
-              Edit
-            </Button>
-            <Divider type="vertical" />
-            <Button
-              onClick={(_) => {
-                const c = removeElement(revenues, record);
-                dataChanged(createData(c));
-              }}
-            >
-              Delete
-            </Button>
-          </span>
-        ),
+        type: "number",
       },
     ];
 
-    const handleAdd = () => {
-      setRevenueEdit({
-        data: { stream: "", percent: 0 },
-        onSave: (d: Revenue) => {
-          const c = addElement(revenues, d);
-          dataChanged(createData(c));
-          onCancel();
-        },
-        onCancel: onCancel,
-        streamName: streamColumn,
-      });
-    };
-
     return (
-      <Form.Item>
-        <Typography.Text strong style={{ display: "block" }}>
-          {title}
-        </Typography.Text>
-        <Button
-          onClick={handleAdd}
-          style={{ marginBottom: 16 }}
-          icon={<PlusOutlined />}
-        >
-          Add revenue stream
-        </Button>
-        {revenues.length > 0 ? (
-          <Table columns={columns} dataSource={revenues} />
-        ) : (
-          <></>
-        )}
-      </Form.Item>
+      <EditableTable
+        title={title}
+        data={revenues}
+        setData={(c) => dataChanged(createData(c))}
+        columns={columns}
+      />
     );
   };
 
@@ -144,15 +67,6 @@ const StoryRevenue: React.FC<StoryPartBasicProps<CompanyStoryRevenue>> = ({
       <Form.Item label="Comment" name="comment">
         <Input.TextArea placeholder="Comment" rows={2} />
       </Form.Item>
-      {revenueEdit && (
-        <Drawer
-          title="Edit revenue stream"
-          visible
-          onClose={() => setRevenueEdit(undefined)}
-        >
-          <RevenueEdit {...revenueEdit} />
-        </Drawer>
-      )}
     </>
   );
 };

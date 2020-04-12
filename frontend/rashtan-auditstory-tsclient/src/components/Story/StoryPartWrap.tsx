@@ -24,7 +24,7 @@ export const FormItem: React.FC<FormItemProps> = ({
     name={name}
     valuePropName={valuePropName}
     rules={rules}
-    labelCol={{ span: labelCol ?? 2 }}
+    labelCol={{ span: labelCol ?? 3 }}
     wrapperCol={{ span: 14 }}
   >
     {children}

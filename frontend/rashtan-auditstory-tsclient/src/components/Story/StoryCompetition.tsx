@@ -1,105 +1,39 @@
-import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Form, Drawer, Input, Table, Button, Divider } from "antd";
-import { CompanyCompetition, CompanyCompetitor } from "../../models/Company";
+import React from "react";
+import { Form, Input } from "antd";
+import { CompanyCompetition } from "../../models/Company";
 import StoryPartWrap, { StoryPartBasicProps, FormItem } from "./StoryPartWrap";
-import CompanyCompetitorEdit, {
-  CompanyCompetitorEditProps,
-} from "./CompanyCompetitorEdit";
-import {
-  addElement,
-  replaceElement,
-  removeElement,
-} from "../../models/ArrayUpdate";
+import EditableTable, { ColumnInfo } from "../EditableTable";
 
 const StoryCompetition: React.FC<StoryPartBasicProps<CompanyCompetition>> = ({
   data,
   dataChanged,
 }) => {
-  const [competitorEdit, setCompetitorEdit] = useState<
-    CompanyCompetitorEditProps | undefined
-  >(undefined);
-
-  const onCancel = () => setCompetitorEdit(undefined);
-
-  const columns = [
+  const columns: ColumnInfo[] = [
     {
       title: "Name",
-      dataIndex: "name",
       key: "name",
+      type: "text",
     },
     {
       title: "Market Cap",
-      dataIndex: "marketCap",
       key: "marketCap",
+      type: "number",
     },
     {
       title: "Market Share (%)",
-      dataIndex: "marketShare",
       key: "marketShare",
-    },
-    {
-      title: "",
-      key: "edit",
-      render: (_: string, record: CompanyCompetitor) => (
-        <span>
-          <Button
-            onClick={(_) => {
-              setCompetitorEdit({
-                data: record,
-                onSave: (d: CompanyCompetitor) => {
-                  const c = replaceElement(data.competitors, record, d);
-                  dataChanged({ ...data, competitors: c });
-                  onCancel();
-                },
-                onCancel: onCancel,
-              });
-            }}
-          >
-            Edit
-          </Button>
-          <Divider type="vertical" />
-          <Button
-            onClick={(_) => {
-              const c = removeElement(data.competitors, record);
-              dataChanged({ ...data, competitors: c });
-            }}
-          >
-            Delete
-          </Button>
-        </span>
-      ),
+      type: "number",
     },
   ];
 
-  const handleAdd = () => {
-    setCompetitorEdit({
-      data: { name: "", marketCap: 0, marketShare: 0 },
-      onSave: (d: CompanyCompetitor) => {
-        const c = addElement(data.competitors, d);
-        dataChanged({ ...data, competitors: c });
-        onCancel();
-      },
-      onCancel: onCancel,
-    });
-  };
-
   return (
     <>
-      <Form.Item>
-        <Button
-          onClick={handleAdd}
-          style={{ marginBottom: 16 }}
-          icon={<PlusOutlined />}
-        >
-          Add competitor
-        </Button>
-      </Form.Item>
-      {data.competitors.length > 0 && (
-        <Form.Item>
-          <Table columns={columns} dataSource={data.competitors}></Table>
-        </Form.Item>
-      )}
+      <EditableTable
+        title="Competitors"
+        data={data.competitors}
+        setData={(c) => dataChanged({ ...data, competitors: c })}
+        columns={columns}
+      />
 
       <FormItem label="Industry growth" name="industryGrowth">
         <Input placeholder="Industry growth comment" />
@@ -108,16 +42,6 @@ const StoryCompetition: React.FC<StoryPartBasicProps<CompanyCompetition>> = ({
       <Form.Item label="Comment" name="comment">
         <Input.TextArea placeholder="Comment" rows={2} />
       </Form.Item>
-
-      {competitorEdit && (
-        <Drawer
-          title="Edit competitor"
-          visible
-          onClose={() => setCompetitorEdit(undefined)}
-        >
-          <CompanyCompetitorEdit {...competitorEdit} />
-        </Drawer>
-      )}
     </>
   );
 };
