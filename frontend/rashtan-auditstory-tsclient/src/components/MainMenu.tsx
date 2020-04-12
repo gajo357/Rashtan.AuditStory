@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { History } from "history";
-import { Menu, Icon, Modal, Form, Input } from "antd";
+
+import {
+  BookTwoTone,
+  LogoutOutlined,
+  SettingOutlined,
+  StarTwoTone,
+  UnorderedListOutlined,
+} from "@ant-design/icons";
+import { Menu, Modal, Input, Form } from "antd";
 import { CirclePicker } from "react-color";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
@@ -26,7 +34,7 @@ const MainMenu: React.FC<Props> = ({
   clearFilters,
   favourite,
   apiService,
-  logOut
+  logOut,
 }) => {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
@@ -60,14 +68,14 @@ const MainMenu: React.FC<Props> = ({
           <Form.Item>
             <CirclePicker
               color={color}
-              onChangeComplete={c => setColor(c.hex)}
+              onChangeComplete={(c) => setColor(c.hex)}
             ></CirclePicker>
-            <Icon type="book" theme="twoTone" twoToneColor={color}></Icon>
+            <BookTwoTone twoToneColor={color}></BookTwoTone>
           </Form.Item>
           <Form.Item>
             <Input
               placeholder="Name"
-              onChange={e => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
             ></Input>
           </Form.Item>
         </Form>
@@ -76,23 +84,19 @@ const MainMenu: React.FC<Props> = ({
       <Menu selectable={false} mode="vertical">
         <Menu.ItemGroup>
           <Menu.Item onClick={() => clearFilters()}>
-            <Icon type="unordered-list" />
+            <UnorderedListOutlined />
             All stories
           </Menu.Item>
           <Menu.Item onClick={() => onFavouriteSelected()}>
-            <Icon
-              type="star"
-              theme="twoTone"
-              twoToneColor={favourite ? "#FFEB3B" : "#555555"}
-            />
+            <StarTwoTone twoToneColor={favourite ? "#FFEB3B" : "#555555"} />
             My favourites
           </Menu.Item>
         </Menu.ItemGroup>
         <Menu.Divider></Menu.Divider>
         <Menu.ItemGroup title="Categories">
-          {categories.map(c => (
+          {categories.map((c) => (
             <Menu.Item onClick={() => onCategorySelected(c)} key={c.name}>
-              <Icon type="book" theme="twoTone" twoToneColor={c.color} />
+              <BookTwoTone twoToneColor={c.color} />
               {c.name}
             </Menu.Item>
           ))}
@@ -101,11 +105,11 @@ const MainMenu: React.FC<Props> = ({
         <Menu.Divider></Menu.Divider>
         <Menu.ItemGroup>
           <Menu.Item>
-            <Icon type="setting" />
+            <SettingOutlined />
             Settings
           </Menu.Item>
           <Menu.Item onClick={logOut}>
-            <Icon type="logout" />
+            <LogoutOutlined />
             LOG OUT
           </Menu.Item>
         </Menu.ItemGroup>

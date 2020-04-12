@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
 import {
+  DeleteOutlined,
+  MoreOutlined,
+  PlusCircleOutlined,
+  SaveOutlined,
+} from "@ant-design/icons";
+import {
   Spin,
   Button,
   PageHeader,
@@ -8,7 +14,6 @@ import {
   Dropdown,
   Menu,
   Modal,
-  Icon,
 } from "antd";
 import IApiService from "../../services/IApiService";
 import { CompanyStory, ChecklistItem } from "../../models/Company";
@@ -66,7 +71,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
     setUnsavedChanges(true);
   };
 
-  const menu = company && (
+  const menu = (company: CompanyStory) => (
     <Menu selectable={false}>
       <Menu.Item
         onClick={() => {
@@ -77,7 +82,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
           updateCompany({ ...company, parts: parts });
         }}
       >
-        <Icon type="plus-circle" />
+        <PlusCircleOutlined />
         Custom part
       </Menu.Item>
       <Menu.Item
@@ -93,7 +98,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
           });
         }}
       >
-        <Icon type="delete" />
+        <DeleteOutlined />
         Delete
       </Menu.Item>
       <Menu.Item
@@ -108,7 +113,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
         }}
         disabled={saving}
       >
-        <Icon type="save" />
+        <SaveOutlined />
         Save
       </Menu.Item>
     </Menu>
@@ -129,8 +134,11 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
               onBack={goHome}
               style={styles.pageHeader}
               extra={
-                <Dropdown key="more" overlay={menu}>
-                  <Button icon="more" style={styles.moreButton}></Button>
+                <Dropdown key="more" overlay={menu(company)}>
+                  <Button
+                    icon={<MoreOutlined />}
+                    style={styles.moreButton}
+                  ></Button>
                 </Dropdown>
               }
             >

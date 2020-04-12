@@ -10,6 +10,7 @@ import EditUser from "../EditUser";
 import Story from "../Story/Story";
 import Home from "../Home";
 import { showError } from "../../models/Errors";
+import { LoginOutlined } from '@ant-design/icons';
 import { Typography, Button } from "antd";
 
 interface Props {
@@ -52,7 +53,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           <div>
             <Typography.Title>AuditStory</Typography.Title>
             <Button
-              icon="login"
+              icon={<LoginOutlined />}
               type="primary"
               onClick={() => authService.logIn()}
             >

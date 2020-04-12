@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { History } from "history";
-import { PageHeader, Icon, Drawer, List, Tag } from "antd";
+import { FlagTwoTone, MenuOutlined, StarOutlined } from '@ant-design/icons';
+import { PageHeader, Drawer, List, Tag } from "antd";
 import IApiService from "../services/IApiService";
 import { CompanyQuickInfo } from "../models/Company";
 import { showError } from "../models/Errors";
@@ -83,7 +84,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
       </Drawer>
       <PageHeader
         title={category ? category.name : "All stories"}
-        backIcon={<Icon type="menu"></Icon>}
+        backIcon={<MenuOutlined></MenuOutlined>}
         onBack={() => setOpen(true)}
       >
         <List
@@ -95,16 +96,11 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
           )}
           renderItem={(item: CompanyQuickInfo) => {
             const favs = [];
-            if (item.star) favs.push(<Icon key="star" type="star-o" />);
+            if (item.star) favs.push(<StarOutlined key="star" />);
             if (item.flags)
               favs.push(
                 <span key="flag">
-                  <Icon
-                    type="flag"
-                    theme="twoTone"
-                    twoToneColor="red"
-                    style={{ marginRight: 8 }}
-                  />
+                  <FlagTwoTone twoToneColor="red" style={{ marginRight: 8 }} />
                   {item.flags}
                 </span>
               );

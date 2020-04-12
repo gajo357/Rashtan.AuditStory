@@ -1,7 +1,8 @@
 import React from "react";
-import { Input, Rate, Form, Icon, Button, List } from "antd";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { Input, Rate, Button, List, Form } from "antd";
 import { ChecklistItem } from "../../models/Company";
-import StoryPartWrap, { WithStoryPartProps } from "./StoryPartWrap";
+import StoryPartWrap, { StoryPartBasicProps } from "./StoryPartWrap";
 import {
   addElement,
   replaceElement,
@@ -9,7 +10,7 @@ import {
 } from "../../models/ArrayUpdate";
 import styles from "./Story-styles";
 
-const StoryChecklist: React.FC<WithStoryPartProps<ChecklistItem[]>> = ({
+const StoryChecklist: React.FC<StoryPartBasicProps<ChecklistItem[]>> = ({
   data,
   dataChanged,
   extraData,
@@ -56,9 +57,8 @@ const StoryChecklist: React.FC<WithStoryPartProps<ChecklistItem[]>> = ({
             />
           </Form.Item>
 
-          <Icon
+          <MinusCircleOutlined
             style={styles.checklistDelete}
-            type="minus-circle-o"
             onClick={() => remove(item)}
           />
         </Input.Group>
@@ -67,7 +67,7 @@ const StoryChecklist: React.FC<WithStoryPartProps<ChecklistItem[]>> = ({
       {!data.some((s) => s.question === "") && (
         <Form.Item>
           <Button type="dashed" onClick={addNewItem}>
-            <Icon type="plus" /> Add item
+            <PlusOutlined /> Add item
           </Button>
         </Form.Item>
       )}

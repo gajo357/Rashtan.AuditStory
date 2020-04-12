@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { PlusOutlined } from "@ant-design/icons";
 import {
+  Form,
   Input,
   InputNumber,
   Button,
@@ -7,10 +9,9 @@ import {
   Table,
   Drawer,
   Typography,
-  Form,
 } from "antd";
 import { CompanyStoryRevenue, Revenue } from "../../models/Company";
-import StoryPartWrap, { WithStoryPartProps, FormItem } from "./StoryPartWrap";
+import StoryPartWrap, { StoryPartBasicProps, FormItem } from "./StoryPartWrap";
 import RevenueEdit, { RevenueEditProps } from "./RevenueEdit";
 import {
   addElement,
@@ -18,14 +19,10 @@ import {
   removeElement,
 } from "../../models/ArrayUpdate";
 
-const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
+const StoryRevenue: React.FC<StoryPartBasicProps<CompanyStoryRevenue>> = ({
   data,
   dataChanged,
-  getFieldDecorator,
-  setFieldsValue,
 }) => {
-  useEffect(setFieldsValue, []);
-
   const [revenueEdit, setRevenueEdit] = useState<RevenueEditProps | undefined>(
     undefined
   );
@@ -101,11 +98,17 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
         <Typography.Text strong style={{ display: "block" }}>
           {title}
         </Typography.Text>
-        <Button onClick={handleAdd} style={{ marginBottom: 16 }} icon="plus">
+        <Button
+          onClick={handleAdd}
+          style={{ marginBottom: 16 }}
+          icon={<PlusOutlined />}
+        >
           Add revenue stream
         </Button>
-        {revenues.length > 0 && (
+        {revenues.length > 0 ? (
           <Table columns={columns} dataSource={revenues} />
+        ) : (
+          <></>
         )}
       </Form.Item>
     );
@@ -113,10 +116,8 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
 
   return (
     <>
-      <FormItem label="Total revenue">
-        {getFieldDecorator("totalRevenue")(
-          <InputNumber placeholder="Total revenue" min={1} />
-        )}
+      <FormItem label="Total revenue" name="totalRevenue">
+        <InputNumber placeholder="Total revenue" min={1} />
       </FormItem>
       {createItems(
         "Revenue by locations",
@@ -140,10 +141,8 @@ const StoryRevenue: React.FC<WithStoryPartProps<CompanyStoryRevenue>> = ({
           byProduct: v,
         })
       )}
-      <Form.Item label="Comment">
-        {getFieldDecorator("comment")(
-          <Input.TextArea placeholder="Comment" rows={2} />
-        )}
+      <Form.Item label="Comment" name="comment">
+        <Input.TextArea placeholder="Comment" rows={2} />
       </Form.Item>
       {revenueEdit && (
         <Drawer

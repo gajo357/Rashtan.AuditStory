@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { Form, Input, Button, InputNumber } from "antd";
-import { FormComponentProps } from "antd/lib/form";
+import React from "react";
+import { Input, Button, InputNumber, Form } from "antd";
 import { Revenue } from "../../models/Company";
 
 export interface RevenueEditProps {
@@ -10,78 +9,43 @@ export interface RevenueEditProps {
   onCancel: () => void;
 }
 
-type Props = FormComponentProps<Revenue> & RevenueEditProps;
-
-const RevenueEdit: React.FC<Props> = ({
+const RevenueEdit: React.FC<RevenueEditProps> = ({
   data,
   streamName,
   onSave,
   onCancel,
-  form: {
-    validateFields,
-    getFieldsError,
-    getFieldDecorator,
-    isFieldTouched,
-    getFieldError,
-    setFieldsValue
-  }
 }) => {
-  useEffect(() => setFieldsValue(data), [data, setFieldsValue]);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    validateFields((err, values: Revenue) => {
-      if (!err) {
-        onSave(values);
-      } else {
-        console.log(err);
-      }
-    });
+  const handleSubmit = (values: any) => {
+    console.log(values);
+    onSave(values as Revenue);
   };
-
-  const hasErrors = (fieldsError: any) => {
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
-  };
-  const hasError = (p: string) => isFieldTouched(p) && getFieldError(p);
-  const validateStatus = (p: string) => (hasError(p) ? "error" : "");
-  const help = (p: string) => hasError(p) || "";
 
   return (
-    <Form layout="horizontal" onSubmit={handleSubmit}>
+    <Form layout="horizontal" initialValues={data} onFinish={handleSubmit}>
       <Form.Item
         label={streamName}
-        validateStatus={validateStatus("stream")}
-        help={help("stream")}
+        name={"stream"}
+        rules={[{ required: true, message: streamName }]}
       >
-        {getFieldDecorator("stream", {
-          rules: [{ required: true, message: streamName }]
-        })(<Input placeholder="Please enter revenue stream" />)}
+        <Input placeholder="Please enter revenue stream" />
       </Form.Item>
       <Form.Item
         label="Percent"
-        validateStatus={validateStatus("percent")}
-        help={help("percent")}
+        name="percent"
+        rules={[{ required: true, message: "Percent" }]}
       >
-        {getFieldDecorator("percent", {
-          rules: [{ required: true, message: "Percent" }]
-        })(
-          <InputNumber
-            min={0}
-            step={0.1}
-            placeholder="Please enter the percent"
-          />
-        )}
+        <InputNumber
+          min={0}
+          step={0.1}
+          placeholder="Please enter the percent"
+        />
       </Form.Item>
 
       <Form.Item>
         <Button onClick={onCancel} style={{ marginRight: 8 }}>
           Cancel
         </Button>
-        <Button
-          type="primary"
-          htmlType="submit"
-          disabled={hasErrors(getFieldsError())}
-        >
+        <Button type="primary" htmlType="submit">
           Create
         </Button>
       </Form.Item>
@@ -89,6 +53,4 @@ const RevenueEdit: React.FC<Props> = ({
   );
 };
 
-export default Form.create<Props>({
-  name: "horizontal_login"
-})(RevenueEdit);
+export default RevenueEdit;

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Drawer, Input, Table, Button, Divider, Form } from "antd";
+import React, { useState } from "react";
+import { PlusOutlined } from "@ant-design/icons";
+import { Form, Drawer, Input, Table, Button, Divider } from "antd";
 import { CompanyCompetition, CompanyCompetitor } from "../../models/Company";
-import StoryPartWrap, { WithStoryPartProps, FormItem } from "./StoryPartWrap";
+import StoryPartWrap, { StoryPartBasicProps, FormItem } from "./StoryPartWrap";
 import CompanyCompetitorEdit, {
   CompanyCompetitorEditProps,
 } from "./CompanyCompetitorEdit";
@@ -11,14 +12,10 @@ import {
   removeElement,
 } from "../../models/ArrayUpdate";
 
-const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
+const StoryCompetition: React.FC<StoryPartBasicProps<CompanyCompetition>> = ({
   data,
   dataChanged,
-  getFieldDecorator,
-  setFieldsValue,
 }) => {
-  useEffect(setFieldsValue, []);
-
   const [competitorEdit, setCompetitorEdit] = useState<
     CompanyCompetitorEditProps | undefined
   >(undefined);
@@ -90,7 +87,11 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
   return (
     <>
       <Form.Item>
-        <Button onClick={handleAdd} style={{ marginBottom: 16 }} icon="plus">
+        <Button
+          onClick={handleAdd}
+          style={{ marginBottom: 16 }}
+          icon={<PlusOutlined />}
+        >
           Add competitor
         </Button>
       </Form.Item>
@@ -100,16 +101,12 @@ const StoryCompetition: React.FC<WithStoryPartProps<CompanyCompetition>> = ({
         </Form.Item>
       )}
 
-      <FormItem label="Industry growth">
-        {getFieldDecorator("industryGrowth")(
-          <Input placeholder="Industry growth comment" />
-        )}
+      <FormItem label="Industry growth" name="industryGrowth">
+        <Input placeholder="Industry growth comment" />
       </FormItem>
 
-      <Form.Item label="Comment">
-        {getFieldDecorator("comment")(
-          <Input.TextArea placeholder="Comment" rows={2} />
-        )}
+      <Form.Item label="Comment" name="comment">
+        <Input.TextArea placeholder="Comment" rows={2} />
       </Form.Item>
 
       {competitorEdit && (

@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Form, Input, Button } from "antd";
 import { CompanyCompetitor } from "../../models/Company";
-import { FormComponentProps } from "antd/lib/form";
 
 export interface CompanyCompetitorEditProps {
   data: CompanyCompetitor;
@@ -9,82 +8,44 @@ export interface CompanyCompetitorEditProps {
   onCancel: () => void;
 }
 
-type Props = FormComponentProps<CompanyCompetitor> & CompanyCompetitorEditProps;
-
-const CompanyCompetitorEdit: React.FC<Props> = ({
+const CompanyCompetitorEdit: React.FC<CompanyCompetitorEditProps> = ({
   data,
   onSave,
   onCancel,
-  form: {
-    validateFields,
-    getFieldsError,
-    getFieldDecorator,
-    isFieldTouched,
-    getFieldError,
-    setFieldsValue
-  }
 }) => {
-  useEffect(() => setFieldsValue(data), [data, setFieldsValue]);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    validateFields((err, values: CompanyCompetitor) => {
-      if (!err) {
-        onSave(values);
-      } else {
-        console.log(err);
-      }
-    });
+  const handleSubmit = (values: any) => {
+    onSave(values as CompanyCompetitor);
   };
-
-  const hasErrors = (fieldsError: any) => {
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
-  };
-  const hasError = (p: string) => isFieldTouched(p) && getFieldError(p);
-  const validateStatus = (p: string) => (hasError(p) ? "error" : "");
-  const help = (p: string) => hasError(p) || "";
 
   return (
-    <Form layout="horizontal" onSubmit={handleSubmit}>
+    <Form layout="horizontal" initialValues={data} onFinish={handleSubmit}>
       <Form.Item
         label="Name"
-        validateStatus={validateStatus("name")}
-        help={help("name")}
+        name="name"
+        rules={[{ required: true, message: "Name" }]}
       >
-        {getFieldDecorator("name", {
-          rules: [{ required: true, message: "Name" }]
-        })(<Input placeholder="Please enter competitor name" />)}
+        <Input placeholder="Please enter competitor name" />
       </Form.Item>
       <Form.Item
         label="Market Cap"
-        validateStatus={validateStatus("marketCap")}
-        help={help("marketCap")}
+        name="marketCap"
+        rules={[{ required: true, message: "Market Cap" }]}
       >
-        {getFieldDecorator("marketCap", {
-          rules: [{ required: true, message: "Market Cap" }]
-        })(<Input placeholder="Please enter market capitalization" />)}
+        <Input placeholder="Please enter market capitalization" />
       </Form.Item>
       <Form.Item
         label="Market Share (%)"
-        validateStatus={validateStatus("marketShare")}
-        help={help("marketShare")}
+        name="marketShare"
+        rules={[{ required: true, message: "Market Share (%)" }]}
       >
-        {getFieldDecorator("marketShare", {
-          rules: [{ required: true, message: "Market Share (%)" }]
-        })(
-          <Input placeholder="Please enter competitor market share percent" />
-        )}
+        <Input placeholder="Please enter competitor market share percent" />
       </Form.Item>
 
       <Form.Item>
         <Button onClick={onCancel} style={{ marginRight: 8 }}>
           Cancel
         </Button>
-        <Button
-          type="primary"
-          htmlType="submit"
-          disabled={hasErrors(getFieldsError())}
-        >
+        <Button type="primary" htmlType="submit">
           Create
         </Button>
       </Form.Item>
@@ -92,6 +53,4 @@ const CompanyCompetitorEdit: React.FC<Props> = ({
   );
 };
 
-export default Form.create<Props>({
-  name: "horizontal_login"
-})(CompanyCompetitorEdit);
+export default CompanyCompetitorEdit;

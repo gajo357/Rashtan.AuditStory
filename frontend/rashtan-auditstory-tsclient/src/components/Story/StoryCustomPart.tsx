@@ -1,5 +1,6 @@
 import React from "react";
-import { Input, Form, List, Icon } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+import { Form, Input, List } from "antd";
 import ReactQuill from "react-quill";
 import { CompanyStoryCustomPart } from "../../models/Company";
 
@@ -24,7 +25,7 @@ const StoryCustomPart: React.FC<Props> = ({ data, remove, dataChanged }) => {
         title={
           <span>
             {data.title}
-            <Icon type="delete" onClick={remove} style={{ marginLeft: 10 }} />
+            <DeleteOutlined onClick={remove} style={{ marginLeft: 10 }} />
           </span>
         }
         description={
