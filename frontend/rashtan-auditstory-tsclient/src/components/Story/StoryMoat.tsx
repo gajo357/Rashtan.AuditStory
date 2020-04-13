@@ -1,12 +1,12 @@
 import React from "react";
 import { Form, Input, InputNumber, Select } from "antd";
 import { CompanyStoryMoat, MoatKind } from "../../models/Company";
-import StoryPartWrap, { StoryPartBasicProps, FormItem } from "./StoryPartWrap";
+import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
 
 const { Option } = Select;
 
-const StoryMoat: React.FC<StoryPartBasicProps<CompanyStoryMoat>> = () => (
-  <>
+const StoryMoat: React.FC<StoryPartProps<CompanyStoryMoat>> = ({ data }) => (
+  <StoryPartForm title="MOAT" data={data}>
     <FormItem label="Kinds of moat" name="kinds">
       <Select placeholder="Kinds of moat" mode="multiple">
         <Option value={MoatKind.Brand}>Brand</Option>
@@ -45,7 +45,7 @@ const StoryMoat: React.FC<StoryPartBasicProps<CompanyStoryMoat>> = () => (
     <Form.Item label="Comment" name="comment">
       <Input.TextArea placeholder="Comment" rows={2} />
     </Form.Item>
-  </>
+  </StoryPartForm>
 );
 
-export default StoryPartWrap(StoryMoat);
+export default StoryMoat;

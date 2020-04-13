@@ -31,28 +31,31 @@ export const FormItem: React.FC<FormItemProps> = ({
   </Form.Item>
 );
 
-export interface StoryPartBasicProps<TData> {
-  data: TData;
-  dataChanged: (data: TData) => void;
+interface StoryPartFormBaseProps<TData> {
   title: string;
+  data: TData;
+  children: React.ReactNode;
+}
+
+export interface StoryPartProps<TData> {
+  data: TData;
   extraData?: TData;
+  dataChanged: (data: TData) => void;
 }
 
-function StoryPartWrap<TData>(
-  PartContent: React.FunctionComponent<StoryPartBasicProps<TData>>
-) {
-  return (props: StoryPartBasicProps<TData>) => {
-    const { title, data } = props;
-
-    return (
-      <>
-        <Typography.Title level={3}>{title}</Typography.Title>
-        <Form layout="horizontal" initialValues={data}>
-          <PartContent {...props} />
-        </Form>
-      </>
-    );
-  };
+function StoryPartForm<TData>({
+  title,
+  data,
+  children,
+}: StoryPartFormBaseProps<TData>) {
+  return (
+    <>
+      <Typography.Title level={3}>{title}</Typography.Title>
+      <Form layout="horizontal" initialValues={data} title={title}>
+        {children}
+      </Form>
+    </>
+  );
 }
 
-export default StoryPartWrap;
+export default StoryPartForm;

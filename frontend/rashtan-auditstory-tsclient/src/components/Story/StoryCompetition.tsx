@@ -1,10 +1,10 @@
 import React from "react";
 import { Form, Input } from "antd";
 import { CompanyCompetition } from "../../models/Company";
-import StoryPartWrap, { StoryPartBasicProps, FormItem } from "./StoryPartWrap";
+import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
 import EditableTable, { ColumnInfo } from "../EditableTable";
 
-const StoryCompetition: React.FC<StoryPartBasicProps<CompanyCompetition>> = ({
+const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
   data,
   dataChanged,
 }) => {
@@ -27,7 +27,7 @@ const StoryCompetition: React.FC<StoryPartBasicProps<CompanyCompetition>> = ({
   ];
 
   return (
-    <>
+    <StoryPartForm title="Competition" data={data}>
       <EditableTable
         title="Competitors"
         data={data.competitors}
@@ -42,8 +42,8 @@ const StoryCompetition: React.FC<StoryPartBasicProps<CompanyCompetition>> = ({
       <Form.Item label="Comment" name="comment">
         <Input.TextArea placeholder="Comment" rows={2} />
       </Form.Item>
-    </>
+    </StoryPartForm>
   );
 };
 
-export default StoryPartWrap(StoryCompetition);
+export default StoryCompetition;

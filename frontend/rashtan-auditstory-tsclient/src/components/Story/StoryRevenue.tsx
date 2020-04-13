@@ -1,10 +1,10 @@
 import React from "react";
 import { Form, Input, InputNumber } from "antd";
 import { CompanyStoryRevenue, Revenue } from "../../models/Company";
-import StoryPartWrap, { StoryPartBasicProps, FormItem } from "./StoryPartWrap";
+import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
 import EditableTable, { ColumnInfo } from "./../EditableTable";
 
-const StoryRevenue: React.FC<StoryPartBasicProps<CompanyStoryRevenue>> = ({
+const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
   data,
   dataChanged,
 }) => {
@@ -38,7 +38,7 @@ const StoryRevenue: React.FC<StoryPartBasicProps<CompanyStoryRevenue>> = ({
   };
 
   return (
-    <>
+    <StoryPartForm title="Revenue Streams" data={data}>
       <FormItem label="Total revenue" name="totalRevenue">
         <InputNumber placeholder="Total revenue" min={1} />
       </FormItem>
@@ -67,8 +67,8 @@ const StoryRevenue: React.FC<StoryPartBasicProps<CompanyStoryRevenue>> = ({
       <Form.Item label="Comment" name="comment">
         <Input.TextArea placeholder="Comment" rows={2} />
       </Form.Item>
-    </>
+    </StoryPartForm>
   );
 };
 
-export default StoryPartWrap(StoryRevenue);
+export default StoryRevenue;

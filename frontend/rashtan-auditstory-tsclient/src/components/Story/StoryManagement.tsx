@@ -1,20 +1,20 @@
 import React from "react";
 import { Form, Input, Switch, InputNumber, Rate } from "antd";
 import { CompanyStoryManagement } from "../../models/Company";
-import StoryPartWrap, {
-  StoryPartBasicProps,
+import StoryPartForm, {
+  StoryPartProps,
   FormItemProps,
   FormItem,
-} from "./StoryPartWrap";
+} from "./StoryPartForm";
 
 const FormItemLocal: React.FC<FormItemProps> = (props) => (
   <FormItem {...props} labelCol={6} />
 );
 
-const StoryManagement: React.FC<StoryPartBasicProps<
-  CompanyStoryManagement
->> = () => (
-  <>
+const StoryManagement: React.FC<StoryPartProps<CompanyStoryManagement>> = ({
+  data,
+}) => (
+  <StoryPartForm title="Management" data={data}>
     <FormItemLocal
       label="Is the CEO the founder"
       name="ceoFounder"
@@ -59,7 +59,7 @@ const StoryManagement: React.FC<StoryPartBasicProps<
     <Form.Item label="Comment" name="comment">
       <Input.TextArea placeholder="Comment" rows={2} />
     </Form.Item>
-  </>
+  </StoryPartForm>
 );
 
-export default StoryPartWrap(StoryManagement);
+export default StoryManagement;

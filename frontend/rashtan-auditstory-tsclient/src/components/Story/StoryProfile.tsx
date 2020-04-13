@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Form, Input, InputNumber, Button, Select } from "antd";
 import { CompanyProfile } from "../../models/Company";
-import StoryPartWrap, { StoryPartBasicProps, FormItem } from "./StoryPartWrap";
+import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
 import Category from "../../models/Category";
 
 const { Item } = Form;
@@ -16,15 +16,16 @@ interface Categories {
   categories: Category[];
 }
 
-const StoryProfile: React.FC<StoryPartBasicProps<
-  CompanyProfile & Categories
->> = ({ data, dataChanged }) => {
+const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
+  data,
+  dataChanged,
+}) => {
   const [website, setWebsite] = useState<string>(data.website);
   const onWebsiteChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWebsite(e.target.value);
   };
   return (
-    <>
+    <StoryPartForm title="Profile" data={data}>
       <Item name="category" rules={[{ required: false }]}>
         <Select
           loading={data.categories.length === 0}
@@ -100,8 +101,8 @@ const StoryProfile: React.FC<StoryPartBasicProps<
       <FormItem label="Industry" name="industry">
         <Input placeholder="Industry" />
       </FormItem>
-    </>
+    </StoryPartForm>
   );
 };
 
-export default StoryPartWrap(StoryProfile);
+export default StoryProfile;

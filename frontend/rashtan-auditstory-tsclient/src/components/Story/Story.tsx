@@ -144,19 +144,16 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
             >
               <Carousel dotPosition="top" style={styles.carousel}>
                 <StoryProfile
-                  title="Profile"
                   data={{ ...company.profile, categories }}
                   dataChanged={(p) => updateCompany({ ...company, profile: p })}
                 />
 
                 <StoryRevenue
-                  title="Revenue Streams"
                   data={company.revenue}
                   dataChanged={(p) => updateCompany({ ...company, revenue: p })}
                 />
 
                 <StoryCompetition
-                  title="Competition"
                   data={company.competition}
                   dataChanged={(p) =>
                     updateCompany({ ...company, competition: p })
@@ -164,13 +161,11 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                 />
 
                 <StoryMoat
-                  title="Moat"
                   data={company.moat}
                   dataChanged={(p) => updateCompany({ ...company, moat: p })}
                 />
 
                 <StoryManagement
-                  title="Management"
                   data={company.management}
                   dataChanged={(p) =>
                     updateCompany({ ...company, management: p })
@@ -193,7 +188,6 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                 ))}
 
                 <StoryChecklist
-                  title="Checklist"
                   data={company.checklist}
                   dataChanged={(p) =>
                     updateCompany({ ...company, checklist: p })

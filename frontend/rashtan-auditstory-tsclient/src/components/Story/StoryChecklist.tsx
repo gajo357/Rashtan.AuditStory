@@ -2,7 +2,7 @@ import React from "react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Input, Rate, Button, List, Form } from "antd";
 import { ChecklistItem } from "../../models/Company";
-import StoryPartWrap, { StoryPartBasicProps } from "./StoryPartWrap";
+import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import {
   addElement,
   replaceElement,
@@ -10,7 +10,7 @@ import {
 } from "../../models/ArrayUpdate";
 import styles from "./Story-styles";
 
-const StoryChecklist: React.FC<StoryPartBasicProps<ChecklistItem[]>> = ({
+const StoryChecklist: React.FC<StoryPartProps<ChecklistItem[]>> = ({
   data,
   dataChanged,
   extraData,
@@ -35,7 +35,7 @@ const StoryChecklist: React.FC<StoryPartBasicProps<ChecklistItem[]>> = ({
   };
 
   return (
-    <>
+    <StoryPartForm title="Checklist" data={data}>
       {data.map((item) => (
         <Input.Group compact key={item.question}>
           <Form.Item style={styles.checklistQuestion}>
@@ -87,8 +87,8 @@ const StoryChecklist: React.FC<StoryPartBasicProps<ChecklistItem[]>> = ({
           )}
         />
       )}
-    </>
+    </StoryPartForm>
   );
 };
 
-export default StoryPartWrap(StoryChecklist);
+export default StoryChecklist;
