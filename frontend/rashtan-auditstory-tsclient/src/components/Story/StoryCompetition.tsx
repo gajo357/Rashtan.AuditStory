@@ -27,7 +27,7 @@ const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
   ];
 
   return (
-    <StoryPartForm title="Competition" data={data}>
+    <StoryPartForm title="Competition" data={data} dataChanged={dataChanged}>
       <EditableTable
         title="Competitors"
         data={data.competitors}

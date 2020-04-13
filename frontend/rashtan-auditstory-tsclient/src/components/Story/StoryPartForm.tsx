@@ -32,9 +32,10 @@ export const FormItem: React.FC<FormItemProps> = ({
 );
 
 interface StoryPartFormBaseProps<TData> {
-  title: string;
+  title: string | React.ReactNode;
   data: TData;
   children: React.ReactNode;
+  dataChanged: (data: TData) => void;
 }
 
 export interface StoryPartProps<TData> {
@@ -47,11 +48,18 @@ function StoryPartForm<TData>({
   title,
   data,
   children,
+  dataChanged,
 }: StoryPartFormBaseProps<TData>) {
   return (
     <>
       <Typography.Title level={3}>{title}</Typography.Title>
-      <Form layout="horizontal" initialValues={data} title={title}>
+      <Form
+        layout="horizontal"
+        initialValues={data}
+        onValuesChange={(changedValues) =>
+          dataChanged({ ...data, ...changedValues })
+        }
+      >
         {children}
       </Form>
     </>

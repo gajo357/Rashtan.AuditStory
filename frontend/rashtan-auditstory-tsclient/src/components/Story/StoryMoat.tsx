@@ -5,8 +5,11 @@ import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
 
 const { Option } = Select;
 
-const StoryMoat: React.FC<StoryPartProps<CompanyStoryMoat>> = ({ data }) => (
-  <StoryPartForm title="MOAT" data={data}>
+const StoryMoat: React.FC<StoryPartProps<CompanyStoryMoat>> = ({
+  data,
+  dataChanged,
+}) => (
+  <StoryPartForm title="MOAT" data={data} dataChanged={dataChanged}>
     <FormItem label="Kinds of moat" name="kinds">
       <Select placeholder="Kinds of moat" mode="multiple">
         <Option value={MoatKind.Brand}>Brand</Option>

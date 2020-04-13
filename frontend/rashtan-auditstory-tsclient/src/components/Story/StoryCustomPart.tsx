@@ -1,55 +1,36 @@
 import React from "react";
 import { DeleteOutlined } from "@ant-design/icons";
-import { Form, Input, List } from "antd";
-import ReactQuill from "react-quill";
+import { Form } from "antd";
+import StoryPartForm from "./StoryPartForm";
+import RichTextEditor from "./../RichTextEditor";
 import { CompanyStoryCustomPart } from "../../models/Company";
 
 interface Props {
   data: CompanyStoryCustomPart;
-  remove: () => void;
+  delete: () => void;
   dataChanged: (data: CompanyStoryCustomPart) => void;
 }
 
-const StoryCustomPart: React.FC<Props> = ({ data, remove, dataChanged }) => {
-  const handleContentChange = (content: string) => {
-    dataChanged({ ...data, content: content });
-  };
-
-  const titleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dataChanged({ ...data, title: e.target.value });
-  };
-
+const StoryCustomPart: React.FC<Props> = ({
+  data,
+  delete: remove,
+  dataChanged,
+}) => {
   return (
-    <List.Item>
-      <List.Item.Meta
-        title={
-          <span>
-            {data.title}
-            <DeleteOutlined onClick={remove} style={{ marginLeft: 10 }} />
-          </span>
-        }
-        description={
-          <>
-            <Form.Item label="Title" labelAlign="left">
-              <Input
-                placeholder="Title"
-                defaultValue={data.title}
-                onChange={titleChanged}
-              />
-            </Form.Item>
-
-            <Form.Item>
-              <ReactQuill
-                theme="snow"
-                placeholder="Write whatever you want:)"
-                value={data.content}
-                onChange={handleContentChange}
-              />
-            </Form.Item>
-          </>
-        }
-      />
-    </List.Item>
+    <StoryPartForm
+      title={
+        <span>
+          {data.title}
+          <DeleteOutlined onClick={remove} style={{ marginLeft: 10 }} />
+        </span>
+      }
+      data={data}
+      dataChanged={dataChanged}
+    >
+      <Form.Item name="content">
+        <RichTextEditor />
+      </Form.Item>
+    </StoryPartForm>
   );
 };
 

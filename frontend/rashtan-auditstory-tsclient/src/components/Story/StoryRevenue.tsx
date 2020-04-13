@@ -38,7 +38,11 @@ const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
   };
 
   return (
-    <StoryPartForm title="Revenue Streams" data={data}>
+    <StoryPartForm
+      title="Revenue Streams"
+      data={data}
+      dataChanged={dataChanged}
+    >
       <FormItem label="Total revenue" name="totalRevenue">
         <InputNumber placeholder="Total revenue" min={1} />
       </FormItem>

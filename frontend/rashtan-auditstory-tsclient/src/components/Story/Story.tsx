@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
-import {
-  DeleteOutlined,
-  MoreOutlined,
-  PlusCircleOutlined,
-  SaveOutlined,
-} from "@ant-design/icons";
-import {
-  Spin,
-  Button,
-  PageHeader,
-  Carousel,
-  Dropdown,
-  Menu,
-  Modal,
-} from "antd";
+import { Spin, PageHeader, Carousel } from "antd";
 import IApiService from "../../services/IApiService";
 import { CompanyStory, ChecklistItem } from "../../models/Company";
 import { showError } from "../../models/Errors";
@@ -25,6 +11,7 @@ import StoryMoat from "./StoryMoat";
 import StoryCompetition from "./StoryCompetition";
 import StoryCustomPart from "./StoryCustomPart";
 import StoryChecklist from "./StoryChecklist";
+import StoryMenu from "./StoryMenu";
 import {
   addElement,
   replaceElement,
@@ -32,8 +19,6 @@ import {
 } from "../../models/ArrayUpdate";
 import Category from "../../models/Category";
 import styles from "./Story-styles";
-
-const { confirm } = Modal;
 
 interface Props {
   apiService: IApiService;
@@ -71,54 +56,6 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
     setUnsavedChanges(true);
   };
 
-  const menu = (company: CompanyStory) => (
-    <Menu selectable={false}>
-      <Menu.Item
-        onClick={() => {
-          const parts = addElement(company.parts, {
-            title: "custom",
-            content: "",
-          });
-          updateCompany({ ...company, parts: parts });
-        }}
-      >
-        <PlusCircleOutlined />
-        Custom part
-      </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          confirm({
-            title: "Are you sure delete this story?",
-            onOk() {
-              apiService
-                .deleteCompanyStory(company.id)
-                .catch(showError)
-                .then(goHome);
-            },
-          });
-        }}
-      >
-        <DeleteOutlined />
-        Delete
-      </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          console.log(company);
-          setSaving(true);
-          apiService
-            .saveCompanyStory(company)
-            .then(() => setUnsavedChanges(false))
-            .catch(showError)
-            .finally(() => setSaving(false));
-        }}
-        disabled={saving}
-      >
-        <SaveOutlined />
-        Save
-      </Menu.Item>
-    </Menu>
-  );
-
   return (
     <>
       <Prompt
@@ -134,12 +71,32 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
               onBack={goHome}
               style={styles.pageHeader}
               extra={
-                <Dropdown key="more" overlay={menu(company)}>
-                  <Button
-                    icon={<MoreOutlined />}
-                    style={styles.moreButton}
-                  ></Button>
-                </Dropdown>
+                <StoryMenu
+                  company={company}
+                  addCustomPart={(title) => {
+                    const parts = addElement(company.parts, {
+                      title,
+                      content: "",
+                    });
+                    updateCompany({ ...company, parts: parts });
+                  }}
+                  remove={() =>
+                    apiService
+                      .deleteCompanyStory(company.id)
+                      .catch(showError)
+                      .then(goHome)
+                  }
+                  save={() => {
+                    console.log(company);
+                    setSaving(true);
+                    apiService
+                      .saveCompanyStory(company)
+                      .then(() => setUnsavedChanges(false))
+                      .catch(showError)
+                      .finally(() => setSaving(false));
+                  }}
+                  saving={saving}
+                />
               }
             >
               <Carousel dotPosition="top" style={styles.carousel}>
@@ -176,7 +133,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   <StoryCustomPart
                     key={part.title}
                     data={part}
-                    remove={() => {
+                    delete={() => {
                       const c = removeElement(company.parts, part);
                       updateCompany({ ...company, parts: c });
                     }}

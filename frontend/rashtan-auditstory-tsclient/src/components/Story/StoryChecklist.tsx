@@ -35,7 +35,7 @@ const StoryChecklist: React.FC<StoryPartProps<ChecklistItem[]>> = ({
   };
 
   return (
-    <StoryPartForm title="Checklist" data={data}>
+    <StoryPartForm title="Checklist" data={data} dataChanged={dataChanged}>
       {data.map((item) => (
         <Input.Group compact key={item.question}>
           <Form.Item style={styles.checklistQuestion}>

@@ -25,7 +25,7 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
     setWebsite(e.target.value);
   };
   return (
-    <StoryPartForm title="Profile" data={data}>
+    <StoryPartForm title="Profile" data={data} dataChanged={dataChanged}>
       <Item name="category" rules={[{ required: false }]}>
         <Select
           loading={data.categories.length === 0}

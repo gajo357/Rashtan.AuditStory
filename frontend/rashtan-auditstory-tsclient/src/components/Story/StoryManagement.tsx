@@ -13,8 +13,9 @@ const FormItemLocal: React.FC<FormItemProps> = (props) => (
 
 const StoryManagement: React.FC<StoryPartProps<CompanyStoryManagement>> = ({
   data,
+  dataChanged,
 }) => (
-  <StoryPartForm title="Management" data={data}>
+  <StoryPartForm title="Management" data={data} dataChanged={dataChanged}>
     <FormItemLocal
       label="Is the CEO the founder"
       name="ceoFounder"
