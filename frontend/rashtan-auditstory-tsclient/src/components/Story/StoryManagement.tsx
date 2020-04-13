@@ -8,7 +8,7 @@ import StoryPartForm, {
 } from "./StoryPartForm";
 
 const FormItemLocal: React.FC<FormItemProps> = (props) => (
-  <FormItem {...props} labelCol={6} />
+  <FormItem {...props} labelCol={4} />
 );
 
 const StoryManagement: React.FC<StoryPartProps<CompanyStoryManagement>> = ({
