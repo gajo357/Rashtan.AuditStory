@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import {
   BookTwoTone,
-  FlagTwoTone,
   GlobalOutlined,
-  StarTwoTone,
   TagsOutlined,
+  PlusOutlined,
+  MinusCircleOutlined,
 } from "@ant-design/icons";
-import { Form, Input, InputNumber, Button, Select } from "antd";
+import { Form, Input, InputNumber, Button, Select, Row, Col } from "antd";
 import { CompanyProfile } from "../../models/Company";
 import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
+import StarEdit from "./../StarEdit";
+import AddFlag from "./AddFlag";
 import Category from "../../models/Category";
+import styles from "./Story-styles";
+import { removeElement, addElement } from "../../models/ArrayUpdate";
 
 const { Item } = Form;
 interface Categories {
@@ -20,10 +24,8 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
   data,
   dataChanged,
 }) => {
-  const [website, setWebsite] = useState<string>(data.website);
-  const onWebsiteChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWebsite(e.target.value);
-  };
+  const [flagModalVisible, setFlagModalVisible] = useState(false);
+
   return (
     <StoryPartForm title="Profile" data={data} dataChanged={dataChanged}>
       <Item name="category" rules={[{ required: false }]}>
@@ -42,18 +44,11 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
         </Select>
       </Item>
 
-      <StarTwoTone
-        twoToneColor={data.star ? "#FFEB3B" : "#555555"}
-        onClick={() => dataChanged({ ...data, star: !data.star })}
-      />
+      <FormItem label="Favourite" name="star">
+        <StarEdit />
+      </FormItem>
 
-      {data.flags.length > 0 && (
-        <span>
-          <FlagTwoTone twoToneColor="red" />
-          {data.flags.length}
-        </span>
-      )}
-      <Item
+      <FormItem
         label={
           <span>
             <TagsOutlined /> Tags
@@ -63,7 +58,7 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
         rules={[{ required: false }]}
       >
         <Select mode="tags" />
-      </Item>
+      </FormItem>
 
       <FormItem
         label="Company name"
@@ -81,16 +76,15 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
         <Input
           placeholder="Company website"
           addonBefore={
-            website && (
+            data.website && (
               <Button
                 icon={<GlobalOutlined />}
                 type="link"
-                href={website}
+                href={data.website}
                 target="_blank"
               />
             )
           }
-          onChange={onWebsiteChanged}
         />
       </FormItem>
 
@@ -101,6 +95,45 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
       <FormItem label="Industry" name="industry">
         <Input placeholder="Industry" />
       </FormItem>
+
+      <div>
+        <AddFlag
+          flags={data.flags}
+          visible={flagModalVisible}
+          onCancel={() => setFlagModalVisible(false)}
+          onCreate={(flag) => {
+            const flags = addElement(data.flags, flag);
+            dataChanged({ ...data, flags });
+            setFlagModalVisible(false);
+          }}
+        />
+
+        {data.flags.map((flag) => (
+          <Row key={flag}>
+            <Col>
+              <Input disabled value={flag} style={styles.redFlagText} />
+            </Col>
+            <Col flex="none">
+              <MinusCircleOutlined
+                style={styles.checklistDelete}
+                onClick={() => {
+                  const flags = removeElement(data.flags, flag);
+                  dataChanged({ ...data, flags });
+                }}
+              />
+            </Col>
+          </Row>
+        ))}
+
+        <Button
+          style={styles.addFlagButton}
+          onClick={() => setFlagModalVisible(true)}
+          type="dashed"
+          icon={<PlusOutlined />}
+        >
+          Add Flag
+        </Button>
+      </div>
     </StoryPartForm>
   );
 };

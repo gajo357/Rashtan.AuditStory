@@ -3,7 +3,7 @@ import { Form, Typography } from "antd";
 import { Rule } from "antd/lib/form";
 
 export interface FormItemProps {
-  label: string;
+  label: string | React.ReactNode;
   name: string;
   valuePropName?: string;
   rules?: Rule[];

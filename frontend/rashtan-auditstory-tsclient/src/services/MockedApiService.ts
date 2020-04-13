@@ -33,7 +33,7 @@ export default class MockedApiService implements IApiService {
       website: "https://www.micron.com/",
       tags: ["semiconductor"],
       category: "Wonderfull",
-      flags: [],
+      flags: ["Some event"],
       star: true,
     },
     moat: {
