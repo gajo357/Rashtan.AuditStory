@@ -31,16 +31,16 @@ export const FormItem: React.FC<FormItemProps> = ({
   </Form.Item>
 );
 
+export interface StoryPartProps<TData> {
+  data: TData;
+  extraData?: TData;
+  dataChanged: (data: TData) => void;
+}
+
 interface StoryPartFormBaseProps<TData> {
   title: string | React.ReactNode;
   data: TData;
   children: React.ReactNode;
-  dataChanged: (data: TData) => void;
-}
-
-export interface StoryPartProps<TData> {
-  data: TData;
-  extraData?: TData;
   dataChanged: (data: TData) => void;
 }
 

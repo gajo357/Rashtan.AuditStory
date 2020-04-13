@@ -6,7 +6,7 @@ export default {
     minHeight: "100%",
     textAlign: "left",
   } as CSSProperties,
-  carousel: { paddingTop: 10 } as CSSProperties,
+  tabs: { paddingTop: 10 } as CSSProperties,
   pageHeader: {
     paddingBottom: 50,
     minHeight: "100%",
