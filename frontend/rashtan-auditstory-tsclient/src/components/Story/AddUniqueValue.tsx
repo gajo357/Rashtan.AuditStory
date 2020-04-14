@@ -2,19 +2,28 @@ import React from "react";
 import { Modal, Form, Input } from "antd";
 
 interface Props {
-  flags: string[];
+  title: string;
+  existingItems: string[];
   visible: boolean;
   onCreate: (title: string) => void;
   onCancel: () => void;
 }
 
-const AddFlag: React.FC<Props> = ({ flags, visible, onCreate, onCancel }) => {
+const itemName = "item";
+
+const AddUniqueValue: React.FC<Props> = ({
+  title,
+  existingItems,
+  visible,
+  onCreate,
+  onCancel,
+}) => {
   const [form] = Form.useForm();
 
-  const flagValidator = (_: any, value: string) => {
+  const itemValidator = (_: any, value: string) => {
     if (!value) return Promise.reject("A value is required");
-    if (flags.find((p) => p === value))
-      return Promise.reject("A Flag has to be unique");
+    if (existingItems.find((p) => p === value))
+      return Promise.reject("Entry has to be unique");
 
     return Promise.resolve();
   };
@@ -22,13 +31,13 @@ const AddFlag: React.FC<Props> = ({ flags, visible, onCreate, onCancel }) => {
   return (
     <Modal
       visible={visible}
-      title="New Red Flag"
+      title={title}
       okText="Add"
       cancelText="Cancel"
       onOk={() => {
         form.validateFields().then((values) => {
           form.resetFields();
-          onCreate(values["title"]);
+          onCreate(values[itemName]);
         });
       }}
       onCancel={() => {
@@ -38,15 +47,14 @@ const AddFlag: React.FC<Props> = ({ flags, visible, onCreate, onCancel }) => {
     >
       <Form form={form}>
         <Form.Item
-          label="Flag"
-          name="title"
-          rules={[{ required: true, validator: flagValidator }]}
+          name={itemName}
+          rules={[{ required: true, validator: itemValidator }]}
         >
-          <Input placeholder="Flag" />
+          <Input placeholder="Enter unique value" />
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-export default AddFlag;
+export default AddUniqueValue;

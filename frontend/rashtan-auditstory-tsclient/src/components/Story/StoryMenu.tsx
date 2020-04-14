@@ -6,7 +6,7 @@ import {
   SaveOutlined,
   MoreOutlined,
 } from "@ant-design/icons";
-import AddCustomPart from "./AddCustomPart";
+import AddUniqueValue from "./AddUniqueValue";
 import { CompanyStory } from "../../models/Company";
 import styles from "./Story-styles";
 
@@ -61,9 +61,10 @@ const StoryMenu: React.FC<Props> = ({
 
   return (
     <>
-      <AddCustomPart
+      <AddUniqueValue
+        title="New Chapter"
         visible={customPartModal}
-        company={company}
+        existingItems={company.parts.map((c) => c.title)}
         onCreate={(title) => {
           addCustomPart(title);
           setCustomPartModal(false);

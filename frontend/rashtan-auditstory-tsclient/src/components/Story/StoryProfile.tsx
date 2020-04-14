@@ -10,7 +10,7 @@ import { Form, Input, InputNumber, Button, Select, Row, Col } from "antd";
 import { CompanyProfile } from "../../models/Company";
 import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
 import StarEdit from "./../StarEdit";
-import AddFlag from "./AddFlag";
+import AddUniqueValue from "./AddUniqueValue";
 import Category from "../../models/Category";
 import styles from "./Story-styles";
 import { removeElement, addElement } from "../../models/ArrayUpdate";
@@ -97,8 +97,9 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
       </FormItem>
 
       <div>
-        <AddFlag
-          flags={data.flags}
+        <AddUniqueValue
+          title="New Red Flag"
+          existingItems={data.flags}
           visible={flagModalVisible}
           onCancel={() => setFlagModalVisible(false)}
           onCreate={(flag) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Input, Rate, Button, List, Form } from "antd";
 import { ChecklistItem } from "../../models/Company";
@@ -9,17 +9,18 @@ import {
   removeElement,
 } from "../../models/ArrayUpdate";
 import styles from "./Story-styles";
+import AddUniqueValue from "./AddUniqueValue";
 
 const StoryChecklist: React.FC<StoryPartProps<ChecklistItem[]>> = ({
   data,
   dataChanged,
   extraData,
 }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const unusedItems =
     extraData &&
     extraData.filter((s) => !data.some((d) => d.question === s.question));
-
-  const addNewItem = () => addItem({ question: "", response: 0 });
 
   const addItem = (item: ChecklistItem) => {
     const c = addElement(data, item);
@@ -40,11 +41,9 @@ const StoryChecklist: React.FC<StoryPartProps<ChecklistItem[]>> = ({
         <Input.Group compact key={item.question}>
           <Form.Item style={styles.checklistQuestion}>
             <Input
+              disabled
               placeholder="Checklist item"
               defaultValue={item.question}
-              onChange={(v) =>
-                itemChanged(item, { ...item, question: v.target.value })
-              }
             />
           </Form.Item>
 
@@ -64,13 +63,20 @@ const StoryChecklist: React.FC<StoryPartProps<ChecklistItem[]>> = ({
         </Input.Group>
       ))}
 
-      {!data.some((s) => s.question === "") && (
-        <Form.Item>
-          <Button type="dashed" onClick={addNewItem}>
-            <PlusOutlined /> Add item
-          </Button>
-        </Form.Item>
-      )}
+      <Button type="dashed" onClick={() => setModalVisible(true)}>
+        <PlusOutlined /> Add item
+      </Button>
+
+      <AddUniqueValue
+        title="New Checklist item"
+        existingItems={data.map((d) => d.question)}
+        visible={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        onCreate={(item) => {
+          addItem({ question: item, response: 1.0 });
+          setModalVisible(false);
+        }}
+      />
 
       {unusedItems && unusedItems.length > 0 && (
         <List
