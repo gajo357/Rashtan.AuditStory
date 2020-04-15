@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { History } from "history";
-
 import {
   BookTwoTone,
   LogoutOutlined,
@@ -8,11 +7,11 @@ import {
   UnorderedListOutlined,
 } from "@ant-design/icons";
 import { Menu, Modal, Input, Form } from "antd";
-import { CirclePicker } from "react-color";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
-import { showError } from "../models/Errors";
 import StarEdit from "./StarEdit";
+import EditColor from "./EditColor";
+import { showError } from "../models/Errors";
 
 interface Props {
   categories: Category[];
@@ -36,22 +35,28 @@ const MainMenu: React.FC<Props> = ({
   apiService,
   logOut,
 }) => {
-  const [name, setName] = useState("");
-  const [color, setColor] = useState("");
   const [visible, setVisible] = useState(false);
   const [savingCategory, setSavingCategory] = useState(false);
 
-  const handleOk = () => {
+  const [form] = Form.useForm();
+
+  const validateNewCategory = (_: any, value: string) => {
+    if (!value) return Promise.reject("A value is required");
+    if (categories.find((p) => p.name === value))
+      return Promise.reject("Entry has to be unique");
+
+    return Promise.resolve();
+  };
+
+  const handleOk = (values: Category) => {
     setSavingCategory(true);
     apiService
-      .saveCategory({ name: name, color: color })
+      .saveCategory(values)
       .then(onCategoryAdded)
       .catch(showError)
       .finally(() => {
         setVisible(false);
         setSavingCategory(false);
-        setName("");
-        setColor("");
       });
   };
 
@@ -61,22 +66,27 @@ const MainMenu: React.FC<Props> = ({
         title="New company category"
         visible={visible}
         confirmLoading={savingCategory}
-        onOk={handleOk}
-        onCancel={() => setVisible(false)}
+        onOk={() => {
+          form.validateFields().then((values) => {
+            form.resetFields();
+            console.log(values);
+            handleOk(values as Category);
+          });
+        }}
+        onCancel={() => {
+          form.resetFields();
+          setVisible(false);
+        }}
       >
-        <Form>
-          <Form.Item>
-            <CirclePicker
-              color={color}
-              onChangeComplete={(c) => setColor(c.hex)}
-            />
-            <BookTwoTone twoToneColor={color}></BookTwoTone>
+        <Form form={form}>
+          <Form.Item name="color" rules={[{ required: true }]}>
+            <EditColor />
           </Form.Item>
-          <Form.Item>
-            <Input
-              placeholder="Name"
-              onChange={(e) => setName(e.target.value)}
-            />
+          <Form.Item
+            name="name"
+            rules={[{ required: true, validator: validateNewCategory }]}
+          >
+            <Input placeholder="Name" />
           </Form.Item>
         </Form>
       </Modal>
