@@ -3,8 +3,12 @@ import { Form, Typography } from "antd";
 
 export interface StoryPartProps<TData> {
   value: TData;
-  extraData?: TData;
   onChange: (data: TData) => void;
+}
+
+export interface StoryPartPropsWithExtraData<TData, TExtra>
+  extends StoryPartProps<TData> {
+  extraData: TExtra[];
 }
 
 interface SpanProps {

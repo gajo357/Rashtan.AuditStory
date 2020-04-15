@@ -11,6 +11,7 @@ import StoryMoat from "./StoryMoat";
 import StoryCompetition from "./StoryCompetition";
 import StoryCustomPart from "./StoryCustomPart";
 import StoryChecklist from "./StoryChecklist";
+import StoryVerdict from "./StoryVerdict";
 import StoryMenu from "./StoryMenu";
 import {
   addElement,
@@ -102,7 +103,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
               <Tabs tabPosition="right" style={styles.tabs} size="small">
                 <Tabs.TabPane tab="Profile" key="1">
                   <StoryProfile
-                    value={{ ...company.profile, categories }}
+                    value={{ ...company.profile }}
                     onChange={(p) => updateCompany({ ...company, profile: p })}
                   />
                 </Tabs.TabPane>
@@ -163,6 +164,14 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                       updateCompany({ ...company, checklist: p })
                     }
                     extraData={extraItems}
+                  />
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="Verdict" key="7">
+                  <StoryVerdict
+                    value={company.verdict}
+                    onChange={(p) => updateCompany({ ...company, verdict: p })}
+                    extraData={categories}
                   />
                 </Tabs.TabPane>
               </Tabs>

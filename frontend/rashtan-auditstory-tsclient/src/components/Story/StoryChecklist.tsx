@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Input, Rate, Button, List, Form, Typography } from "antd";
 import { ChecklistItem } from "../../models/Company";
-import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
+import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
 import {
   addElement,
   replaceElement,
@@ -11,11 +11,10 @@ import {
 import styles from "./Story-styles";
 import AddUniqueValue from "./AddUniqueValue";
 
-const StoryChecklist: React.FC<StoryPartProps<ChecklistItem[]>> = ({
-  value,
-  onChange,
-  extraData,
-}) => {
+const StoryChecklist: React.FC<StoryPartPropsWithExtraData<
+  ChecklistItem[],
+  ChecklistItem
+>> = ({ value, onChange, extraData }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const unusedItems =

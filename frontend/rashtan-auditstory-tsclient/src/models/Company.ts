@@ -19,6 +19,8 @@ export interface CompanyStory {
   parts: CompanyStoryCustomPart[];
 
   checklist: ChecklistItem[];
+
+  verdict: CompanyVerdict;
 }
 
 export interface CompanyQuickInfo {
@@ -37,10 +39,7 @@ export interface CompanyProfile {
   industry: string;
   marketCap: number;
   website: string;
-  star: boolean;
   tags: string[];
-  flags: string[];
-  category: string;
 }
 
 export interface CompanyStoryManagement {
@@ -103,6 +102,13 @@ export interface CompanyStoryRevenue {
 export interface Revenue {
   stream: string;
   percent: number;
+}
+
+export interface CompanyVerdict {
+  star: boolean;
+  flags: string[];
+  category: string;
+  comment: string;
 }
 
 export interface CompanyStoryCustomPart {

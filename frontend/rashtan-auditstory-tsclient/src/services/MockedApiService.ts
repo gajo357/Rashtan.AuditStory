@@ -28,13 +28,9 @@ export default class MockedApiService implements IApiService {
     profile: {
       name: "Micron Technologies",
       industry: "Semiconductor",
-      numberOfShares: 1,
       marketCap: 100,
       website: "https://www.micron.com/",
       tags: ["semiconductor"],
-      category: "Wonderfull",
-      flags: ["Some event"],
-      star: true,
     },
     moat: {
       kinds: [MoatKind.Brand],
@@ -85,6 +81,12 @@ export default class MockedApiService implements IApiService {
       { question: "Are any gurus invested in it?", response: 0.5 },
       { question: "Does it align with your values?", response: 2.5 },
     ],
+    verdict: {
+      category: "Wonderfull",
+      flags: ["Some event"],
+      star: true,
+      comment: "Great company with bright future ahead",
+    },
   };
 
   getCompanies = () =>
