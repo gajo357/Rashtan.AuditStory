@@ -5,7 +5,6 @@ import {
   BookTwoTone,
   LogoutOutlined,
   SettingOutlined,
-  StarTwoTone,
   UnorderedListOutlined,
 } from "@ant-design/icons";
 import { Menu, Modal, Input, Form } from "antd";
@@ -13,6 +12,7 @@ import { CirclePicker } from "react-color";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
 import { showError } from "../models/Errors";
+import StarEdit from "./StarEdit";
 
 interface Props {
   categories: Category[];
@@ -69,14 +69,14 @@ const MainMenu: React.FC<Props> = ({
             <CirclePicker
               color={color}
               onChangeComplete={(c) => setColor(c.hex)}
-            ></CirclePicker>
+            />
             <BookTwoTone twoToneColor={color}></BookTwoTone>
           </Form.Item>
           <Form.Item>
             <Input
               placeholder="Name"
               onChange={(e) => setName(e.target.value)}
-            ></Input>
+            />
           </Form.Item>
         </Form>
       </Modal>
@@ -88,8 +88,8 @@ const MainMenu: React.FC<Props> = ({
             All stories
           </Menu.Item>
           <Menu.Item onClick={() => onFavouriteSelected()}>
-            <StarTwoTone twoToneColor={favourite ? "#FFEB3B" : "#555555"} />
-            My favourites
+            <StarEdit value={favourite} />
+            Only favourites
           </Menu.Item>
         </Menu.ItemGroup>
         <Menu.Divider></Menu.Divider>
