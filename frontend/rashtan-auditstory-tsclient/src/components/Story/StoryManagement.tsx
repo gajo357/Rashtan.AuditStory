@@ -1,60 +1,52 @@
 import React from "react";
 import { Form, Input, Switch, InputNumber, Rate } from "antd";
 import { CompanyStoryManagement } from "../../models/Company";
-import StoryPartForm, {
-  StoryPartProps,
-  FormItemProps,
-  FormItem,
-} from "./StoryPartForm";
-
-const FormItemLocal: React.FC<FormItemProps> = (props) => (
-  <FormItem {...props} labelCol={4} />
-);
+import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 
 const StoryManagement: React.FC<StoryPartProps<CompanyStoryManagement>> = ({
   data,
   dataChanged,
 }) => (
-  <StoryPartForm title="Management" data={data} dataChanged={dataChanged}>
-    <FormItemLocal
-      label="Is the CEO the founder"
+  <StoryPartForm title="Management" value={data} onChange={dataChanged}>
+    <Form.Item
+      label="Is CEO the founder"
       name="ceoFounder"
       valuePropName="checked"
     >
-      <Switch title="Is the CEO the founder" />
-    </FormItemLocal>
-    <FormItemLocal
-      label="Is the CEO a major shareholder"
+      <Switch title="Is CEO the founder" />
+    </Form.Item>
+    <Form.Item
+      label="CEO major shareholder"
       name="ceoMajorShareholder"
       valuePropName="checked"
     >
-      <Switch title="Is the CEO a major shareholder" />
-    </FormItemLocal>
+      <Switch title="CEO major shareholder" />
+    </Form.Item>
 
-    <FormItemLocal label="CEO tenure" name="ceoTenure">
+    <Form.Item label="CEO tenure" name="ceoTenure">
       <InputNumber placeholder="CEO tenure" min={0} step={1} />
-    </FormItemLocal>
+    </Form.Item>
 
-    <FormItemLocal label="Trust the CEO" name="ceoTrust">
+    <Form.Item label="Trust CEO" name="ceoTrust">
       <Rate allowHalf={true} />
-    </FormItemLocal>
-    <FormItemLocal label="CEO candor" name="ceoCandor">
+    </Form.Item>
+    <Form.Item label="CEO candor" name="ceoCandor">
       <Rate allowHalf={true} />
-    </FormItemLocal>
-    <FormItemLocal label="Management able and talented" name="ableAndTalented">
+    </Form.Item>
+    <Form.Item label="Able and talented" name="ableAndTalented">
       <Rate allowHalf={true} />
-    </FormItemLocal>
+    </Form.Item>
 
     <Input.Group>
-      <FormItemLocal label="ROE" name="roe">
+      <Form.Item label="ROE" name="roe">
         <InputNumber placeholder="ROE" step={0.1} />
-      </FormItemLocal>
-      <FormItemLocal label="ROIC" name="roic">
+      </Form.Item>
+      <Form.Item label="ROIC" name="roic">
         <InputNumber placeholder="ROIC" step={0.1} />
-      </FormItemLocal>
-      <FormItemLocal label="Debt over Earnings" name="debt">
+      </Form.Item>
+      <Form.Item label="Debt over Earnings" name="debt">
         <InputNumber placeholder="Debt over Earnings" min={0} step={0.1} />
-      </FormItemLocal>
+      </Form.Item>
     </Input.Group>
 
     <Form.Item label="Comment" name="comment">

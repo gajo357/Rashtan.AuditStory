@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Typography, Row, Col, InputNumber, Button } from "antd";
 import { CompanyCompetition } from "../../models/Company";
-import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
+import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import styles from "./Story-styles";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
@@ -10,46 +10,56 @@ const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
   dataChanged,
 }) => {
   return (
-    <StoryPartForm title="Competition" data={data} dataChanged={dataChanged}>
+    <StoryPartForm title="Competition" value={data} onChange={dataChanged}>
       <Form.List name="competitors">
         {(fields, { add, remove }) => (
           <div>
             <Typography.Text strong style={styles.revenueBlockTitle}>
               Competitors
             </Typography.Text>
+            <Row gutter={[2, 2]}>
+              <Col span={8}>
+                <Typography.Text>Name</Typography.Text>
+              </Col>
+              <Col span={6}>
+                <Typography.Text>Market Cap</Typography.Text>
+              </Col>
+              <Col span={6}>
+                <Typography.Text>Market Share (%) </Typography.Text>
+              </Col>
+              <Col span={2}></Col>
+            </Row>
+
             {fields.map((field) => (
               <Row key={field.name} style={styles.revenueRow}>
-                <Col>
+                <Col span={8}>
                   <Form.Item
                     style={styles.revenueRowItem}
                     name={[field.name, "name"]}
-                    label="Name"
                     rules={[{ required: true }]}
                   >
                     <Input placeholder="Name" />
                   </Form.Item>
                 </Col>
-                <Col>
+                <Col span={6}>
                   <Form.Item
-                    style={{ ...styles.revenueRowItem, marginLeft: 10 }}
+                    style={styles.revenueRowItem}
                     name={[field.name, "marketCap"]}
-                    label="Market Cap"
                     rules={[{ required: true }]}
                   >
                     <InputNumber placeholder="Market Cap" />
                   </Form.Item>
                 </Col>
-                <Col>
+                <Col span={6}>
                   <Form.Item
-                    style={{ ...styles.revenueRowItem, marginLeft: 10 }}
+                    style={styles.revenueRowItem}
                     name={[field.name, "marketShare"]}
-                    label="Market Share (%)"
                     rules={[{ required: true }]}
                   >
                     <InputNumber placeholder="share %" />
                   </Form.Item>
                 </Col>
-                <Col>
+                <Col span={2}>
                   <MinusCircleOutlined
                     onClick={() => remove(field.name)}
                     style={styles.checklistDelete}
@@ -69,9 +79,9 @@ const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
         )}
       </Form.List>
 
-      <FormItem label="Industry growth" name="industryGrowth">
+      <Form.Item label="Industry growth" name="industryGrowth">
         <Input placeholder="Industry growth comment" />
-      </FormItem>
+      </Form.Item>
 
       <Form.Item label="Comment" name="comment">
         <Input.TextArea placeholder="Comment" rows={2} />

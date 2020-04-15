@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Form, Input, InputNumber, Button, Select, Row, Col } from "antd";
 import { CompanyProfile } from "../../models/Company";
-import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
+import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import StarEdit from "./../StarEdit";
 import AddUniqueValue from "./AddUniqueValue";
 import Category from "../../models/Category";
@@ -27,7 +27,7 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
   const [flagModalVisible, setFlagModalVisible] = useState(false);
 
   return (
-    <StoryPartForm title="Profile" data={data} dataChanged={dataChanged}>
+    <StoryPartForm title="Profile" value={data} onChange={dataChanged}>
       <Item name="category" rules={[{ required: false }]}>
         <Select
           loading={data.categories.length === 0}
@@ -44,11 +44,11 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
         </Select>
       </Item>
 
-      <FormItem label="Favourite" name="star">
+      <Form.Item label="Favourite" name="star">
         <StarEdit />
-      </FormItem>
+      </Form.Item>
 
-      <FormItem
+      <Form.Item
         label={
           <span>
             <TagsOutlined /> Tags
@@ -58,17 +58,17 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
         rules={[{ required: false }]}
       >
         <Select mode="tags" />
-      </FormItem>
+      </Form.Item>
 
-      <FormItem
+      <Form.Item
         label="Company name"
         name="name"
         rules={[{ required: true, message: "Company name is required" }]}
       >
         <Input placeholder="Company name" />
-      </FormItem>
+      </Form.Item>
 
-      <FormItem
+      <Form.Item
         label="Website"
         name="website"
         rules={[{ required: true, message: "Website is required" }]}
@@ -86,15 +86,15 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
             )
           }
         />
-      </FormItem>
+      </Form.Item>
 
-      <FormItem label="Market cap" name="marketCap">
+      <Form.Item label="Market cap" name="marketCap">
         <InputNumber placeholder="Market cap" min={0} step={1} />
-      </FormItem>
+      </Form.Item>
 
-      <FormItem label="Industry" name="industry">
+      <Form.Item label="Industry" name="industry">
         <Input placeholder="Industry" />
-      </FormItem>
+      </Form.Item>
 
       <div>
         <AddUniqueValue

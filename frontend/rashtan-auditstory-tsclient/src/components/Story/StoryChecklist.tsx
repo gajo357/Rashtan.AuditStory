@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Input, Rate, Button, List, Form } from "antd";
+import { Input, Rate, Button, List, Form, Typography } from "antd";
 import { ChecklistItem } from "../../models/Company";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import {
@@ -36,7 +36,12 @@ const StoryChecklist: React.FC<StoryPartProps<ChecklistItem[]>> = ({
   };
 
   return (
-    <StoryPartForm title="Checklist" data={data} dataChanged={dataChanged}>
+    <StoryPartForm
+      title="Checklist"
+      value={data}
+      onChange={dataChanged}
+      ignoreLabelSetting
+    >
       {data.map((item) => (
         <Input.Group compact key={item.question}>
           <Form.Item style={styles.checklistQuestion}>
@@ -80,15 +85,21 @@ const StoryChecklist: React.FC<StoryPartProps<ChecklistItem[]>> = ({
 
       {unusedItems && unusedItems.length > 0 && (
         <List
+          header={
+            <Typography.Title level={4}>Possible questions</Typography.Title>
+          }
           itemLayout="vertical"
-          size="large"
           pagination={{
             pageSize: 3,
           }}
           dataSource={unusedItems}
           renderItem={(item) => (
-            <List.Item key={item.question} onClick={() => addItem(item)}>
-              <List.Item.Meta description={item.question} />
+            <List.Item
+              key={item.question}
+              onClick={() => addItem(item)}
+              style={styles.checklistUnusedItem}
+            >
+              {item.question}
             </List.Item>
           )}
         />

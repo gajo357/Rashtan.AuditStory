@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, InputNumber, Typography, Row, Col, Button } from "antd";
 import { CompanyStoryRevenue } from "../../models/Company";
-import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
+import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./Story-styles";
 
@@ -12,29 +12,37 @@ const createList = (fieldName: string, title: string, streamName: string) => (
         <Typography.Text strong style={styles.revenueBlockTitle}>
           Revenue by {title}
         </Typography.Text>
+        <Row gutter={[2, 2]}>
+          <Col span={12}>
+            <Typography.Text>{streamName}</Typography.Text>
+          </Col>
+          <Col span={8}>
+            <Typography.Text>Percent</Typography.Text>
+          </Col>
+          <Col span={4}></Col>
+        </Row>
+
         {fields.map((field) => (
-          <Row key={field.name} style={styles.revenueRow}>
-            <Col>
+          <Row key={field.name} gutter={[2, 2]}>
+            <Col span={12}>
               <Form.Item
                 style={styles.revenueRowItem}
                 name={[field.name, "stream"]}
-                label={streamName}
                 rules={[{ required: true }]}
               >
                 <Input placeholder={streamName} />
               </Form.Item>
             </Col>
-            <Col>
+            <Col span={8}>
               <Form.Item
-                style={{ ...styles.revenueRowItem, marginLeft: 10 }}
+                style={styles.revenueRowItem}
                 name={[field.name, "percent"]}
-                label="Percent"
                 rules={[{ required: true }]}
               >
                 <InputNumber placeholder="Enter pecent" />
               </Form.Item>
             </Col>
-            <Col>
+            <Col span={4}>
               <MinusCircleOutlined
                 onClick={() => remove(field.name)}
                 style={styles.checklistDelete}
@@ -60,14 +68,10 @@ const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
   dataChanged,
 }) => {
   return (
-    <StoryPartForm
-      title="Revenue Streams"
-      data={data}
-      dataChanged={dataChanged}
-    >
-      <FormItem label="Total revenue" name="totalRevenue">
+    <StoryPartForm title="Revenue Streams" value={data} onChange={dataChanged}>
+      <Form.Item label="Total revenue" name="totalRevenue">
         <InputNumber placeholder="Total revenue" min={1} />
-      </FormItem>
+      </Form.Item>
 
       {createList("byLocation", "location", "Location (country, state...)")}
 

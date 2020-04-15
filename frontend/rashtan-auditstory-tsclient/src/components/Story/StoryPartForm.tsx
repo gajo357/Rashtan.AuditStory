@@ -1,35 +1,5 @@
 import React from "react";
 import { Form, Typography } from "antd";
-import { Rule } from "antd/lib/form";
-
-export interface FormItemProps {
-  label: string | React.ReactNode;
-  name: string;
-  valuePropName?: string;
-  rules?: Rule[];
-  children: React.ReactElement | React.ReactElement[] | null;
-  labelCol?: number;
-}
-
-export const FormItem: React.FC<FormItemProps> = ({
-  label,
-  name,
-  valuePropName,
-  rules,
-  children,
-  labelCol,
-}) => (
-  <Form.Item
-    label={label}
-    name={name}
-    valuePropName={valuePropName}
-    rules={rules}
-    labelCol={{ span: labelCol ?? 2 }}
-    wrapperCol={{ span: 14 }}
-  >
-    {children}
-  </Form.Item>
-);
 
 export interface StoryPartProps<TData> {
   data: TData;
@@ -37,27 +7,62 @@ export interface StoryPartProps<TData> {
   dataChanged: (data: TData) => void;
 }
 
+interface SpanProps {
+  span: number;
+}
+interface LabelProps {
+  xs: SpanProps;
+  sm: SpanProps;
+}
+
+interface FormProps {
+  labelCol: LabelProps;
+  wrapperCol: LabelProps;
+}
+
 interface StoryPartFormBaseProps<TData> {
   title: string | React.ReactNode;
-  data: TData;
+  value?: TData;
   children: React.ReactNode;
-  dataChanged: (data: TData) => void;
+  onChange?: (data: TData) => void;
+  labelCol?: FormProps;
+  ignoreLabelSetting?: boolean;
 }
 
 function StoryPartForm<TData>({
   title,
-  data,
+  value,
   children,
-  dataChanged,
+  onChange,
+  labelCol,
+  ignoreLabelSetting,
 }: StoryPartFormBaseProps<TData>) {
+  const formItemLayout = ignoreLabelSetting
+    ? {}
+    : {
+        ...{
+          labelCol: {
+            xs: { span: 24 },
+            sm: { span: 5 },
+          },
+          wrapperCol: {
+            xs: { span: 24 },
+            sm: { span: 12 },
+          },
+        },
+        ...labelCol,
+      };
+
   return (
     <>
       <Typography.Title level={3}>{title}</Typography.Title>
       <Form
+        {...formItemLayout}
         layout="horizontal"
-        initialValues={data}
-        onValuesChange={(changedValues) =>
-          dataChanged({ ...data, ...changedValues })
+        initialValues={value}
+        onValuesChange={(_, values) =>
+          onChange &&
+          onChange(value ? { ...value, ...values } : (values as TData))
         }
       >
         {children}

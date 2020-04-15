@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, InputNumber, Select } from "antd";
 import { CompanyStoryMoat, MoatKind } from "../../models/Company";
-import StoryPartForm, { StoryPartProps, FormItem } from "./StoryPartForm";
+import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 
 const { Option } = Select;
 
@@ -9,8 +9,8 @@ const StoryMoat: React.FC<StoryPartProps<CompanyStoryMoat>> = ({
   data,
   dataChanged,
 }) => (
-  <StoryPartForm title="MOAT" data={data} dataChanged={dataChanged}>
-    <FormItem label="Kinds of moat" name="kinds">
+  <StoryPartForm title="MOAT" value={data} onChange={dataChanged}>
+    <Form.Item label="Kinds of moat" name="kinds">
       <Select placeholder="Kinds of moat" mode="multiple">
         <Option value={MoatKind.Brand}>Brand</Option>
         <Option value={MoatKind.Price}>Price</Option>
@@ -18,31 +18,31 @@ const StoryMoat: React.FC<StoryPartProps<CompanyStoryMoat>> = ({
         <Option value={MoatKind.Toll}>Toll</Option>
         <Option value={MoatKind.Switching}>Switching</Option>
       </Select>
-    </FormItem>
-    <FormItem label="Main advantage" name="mainAdvantage">
+    </Form.Item>
+    <Form.Item label="Main advantage" name="mainAdvantage">
       <Input placeholder="Main advantage" />
-    </FormItem>
+    </Form.Item>
 
-    <FormItem label="Is moat durable?" name="durable">
+    <Form.Item label="Is moat durable?" name="durable">
       <Input placeholder="Is moat durable?" />
-    </FormItem>
+    </Form.Item>
 
     <Input.Group>
-      <FormItem label="BVPS growth (%)" name="bvps">
+      <Form.Item label="BVPS growth (%)" name="bvps">
         <InputNumber placeholder="Book Value per Share growth (%)" step={0.1} />
-      </FormItem>
-      <FormItem label="EPS growth (%)" name="eps">
+      </Form.Item>
+      <Form.Item label="EPS growth (%)" name="eps">
         <InputNumber placeholder="Earnings per Share growth (%)" step={0.1} />
-      </FormItem>
-      <FormItem label="OCPS growth (%)" name="ocps">
+      </Form.Item>
+      <Form.Item label="OCPS growth (%)" name="ocps">
         <InputNumber
           placeholder="Operating Cash per Share growth (%)"
           step={0.1}
         />
-      </FormItem>
-      <FormItem label="Sales growth (%)" name="sgr">
+      </Form.Item>
+      <Form.Item label="Sales growth (%)" name="sgr">
         <InputNumber placeholder="Sales growth (%)" step={0.1} />
-      </FormItem>
+      </Form.Item>
     </Input.Group>
 
     <Form.Item label="Comment" name="comment">

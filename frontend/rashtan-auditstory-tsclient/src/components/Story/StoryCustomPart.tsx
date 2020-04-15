@@ -24,8 +24,8 @@ const StoryCustomPart: React.FC<Props> = ({
           <DeleteOutlined onClick={remove} style={{ marginLeft: 10 }} />
         </span>
       }
-      data={data}
-      dataChanged={dataChanged}
+      value={data}
+      onChange={dataChanged}
     >
       <Form.Item name="content">
         <RichTextEditor />
