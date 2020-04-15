@@ -105,7 +105,7 @@ export default class MockedApiService implements IApiService {
         name: "GrafTech",
         flags: 3,
         star: false,
-        category: "Wonderfull",
+        category: "Not understand",
         dateEdited: new Date(Date.now()),
         tags: ["steel", "cheap"],
       },

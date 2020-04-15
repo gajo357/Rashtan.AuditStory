@@ -8,7 +8,7 @@ import { Form, Input, Button, Select, Row, Col } from "antd";
 import { CompanyVerdict } from "../../models/Company";
 import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
 import StarEdit from "./../StarEdit";
-import AddUniqueValue from "./AddUniqueValue";
+import AddUniqueValue from "../AddUniqueValue";
 import Category from "../../models/Category";
 import styles from "./Story-styles";
 import { removeElement, addElement } from "../../models/ArrayUpdate";

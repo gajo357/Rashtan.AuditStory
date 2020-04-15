@@ -1,7 +1,6 @@
 //
 export interface CompanyStoryCreate {
   name: string;
-  website: string;
 }
 
 export interface CompanyStory {

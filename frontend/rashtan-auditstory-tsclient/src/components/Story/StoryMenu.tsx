@@ -6,7 +6,7 @@ import {
   SaveOutlined,
   MoreOutlined,
 } from "@ant-design/icons";
-import AddUniqueValue from "./AddUniqueValue";
+import AddUniqueValue from "../AddUniqueValue";
 import { CompanyStory } from "../../models/Company";
 import styles from "./Story-styles";
 

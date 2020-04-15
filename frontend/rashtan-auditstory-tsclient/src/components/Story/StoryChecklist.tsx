@@ -9,7 +9,7 @@ import {
   removeElement,
 } from "../../models/ArrayUpdate";
 import styles from "./Story-styles";
-import AddUniqueValue from "./AddUniqueValue";
+import AddUniqueValue from "../AddUniqueValue";
 
 const StoryChecklist: React.FC<StoryPartPropsWithExtraData<
   ChecklistItem[],
