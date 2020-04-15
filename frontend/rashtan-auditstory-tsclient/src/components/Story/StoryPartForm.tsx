@@ -2,9 +2,9 @@ import React from "react";
 import { Form, Typography } from "antd";
 
 export interface StoryPartProps<TData> {
-  data: TData;
+  value: TData;
   extraData?: TData;
-  dataChanged: (data: TData) => void;
+  onChange: (data: TData) => void;
 }
 
 interface SpanProps {

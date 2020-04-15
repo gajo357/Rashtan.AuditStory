@@ -64,11 +64,11 @@ const createList = (fieldName: string, title: string, streamName: string) => (
 );
 
 const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
-  data,
-  dataChanged,
+  value,
+  onChange,
 }) => {
   return (
-    <StoryPartForm title="Revenue Streams" value={data} onChange={dataChanged}>
+    <StoryPartForm title="Revenue Streams" value={value} onChange={onChange}>
       <Form.Item label="Total revenue" name="totalRevenue">
         <InputNumber placeholder="Total revenue" min={1} />
       </Form.Item>

@@ -6,11 +6,11 @@ import styles from "./Story-styles";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
-  data,
-  dataChanged,
+  value,
+  onChange,
 }) => {
   return (
-    <StoryPartForm title="Competition" value={data} onChange={dataChanged}>
+    <StoryPartForm title="Competition" value={value} onChange={onChange}>
       <Form.List name="competitors">
         {(fields, { add, remove }) => (
           <div>

@@ -21,19 +21,19 @@ interface Categories {
 }
 
 const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
-  data,
-  dataChanged,
+  value,
+  onChange,
 }) => {
   const [flagModalVisible, setFlagModalVisible] = useState(false);
 
   return (
-    <StoryPartForm title="Profile" value={data} onChange={dataChanged}>
+    <StoryPartForm title="Profile" value={value} onChange={onChange}>
       <Item name="category" rules={[{ required: false }]}>
         <Select
-          loading={data.categories.length === 0}
+          loading={value.categories.length === 0}
           placeholder="Select category"
         >
-          {data.categories.map((c) => (
+          {value.categories.map((c) => (
             <Select.Option value={c.name} key={c.name}>
               <span>
                 <BookTwoTone twoToneColor={c.color} />
@@ -76,11 +76,11 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
         <Input
           placeholder="Company website"
           addonBefore={
-            data.website && (
+            value.website && (
               <Button
                 icon={<GlobalOutlined />}
                 type="link"
-                href={data.website}
+                href={value.website}
                 target="_blank"
               />
             )
@@ -99,17 +99,17 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
       <div>
         <AddUniqueValue
           title="New Red Flag"
-          existingItems={data.flags}
+          existingItems={value.flags}
           visible={flagModalVisible}
           onCancel={() => setFlagModalVisible(false)}
           onCreate={(flag) => {
-            const flags = addElement(data.flags, flag);
-            dataChanged({ ...data, flags });
+            const flags = addElement(value.flags, flag);
+            onChange({ ...value, flags });
             setFlagModalVisible(false);
           }}
         />
 
-        {data.flags.map((flag) => (
+        {value.flags.map((flag) => (
           <Row key={flag}>
             <Col>
               <Input disabled value={flag} style={styles.redFlagText} />
@@ -118,8 +118,8 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile & Categories>> = ({
               <MinusCircleOutlined
                 style={styles.checklistDelete}
                 onClick={() => {
-                  const flags = removeElement(data.flags, flag);
-                  dataChanged({ ...data, flags });
+                  const flags = removeElement(value.flags, flag);
+                  onChange({ ...value, flags });
                 }}
               />
             </Col>

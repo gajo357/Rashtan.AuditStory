@@ -12,37 +12,37 @@ import styles from "./Story-styles";
 import AddUniqueValue from "./AddUniqueValue";
 
 const StoryChecklist: React.FC<StoryPartProps<ChecklistItem[]>> = ({
-  data,
-  dataChanged,
+  value,
+  onChange,
   extraData,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const unusedItems =
     extraData &&
-    extraData.filter((s) => !data.some((d) => d.question === s.question));
+    extraData.filter((s) => !value.some((d) => d.question === s.question));
 
   const addItem = (item: ChecklistItem) => {
-    const c = addElement(data, item);
-    dataChanged(c);
+    const c = addElement(value, item);
+    onChange(c);
   };
   const remove = (item: ChecklistItem) => {
-    const c = removeElement(data, item);
-    dataChanged(c);
+    const c = removeElement(value, item);
+    onChange(c);
   };
   const itemChanged = (original: ChecklistItem, replacement: ChecklistItem) => {
-    const c = replaceElement(data, original, replacement);
-    dataChanged(c);
+    const c = replaceElement(value, original, replacement);
+    onChange(c);
   };
 
   return (
     <StoryPartForm
       title="Checklist"
-      value={data}
-      onChange={dataChanged}
+      value={value}
+      onChange={onChange}
       ignoreLabelSetting
     >
-      {data.map((item) => (
+      {value.map((item) => (
         <Input.Group compact key={item.question}>
           <Form.Item style={styles.checklistQuestion}>
             <Input
@@ -74,7 +74,7 @@ const StoryChecklist: React.FC<StoryPartProps<ChecklistItem[]>> = ({
 
       <AddUniqueValue
         title="New Checklist item"
-        existingItems={data.map((d) => d.question)}
+        existingItems={value.map((d) => d.question)}
         visible={modalVisible}
         onCancel={() => setModalVisible(false)}
         onCreate={(item) => {

@@ -4,10 +4,10 @@ import { CompanyStoryManagement } from "../../models/Company";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 
 const StoryManagement: React.FC<StoryPartProps<CompanyStoryManagement>> = ({
-  data,
-  dataChanged,
+  value,
+  onChange,
 }) => (
-  <StoryPartForm title="Management" value={data} onChange={dataChanged}>
+  <StoryPartForm title="Management" value={value} onChange={onChange}>
     <Form.Item
       label="Is CEO the founder"
       name="ceoFounder"
