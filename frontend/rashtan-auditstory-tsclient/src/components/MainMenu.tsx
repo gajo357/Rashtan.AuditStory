@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { History } from "history";
 import {
   LogoutOutlined,
-  SettingOutlined,
   UnorderedListOutlined,
   BookFilled,
   StarOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Menu, Button, Row, Col } from "antd";
 import NewCategoryEdit from "./NewCategoryEdit";
@@ -108,9 +108,9 @@ const MainMenu: React.FC<Props> = ({
         </Menu.ItemGroup>
         <Menu.Divider></Menu.Divider>
         <Menu.ItemGroup>
-          <Menu.Item>
-            <SettingOutlined />
-            Settings
+          <Menu.Item onClick={() => history.push("/account")}>
+            <UserOutlined />
+            Account
           </Menu.Item>
           <Menu.Item onClick={logOut}>
             <LogoutOutlined />

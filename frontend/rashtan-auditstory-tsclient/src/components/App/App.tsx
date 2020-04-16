@@ -6,7 +6,7 @@ import { History } from "history";
 import "./App.css";
 import Footer from "../Footer";
 import Terms from "../Terms";
-import EditUser from "../EditUser";
+import AccountEdit from "../AccountEdit";
 import Story from "../Story/Story";
 import Home from "../Home";
 import CategoriesEdit from "../CategoriesEdit";
@@ -94,7 +94,12 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
         <CustomRoute
           exact
           path="/account"
-          component={() => <EditUser apiService={apiService} />}
+          render={({ history }) => (
+            <AccountEdit
+              apiService={apiService}
+              goBack={() => history.push("/")}
+            />
+          )}
         />
         <CustomRoute
           exact
