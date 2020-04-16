@@ -9,7 +9,7 @@ import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { ResponseError, ValidationError, UserError } from "../models/Errors";
 import Category from "../models/Category";
-import Country from "../models/Country";
+import { Country, Currency } from "../models/Country";
 
 export default class ApiService implements IApiService {
   public authService: AuthService;
@@ -97,6 +97,6 @@ export default class ApiService implements IApiService {
 
   getChecklistItems = () => this.getCommand<ChecklistItem[]>("api/checklist");
 
-  getCountries = () =>
-    fetch(CountriesAPI).then((r) => this.unwrapResponse<Country[]>(r));
+  getCountries = () => this.getCommand<Country[]>(CountriesAPI);
+  getCurrencies = () => this.getCommand<Currency[]>(CountriesAPI);
 }

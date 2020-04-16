@@ -4,6 +4,7 @@ import { CompanyStoryRevenue } from "../../models/Company";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./Story-styles";
+import InputWithCurrency from "./InputWithCurrency";
 
 const createList = (fieldName: string, title: string, streamName: string) => (
   <Form.List name={fieldName}>
@@ -66,11 +67,12 @@ const createList = (fieldName: string, title: string, streamName: string) => (
 const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
   value,
   onChange,
+  currency,
 }) => {
   return (
     <StoryPartForm title="Revenue Streams" value={value} onChange={onChange}>
       <Form.Item label="Total revenue" name="totalRevenue">
-        <InputNumber placeholder="Total revenue" min={1} />
+        <InputWithCurrency placeholder="Total revenue" currency={currency} />
       </Form.Item>
 
       {createList("byLocation", "location", "Location (country, state...)")}

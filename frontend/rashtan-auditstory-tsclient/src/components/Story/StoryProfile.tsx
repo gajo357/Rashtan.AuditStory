@@ -1,13 +1,16 @@
 import React from "react";
 import { GlobalOutlined, TagsOutlined } from "@ant-design/icons";
-import { Form, Input, InputNumber, Button, Select } from "antd";
+import { Form, Input, Button, Select } from "antd";
+import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
+import CurrencyUnitEdit from "./CurrencyUnitEdit";
+import InputWithCurrency from "./InputWithCurrency";
 import { CompanyProfile } from "../../models/Company";
-import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
+import { Currency } from "../../models/Country";
 
-const StoryProfile: React.FC<StoryPartProps<CompanyProfile>> = ({
-  value,
-  onChange,
-}) => {
+const StoryProfile: React.FC<StoryPartPropsWithExtraData<
+  CompanyProfile,
+  Currency
+>> = ({ value, onChange, currency, extraData }) => {
   return (
     <StoryPartForm title="Profile" value={value} onChange={onChange}>
       <Form.Item
@@ -50,8 +53,12 @@ const StoryProfile: React.FC<StoryPartProps<CompanyProfile>> = ({
         />
       </Form.Item>
 
+      <Form.Item label="Currency" name="unit">
+        <CurrencyUnitEdit currencies={extraData} />
+      </Form.Item>
+
       <Form.Item label="Market cap" name="marketCap">
-        <InputNumber placeholder="Market cap" min={0} step={1} />
+        <InputWithCurrency placeholder="Market cap" currency={currency} />
       </Form.Item>
 
       <Form.Item label="Industry" name="industry">

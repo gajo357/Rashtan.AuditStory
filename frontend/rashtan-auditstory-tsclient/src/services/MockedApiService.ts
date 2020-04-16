@@ -5,12 +5,13 @@ import {
   MoatKind,
   ChecklistItem,
   CompanyQuickInfo,
+  UnitOfSize,
 } from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { UserError, ResponseError, ValidationError } from "../models/Errors";
 import Category from "../models/Category";
-import Country from "../models/Country";
+import { Country } from "../models/Country";
 import { CountriesAPI } from "./Auth0Config";
 
 export default class MockedApiService implements IApiService {
@@ -27,11 +28,12 @@ export default class MockedApiService implements IApiService {
   private rejected = <T>() =>
     Promise.reject<T>(new UserError(400, "Some error"));
 
-  private micronStory = {
+  private micronStory: CompanyStory = {
     id: "12345678",
     dateEdited: new Date(Date.now()),
     profile: {
       name: "Micron Technologies",
+      unit: { currency: "USD", unit: UnitOfSize.Million },
       industry: "Semiconductor",
       marketCap: 100,
       website: "https://www.micron.com/",
@@ -164,6 +166,25 @@ export default class MockedApiService implements IApiService {
       const json = await r.json();
       if (r.ok) {
         return json as Country[];
+      } else if (r.status === 400) {
+        const re = json as ResponseError;
+        if (re.property) {
+          throw new ValidationError(re.property, re.message);
+        }
+        throw new UserError(r.status, re.message);
+      }
+
+      throw new Error(json);
+    });
+
+  getCurrencies = () =>
+    fetch(CountriesAPI).then(async (r) => {
+      const json = await r.json();
+      if (r.ok) {
+        const countries = json as Country[];
+        return countries
+          .flatMap((c) => c.currencies)
+          .filter((v, i, arr) => arr.findIndex((t) => t.code === v.code) === i);
       } else if (r.status === 400) {
         const re = json as ResponseError;
         if (re.property) {

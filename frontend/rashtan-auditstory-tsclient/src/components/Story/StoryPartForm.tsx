@@ -1,9 +1,11 @@
 import React from "react";
 import { Form, Typography } from "antd";
+import { CurrencyUnit } from "../../models/Company";
 
 export interface StoryPartProps<TData> {
   value: TData;
   onChange: (data: TData) => void;
+  currency?: CurrencyUnit;
 }
 
 export interface StoryPartPropsWithExtraData<TData, TExtra>

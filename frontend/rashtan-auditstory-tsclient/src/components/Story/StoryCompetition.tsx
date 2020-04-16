@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Typography, Row, Col, InputNumber, Button } from "antd";
-import { CompanyCompetition } from "../../models/Company";
+import { CompanyCompetition, UnitOfSize } from "../../models/Company";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import styles from "./Story-styles";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -8,6 +8,7 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
   value,
   onChange,
+  currency,
 }) => {
   return (
     <StoryPartForm title="Competition" value={value} onChange={onChange}>
@@ -22,7 +23,12 @@ const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
                 <Typography.Text>Name</Typography.Text>
               </Col>
               <Col span={6}>
-                <Typography.Text>Market Cap</Typography.Text>
+                <Typography.Text>
+                  Market Cap{" "}
+                  {currency
+                    ? ` (${UnitOfSize[currency.unit]} ${currency.currency})`
+                    : ""}
+                </Typography.Text>
               </Col>
               <Col span={6}>
                 <Typography.Text>Market Share (%) </Typography.Text>

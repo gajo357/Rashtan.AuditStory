@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
 import { Spin, PageHeader, Tabs } from "antd";
 import IApiService from "../../services/IApiService";
-import { CompanyStory, ChecklistItem } from "../../models/Company";
+import {
+  CompanyStory,
+  ChecklistItem,
+  CurrencyUnit,
+} from "../../models/Company";
 import { showError } from "../../models/Errors";
 import StoryProfile from "./StoryProfile";
 import StoryRevenue from "./StoryRevenue";
@@ -20,6 +24,7 @@ import {
 } from "../../models/ArrayUpdate";
 import Category from "../../models/Category";
 import styles from "./Story-styles";
+import { Currency } from "../../models/Country";
 
 interface Props {
   apiService: IApiService;
@@ -29,26 +34,38 @@ interface Props {
 
 const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
   const [company, setCompany] = useState<CompanyStory>();
-  const [extraItems, setExtraItems] = useState<ChecklistItem[]>([]);
+  const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>([]);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [saving, setSaving] = useState(false);
   const [categories, setCategories] = React.useState<Category[]>([]);
+  const [currencies, setCurrencies] = React.useState<Currency[]>([]);
+  const [currency, setCurrency] = React.useState<CurrencyUnit>();
 
   useEffect(() => {
     if (!id) return;
 
     apiService
       .getCompanyStory(id)
-      .then(setCompany)
+      .then((c) => {
+        setCompany(c);
+        setCurrency(c.profile.unit);
+      })
       .then(() => setUnsavedChanges(false))
       .catch(showError);
+
+    apiService.getChecklistItems().then(setChecklistItems).catch(showError);
+    apiService.getCategories().then(setCategories).catch(showError);
+    apiService.getCurrencies().then(setCurrencies).catch(showError);
   }, [apiService, id]);
 
   useEffect(() => {
-    apiService.getChecklistItems().then(setExtraItems).catch(showError);
+    if (currencies.length === 0 || !company) return;
 
-    apiService.getCategories().then(setCategories).catch(showError);
-  }, [apiService]);
+    const curr = currencies.find(
+      (c) => c.code === company.profile.unit.currency
+    );
+    if (curr) setCurrency({ ...company.profile.unit, currency: curr.symbol });
+  }, [currencies, company]);
 
   if (!id) return <Redirect to="/" />;
 
@@ -106,6 +123,8 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   <StoryProfile
                     value={{ ...company.profile }}
                     onChange={(p) => updateCompany({ ...company, profile: p })}
+                    extraData={currencies}
+                    currency={currency}
                   />
                 </Tabs.TabPane>
 
@@ -113,6 +132,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   <StoryRevenue
                     value={company.revenue}
                     onChange={(p) => updateCompany({ ...company, revenue: p })}
+                    currency={currency}
                   />
                 </Tabs.TabPane>
 
@@ -122,6 +142,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                     onChange={(p) =>
                       updateCompany({ ...company, competition: p })
                     }
+                    currency={currency}
                   />
                 </Tabs.TabPane>
 
@@ -164,7 +185,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                     onChange={(p) =>
                       updateCompany({ ...company, checklist: p })
                     }
-                    extraData={extraItems}
+                    extraData={checklistItems}
                   />
                 </Tabs.TabPane>
 

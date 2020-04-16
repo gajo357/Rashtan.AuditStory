@@ -3,6 +3,12 @@ export interface CompanyStoryCreate {
   name: string;
 }
 
+export enum UnitOfSize {
+  Thousand = 0,
+  Million = 1,
+  Billion = 2,
+}
+
 export interface CompanyStory {
   id: string;
 
@@ -35,10 +41,16 @@ export interface CompanyQuickInfo {
 
 export interface CompanyProfile {
   name: string;
+  unit: CurrencyUnit;
   industry: string;
   marketCap: number;
   website: string;
   tags: string[];
+}
+
+export interface CurrencyUnit {
+  currency: string;
+  unit: UnitOfSize;
 }
 
 export interface CompanyStoryManagement {

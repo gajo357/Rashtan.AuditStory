@@ -10,7 +10,7 @@ import {
   Avatar,
 } from "antd";
 import { UserInfo } from "../models/UserInfo";
-import Country from "../models/Country";
+import { Country } from "../models/Country";
 import IApiService from "../services/IApiService";
 import { showError } from "../models/Errors";
 
