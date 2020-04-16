@@ -10,7 +10,7 @@ import IApiService from "../services/IApiService";
 import { CompanyQuickInfo } from "../models/Company";
 import { showError } from "../models/Errors";
 import Category from "../models/Category";
-import MainMenu from "./MainMenu";
+import MainMenu, { CompanyFilter, createCategoryFilter } from "./MainMenu";
 import AddUniqueValue from "./AddUniqueValue";
 import StarEdit from "./StarEdit";
 
@@ -35,10 +35,9 @@ interface Props {
 const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
   const [open, setOpen] = useState(false);
   const [createStoryVisible, setCreateStoryVisible] = useState(false);
-  const [category, setCategory] = useState<Category | undefined>();
+  const [filter, setFilter] = useState<CompanyFilter | undefined>();
   const [companies, setCompanies] = useState<CompanyQuickInfo[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [favourite, setFavourite] = useState(false);
 
   useEffect(() => {
     apiService.getCompanies().then(setCompanies).catch(showError);
@@ -57,11 +56,6 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
     history.push(`/story/${id}`);
   };
 
-  const toggleFavourite = () => {
-    setFavourite(!favourite);
-    onClose();
-  };
-
   return (
     <div>
       <Drawer
@@ -78,37 +72,28 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
               .then(setCategories)
               .catch(showError)
               .finally(() => {
-                setCategory(c);
+                setFilter(createCategoryFilter(c));
                 onClose();
               });
           }}
-          onCategorySelected={(c) => {
-            setCategory(c);
+          setFilter={(f) => {
+            setFilter(f);
             onClose();
           }}
-          clearFilters={() => {
-            setCategory(undefined);
-            setFavourite(false);
-            onClose();
-          }}
-          onFavouriteSelected={toggleFavourite}
-          favourite={favourite}
           categories={categories}
           logOut={logOut}
           history={history}
         />
       </Drawer>
       <PageHeader
-        title={category ? category.name : "All stories"}
+        title={filter ? filter.title : "All stories"}
         backIcon={<MenuOutlined></MenuOutlined>}
         onBack={() => setOpen(true)}
       >
         <List
           itemLayout="vertical"
           dataSource={companies.filter(
-            (s) =>
-              (!category || s.category === category.name) &&
-              (!favourite || s.star)
+            (company) => !filter || filter.predicate(company)
           )}
           renderItem={(item: CompanyQuickInfo) => {
             const favs = [];

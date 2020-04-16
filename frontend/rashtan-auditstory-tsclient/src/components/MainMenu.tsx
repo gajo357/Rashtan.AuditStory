@@ -5,21 +5,31 @@ import {
   SettingOutlined,
   UnorderedListOutlined,
   BookFilled,
+  StarOutlined,
 } from "@ant-design/icons";
 import { Menu, Modal, Input, Form, Button, Row, Col } from "antd";
+import ColorPicker from "./ColorPicker";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
-import StarEdit from "./StarEdit";
-import ColorPicker from "./ColorPicker";
+import { CompanyQuickInfo } from "../models/Company";
 import { showError } from "../models/Errors";
+
+export interface CompanyFilter {
+  title: string;
+  predicate: (c: CompanyQuickInfo) => boolean;
+}
+
+export const createCategoryFilter: (c: Category) => CompanyFilter = (
+  category: Category
+) => ({
+  title: category.name,
+  predicate: (comp: CompanyQuickInfo) => comp.category === category.name,
+});
 
 interface Props {
   categories: Category[];
-  onCategorySelected: (category: Category) => void;
   onCategoryAdded: (category: Category) => void;
-  onFavouriteSelected: () => void;
-  clearFilters: () => void;
-  favourite: boolean;
+  setFilter: (f: CompanyFilter | undefined) => void;
   apiService: IApiService;
   logOut: () => void;
   history: History;
@@ -27,11 +37,8 @@ interface Props {
 
 const MainMenu: React.FC<Props> = ({
   categories,
-  onCategorySelected,
   onCategoryAdded,
-  onFavouriteSelected,
-  clearFilters,
-  favourite,
+  setFilter,
   apiService,
   logOut,
   history,
@@ -91,15 +98,19 @@ const MainMenu: React.FC<Props> = ({
         </Form>
       </Modal>
 
-      <Menu selectable mode="vertical">
+      <Menu selectable={false} mode="vertical">
         <Menu.ItemGroup>
-          <Menu.Item onClick={() => clearFilters()}>
+          <Menu.Item onClick={() => setFilter(undefined)}>
             <UnorderedListOutlined />
             All stories
           </Menu.Item>
-          <Menu.Item onClick={() => onFavouriteSelected()}>
-            <StarEdit value={favourite} />
-            Only favourites
+          <Menu.Item
+            onClick={() =>
+              setFilter({ title: "My favourites", predicate: (c) => c.star })
+            }
+          >
+            <StarOutlined />
+            My favourites
           </Menu.Item>
         </Menu.ItemGroup>
         <Menu.Divider></Menu.Divider>
@@ -120,7 +131,10 @@ const MainMenu: React.FC<Props> = ({
           }
         >
           {categories.map((c) => (
-            <Menu.Item onClick={() => onCategorySelected(c)} key={c.name}>
+            <Menu.Item
+              onClick={() => setFilter(createCategoryFilter(c))}
+              key={c.name}
+            >
               <BookFilled style={{ color: c.color }} />
               {c.name}
             </Menu.Item>
