@@ -18,7 +18,10 @@ export default class MockedApiService implements IApiService {
     this.authService = authService;
   }
 
-  private resolved = <T>(data: T) => Promise.resolve(data);
+  private resolved = <T>(data: T) =>
+    new Promise((resolve: (d: T) => void) =>
+      setTimeout(() => resolve(data), Math.random() * 2000)
+    );
   private rejected = <T>() =>
     Promise.reject<T>(new UserError(400, "Some error"));
 
