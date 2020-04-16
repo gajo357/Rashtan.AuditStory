@@ -2,7 +2,7 @@ import React from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import StoryPartForm from "./StoryPartForm";
-import RichTextEditor from "./../RichTextEditor";
+import EditRichText from "./../SimpleEditors/EditRichText";
 import { CompanyStoryCustomPart } from "../../models/Company";
 
 interface Props {
@@ -28,7 +28,7 @@ const StoryCustomPart: React.FC<Props> = ({
       onChange={dataChanged}
     >
       <Form.Item name="content">
-        <RichTextEditor />
+        <EditRichText />
       </Form.Item>
     </StoryPartForm>
   );

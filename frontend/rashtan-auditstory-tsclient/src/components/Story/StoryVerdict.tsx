@@ -7,7 +7,7 @@ import {
 import { Form, Input, Button, Select, Row, Col } from "antd";
 import { CompanyVerdict } from "../../models/Company";
 import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
-import StarEdit from "./../StarEdit";
+import EditStar from "../SimpleEditors/EditStar";
 import AddUniqueValue from "../AddUniqueValue";
 import Category from "../../models/Category";
 import styles from "./Story-styles";
@@ -35,7 +35,7 @@ const StoryVerdict: React.FC<StoryPartPropsWithExtraData<
       </Form.Item>
 
       <Form.Item label="Favourite" name="star">
-        <StarEdit />
+        <EditStar />
       </Form.Item>
       <Form.Item label="Red flags">
         <div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Modal, Row, Col } from "antd";
 import Category from "../models/Category";
 import { showError } from "../models/Errors";
-import EditColor from "./EditColor";
+import EditColor from "./SimpleEditors/EditColor";
 
 interface Props {
   categories: Category[];

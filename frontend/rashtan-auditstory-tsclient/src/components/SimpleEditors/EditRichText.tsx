@@ -6,7 +6,7 @@ interface Props {
   onChange?: (value: string) => void;
 }
 
-const RichTextEditor: React.FC<Props> = ({ value, onChange }) => {
+const EditRichText: React.FC<Props> = ({ value, onChange }) => {
   return (
     <ReactQuill
       style={{ backgroundColor: "rgba(255, 255, 255, 0.6)" }}
@@ -18,4 +18,4 @@ const RichTextEditor: React.FC<Props> = ({ value, onChange }) => {
   );
 };
 
-export default RichTextEditor;
+export default EditRichText;

@@ -12,7 +12,7 @@ import { showError } from "../models/Errors";
 import Category from "../models/Category";
 import MainMenu, { CompanyFilter, createCategoryFilter } from "./MainMenu";
 import AddUniqueValue from "./AddUniqueValue";
-import StarEdit from "./StarEdit";
+import EditStar from "./SimpleEditors/EditStar";
 
 const createStoryStyle: CSSProperties = {
   position: "fixed",
@@ -97,7 +97,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
           )}
           renderItem={(item: CompanyQuickInfo) => {
             const favs = [];
-            if (item.star) favs.push(<StarEdit value key="star" />);
+            if (item.star) favs.push(<EditStar value key="star" />);
             if (item.flags)
               favs.push(
                 <span key="flag" style={{ marginRight: 10 }}>

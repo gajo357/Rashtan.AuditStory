@@ -6,7 +6,7 @@ interface Props {
   onChange?: (value: boolean) => void;
 }
 
-const StarEdit: React.FC<Props> = ({ value, onChange }) => {
+const EditStar: React.FC<Props> = ({ value, onChange }) => {
   return (
     <StarFilled
       style={{ color: value ? "#FFEB3B" : "#555555" }}
@@ -15,4 +15,4 @@ const StarEdit: React.FC<Props> = ({ value, onChange }) => {
   );
 };
 
-export default StarEdit;
+export default EditStar;
