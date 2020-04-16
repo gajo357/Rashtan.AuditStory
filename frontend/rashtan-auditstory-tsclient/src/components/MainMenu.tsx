@@ -7,8 +7,8 @@ import {
   BookFilled,
   StarOutlined,
 } from "@ant-design/icons";
-import { Menu, Modal, Input, Form, Button, Row, Col } from "antd";
-import ColorPicker from "./ColorPicker";
+import { Menu, Button, Row, Col } from "antd";
+import NewCategoryEdit from "./NewCategoryEdit";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
 import { CompanyQuickInfo } from "../models/Company";
@@ -44,60 +44,23 @@ const MainMenu: React.FC<Props> = ({
   history,
 }) => {
   const [visible, setVisible] = useState(false);
-  const [savingCategory, setSavingCategory] = useState(false);
-
-  const [form] = Form.useForm();
-
-  const validateNewCategory = (_: any, value: string) => {
-    if (!value) return Promise.reject("A value is required");
-    if (categories.find((p) => p.name === value))
-      return Promise.reject("Entry has to be unique");
-
-    return Promise.resolve();
-  };
-
-  const handleOk = (values: Category) => {
-    setSavingCategory(true);
-    apiService
-      .saveCategory(values)
-      .then(onCategoryAdded)
-      .catch(showError)
-      .finally(() => {
-        setVisible(false);
-        setSavingCategory(false);
-      });
-  };
 
   return (
     <div>
-      <Modal
-        title="New company category"
+      <NewCategoryEdit
         visible={visible}
-        confirmLoading={savingCategory}
-        onOk={() => {
-          form.validateFields().then((values) => {
-            form.resetFields();
-            handleOk(values as Category);
-          });
-        }}
-        onCancel={() => {
-          form.resetFields();
-          setVisible(false);
-        }}
-      >
-        <Form form={form}>
-          <Form.Item name="color" rules={[{ required: true }]}>
-            <ColorPicker />
-          </Form.Item>
-          <Form.Item
-            name="name"
-            rules={[{ required: true, validator: validateNewCategory }]}
-          >
-            <Input placeholder="Name" />
-          </Form.Item>
-        </Form>
-      </Modal>
-
+        categories={categories}
+        onClose={() => setVisible(false)}
+        onCreate={(category) =>
+          apiService
+            .saveCategory(category)
+            .then(onCategoryAdded)
+            .catch(showError)
+            .finally(() => {
+              setVisible(false);
+            })
+        }
+      />
       <Menu selectable={false} mode="vertical">
         <Menu.ItemGroup>
           <Menu.Item onClick={() => setFilter(undefined)}>
