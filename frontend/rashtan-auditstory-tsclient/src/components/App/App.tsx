@@ -1,17 +1,18 @@
 import React from "react";
 import { Switch, Route, RouteProps, Redirect } from "react-router-dom";
+import { Typography, Button } from "antd";
+import { LoginOutlined } from "@ant-design/icons";
 import { History } from "history";
 import "./App.css";
 import Footer from "../Footer";
 import Terms from "../Terms";
-import IApiService from "../../services/IApiService";
-import AuthService from "../../services/AuthService";
 import EditUser from "../EditUser";
 import Story from "../Story/Story";
 import Home from "../Home";
+import CategoriesEdit from "../CategoriesEdit";
+import IApiService from "../../services/IApiService";
+import AuthService from "../../services/AuthService";
 import { showError } from "../../models/Errors";
-import { LoginOutlined } from '@ant-design/icons';
-import { Typography, Button } from "antd";
 
 interface Props {
   apiService: IApiService;
@@ -94,6 +95,16 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           exact
           path="/account"
           component={() => <EditUser apiService={apiService} />}
+        />
+        <CustomRoute
+          exact
+          path="/editCategories"
+          render={({ history }) => (
+            <CategoriesEdit
+              apiService={apiService}
+              goBack={() => history.push("/")}
+            />
+          )}
         />
         <CustomRoute component={() => <Redirect to="/" />} />
       </Switch>

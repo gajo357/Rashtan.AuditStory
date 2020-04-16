@@ -1,10 +1,8 @@
 import AuthService from "./AuthService";
 import {
-  CompanyProfile,
   CompanyStory,
   CompanyStoryCreate,
   ChecklistItem,
-  CompanyQuickInfo
 } from "../models/Company";
 import { BASE_API } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
@@ -25,8 +23,8 @@ export default class ApiService implements IApiService {
     headers: new Headers({
       Accept: "application/json",
       Authorization: `Bearer ${this.token()}`,
-      "Content-Type": "application/json"
-    })
+      "Content-Type": "application/json",
+    }),
   });
 
   private unwrapResponse = async <TResult>(r: Response) => {
@@ -45,33 +43,33 @@ export default class ApiService implements IApiService {
   };
 
   private getCommand = <TResult>(path: string) =>
-    fetch(BASE_API + path, this.defaultHeaders()).then(r =>
+    fetch(BASE_API + path, this.defaultHeaders()).then((r) =>
       this.unwrapResponse<TResult>(r)
     );
   private deleteCommand = <TResult>(path: string) =>
     fetch(BASE_API + path, {
       ...this.defaultHeaders(),
-      method: "DELETE"
-    }).then(r => this.unwrapResponse<TResult>(r));
+      method: "DELETE",
+    }).then((r) => this.unwrapResponse<TResult>(r));
 
   private postCommand = <TBody, TResult>(path: string, body: TBody) =>
     fetch(BASE_API + path, {
       ...this.defaultHeaders(),
       body: JSON.stringify(body),
-      method: "POST"
-    }).then(r => this.unwrapResponse<TResult>(r));
+      method: "POST",
+    }).then((r) => this.unwrapResponse<TResult>(r));
 
   private putCommand = <TBody, TResult>(path: string, body: TBody) =>
     fetch(BASE_API + path, {
       ...this.defaultHeaders(),
       body: JSON.stringify(body),
-      method: "PUT"
-    }).then(r => this.unwrapResponse<TResult>(r));
+      method: "PUT",
+    }).then((r) => this.unwrapResponse<TResult>(r));
 
   private company = "api/company";
   getCompanies = () =>
-    this.getCommand<any[]>(this.company).then(comps =>
-      comps.map(c => ({ ...c, dateEdited: new Date(c.dateEdited) }))
+    this.getCommand<any[]>(this.company).then((comps) =>
+      comps.map((c) => ({ ...c, dateEdited: new Date(c.dateEdited) }))
     );
   createNewStory = (company: CompanyStoryCreate) =>
     this.putCommand<CompanyStoryCreate, string>(this.company, company);
@@ -92,7 +90,9 @@ export default class ApiService implements IApiService {
   private category = "api/category";
   getCategories = () => this.getCommand<Category[]>(this.category);
   saveCategory = (category: Category) =>
-    this.postCommand<Category, Category>(this.category, category);
+    this.putCommand<Category, Category>(this.category, category);
+  saveCategories = (categories: Category[]) =>
+    this.postCommand<Category[], void>(this.category, categories);
 
   getChecklistItems = () => this.getCommand<ChecklistItem[]>("api/checklist");
 }

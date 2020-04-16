@@ -2,7 +2,7 @@ import {
   CompanyQuickInfo,
   CompanyStory,
   CompanyStoryCreate,
-  ChecklistItem
+  ChecklistItem,
 } from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
 import AuthService from "./AuthService";
@@ -25,4 +25,5 @@ export default interface IApiService {
 
   getCategories: () => Promise<Category[]>;
   saveCategory: (category: Category) => Promise<Category>;
+  saveCategories: (categories: Category[]) => Promise<void>;
 }

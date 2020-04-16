@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { History } from "history";
 import {
-  BookTwoTone,
   LogoutOutlined,
   SettingOutlined,
   UnorderedListOutlined,
+  BookFilled,
 } from "@ant-design/icons";
-import { Menu, Modal, Input, Form } from "antd";
+import { Menu, Modal, Input, Form, Button, Row, Col } from "antd";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
 import StarEdit from "./StarEdit";
-import EditColor from "./EditColor";
+import ColorPicker from "./ColorPicker";
 import { showError } from "../models/Errors";
 
 interface Props {
@@ -34,6 +34,7 @@ const MainMenu: React.FC<Props> = ({
   favourite,
   apiService,
   logOut,
+  history,
 }) => {
   const [visible, setVisible] = useState(false);
   const [savingCategory, setSavingCategory] = useState(false);
@@ -69,7 +70,6 @@ const MainMenu: React.FC<Props> = ({
         onOk={() => {
           form.validateFields().then((values) => {
             form.resetFields();
-            console.log(values);
             handleOk(values as Category);
           });
         }}
@@ -80,7 +80,7 @@ const MainMenu: React.FC<Props> = ({
       >
         <Form form={form}>
           <Form.Item name="color" rules={[{ required: true }]}>
-            <EditColor />
+            <ColorPicker />
           </Form.Item>
           <Form.Item
             name="name"
@@ -91,7 +91,7 @@ const MainMenu: React.FC<Props> = ({
         </Form>
       </Modal>
 
-      <Menu selectable={false} mode="vertical">
+      <Menu selectable mode="vertical">
         <Menu.ItemGroup>
           <Menu.Item onClick={() => clearFilters()}>
             <UnorderedListOutlined />
@@ -103,14 +103,31 @@ const MainMenu: React.FC<Props> = ({
           </Menu.Item>
         </Menu.ItemGroup>
         <Menu.Divider></Menu.Divider>
-        <Menu.ItemGroup title="Categories">
+        <Menu.ItemGroup
+          title={
+            <Row>
+              <Col flex="auto">Categories</Col>
+              <Col flex="30px">
+                <Button
+                  style={{ position: "relative", top: -5 }}
+                  type="link"
+                  onClick={() => history.push("/editCategories")}
+                >
+                  EDIT
+                </Button>
+              </Col>
+            </Row>
+          }
+        >
           {categories.map((c) => (
             <Menu.Item onClick={() => onCategorySelected(c)} key={c.name}>
-              <BookTwoTone twoToneColor={c.color} />
+              <BookFilled style={{ color: c.color }} />
               {c.name}
             </Menu.Item>
           ))}
-          <Menu.Item onClick={() => setVisible(true)}>New</Menu.Item>
+          <Menu.Item onClick={() => setVisible(true)}>
+            <Button type="link">NEW</Button>
+          </Menu.Item>
         </Menu.ItemGroup>
         <Menu.Divider></Menu.Divider>
         <Menu.ItemGroup>

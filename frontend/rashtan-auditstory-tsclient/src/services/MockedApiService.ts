@@ -112,11 +112,11 @@ export default class MockedApiService implements IApiService {
     ]);
   getCompany = () => this.rejected<CompanyProfile>();
 
-  createNewStory = () => this.resolved<string>(this.micronStory.id);
+  createNewStory = () => this.resolved(this.micronStory.id);
 
-  getCompanyStory = () => this.resolved<CompanyStory>(this.micronStory);
-  saveCompanyStory = (_: CompanyStory) => this.resolved<boolean>(true);
-  deleteCompanyStory = () => this.resolved<boolean>(true);
+  getCompanyStory = () => this.resolved(this.micronStory);
+  saveCompanyStory = (_: CompanyStory) => this.resolved(true);
+  deleteCompanyStory = () => this.resolved(true);
 
   getUserProfile = () =>
     this.resolved<UserInfo>({
@@ -125,7 +125,7 @@ export default class MockedApiService implements IApiService {
       state: "Penn",
       country: "US",
     });
-  saveUserProfile = (user: UserInfo) => this.resolved<UserInfo>(user);
+  saveUserProfile = (user: UserInfo) => this.resolved(user);
 
   categories = [
     {
@@ -140,7 +140,11 @@ export default class MockedApiService implements IApiService {
   getCategories = () => this.resolved<Category[]>(this.categories);
   saveCategory = (category: Category) => {
     this.categories.push(category);
-    return this.resolved<Category>(category);
+    return this.resolved(category);
+  };
+  saveCategories = (categories: Category[]) => {
+    this.categories = [...categories];
+    return this.resolved(undefined);
   };
 
   getChecklistItems = () =>

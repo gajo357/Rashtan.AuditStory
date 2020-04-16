@@ -96,7 +96,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
           categories={categories}
           logOut={logOut}
           history={history}
-        ></MainMenu>
+        />
       </Drawer>
       <PageHeader
         title={category ? category.name : "All stories"}
