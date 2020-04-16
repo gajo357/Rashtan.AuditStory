@@ -38,10 +38,10 @@ const StoryManagement: React.FC<StoryPartProps<CompanyStoryManagement>> = ({
     </Form.Item>
 
     <Input.Group>
-      <Form.Item label="ROE" name="roe">
+      <Form.Item label="ROE (%)" name="roe">
         <InputNumber placeholder="ROE" step={0.1} />
       </Form.Item>
-      <Form.Item label="ROIC" name="roic">
+      <Form.Item label="ROIC (%)" name="roic">
         <InputNumber placeholder="ROIC" step={0.1} />
       </Form.Item>
       <Form.Item label="Debt over Earnings" name="debt">
