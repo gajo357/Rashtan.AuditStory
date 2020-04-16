@@ -1,7 +1,16 @@
 import React, { useState, useEffect, CSSProperties } from "react";
 import { UserOutlined, CloseOutlined, CheckOutlined } from "@ant-design/icons";
-import { Form, Input, Skeleton, PageHeader, Button } from "antd";
+import {
+  Form,
+  Input,
+  Skeleton,
+  PageHeader,
+  Button,
+  Select,
+  Avatar,
+} from "antd";
 import { UserInfo } from "../models/UserInfo";
+import Country from "../models/Country";
 import IApiService from "../services/IApiService";
 import { showError } from "../models/Errors";
 
@@ -23,9 +32,11 @@ interface Props {
 const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
   const [submitting, setSubmitting] = useState(false);
   const [userProfile, setUserProfile] = useState<UserInfo | undefined>();
+  const [countries, setCountries] = useState<Country[]>([]);
 
   useEffect(() => {
     apiService.getUserProfile().then(setUserProfile).catch(showError);
+    apiService.getCountries().then(setCountries).catch(showError);
     return () => setSubmitting(false);
   }, [apiService]);
 
@@ -87,7 +98,33 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
             <Input placeholder="State/Province/Region" />
           </Form.Item>
           <Form.Item label="Country" name="country">
-            <Input autoComplete="billing country" placeholder="Country" />
+            <Select
+              showSearch
+              loading={countries.length === 0}
+              filterOption={(inputValue, option) => {
+                if (!option) return false;
+                if ((option.title as string).toLowerCase().includes(inputValue))
+                  return true;
+                if ((option.value as string).toLowerCase().includes(inputValue))
+                  return true;
+                return false;
+              }}
+            >
+              {countries.map((c) => (
+                <Select.Option
+                  value={c.alpha3Code}
+                  key={c.alpha3Code}
+                  title={c.name}
+                >
+                  <Avatar
+                    src={c.flag}
+                    size={20}
+                    style={{ position: "relative", top: -2, marginRight: 10 }}
+                  />
+                  {c.name} ({c.alpha3Code})
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Form>
       </Skeleton>

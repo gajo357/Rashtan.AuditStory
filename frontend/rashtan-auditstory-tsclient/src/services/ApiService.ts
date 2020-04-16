@@ -4,11 +4,12 @@ import {
   CompanyStoryCreate,
   ChecklistItem,
 } from "../models/Company";
-import { BASE_API } from "./Auth0Config";
+import { BASE_API, CountriesAPI } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { ResponseError, ValidationError, UserError } from "../models/Errors";
 import Category from "../models/Category";
+import Country from "../models/Country";
 
 export default class ApiService implements IApiService {
   public authService: AuthService;
@@ -95,4 +96,7 @@ export default class ApiService implements IApiService {
     this.postCommand<Category[], void>(this.category, categories);
 
   getChecklistItems = () => this.getCommand<ChecklistItem[]>("api/checklist");
+
+  getCountries = () =>
+    fetch(CountriesAPI).then((r) => this.unwrapResponse<Country[]>(r));
 }

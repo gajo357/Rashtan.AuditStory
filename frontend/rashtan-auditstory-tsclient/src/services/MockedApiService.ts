@@ -8,8 +8,10 @@ import {
 } from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
-import { UserError } from "../models/Errors";
+import { UserError, ResponseError, ValidationError } from "../models/Errors";
 import Category from "../models/Category";
+import Country from "../models/Country";
+import { CountriesAPI } from "./Auth0Config";
 
 export default class MockedApiService implements IApiService {
   public authService: AuthService;
@@ -126,7 +128,7 @@ export default class MockedApiService implements IApiService {
       name: "Alan",
       city: "NY",
       state: "Penn",
-      country: "US",
+      country: "USA",
     });
   saveUserProfile = (user: UserInfo) => this.resolved(user);
 
@@ -156,4 +158,20 @@ export default class MockedApiService implements IApiService {
       { question: "Are you affected by latest fad?", response: 4.5 },
       { question: "Are rushed by someone to buy?", response: 4.5 },
     ]);
+
+  getCountries = () =>
+    fetch(CountriesAPI).then(async (r) => {
+      const json = await r.json();
+      if (r.ok) {
+        return json as Country[];
+      } else if (r.status === 400) {
+        const re = json as ResponseError;
+        if (re.property) {
+          throw new ValidationError(re.property, re.message);
+        }
+        throw new UserError(r.status, re.message);
+      }
+
+      throw new Error(json);
+    });
 }

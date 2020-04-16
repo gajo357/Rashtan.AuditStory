@@ -7,6 +7,7 @@ import {
 import { UserInfo } from "../models/UserInfo";
 import AuthService from "./AuthService";
 import Category from "../models/Category";
+import Country from "../models/Country";
 
 export default interface IApiService {
   authService: AuthService;
@@ -26,4 +27,6 @@ export default interface IApiService {
   getCategories: () => Promise<Category[]>;
   saveCategory: (category: Category) => Promise<Category>;
   saveCategories: (categories: Category[]) => Promise<void>;
+
+  getCountries: () => Promise<Country[]>;
 }
