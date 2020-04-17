@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Rashtan.AuditStory.DbModel\Rashtan.AuditStory.DbModel.fsproj" />
     <ProjectReference Include="..\..\Rashtan.AuditStory.Repository.Interface\Rashtan.AuditStory.Repository.Interface.csproj" />
     <ProjectReference Include="..\..\Rashtan.AuditStory.MongoRepository\Rashtan.AuditStory.MongoRepository.csproj" />
   </ItemGroup>

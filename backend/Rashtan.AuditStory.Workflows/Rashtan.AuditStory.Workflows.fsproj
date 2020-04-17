@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Include="CompanyWorkflow.fs" />
     <Compile Include="UserProfileWorkflow.fs" />
+    <Compile Include="CategoryWorkflow.fs" />
+    <Compile Include="CountryWorkflow.fs" />
     <Compile Include="ServiceCollectionExtension.fs" />
   </ItemGroup>
 
@@ -16,8 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rashtan.AuditStory.Common\Rashtan.AuditStory.Common.fsproj" />
-    <ProjectReference Include="..\Rashtan.AuditStory.DbModel\Rashtan.AuditStory.DbModel.fsproj" />
-    <ProjectReference Include="..\Rashtan.AuditStory.DtoDbMapper\Rashtan.AuditStory.DtoDbMapper.fsproj" />
     <ProjectReference Include="..\Rashtan.AuditStory.DtoValidation\Rashtan.AuditStory.DtoValidation.fsproj" />
     <ProjectReference Include="..\Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj" />
     <ProjectReference Include="..\Rashtan.AuditStory.Repository.Interface\Rashtan.AuditStory.Repository.Interface.csproj" />

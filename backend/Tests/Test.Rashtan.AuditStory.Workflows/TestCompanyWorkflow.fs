@@ -6,8 +6,7 @@ open Test.Rashtan.AuditStory.DtoValidation
 open Rashtan.AuditStory.Common
 open Rashtan.AuditStory.Workflows
 open Rashtan.AuditStory.Repository.Interface
-open Rashtan.AuditStory.DtoDbMapper
-open Rashtan.AuditStory.DbModel
+open Rashtan.AuditStory.Dto
 open Foq
 
 [<TestFixture>]
@@ -30,7 +29,7 @@ type TestCompanyWorkflow () =
     [<Property(Arbitrary = [| typeof<ValidCompanyProfileGenerator> |])>]
     member __.``SaveStoryAsync saves valid dto`` user dto = 
         async {
-            let dto = { CompanyFromDbMapper.emptyStory with Profile = dto }
+            let dto = { Empty.emptyStory with Profile = dto }
             let cpr = Mock<ICompanyStoryRepository>.With(fun m ->
                 <@
                 m.SaveStoryAsync(user, any()) --> System.Threading.Tasks.Task.CompletedTask
@@ -114,7 +113,7 @@ type TestCompanyWorkflow () =
 
             let! result = cw.GetStoryAsync(user, id.ToString()) |> Async.AwaitTask
 
-            return result.Result = CompanyFromDbMapper.story profile
+            return result.Result = profile
         } |> Async.RunSynchronously
 
     [<Property(Arbitrary = [| typeof<ValidTypesGenerator> |])>]
@@ -134,7 +133,7 @@ type TestCompanyWorkflow () =
 
             let! result = cw.GetProfilesAsync(user) |> Async.AwaitTask
 
-            return (Seq.toList result.Result) = List.map CompanyFromDbMapper.profile [ profile ]
+            return (Seq.toList result.Result) = [ profile ]
         } |> Async.RunSynchronously
 
     [<Property(Arbitrary = [| typeof<InvalidCompanyProfileGenerator> |])>]
@@ -189,28 +188,5 @@ type TestCompanyWorkflow () =
             let! _ = cw.CreateStoryAsync(user, dto) |> Async.AwaitTask
 
             return savedDbModel.Value.Profile.Name = dto.Name
-        } |> Async.RunSynchronously
-    [<Property(Arbitrary = [| typeof<ValidCompanyProfileGenerator> |])>]
-    member __.``CreateStoryAsync preserves website`` user dto s = 
-        async {
-            let mutable savedDbModel = None
-            let cpr = { new ICompanyStoryRepository with
-                member __.SaveStoryAsync(_, d) =
-                    savedDbModel <- Some d
-                    System.Threading.Tasks.Task.CompletedTask
-                member __.DeleteStoryAsync(_, _) = System.Threading.Tasks.Task.FromResult(true)
-                member __.GetProfilesAsync(_) = System.Threading.Tasks.Task.FromResult([||] |> Array.toSeq)
-                member __.GetStoryAsync(_, _) = System.Threading.Tasks.Task.FromResult(s)
-                }
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
-
-            let! _ = cw.CreateStoryAsync(user, dto) |> Async.AwaitTask
-
-            return savedDbModel.Value.Profile.Website = dto.Website
         } |> Async.RunSynchronously
 

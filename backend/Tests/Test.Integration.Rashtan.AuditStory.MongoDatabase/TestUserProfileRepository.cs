@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Rashtan.AuditStory.DbModel;
+using Rashtan.AuditStory.Dto;
 using Rashtan.AuditStory.MongoRepository;
 using System;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
                 City = Guid.NewGuid().ToString(),
                 Country = Guid.NewGuid().ToString(),
                 Email = Guid.NewGuid().ToString(),
-                CreatedAt = DateTime.UtcNow
+                State = Guid.NewGuid().ToString()
             };
             await repo.SaveProfileAsync(userId, profile);
 
@@ -29,7 +29,7 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             Assert.AreEqual(profile.Name, savedProfile.Name);
             Assert.AreEqual(profile.City, savedProfile.City);
             Assert.AreEqual(profile.Country, savedProfile.Country);
-            Assert.That(profile.CreatedAt, Is.EqualTo(savedProfile.CreatedAt).Within(1).Seconds);
+            Assert.AreEqual(profile.State, savedProfile.State);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
                 City = Guid.NewGuid().ToString(),
                 Country = Guid.NewGuid().ToString(),
                 Email = Guid.NewGuid().ToString(),
-                CreatedAt = DateTime.UtcNow
+                State = Guid.NewGuid().ToString()
             };
             await repo.SaveProfileAsync(userId, profile);
 

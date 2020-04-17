@@ -6,8 +6,7 @@ type UserProfile = {
     Email: string
         
     Country: string
+    State: string
     City: string
-
-    CreatedAt: System.DateTime
 }
 

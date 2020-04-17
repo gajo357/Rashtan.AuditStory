@@ -21,20 +21,6 @@ type TestCompanyValidator() =
             result = Error "Name: Cannot be empty"
         else 
             result = Error "Name: Has to be alphanumeric"
-    
-    [<Property(Arbitrary = [| typeof<ValidCompanyProfileGenerator> |])>]
-    member __.``Profile Website has to be specified`` (dto: Profile) =
-        let dto = { dto with Website = "" }
-        let result = CompanyValidator.validateProfile dto
-        
-        result = Error "Website: Cannot be empty"
-    
-    [<Property(Arbitrary = [| typeof<ValidCompanyProfileGenerator> |])>]
-    member __.``Story create Webiste has to be specified`` (dto: CompanyStoryCreate) =
-        let dto = { dto with Website = "" }
-        let result = CompanyValidator.validateCreateStory dto
-        
-        result = Error "Website: Cannot be empty"
 
     [<Property(Arbitrary = [| typeof<ValidCompanyProfileGenerator>; typeof<InvalidTypesGenerator> |])>]
     member __.``Story create Name has to be specified`` (dto: CompanyStoryCreate) name =

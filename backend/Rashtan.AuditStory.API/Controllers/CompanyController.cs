@@ -23,12 +23,12 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // GET api/company
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Profile>>> GetProfiles() 
-            => Unpack(await CompanyWorkflow.GetProfilesAsync<string>(UserId));
+        public async Task<ActionResult<IEnumerable<Profile>>> GetCompanies() 
+            => Unpack(await CompanyWorkflow.GetProfilesAsync(UserId));
 
         // POST api/company
         [HttpPost]
-        public async Task<ActionResult<Guid>> CreateProfile([FromBody] CompanyStoryCreate company)
+        public async Task<ActionResult<Guid>> CreateNewStory([FromBody] CompanyStoryCreate company)
             => Unpack(await CompanyWorkflow.CreateStoryAsync(UserId, company));
     }
 }

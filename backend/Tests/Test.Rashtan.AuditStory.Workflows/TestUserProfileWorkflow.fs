@@ -7,23 +7,22 @@ open Test.Rashtan.AuditStory.DtoValidation
 open Rashtan.AuditStory.Common
 open Rashtan.AuditStory.Workflows
 open Rashtan.AuditStory.Repository.Interface
-open Rashtan.AuditStory.DtoDbMapper.UserMapper
 open Foq
 
 [<TestFixture>]
 type TestUserProfileWorkflow() =
     [<Property(Arbitrary = [| typeof<InvalidUserGenerator> |])>]
-    member __.``SaveProfileAsync does not save invalid dto`` user dto = 
+    member __.``SaveProfileAsync does not save invalid dto`` user email dto = 
         async {
             let r = Mock<IUserProfileRepository>().Create()
             let w = UserProfileWorkflow(r)
 
-            let! result = w.SaveProfileAsync(user, dto) |> Async.AwaitTask
+            let! result = w.SaveProfileAsync(user, email, dto) |> Async.AwaitTask
             return result.IsError
         } |> Async.RunSynchronously
     
     [<Property(Arbitrary = [| typeof<ValidUserGenerator> |])>]
-    member __.``SaveProfileAsync saves valid dto`` user dto = 
+    member __.``SaveProfileAsync saves valid dto`` user email  dto = 
         async {
             let r = Mock<IUserProfileRepository>.With(fun m ->
                 <@
@@ -32,9 +31,9 @@ type TestUserProfileWorkflow() =
             )
             let w = UserProfileWorkflow(r)
 
-            let! result = w.SaveProfileAsync(user, dto) |> Async.AwaitTask
+            let! result = w.SaveProfileAsync(user, email, dto) |> Async.AwaitTask
             
-            return result.Result = dto
+            return result.Result = true
         } |> Async.RunSynchronously    
 
     [<Property(Arbitrary = [| typeof<ValidUserGenerator> |])>]
@@ -49,5 +48,5 @@ type TestUserProfileWorkflow() =
 
             let! result = w.GetProfileAsync(user) |> Async.AwaitTask
 
-            return result.Result = toDto profile
+            return result.Result = profile
         } |> Async.RunSynchronously

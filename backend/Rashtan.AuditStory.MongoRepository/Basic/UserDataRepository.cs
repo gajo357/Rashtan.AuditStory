@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Rashtan.AuditStory.Repository.Interface.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +15,9 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
         {
         }
 
-        protected async Task AddAsync(string userId, TData data) => await Add(new UserDocument<TData> { Data = data, UserId = userId });
+        protected Task AddAsync(string userId, TData data) => AddAsync(new UserDocument<TData> { Data = data, UserId = userId });
+        protected Task<bool> SaveAllAsync(string userId, IEnumerable<TData> data) 
+            => SaveAllAsync(data.Select(d => new UserDocument<TData> { Data = d, UserId = userId }));
 
         protected async Task<bool> DeleteAsync<TFilterValue>(string userId, params DataFilter<TFilterValue>[] dataFilters)
         {
@@ -30,7 +33,7 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
             return data?.Data;
         }
 
-        protected async Task<TData[]> GetAllAsync(string userId, params DataFilter<string>[] dataFilters)
+        protected async Task<IEnumerable<TData>> GetAllAsync(string userId, params DataFilter<string>[] dataFilters)
         {
             var result = await Collection.FindAsync(BuildFilter(userId, dataFilters));
 

@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Rashtan.AuditStory.DbModel\Rashtan.AuditStory.DbModel.fsproj" />
+    <ProjectReference Include="..\Rashtan.AuditStory.Dto\Rashtan.AuditStory.Dto.fsproj" />
   </ItemGroup>
 
 </Project>

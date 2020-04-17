@@ -2,15 +2,7 @@
 
 // this is a C# friendly wrapper around F# Result type
 
-type Response<'a> = {
-    // we always want to return the user status so the application can make good decisions
-    UserStatus: UserStatus
-    Data: 'a
-}
-
-type ErrorResponse = Response<string>
-
-type CsResult<'TResult, 'TError> private (result: 'TResult, error: 'TError, isError: bool) =
+type CsResult<'TResult> private (result: 'TResult, error: string, isError: bool) =
     member __.Result = result
     member __.Error = error
 
@@ -18,28 +10,26 @@ type CsResult<'TResult, 'TError> private (result: 'TResult, error: 'TError, isEr
     member __.IsSuccess = not isError
     
     static member createResult result=
-        CsResult<'TResult, 'TError>(result, Unchecked.defaultof<'TError>, false)
+        CsResult<'TResult>(result, null, false)
     static member createError error =
-        CsResult<'TResult, 'TError>(Unchecked.defaultof<'TResult>, error, true)
+        CsResult<'TResult>(Unchecked.defaultof<'TResult>, error, true)
 
-    static member fromResult (t: Result<'TResult, 'TError>) = 
+    static member fromResult (t: Result<'TResult, string>) = 
         match t with
         | Ok r -> CsResult.createResult r
         | Error e -> CsResult.createError e
 
-    static member fromAsyncResult (t: AsyncResult<'TResult, 'TError>) = 
+    static member fromAsyncResult (t: AsyncResult<'TResult, string>) = 
         async {
             let! r = t
             return CsResult.fromResult r
         } |> Async.StartAsTask
 
 type CsResult =
-    static member MapResult (map: 'TResult -> 'a) (result: CsResult<'TResult, 'TError>) =
+    static member MapResult (map: 'TResult -> 'a) (result: CsResult<'TResult>) =
         match result.IsSuccess with
         | true -> 
             let n = map result.Result
-            CsResult<'a, 'TError>.createResult n
+            CsResult<'a>.createResult n
         | false -> 
-            CsResult<'a, 'TError>.createError result.Error
-
-type UserDataResult<'a> = CsResult<Response<'a>, ErrorResponse>
+            CsResult<'a>.createError result.Error

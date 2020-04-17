@@ -10,7 +10,6 @@ COPY ["Rashtan.AuditStory.Payment/Rashtan.AuditStory.Payment.fsproj", "Rashtan.A
 COPY ["Rashtan.AuditStory.Dto/Rashtan.AuditStory.Dto.fsproj", "Rashtan.AuditStory.Dto/"]
 COPY ["Rashtan.AuditStory.Workflows/Rashtan.AuditStory.Workflows.fsproj", "Rashtan.AuditStory.Workflows/"]
 COPY ["Rashtan.AuditStory.Repository.Interface/Rashtan.AuditStory.Repository.Interface.csproj", "Rashtan.AuditStory.Repository.Interface/"]
-COPY ["Rashtan.AuditStory.DbModel/Rashtan.AuditStory.DbModel.fsproj", "Rashtan.AuditStory.DbModel/"]
 COPY ["Rashtan.AuditStory.DtoDbMapper/Rashtan.AuditStory.DtoDbMapper.fsproj", "Rashtan.AuditStory.DtoDbMapper/"]
 COPY ["Rashtan.AuditStory.Common/Rashtan.AuditStory.Common.fsproj", "Rashtan.AuditStory.Common/"]
 COPY ["Rashtan.AuditStory.DtoValidation/Rashtan.AuditStory.DtoValidation.fsproj", "Rashtan.AuditStory.DtoValidation/"]

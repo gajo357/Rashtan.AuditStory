@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Rashtan.AuditStory.MongoRepository.Basic;
+using Rashtan.AuditStory.MongoRepository.Repositories;
 using Rashtan.AuditStory.Repository.Interface;
 
 namespace Rashtan.AuditStory.MongoRepository
@@ -10,6 +11,8 @@ namespace Rashtan.AuditStory.MongoRepository
             => services.AddSingleton<IMongoContext, MongoContext>()
                 .AddSingleton(typeof(IMongoRepository<>), typeof(MongoRepository<>))
                 .AddSingleton<ICompanyStoryRepository, CompanyStoryRepository>()
-                .AddSingleton<IUserProfileRepository, UserProfileRepository>();
+                .AddSingleton<IUserProfileRepository, UserProfileRepository>()
+                .AddSingleton<ICategoriesRepository, CategoriesRepository>()
+                .AddSingleton<ICountriesRepository, CountriesRepository>();
     }
 }

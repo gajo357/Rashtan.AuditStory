@@ -14,7 +14,7 @@ namespace Rashtan.AuditStory.API.Utils
         protected string UserId => User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         protected string UserEmail => User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
 
-        protected ActionResult<T> Unpack<T, TError>(CsResult<T, TError> result)
+        protected ActionResult<T> Unpack<T>(CsResult<T> result)
         {
             if (result.IsError)
                 return BadRequest(result.Error);

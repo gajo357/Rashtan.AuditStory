@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Rashtan.AuditStory.DbModel;
+using Rashtan.AuditStory.Dto;
 using Rashtan.AuditStory.MongoRepository;
 using System;
 using System.Linq;
@@ -13,15 +13,21 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
 
         private Story Micron = new Story
         {
+            Id = Guid.NewGuid(),
+            LastEdited = DateTime.UtcNow,
+
             Profile = new Profile
             {
-                Id = Guid.NewGuid(),
                 Name = "Micron Technologies",
                 Industry = "Semiconductor",
-                NumberOfShares = 1,
                 MarketCap = 100,
                 Website = "https://www.micron.com/",
-                Folder = "Wonderfull"
+                Tags = new [] {""},
+                Unit = new CurrencyUnit
+                {
+                    Currency = "USD",
+                    Unit = UnitOfSize.Thousand
+                }
             },
             Moat = new Moat
             {
@@ -76,6 +82,13 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             Checklist = new ChecklistItem[] {
               new ChecklistItem { Question = "Are any gurus invested in it?", Response = 0.5 },
               new ChecklistItem { Question = "Does it align with your values?", Response = 2.5 }
+            },
+            Verdict = new Verdict
+            {
+                Star = true,
+                Category = "Wonderful",
+                Flags = null,
+                Comment = ""
             }
         };
 
@@ -99,7 +112,7 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             var repo = new CompanyStoryRepository(Context);
             await repo.SaveStoryAsync(userId, Micron);
 
-            var profiles = await repo.GetStoryAsync(userId, Micron.Profile.Id);
+            var profiles = await repo.GetStoryAsync(userId, Micron.Id);
 
             Assert.AreEqual(Micron, profiles);
         }
@@ -125,7 +138,7 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             var repo = new CompanyStoryRepository(Context);
             await repo.SaveStoryAsync(userId, Micron);
 
-            var result = await repo.DeleteStoryAsync(userId, Micron.Profile.Id);
+            var result = await repo.DeleteStoryAsync(userId, Micron.Id);
             Assert.IsTrue(result);
 
             var profiles = await repo.GetProfilesAsync(userId);

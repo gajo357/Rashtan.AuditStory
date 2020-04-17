@@ -13,6 +13,14 @@ type CustomPart = {
 }
 
 [<CLIMutable>]
+type Verdict = {
+  Star: bool
+  Flags: string[]
+  Category: string
+  Comment: string
+}
+
+[<CLIMutable>]
 type RevenueItem = {
     Stream: string
     Percent: double
@@ -74,36 +82,114 @@ type Management = {
     Comment: string;
 }
 
+type UnitOfSize = Thousand=0 | Million=1 | Billion=2
+
+[<CLIMutable>]
+type CurrencyUnit = {
+  Currency: string
+  Unit: UnitOfSize
+}
+
 [<CLIMutable>]
 type Profile = {
-    Id: System.Guid
-
-    LastEdited: System.DateTime
-    
     Name: string
     Industry: string
-    NumberOfShares: int
+    Unit: CurrencyUnit
     MarketCap: double
     Website: string
-    Folder: string
+    Tags: string[]
 }
 
 [<CLIMutable>]
 type Story = {
-    Profile: Profile;
-    Revenue: Revenue;
-    Competition: Competition;
+    Id: System.Guid
+    LastEdited: System.DateTime
 
-    Management: Management;
-    Moat: Moat;
+    Profile: Profile
+    Revenue: Revenue
+    Competition: Competition
 
-    Parts: CustomPart[];
+    Management: Management
+    Moat: Moat
 
-    Checklist: ChecklistItem[];
+    Parts: CustomPart[]
+
+    Checklist: ChecklistItem[]
+
+    Verdict: Verdict
 }
 
 [<CLIMutable>]
 type CompanyStoryCreate = {
     Name: string
-    Website: string
 }
+
+module Empty =
+    let emptyStory: Story = 
+        {
+            Id = System.Guid.Empty
+            LastEdited = System.DateTime.MinValue
+    
+            Profile = {
+                Name = ""
+                Industry = ""
+                Unit = {
+                    Currency = ""
+                    Unit = UnitOfSize.Thousand
+                }
+                MarketCap = 0.
+                Website = ""
+                Tags = [||]
+              }
+            Revenue = {
+                TotalRevenue = 0.
+                ByLocation = [||]
+                ByClient = [||]
+                ByProduct = [||]
+                Comment = ""
+              }
+            Competition = {
+                Competitors = [||]
+                IndustryGrowth = ""
+                Comment = ""
+              }
+
+            Management = {
+                CeoTrust = 0.
+                CeoFounder = true
+                CeoMajorShareholder = true
+                CeoTenure = 0.
+
+                CeoCandor = 0.
+                AbleAndTalented = 0.
+
+                Roe = 0.
+                Roic = 0.
+                Debt = 0.
+
+                Comment = ""
+              }
+            Moat = {
+                Kinds = [||]
+                MainAdvantage = ""
+                Durable = ""
+
+                Bvps = 0.
+                Eps = 0.
+                Ocps = 0.
+                Sgr = 0.
+
+                Comment = ""
+              }
+
+            Parts = [||]
+
+            Checklist = [||]
+
+            Verdict = {
+                Star = false
+                Flags = [||]
+                Category = ""
+                Comment = ""
+            }
+        }

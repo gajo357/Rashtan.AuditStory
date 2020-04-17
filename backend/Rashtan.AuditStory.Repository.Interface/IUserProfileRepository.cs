@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Rashtan.AuditStory.DbModel;
+using Rashtan.AuditStory.Dto;
 
 namespace Rashtan.AuditStory.Repository.Interface
 {

@@ -35,70 +35,62 @@ type ValidTypesGenerator =
 type ValidCompanyProfileGenerator =
     static member Profile() = 
         gen {
-            let! id = ValidTypesGenerator.Guid().Generator
             let! name = ValidTypesGenerator.String().Generator
             let! website = ValidTypesGenerator.String().Generator
-            let! le = ValidTypesGenerator.Date().Generator
-            let! folder = ValidTypesGenerator.String().Generator
+            let! curr = ValidTypesGenerator.String().Generator
             let! mc = ValidTypesGenerator.Double().Generator
-            let! ns = ValidTypesGenerator.Int().Generator
             let! industry = ValidTypesGenerator.String().Generator
             
             return {
-                Id = id
-                LastEdited = le
                 Name = name
                 Website = website
                 MarketCap = mc
-                NumberOfShares = ns
                 Industry = industry
-                Folder = folder
+                Tags = [| name; website; industry; curr |]
+                Unit = {
+                    Currency = curr
+                    Unit = UnitOfSize.Thousand
+                }
             }
         } |> Arb.fromGen
         
     static member ProfileCreate() = 
         gen {
             let! name = ValidTypesGenerator.String().Generator
-            let! website = ValidTypesGenerator.String().Generator
                 
             return {
                 Name = name
-                Website = website
             }
         } |> Arb.fromGen
 
 type InvalidCompanyProfileGenerator =
     static member Profile() = 
         gen {
-            let! id = InvalidTypesGenerator.Guid().Generator
             let! name = InvalidTypesGenerator.String().Generator
             let! website = InvalidTypesGenerator.String().Generator
-            let! le = InvalidTypesGenerator.Date().Generator
-            let! folder = InvalidTypesGenerator.String().Generator
+            let! curr = InvalidTypesGenerator.String().Generator
             let! mc = InvalidTypesGenerator.Double().Generator
-            let! ns = InvalidTypesGenerator.Int().Generator
             let! industry = InvalidTypesGenerator.String().Generator
             
             return {
-                Id = id
-                LastEdited = le
                 Name = name
                 Website = website
                 MarketCap = mc
-                NumberOfShares = ns
                 Industry = industry
-                Folder = folder
+                Tags = [| null; ""; name; name |]
+                Unit = {
+                    Currency = curr
+                    Unit = UnitOfSize.Thousand
+                }
             }
         } |> Arb.fromGen
 
     static member ProfileCreate() = 
         gen {
             let! name = InvalidTypesGenerator.String().Generator
-            let! website = InvalidTypesGenerator.String().Generator
                 
             return {
                 Name = name
-                Website = website
             }
         } |> Arb.fromGen
 
@@ -109,15 +101,14 @@ type InvalidUserGenerator =
             let! email = InvalidTypesGenerator.String().Generator
             let! country = InvalidTypesGenerator.String().Generator
             let! city = InvalidTypesGenerator.String().Generator
-            let! createdAt = InvalidTypesGenerator.Date().Generator
+            let! state = InvalidTypesGenerator.String().Generator
             
             return {
                 Name = name
                 Email = email
                 Country = country
+                State = state
                 City = city
-
-                CreatedAt = createdAt
             }
         } |> Arb.fromGen
 
@@ -128,14 +119,13 @@ type ValidUserGenerator =
             let! email = ValidTypesGenerator.String().Generator
             let! country = ValidTypesGenerator.String().Generator
             let! city = ValidTypesGenerator.String().Generator
-            let! createdAt = ValidTypesGenerator.Date().Generator
+            let! state = ValidTypesGenerator.String().Generator
             
             return {
                 Name = nonce
                 Email = email
                 Country = country
+                State = state
                 City = city
-
-                CreatedAt = createdAt
             }
         } |> Arb.fromGen

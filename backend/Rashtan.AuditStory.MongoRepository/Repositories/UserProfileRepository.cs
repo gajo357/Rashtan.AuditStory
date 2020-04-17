@@ -1,4 +1,4 @@
-﻿using Rashtan.AuditStory.DbModel;
+﻿using Rashtan.AuditStory.Dto;
 using Rashtan.AuditStory.MongoRepository.Basic;
 using Rashtan.AuditStory.Repository.Interface;
 using System.Threading.Tasks;

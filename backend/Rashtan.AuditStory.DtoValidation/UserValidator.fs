@@ -7,6 +7,5 @@ module UserValidator =
 
     let validatedCreate (dto: UserProfile) = result {
         do! Common.validateAlphanumeric "Name" dto.Name
-        do! Common.validateNotEmpty "Email" dto.Email
     }
 
