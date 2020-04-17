@@ -4,7 +4,7 @@ import {
   CompanyStoryCreate,
   ChecklistItem,
 } from "../models/Company";
-import { BASE_API, CountriesAPI } from "./Auth0Config";
+import { BASE_API } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { ResponseError, ValidationError, UserError } from "../models/Errors";
@@ -67,36 +67,39 @@ export default class ApiService implements IApiService {
       method: "PUT",
     }).then((r) => this.unwrapResponse<TResult>(r));
 
-  private company = "api/company";
+  private companyApi = "api/company";
   getCompanies = () =>
-    this.getCommand<any[]>(this.company).then((comps) =>
+    this.getCommand<any[]>(this.companyApi).then((comps) =>
       comps.map((c) => ({ ...c, dateEdited: new Date(c.dateEdited) }))
     );
   createNewStory = (company: CompanyStoryCreate) =>
-    this.putCommand<CompanyStoryCreate, string>(this.company, company);
+    this.putCommand<CompanyStoryCreate, string>(this.companyApi, company);
 
-  private story = "api/story";
+  private storyApi = "api/story";
   getCompanyStory = (id: string) =>
-    this.getCommand<CompanyStory>(`${this.story}?id=${id}`);
+    this.getCommand<CompanyStory>(`${this.storyApi}?id=${id}`);
   saveCompanyStory = (company: CompanyStory) =>
-    this.postCommand<CompanyStory, boolean>(this.story, company);
+    this.postCommand<CompanyStory, boolean>(this.storyApi, company);
   deleteCompanyStory = (id: string) =>
-    this.deleteCommand<boolean>(`${this.story}?id=${id}`);
+    this.deleteCommand<boolean>(`${this.storyApi}?id=${id}`);
 
-  private userProfile = "api/userprofile";
-  getUserProfile = () => this.getCommand<UserInfo>(this.userProfile);
+  private userProfileApi = "api/userprofile";
+  getUserProfile = () => this.getCommand<UserInfo>(this.userProfileApi);
   saveUserProfile = (user: UserInfo) =>
-    this.postCommand<UserInfo, UserInfo>(this.userProfile, user);
+    this.postCommand<UserInfo, UserInfo>(this.userProfileApi, user);
 
-  private category = "api/category";
-  getCategories = () => this.getCommand<Category[]>(this.category);
+  private categoryApi = "api/category";
+  getCategories = () => this.getCommand<Category[]>(this.categoryApi);
   saveCategory = (category: Category) =>
-    this.putCommand<Category, Category>(this.category, category);
+    this.putCommand<Category, Category>(this.categoryApi, category);
   saveCategories = (categories: Category[]) =>
-    this.postCommand<Category[], void>(this.category, categories);
+    this.postCommand<Category[], void>(this.categoryApi, categories);
 
   getChecklistItems = () => this.getCommand<ChecklistItem[]>("api/checklist");
 
-  getCountries = () => this.getCommand<Country[]>(CountriesAPI);
-  getCurrencies = () => this.getCommand<Currency[]>(CountriesAPI);
+  private countryApi = "api/country";
+  getCountries = () =>
+    this.getCommand<Country[]>(this.countryApi + "/countries");
+  getCurrencies = () =>
+    this.getCommand<Currency[]>(this.countryApi + "/currencies");
 }

@@ -128,6 +128,7 @@ export default class MockedApiService implements IApiService {
   getUserProfile = () =>
     this.resolved<UserInfo>({
       name: "Alan",
+      email: "alan@alan.com",
       city: "NY",
       state: "Penn",
       country: "USA",

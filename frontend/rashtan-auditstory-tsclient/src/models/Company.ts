@@ -41,8 +41,8 @@ export interface CompanyQuickInfo {
 
 export interface CompanyProfile {
   name: string;
-  unit: CurrencyUnit;
   industry: string;
+  unit: CurrencyUnit;
   marketCap: number;
   website: string;
   tags: string[];
