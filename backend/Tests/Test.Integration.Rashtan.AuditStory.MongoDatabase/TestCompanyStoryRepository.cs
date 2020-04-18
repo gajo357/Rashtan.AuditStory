@@ -10,11 +10,9 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
     [TestFixture]
     public class TestCompanyStoryRepository : IntegrationTestBase
     {
-
-        private Story Micron = new Story
+        private readonly Story Micron = new Story
         {
             Id = Guid.NewGuid(),
-            LastEdited = DateTime.UtcNow,
 
             Profile = new Profile
             {
@@ -93,32 +91,32 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
         };
 
         [Test]
-        public async Task Test_ProfileCreated()
+        public async Task Test_SaveStoryAsync()
         {
             var userId = Guid.NewGuid().ToString();
             var repo = new CompanyStoryRepository(Context);
             await repo.SaveStoryAsync(userId, Micron);
 
-            var profiles = (await repo.GetProfilesAsync(userId)).ToArray();
+            var quickInfos = (await repo.GetQuickInfosAsync(userId)).ToArray();
 
-            Assert.AreEqual(1, profiles.Length);
-            Assert.AreEqual(Micron.Profile, profiles[0]);
+            Assert.AreEqual(1, quickInfos.Length);
+            Assert.AreEqual(Micron.Profile, quickInfos[0]);
         }
 
         [Test]
-        public async Task Test_GetProfile()
+        public async Task Test_GetStoryAsync_ReturnsSaved()
         {
             var userId = Guid.NewGuid().ToString();
             var repo = new CompanyStoryRepository(Context);
             await repo.SaveStoryAsync(userId, Micron);
 
-            var profiles = await repo.GetStoryAsync(userId, Micron.Id);
+            var story = await repo.GetStoryAsync(userId, Micron.Id);
 
-            Assert.AreEqual(Micron, profiles);
+            Assert.AreEqual(Micron, story);
         }
 
         [Test]
-        public async Task Test_GetProfile_NoProfilesForDifferentUser()
+        public async Task Test_GetQuickInfosAsync_NoStoriesForDifferentUser()
         {
             var userId = Guid.NewGuid().ToString();
             var userId2 = Guid.NewGuid().ToString();
@@ -126,13 +124,13 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             var repo = new CompanyStoryRepository(Context);
             await repo.SaveStoryAsync(userId, Micron);
 
-            var profiles = await repo.GetProfilesAsync(userId2);
+            var quickInfos = await repo.GetQuickInfosAsync(userId2);
 
-            Assert.IsEmpty(profiles);
+            Assert.IsEmpty(quickInfos);
         }
 
         [Test]
-        public async Task Test_DeleteProfile()
+        public async Task Test_DeleteStoryAsync()
         {
             var userId = Guid.NewGuid().ToString();
             var repo = new CompanyStoryRepository(Context);
@@ -141,8 +139,8 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             var result = await repo.DeleteStoryAsync(userId, Micron.Id);
             Assert.IsTrue(result);
 
-            var profiles = await repo.GetProfilesAsync(userId);
-            Assert.IsEmpty(profiles);
+            var quickInfos = await repo.GetQuickInfosAsync(userId);
+            Assert.IsEmpty(quickInfos);
         }
     }
 }

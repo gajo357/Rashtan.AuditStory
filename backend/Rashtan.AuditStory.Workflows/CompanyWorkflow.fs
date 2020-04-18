@@ -5,7 +5,7 @@ open Rashtan.AuditStory.Common.AsyncResult
 open Rashtan.AuditStory.DtoValidation.CompanyValidator
 open Rashtan.AuditStory.Common
 
-type CompanyWorkflow(repository: ICompanyStoryRepository, dateTimeProvider: IDateTimeProvider) =       
+type CompanyWorkflow(repository: ICompanyStoryRepository) =       
     member __.GetStoryAsync(user, id) = 
        asyncResult {
            let! id = Common.validateGuid "Id" id
@@ -15,10 +15,6 @@ type CompanyWorkflow(repository: ICompanyStoryRepository, dateTimeProvider: IDat
     member __.SaveStoryAsync(user, dto) = 
         asyncResult {
             let! dto = validateStory dto
-            let dto = {
-                dto with
-                    LastEdited = dateTimeProvider.GetCurrentDateTime()
-            }
             do! repository.SaveStoryAsync(user, dto) |> Async.AwaitTask
             return true
         } |> CsResult.fromAsyncResult
@@ -29,9 +25,9 @@ type CompanyWorkflow(repository: ICompanyStoryRepository, dateTimeProvider: IDat
             return b
         } |> CsResult.fromAsyncResult
 
-    member __.GetProfilesAsync(user) = 
+    member __.GetQuickInfosAsync(user) = 
         asyncResult {
-            let! b = repository.GetProfilesAsync(user) |> Async.AwaitTask
+            let! b = repository.GetQuickInfosAsync(user) |> Async.AwaitTask
             return b
         } |> CsResult.fromAsyncResult
     member __.CreateStoryAsync(user, dto) = 
@@ -40,7 +36,6 @@ type CompanyWorkflow(repository: ICompanyStoryRepository, dateTimeProvider: IDat
             let dto = { 
                 Rashtan.AuditStory.Dto.Empty.emptyStory with
                     Id = System.Guid.NewGuid()
-                    LastEdited = dateTimeProvider.GetCurrentDateTime()
                     Profile = {
                         Rashtan.AuditStory.Dto.Empty.emptyStory.Profile with
                             Name = dto.Name

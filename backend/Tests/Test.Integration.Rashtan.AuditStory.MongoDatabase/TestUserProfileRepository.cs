@@ -10,7 +10,7 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
     public class TestUserProfileRepository : IntegrationTestBase
     {
         [Test]
-        public async Task Test_PaymentSaved()
+        public async Task Test_UserProfileSaved()
         {
             var userId = Guid.NewGuid().ToString();
             var repo = new UserProfileRepository(Context);
@@ -26,14 +26,11 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
 
             var savedProfile = await repo.GetProfileAsync(userId);
 
-            Assert.AreEqual(profile.Name, savedProfile.Name);
-            Assert.AreEqual(profile.City, savedProfile.City);
-            Assert.AreEqual(profile.Country, savedProfile.Country);
-            Assert.AreEqual(profile.State, savedProfile.State);
+            Assert.AreEqual(profile, savedProfile);
         }
 
         [Test]
-        public async Task Test_GetProfile_NoProfilesForDifferentUser()
+        public async Task Test_GetProfile_NoProfileForDifferentUser()
         {
             var userId = Guid.NewGuid().ToString();
             var userId2 = Guid.NewGuid().ToString();

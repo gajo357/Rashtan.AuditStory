@@ -24,7 +24,7 @@ namespace Rashtan.AuditStory.API.Controllers
         // GET api/company
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Profile>>> GetCompanies() 
-            => Unpack(await CompanyWorkflow.GetProfilesAsync(UserId));
+            => Unpack(await CompanyWorkflow.GetQuickInfosAsync(UserId));
 
         // POST api/company
         [HttpPost]

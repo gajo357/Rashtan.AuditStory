@@ -16,12 +16,7 @@ type TestCompanyWorkflow () =
     member __.``SaveStoryAsync does not save invalid dto`` user dto = 
         async {
             let cpr = Mock<ICompanyStoryRepository>().Create()
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
+            let cw = CompanyWorkflow(cpr)
 
             let! result = cw.SaveStoryAsync(user, dto) |> Async.AwaitTask
             return result.IsError
@@ -35,12 +30,7 @@ type TestCompanyWorkflow () =
                 m.SaveStoryAsync(user, any()) --> System.Threading.Tasks.Task.CompletedTask
                 @>
             )
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
+            let cw = CompanyWorkflow(cpr)
 
             let! result = cw.SaveStoryAsync(user, dto) |> Async.AwaitTask
 
@@ -51,12 +41,7 @@ type TestCompanyWorkflow () =
     member __.``DeleteStoryAsync does not delete invalid id`` user id = 
         async {
             let cpr = Mock<ICompanyStoryRepository>().Create()
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
+            let cw = CompanyWorkflow(cpr)
 
             let! result = cw.DeleteStoryAsync(user, id) |> Async.AwaitTask
             return result.Error.StartsWith "Id: "
@@ -69,12 +54,7 @@ type TestCompanyWorkflow () =
                 m.DeleteStoryAsync(user, id) --> System.Threading.Tasks.Task.FromResult success
                 @>
             )
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
+            let cw = CompanyWorkflow(cpr)
 
             let! result = cw.DeleteStoryAsync(user, id.ToString()) |> Async.AwaitTask
 
@@ -86,12 +66,7 @@ type TestCompanyWorkflow () =
     member __.``GetStoryAsync does not get with invalid id`` user id = 
         async {
             let cpr = Mock<ICompanyStoryRepository>().Create()
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
+            let cw = CompanyWorkflow(cpr)
 
             let! result = cw.GetStoryAsync(user, id) |> Async.AwaitTask
             return result.Error.StartsWith "Id: "
@@ -104,12 +79,7 @@ type TestCompanyWorkflow () =
                 m.GetStoryAsync(user, id) --> System.Threading.Tasks.Task.FromResult profile
                 @>
             )
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
+            let cw = CompanyWorkflow(cpr)
 
             let! result = cw.GetStoryAsync(user, id.ToString()) |> Async.AwaitTask
 
@@ -117,21 +87,16 @@ type TestCompanyWorkflow () =
         } |> Async.RunSynchronously
 
     [<Property(Arbitrary = [| typeof<ValidTypesGenerator> |])>]
-    member __.``GetProfilesAsync gets valid profiles`` user profile = 
+    member __.``GetQuickInfosAsync gets valid stories`` user profile = 
         async {
             let cpr = Mock<ICompanyStoryRepository>.With(fun m ->
                 <@
-                m.GetProfilesAsync(user) --> ([ profile ] |> List.toSeq |> System.Threading.Tasks.Task.FromResult)
+                m.GetQuickInfosAsync(user) --> ([ profile ] |> List.toSeq |> System.Threading.Tasks.Task.FromResult)
                 @>
             )
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
+            let cw = CompanyWorkflow(cpr)
 
-            let! result = cw.GetProfilesAsync(user) |> Async.AwaitTask
+            let! result = cw.GetQuickInfosAsync(user) |> Async.AwaitTask
 
             return (Seq.toList result.Result) = [ profile ]
         } |> Async.RunSynchronously
@@ -140,12 +105,7 @@ type TestCompanyWorkflow () =
     member __.``CreateStoryAsync does not save invalid dto`` user dto = 
         async {
             let cpr = Mock<ICompanyStoryRepository>().Create()
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
+            let cw = CompanyWorkflow(cpr)
 
             let! result = cw.CreateStoryAsync(user, dto) |> Async.AwaitTask
             return result.IsError
@@ -155,12 +115,7 @@ type TestCompanyWorkflow () =
         async {
             let cpr = Mock<ICompanyStoryRepository>.With(fun m -> 
                 <@ m.SaveStoryAsync(user, any()) --> System.Threading.Tasks.Task.CompletedTask @>)
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
+            let cw = CompanyWorkflow(cpr)
 
             let! result = cw.CreateStoryAsync(user, dto) |> Async.AwaitTask
 
@@ -175,15 +130,10 @@ type TestCompanyWorkflow () =
                     savedDbModel <- Some d
                     System.Threading.Tasks.Task.CompletedTask
                 member __.DeleteStoryAsync(_, _) = System.Threading.Tasks.Task.FromResult(true)
-                member __.GetProfilesAsync(_) = System.Threading.Tasks.Task.FromResult([||] |> Array.toSeq)
+                member __.GetQuickInfosAsync(_) = System.Threading.Tasks.Task.FromResult([||] |> Array.toSeq)
                 member __.GetStoryAsync(_, _) = System.Threading.Tasks.Task.FromResult(s)
                 }
-            let dtp = Mock<IDateTimeProvider>.With(fun m -> 
-                <@
-                m.GetCurrentDateTime() --> System.DateTime.Today
-                @>
-            )
-            let cw = CompanyWorkflow(cpr, dtp)
+            let cw = CompanyWorkflow(cpr)
 
             let! _ = cw.CreateStoryAsync(user, dto) |> Async.AwaitTask
 

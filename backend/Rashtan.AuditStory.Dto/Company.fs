@@ -103,7 +103,6 @@ type Profile = {
 [<CLIMutable>]
 type Story = {
     Id: System.Guid
-    LastEdited: System.DateTime
 
     Profile: Profile
     Revenue: Revenue
@@ -128,7 +127,6 @@ module Empty =
     let emptyStory: Story = 
         {
             Id = System.Guid.Empty
-            LastEdited = System.DateTime.MinValue
     
             Profile = {
                 Name = ""

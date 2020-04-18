@@ -20,7 +20,7 @@ namespace Rashtan.AuditStory.MongoRepository
             => await DeleteAsync(userId, CreateDataFilter($"{nameof(Story.Id)}", id));
         public async Task SaveStoryAsync(string userId, Story profile) => await AddAsync(userId, profile);
 
-        public async Task<IEnumerable<Profile>> GetProfilesAsync(string userId)
+        public async Task<IEnumerable<Profile>> GetQuickInfosAsync(string userId)
         {
             var result = Collection.Find(s => s.UserId == userId);
             return await result.Project(x => x.Data.Profile).ToListAsync();
