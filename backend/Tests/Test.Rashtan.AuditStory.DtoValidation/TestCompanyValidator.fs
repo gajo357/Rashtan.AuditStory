@@ -10,7 +10,7 @@ type TestCompanyValidator() =
     [<Property(Arbitrary = [| typeof<ValidCompanyProfileGenerator> |])>]
     member __.``Valid company profile passes the test`` dto =
         let result = CompanyValidator.validateProfile dto
-        result = Ok()
+        result = Ok(dto)
 
     [<Property(Arbitrary = [| typeof<ValidCompanyProfileGenerator>; typeof<InvalidTypesGenerator> |])>]
     member __.``Profile Name has to be specified`` (dto: Profile) name =

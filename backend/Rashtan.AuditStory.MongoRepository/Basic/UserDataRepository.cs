@@ -25,6 +25,14 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
             return result.IsAcknowledged;
         }
 
+        protected async Task<bool> AddOrUpdateOneAsync<TFilterValue>(string userId, TData data, params DataFilter<TFilterValue>[] dataFilters)
+        {
+            var result = await DeleteAsync(userId, dataFilters);
+            await AddAsync(userId, data);
+
+            return result;
+        }
+
         protected async Task<TData> GetOneAsync<TFilterValue>(string userId, params DataFilter<TFilterValue>[] dataFilters)
         {
             var result = await Collection.FindAsync(BuildFilter(userId, dataFilters));

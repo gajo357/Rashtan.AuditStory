@@ -102,6 +102,19 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             Assert.AreEqual(1, quickInfos.Length);
             Assert.AreEqual(Micron.Profile, quickInfos[0]);
         }
+        [Test]
+        public async Task Test_SaveStoryAsync_TwiceResultsInOneResult()
+        {
+            var userId = Guid.NewGuid().ToString();
+            var repo = new CompanyStoryRepository(Context);
+            await repo.SaveStoryAsync(userId, Micron);
+            await repo.SaveStoryAsync(userId, Micron);
+
+            var quickInfos = (await repo.GetQuickInfosAsync(userId)).ToArray();
+
+            Assert.AreEqual(1, quickInfos.Length);
+            Assert.AreEqual(Micron.Profile, quickInfos[0]);
+        }
 
         [Test]
         public async Task Test_GetStoryAsync_ReturnsSaved()

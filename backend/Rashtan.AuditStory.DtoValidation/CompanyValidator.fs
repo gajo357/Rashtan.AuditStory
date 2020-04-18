@@ -4,6 +4,9 @@ open Rashtan.AuditStory.Common
 open Rashtan.AuditStory.Dto
 open Result
 
+let itemNotNull dto = 
+    if System.Object.ReferenceEquals(dto, null) then false
+    else true
 
 let validateCreateStory (dto: CompanyStoryCreate) = result {
     do! Common.validateAlphanumeric "Name" dto.Name
@@ -11,10 +14,47 @@ let validateCreateStory (dto: CompanyStoryCreate) = result {
 
 let validateProfile (dto: Profile) = result {
     do! Common.validateAlphanumeric "Name" dto.Name
+
+    return {
+        dto with 
+            Tags = dto.Tags |> Array.filter itemNotNull
+    }
+}
+
+let validateRevenue (dto: Revenue) = result {
+    return {
+        dto with
+            ByClient = dto.ByClient |> Array.filter itemNotNull
+            ByLocation = dto.ByLocation |> Array.filter itemNotNull
+            ByProduct = dto.ByProduct |> Array.filter itemNotNull
+    }
+}
+
+let validateCompetition (dto: Competition) = result {
+    return {
+        dto with
+            Competitors = dto.Competitors |> Array.filter itemNotNull
+    }
+}
+
+let validateVerdict (dto: Verdict) = result {
+    return {
+        dto with
+            Flags = dto.Flags |> Array.filter itemNotNull
+    }
 }
 
 let validateStory (dto: Story) = result {
-    do! validateProfile dto.Profile
+    let! profile = validateProfile dto.Profile
+    let! revenue = validateRevenue dto.Revenue
+    let! competition = validateCompetition dto.Competition
+    let! verdict = validateVerdict dto.Verdict
 
-    return dto
+    return {
+        dto with 
+            Profile = profile
+            Revenue = revenue
+            Competition = competition
+            Verdict = verdict
+    }
 }

@@ -14,11 +14,12 @@ namespace Rashtan.AuditStory.MongoRepository
         {
         }
 
-        public async Task<Story> GetStoryAsync(string userId, Guid id) 
-            => await GetOneAsync(userId, CreateDataFilter($"{nameof(Story.Id)}", id));
-        public async Task<bool> DeleteStoryAsync(string userId, Guid id) 
-            => await DeleteAsync(userId, CreateDataFilter($"{nameof(Story.Id)}", id));
-        public async Task SaveStoryAsync(string userId, Story profile) => await AddAsync(userId, profile);
+        public Task<Story> GetStoryAsync(string userId, Guid id) 
+            => GetOneAsync(userId, CreateDataFilter($"{nameof(Story.Id)}", id));
+        public Task<bool> DeleteStoryAsync(string userId, Guid id) 
+            => DeleteAsync(userId, CreateDataFilter($"{nameof(Story.Id)}", id));
+        public Task SaveStoryAsync(string userId, Story story) 
+            => AddOrUpdateOneAsync(userId, story, CreateDataFilter($"{nameof(Story.Id)}", story.Id));
 
         public async Task<IEnumerable<Profile>> GetQuickInfosAsync(string userId)
         {
