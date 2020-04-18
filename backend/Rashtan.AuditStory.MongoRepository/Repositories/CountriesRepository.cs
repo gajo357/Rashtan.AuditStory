@@ -1,4 +1,5 @@
-﻿using Rashtan.AuditStory.Dto;
+﻿using MongoDB.Driver;
+using Rashtan.AuditStory.Dto;
 using Rashtan.AuditStory.MongoRepository.Basic;
 using Rashtan.AuditStory.Repository.Interface;
 using System.Collections.Generic;
@@ -6,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.MongoRepository.Repositories
 {
-    internal class CountriesRepository : UserDataRepository<Country>, ICountriesRepository
+    internal class CountriesRepository : MongoRepository<Country>, ICountriesRepository
     {
-        public CountriesRepository(IMongoContext context) : base(context)
+        public CountriesRepository(IMongoContext context)
+            : base(context.GetCollection<Country>())
         {
         }
 
-        /// <summary>
-        /// Countries are identical for all users, we we just fake the UserId
-        /// </summary>
-        private const string UserId = "";
+        public async Task<IEnumerable<Country>> GetCountriesAsync()
+        {
+            var result = await Collection.FindAsync(Builders<Country>.Filter.Empty);
+            var list = await result.ToListAsync();
 
-        public Task<IEnumerable<Country>> GetCountriesAsync() => GetAllAsync(UserId);
-        public Task<bool> SaveCountriesAsync(IEnumerable<Country> countries) => SaveAllAsync(UserId, countries);
+            return list;
+        }
+        public Task<bool> SaveCountriesAsync(IEnumerable<Country> countries) => SaveAllAsync(countries);
     }
 }

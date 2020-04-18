@@ -2,6 +2,7 @@
 using Rashtan.AuditStory.Common;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.API.Utils
 {
@@ -20,6 +21,23 @@ namespace Rashtan.AuditStory.API.Utils
                 return BadRequest(result.Error);
 
             return Ok(result.Result);
+        }
+
+        protected async Task<ActionResult<T>> UnpackAsync<T>(Task<CsResult<T>> task)
+        {
+            try
+            {
+                var result = await task;
+
+                if (result.IsError)
+                    return BadRequest(result.Error);
+
+                return Ok(result.Result);
+            }
+            catch (System.Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }

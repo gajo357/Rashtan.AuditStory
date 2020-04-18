@@ -29,5 +29,9 @@ namespace Rashtan.AuditStory.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Currency>>> Currencies()
             => Unpack(await CountryWorkflow.GetCurrenciesAsync());
+
+        [HttpPost]
+        public async Task<ActionResult<bool>> Countries(IEnumerable<Country> countries)
+            => Unpack(await CountryWorkflow.SaveCountriesAsync(countries));
     }
 }

@@ -1,5 +1,4 @@
 ﻿using MongoDB.Driver;
-using Rashtan.AuditStory.Repository.Interface.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,6 @@ using System.Threading.Tasks;
 namespace Rashtan.AuditStory.MongoRepository.Basic
 {
     public class MongoRepository<TEntity> : IMongoRepository<TEntity> 
-        where TEntity: IDocument
     {
         protected readonly IMongoCollection<TEntity> Collection;
 
@@ -17,7 +15,7 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
             Collection = collection;
         }
 
-        public virtual async Task AddAsync(TEntity obj) => await Collection.InsertOneAsync(obj);
+        public virtual Task AddAsync(TEntity obj) => Collection.InsertOneAsync(obj);
 
         public virtual async Task<TEntity> GetByIdAsync(Guid id)
         {
@@ -34,13 +32,19 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
         public virtual async Task<bool> SaveAllAsync(IEnumerable<TEntity> entities)
         {
             var result = await Collection.DeleteManyAsync(Builders<TEntity>.Filter.Empty);
-            await Collection.InsertManyAsync(entities);
+
+            var chunkSize = 20;
+            foreach (var g in entities
+                .Select((x, i) => new { Index = i, Value = x })
+                .GroupBy(x => x.Index / chunkSize)
+                .Select(x => x.Select(v => v.Value)))
+            {
+                await Collection.InsertManyAsync(g,
+                    new InsertManyOptions { BypassDocumentValidation = true, IsOrdered = false });
+                await Task.Delay(1000);
+            }
 
             return result.IsAcknowledged;
         }
-
-        public virtual async Task UpdateAsync(TEntity obj) => await Collection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.Id), obj);
-
-        public virtual async Task RemoveAsync(Guid id) => await Collection.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", id));
     }
 }

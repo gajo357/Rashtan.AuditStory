@@ -23,7 +23,6 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
         public IMongoCollection<TEntity> GetCollection<TEntity>() => Database.GetCollection<TEntity>(typeof(TEntity).Name);
         public IMongoCollection<UserDocument<TEntity>> GetUserDataCollection<TEntity>() 
             where TEntity : class => Database.GetCollection<UserDocument<TEntity>>(typeof(TEntity).Name);
-
         public void DropDatabase() => MongoClient.DropDatabase(DatabaseName);
     }
 }
