@@ -7,7 +7,7 @@ import {
   ChecklistItem,
   CurrencyUnit,
 } from "../../models/Company";
-import { showError } from "../../models/Errors";
+import { showError, showNotification } from "../../models/Errors";
 import StoryProfile from "./StoryProfile";
 import StoryRevenue from "./StoryRevenue";
 import StoryManagement from "./StoryManagement";
@@ -23,8 +23,9 @@ import {
   removeElement,
 } from "../../models/ArrayUpdate";
 import Category from "../../models/Category";
-import styles from "./Story-styles";
 import { Currency } from "../../models/Country";
+import styles from "./Story-styles";
+import useInterval from "../../models/useInterval";
 
 interface Props {
   apiService: IApiService;
@@ -67,6 +68,23 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
     if (curr) setCurrency({ ...company.profile.unit, currency: curr.symbol });
   }, [currencies, company]);
 
+  useInterval(() => {
+    if (company && unsavedChanges && !saving) {
+      console.log(company);
+      setUnsavedChanges(false);
+      setSaving(true);
+      apiService
+        .saveCompanyStory(company)
+        .catch((e) => {
+          // if we did not succeed in saving, we try again
+          setUnsavedChanges(true);
+          setSaving(false);
+          showNotification(e);
+        })
+        .finally(() => setSaving(false));
+    }
+  }, 5000);
+
   if (!id) return <Redirect to="/" />;
 
   const updateCompany = (c: CompanyStory) => {
@@ -104,15 +122,6 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                       .catch(showError)
                       .then(goHome)
                   }
-                  save={() => {
-                    console.log(company);
-                    setSaving(true);
-                    apiService
-                      .saveCompanyStory(company)
-                      .then(() => setUnsavedChanges(false))
-                      .catch(showError)
-                      .finally(() => setSaving(false));
-                  }}
                   saving={saving}
                 />
               }

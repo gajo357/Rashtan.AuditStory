@@ -30,7 +30,6 @@ export default class MockedApiService implements IApiService {
 
   private micronStory: CompanyStory = {
     id: "12345678",
-    dateEdited: new Date(Date.now()),
     profile: {
       name: "Micron Technologies",
       unit: { currency: "USD", unit: UnitOfSize.Million },

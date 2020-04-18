@@ -3,7 +3,6 @@ import { Dropdown, Menu, Button, Modal } from "antd";
 import {
   PlusCircleOutlined,
   DeleteOutlined,
-  SaveOutlined,
   MoreOutlined,
 } from "@ant-design/icons";
 import AddUniqueValue from "../AddUniqueValue";
@@ -13,14 +12,12 @@ import styles from "./Story-styles";
 interface Props {
   company: CompanyStory;
   saving: boolean;
-  save: () => void;
   remove: () => void;
   addCustomPart: (title: string) => void;
 }
 
 const StoryMenu: React.FC<Props> = ({
   company,
-  save,
   remove,
   addCustomPart,
   saving,
@@ -51,10 +48,6 @@ const StoryMenu: React.FC<Props> = ({
       >
         <DeleteOutlined />
         Delete
-      </Menu.Item>
-      <Menu.Item onClick={() => save()} disabled={saving}>
-        <SaveOutlined />
-        Save
       </Menu.Item>
     </Menu>
   );

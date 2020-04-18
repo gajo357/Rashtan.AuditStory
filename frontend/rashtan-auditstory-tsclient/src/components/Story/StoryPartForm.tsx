@@ -59,6 +59,9 @@ function StoryPartForm<TData>({
         ...labelCol,
       };
 
+  const onChangeImpl = (values: any) =>
+    onChange && onChange(value ? { ...value, ...values } : (values as TData));
+
   return (
     <>
       <Typography.Title level={3}>{title}</Typography.Title>
@@ -66,10 +69,7 @@ function StoryPartForm<TData>({
         {...formItemLayout}
         layout="horizontal"
         initialValues={value}
-        onValuesChange={(_, values) =>
-          onChange &&
-          onChange(value ? { ...value, ...values } : (values as TData))
-        }
+        onValuesChange={(_, values) => onChangeImpl(values)}
       >
         {children}
       </Form>
