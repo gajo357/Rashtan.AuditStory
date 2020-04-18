@@ -86,7 +86,6 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
           <div style={styles.root}>
             <PageHeader
               title={company.profile.name}
-              subTitle={"Last edited: " + company.dateEdited.toLocaleString()}
               onBack={goHome}
               style={styles.pageHeader}
               extra={

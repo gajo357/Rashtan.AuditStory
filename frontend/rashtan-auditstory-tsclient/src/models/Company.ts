@@ -12,8 +12,6 @@ export enum UnitOfSize {
 export interface CompanyStory {
   id: string;
 
-  dateEdited: Date;
-
   profile: CompanyProfile;
   revenue: CompanyStoryRevenue;
   competition: CompanyCompetition;
