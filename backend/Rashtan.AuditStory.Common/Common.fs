@@ -2,9 +2,12 @@
 
 module Common =
     open System
+    
+    let isValidCharacterInName c =
+        System.Char.IsLetterOrDigit c || System.Char.IsWhiteSpace c
 
     let validateNotEmpty prop str = 
-        match System.String.IsNullOrEmpty str with
+        match (System.String.IsNullOrEmpty str || System.String.IsNullOrEmpty(str.Trim())) with
         | false -> Ok ()
         | true -> Error (sprintf "%s: Cannot be empty" prop)
 
@@ -12,6 +15,14 @@ module Common =
         match validateNotEmpty prop str with
         | Ok _ ->
             match str |> Seq.forall System.Char.IsLetterOrDigit with
+            | true -> Ok ()
+            | false -> Error (sprintf "%s: Has to be alphanumeric" prop)
+        | Error e -> Error e
+
+    let validateValidName prop (str: string) =
+        match validateNotEmpty prop str with
+        | Ok _ ->
+            match str |> Seq.forall isValidCharacterInName with
             | true -> Ok ()
             | false -> Error (sprintf "%s: Has to be alphanumeric" prop)
         | Error e -> Error e

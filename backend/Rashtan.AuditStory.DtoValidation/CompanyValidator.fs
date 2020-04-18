@@ -8,12 +8,15 @@ let itemNotNull dto =
     if System.Object.ReferenceEquals(dto, null) then false
     else true
 
-let validateCreateStory (dto: CompanyStoryCreate) = result {
-    do! Common.validateAlphanumeric "Name" dto.Name
-}
-
 let validateProfile (dto: Profile) = result {
-    do! Common.validateAlphanumeric "Name" dto.Name
+    let dto = {
+        dto with
+            Name = 
+                if System.String.IsNullOrEmpty(dto.Name) then ""
+                else dto.Name.Trim()
+    }
+
+    do! Common.validateValidName "Name" dto.Name
 
     return {
         dto with 

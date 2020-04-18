@@ -3,6 +3,14 @@
 open FsCheck
 open Rashtan.AuditStory.Dto
 
+module ValidValues =
+    let isValidCharacterInName c =
+        System.Char.IsLetterOrDigit c || System.Char.IsWhiteSpace c
+    let isValidString s =
+        match (System.String.IsNullOrEmpty s || System.String.IsNullOrEmpty(s.Trim())) with
+        | true -> false
+        | false -> s |> Seq.forall isValidCharacterInName 
+
 type InvalidTypesGenerator =
     static member Int() = Arb.Default.Int32() |> Arb.mapFilter (fun s -> - (abs s)) (fun s -> s < 0)
     static member Double() = Arb.Default.Float() |> Arb.mapFilter (fun s -> - (abs s)) (fun s -> s < 0.)
@@ -10,12 +18,7 @@ type InvalidTypesGenerator =
     static member Date() = Arb.Default.DateTime() |> Arb.filter(fun s -> s.Year > 2019)
     static member Guid() = Arb.Default.Guid() |> Arb.mapFilter (fun _ -> System.Guid.Empty) (fun _ -> true)
     static member String() = 
-        Arb.Default.String() |> Arb.filter(fun s -> 
-            match System.String.IsNullOrEmpty s with
-            | true -> true
-            | false ->
-                s |> Seq.forall System.Char.IsLetterOrDigit |> not
-        )
+        Arb.Default.String() |> Arb.filter(ValidValues.isValidString >> not)
 
 type ValidTypesGenerator =
     static member Int() = Arb.Default.Int32() |> Arb.mapFilter abs (fun _ -> true)
@@ -24,13 +27,7 @@ type ValidTypesGenerator =
     static member Date() = Arb.Default.DateTime() |> Arb.filter(fun s -> s.Year <= 2019)
     static member Guid() = Arb.Default.Guid() |> Arb.filter(fun s -> not (s = System.Guid.Empty))
     static member String() = 
-        Arb.Default.String() |> Arb.filter(fun s -> 
-            match System.String.IsNullOrEmpty s with
-            | true -> false
-            | false ->
-                s |> Seq.forall System.Char.IsLetterOrDigit                    
-        )
-
+        Arb.Default.String() |> Arb.filter(ValidValues.isValidString) 
 
 type ValidCompanyProfileGenerator =
     static member Profile() = 

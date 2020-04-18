@@ -6,6 +6,6 @@ module UserValidator =
     open Result
 
     let validatedCreate (dto: UserProfile) = result {
-        do! Common.validateAlphanumeric "Name" dto.Name
+        do! Common.validateValidName "Name" dto.Name
     }
 

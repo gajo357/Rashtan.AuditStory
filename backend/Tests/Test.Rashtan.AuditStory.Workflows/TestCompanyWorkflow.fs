@@ -122,7 +122,7 @@ type TestCompanyWorkflow () =
             return result.Result |> (=) System.Guid.Empty |> not
         } |> Async.RunSynchronously
     [<Property(Arbitrary = [| typeof<ValidCompanyProfileGenerator> |])>]
-    member __.``CreateStoryAsync preserves name`` user dto s = 
+    member __.``CreateStoryAsync preserves trimmed name`` user dto s = 
         async {
             let mutable savedDbModel = None
             let cpr = { new ICompanyStoryRepository with
@@ -137,6 +137,6 @@ type TestCompanyWorkflow () =
 
             let! _ = cw.CreateStoryAsync(user, dto) |> Async.AwaitTask
 
-            return savedDbModel.Value.Profile.Name = dto.Name
+            return savedDbModel.Value.Profile.Name = dto.Name.Trim()
         } |> Async.RunSynchronously
 

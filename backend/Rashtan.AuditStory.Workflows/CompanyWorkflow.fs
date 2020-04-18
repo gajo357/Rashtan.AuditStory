@@ -30,9 +30,8 @@ type CompanyWorkflow(repository: ICompanyStoryRepository) =
             let! b = repository.GetQuickInfosAsync(user) |> Async.AwaitTask
             return b
         } |> CsResult.fromAsyncResult
-    member __.CreateStoryAsync(user, dto) = 
+    member __.CreateStoryAsync(user, dto: Rashtan.AuditStory.Dto.CompanyStoryCreate) = 
         asyncResult {
-            do! validateCreateStory dto
             let dto = { 
                 Rashtan.AuditStory.Dto.Empty.emptyStory with
                     Id = System.Guid.NewGuid()
@@ -41,6 +40,7 @@ type CompanyWorkflow(repository: ICompanyStoryRepository) =
                             Name = dto.Name
                     }
             }
+            let! dto = validateStory dto
             do! repository.SaveStoryAsync(user, dto) |> Async.AwaitTask
             return dto.Id
         } |> CsResult.fromAsyncResult
