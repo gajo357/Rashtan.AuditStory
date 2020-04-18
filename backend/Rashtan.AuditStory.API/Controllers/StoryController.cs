@@ -21,17 +21,17 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // GET api/story?id=MSFT
         [HttpGet]
-        public async Task<ActionResult<Story>> GetStory([FromQuery]string id)
-            => Unpack(await CompanyWorkflow.GetStoryAsync(UserId, id));
+        public Task<ActionResult<Story>> GetStory([FromQuery]string id)
+            => UnpackAsync(CompanyWorkflow.GetStoryAsync(UserId, id));
 
         // POST api/story
         [HttpPost]
-        public async Task<ActionResult<bool>> SaveStory([FromBody] Story company)
-            => Unpack(await CompanyWorkflow.SaveStoryAsync(UserId, company));
+        public Task<ActionResult<bool>> SaveStory([FromBody] Story company)
+            => UnpackAsync(CompanyWorkflow.SaveStoryAsync(UserId, company));
 
         // DELETE api/story?id={}
         [HttpDelete]
-        public async Task<ActionResult<bool>> Delete([FromQuery] string id)
-            => Unpack(await CompanyWorkflow.DeleteStoryAsync(UserId, id));
+        public Task<ActionResult<bool>> Delete([FromQuery] string id)
+            => UnpackAsync(CompanyWorkflow.DeleteStoryAsync(UserId, id));
     }
 }

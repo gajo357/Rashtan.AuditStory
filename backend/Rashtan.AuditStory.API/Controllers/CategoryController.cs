@@ -22,15 +22,15 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // GET api/checklist
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> Get()
-            => Unpack(await CategoryWorkflow.GetCategories(UserId));
+        public Task<ActionResult<IEnumerable<Category>>> Get()
+            => UnpackAsync(CategoryWorkflow.GetCategories(UserId));
 
         [HttpPut]
-        public async Task<ActionResult<bool>> Save([FromBody] Category category)
-            => Unpack(await CategoryWorkflow.SaveCategory(UserId, category));
+        public Task<ActionResult<bool>> Save([FromBody] Category category)
+            => UnpackAsync(CategoryWorkflow.SaveCategory(UserId, category));
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Save([FromBody] Category[] categories)
-            => Unpack(await CategoryWorkflow.SaveCategories(UserId, categories));
+        public Task<ActionResult<bool>> Save([FromBody] Category[] categories)
+            => UnpackAsync(CategoryWorkflow.SaveCategories(UserId, categories));
     }
 }

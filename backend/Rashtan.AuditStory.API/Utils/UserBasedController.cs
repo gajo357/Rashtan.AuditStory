@@ -27,12 +27,7 @@ namespace Rashtan.AuditStory.API.Utils
         {
             try
             {
-                var result = await task;
-
-                if (result.IsError)
-                    return BadRequest(result.Error);
-
-                return Ok(result.Result);
+                return Unpack(await task);
             }
             catch (System.Exception e)
             {

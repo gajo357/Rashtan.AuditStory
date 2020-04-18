@@ -22,16 +22,16 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // GET api/country/countries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Country>>> Countries()
-            => Unpack(await CountryWorkflow.GetCountriesAsync());
+        public Task<ActionResult<IEnumerable<Country>>> Countries()
+            => UnpackAsync(CountryWorkflow.GetCountriesAsync());
 
         // GET api/country/Currencies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Currency>>> Currencies()
-            => Unpack(await CountryWorkflow.GetCurrenciesAsync());
+        public Task<ActionResult<IEnumerable<Currency>>> Currencies()
+            => UnpackAsync(CountryWorkflow.GetCurrenciesAsync());
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Countries(IEnumerable<Country> countries)
-            => Unpack(await CountryWorkflow.SaveCountriesAsync(countries));
+        public Task<ActionResult<bool>> Countries(IEnumerable<Country> countries)
+            => UnpackAsync(CountryWorkflow.SaveCountriesAsync(countries));
     }
 }

@@ -20,12 +20,12 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // GET api/userprofile
         [HttpGet]
-        public async Task<ActionResult<UserProfile>> Get() 
-            => Unpack(await UserProfileWorkflow.GetProfileAsync(UserId));
+        public Task<ActionResult<UserProfile>> Get() 
+            => UnpackAsync(UserProfileWorkflow.GetProfileAsync(UserId));
 
         // POST api/userprofile
         [HttpPost]
-        public async Task Post([FromBody] UserProfile profile) 
-            => Unpack(await UserProfileWorkflow.SaveProfileAsync(UserId, UserEmail, profile));
+        public Task Post([FromBody] UserProfile profile) 
+            => UnpackAsync(UserProfileWorkflow.SaveProfileAsync(UserId, UserEmail, profile));
     }
 }
