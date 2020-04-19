@@ -25,7 +25,7 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // POST api/userprofile
         [HttpPost]
-        public Task Post([FromBody] UserProfile profile) 
+        public Task<ActionResult<bool>> Post([FromBody] UserProfile profile) 
             => UnpackAsync(UserProfileWorkflow.SaveProfileAsync(UserId, profile));
     }
 }
