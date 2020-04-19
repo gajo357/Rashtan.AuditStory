@@ -103,9 +103,17 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
               loading={countries.length === 0}
               filterOption={(inputValue, option) => {
                 if (!option) return false;
-                if ((option.title as string).toLowerCase().includes(inputValue))
+                if (
+                  (option.title as string)
+                    .toLowerCase()
+                    .includes(inputValue.toLowerCase())
+                )
                   return true;
-                if ((option.value as string).toLowerCase().includes(inputValue))
+                if (
+                  (option.value as string)
+                    .toLowerCase()
+                    .includes(inputValue.toLowerCase())
+                )
                   return true;
                 return false;
               }}
