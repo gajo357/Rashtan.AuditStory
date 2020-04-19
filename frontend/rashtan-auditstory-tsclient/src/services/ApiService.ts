@@ -7,7 +7,7 @@ import {
 import { BASE_API } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
 import IApiService from "./IApiService";
-import { ResponseError, ValidationError, UserError } from "../models/Errors";
+import { UserError } from "../models/Errors";
 import Category from "../models/Category";
 import { Country, Currency } from "../models/Country";
 
@@ -33,11 +33,7 @@ export default class ApiService implements IApiService {
     if (r.ok) {
       return json as TResult;
     } else if (r.status === 400) {
-      const re = json as ResponseError;
-      if (re.property) {
-        throw new ValidationError(re.property, re.message);
-      }
-      throw new UserError(r.status, re.message);
+      throw new UserError(r.status, json);
     }
 
     throw new Error(json);
@@ -73,7 +69,7 @@ export default class ApiService implements IApiService {
       comps.map((c) => ({ ...c, dateEdited: new Date(c.dateEdited) }))
     );
   createNewStory = (company: CompanyStoryCreate) =>
-    this.putCommand<CompanyStoryCreate, string>(this.companyApi, company);
+    this.postCommand<CompanyStoryCreate, string>(this.companyApi, company);
 
   private storyApi = "api/story";
   getCompanyStory = (id: string) =>
