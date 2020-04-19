@@ -1,7 +1,8 @@
 import React from "react";
 import { Form, Input, Switch, InputNumber, Rate } from "antd";
-import { CompanyStoryManagement } from "../../models/Company";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
+import EditComment from "../SimpleEditors/EditComment";
+import { CompanyStoryManagement } from "../../models/Company";
 
 const StoryManagement: React.FC<StoryPartProps<CompanyStoryManagement>> = ({
   value,
@@ -50,7 +51,7 @@ const StoryManagement: React.FC<StoryPartProps<CompanyStoryManagement>> = ({
     </Input.Group>
 
     <Form.Item label="Comment" name="comment">
-      <Input.TextArea placeholder="Comment" rows={2} />
+      <EditComment />
     </Form.Item>
   </StoryPartForm>
 );

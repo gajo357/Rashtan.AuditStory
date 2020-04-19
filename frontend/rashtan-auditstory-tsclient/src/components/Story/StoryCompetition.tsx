@@ -1,9 +1,10 @@
 import React from "react";
 import { Form, Input, Typography, Row, Col, InputNumber, Button } from "antd";
-import { CompanyCompetition, UnitOfSize } from "../../models/Company";
-import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
-import styles from "./Story-styles";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
+import EditComment from "../SimpleEditors/EditComment";
+import { CompanyCompetition, UnitOfSize } from "../../models/Company";
+import styles from "./Story-styles";
 
 const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
   value,
@@ -90,7 +91,7 @@ const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
       </Form.Item>
 
       <Form.Item label="Comment" name="comment">
-        <Input.TextArea placeholder="Comment" rows={2} />
+        <EditComment />
       </Form.Item>
     </StoryPartForm>
   );

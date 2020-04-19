@@ -8,6 +8,7 @@ import { Form, Input, Button, Select, Row, Col } from "antd";
 import { CompanyVerdict } from "../../models/Company";
 import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
 import EditStar from "../SimpleEditors/EditStar";
+import EditComment from "../SimpleEditors/EditComment";
 import AddUniqueValue from "../AddUniqueValue";
 import Category from "../../models/Category";
 import styles from "./Story-styles";
@@ -79,7 +80,7 @@ const StoryVerdict: React.FC<StoryPartPropsWithExtraData<
         </div>
       </Form.Item>
       <Form.Item label="Comment" name="comment">
-        <Input.TextArea placeholder="Comment" rows={2} />
+        <EditComment />
       </Form.Item>
     </StoryPartForm>
   );

@@ -1,10 +1,11 @@
 import React from "react";
 import { Form, Input, InputNumber, Typography, Row, Col, Button } from "antd";
-import { CompanyStoryRevenue } from "../../models/Company";
-import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import styles from "./Story-styles";
+import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import InputWithCurrency from "./InputWithCurrency";
+import EditComment from "../SimpleEditors/EditComment";
+import { CompanyStoryRevenue } from "../../models/Company";
+import styles from "./Story-styles";
 
 const createList = (fieldName: string, title: string, streamName: string) => (
   <Form.List name={fieldName}>
@@ -82,7 +83,7 @@ const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
       {createList("byProduct", "product", "Product name")}
 
       <Form.Item label="Comment" name="comment">
-        <Input.TextArea placeholder="Comment" rows={2} />
+        <EditComment />
       </Form.Item>
     </StoryPartForm>
   );

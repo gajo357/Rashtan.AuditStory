@@ -1,7 +1,8 @@
 import React from "react";
 import { Form, Input, InputNumber, Select } from "antd";
-import { CompanyStoryMoat, MoatKind } from "../../models/Company";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
+import EditComment from "../SimpleEditors/EditComment";
+import { CompanyStoryMoat, MoatKind } from "../../models/Company";
 
 const { Option } = Select;
 
@@ -46,7 +47,7 @@ const StoryMoat: React.FC<StoryPartProps<CompanyStoryMoat>> = ({
     </Input.Group>
 
     <Form.Item label="Comment" name="comment">
-      <Input.TextArea placeholder="Comment" rows={2} />
+      <EditComment />
     </Form.Item>
   </StoryPartForm>
 );
