@@ -20,7 +20,7 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
                 Industry = "Semiconductor",
                 MarketCap = 100,
                 Website = "https://www.micron.com/",
-                Tags = new [] {""},
+                Tags = new string[0],
                 Unit = new CurrencyUnit
                 {
                     Currency = "USD",
@@ -85,7 +85,7 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             {
                 Star = true,
                 Category = "Wonderful",
-                Flags = null,
+                Flags = new string[0],
                 Comment = ""
             }
         };
@@ -97,10 +97,9 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             var repo = new CompanyStoryRepository(Context);
             await repo.SaveStoryAsync(userId, Micron);
 
-            var quickInfos = (await repo.GetQuickInfosAsync(userId)).ToArray();
+            var savedStory = await repo.GetStoryAsync(userId, Micron.Id);
 
-            Assert.AreEqual(1, quickInfos.Length);
-            Assert.AreEqual(Micron.Profile, quickInfos[0]);
+            Assert.AreEqual(Micron, savedStory);
         }
         [Test]
         public async Task Test_SaveStoryAsync_TwiceResultsInOneResult()
@@ -113,7 +112,6 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             var quickInfos = (await repo.GetQuickInfosAsync(userId)).ToArray();
 
             Assert.AreEqual(1, quickInfos.Length);
-            Assert.AreEqual(Micron.Profile, quickInfos[0]);
         }
 
         [Test]

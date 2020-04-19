@@ -21,10 +21,21 @@ namespace Rashtan.AuditStory.MongoRepository
         public Task SaveStoryAsync(string userId, Story story) 
             => AddOrUpdateOneAsync(userId, story, CreateDataFilter($"{nameof(Story.Id)}", story.Id));
 
-        public async Task<IEnumerable<Profile>> GetQuickInfosAsync(string userId)
+        public async Task<IEnumerable<StoryQuickInfo>> GetQuickInfosAsync(string userId)
         {
             var result = Collection.Find(s => s.UserId == userId);
-            return await result.Project(x => x.Data.Profile).ToListAsync();
+            return await result.Project(x => 
+            new StoryQuickInfo {
+                Id = x.Data.Id,
+                DateEdited = x.AddedAtUtc,
+
+                Name = x.Data.Profile.Name,
+                Tags = x.Data.Profile.Tags,
+                Star = x.Data.Verdict.Star,
+                Flags = x.Data.Verdict.Flags.Length,
+                Category = x.Data.Verdict.Category
+            }
+            ).ToListAsync();
         }
     }
 }

@@ -20,8 +20,11 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
             Database = MongoClient.GetDatabase(DatabaseName);
         }
 
-        public IMongoCollection<TEntity> GetCollection<TEntity>() => Database.GetCollection<TEntity>(typeof(TEntity).Name);
-        public IMongoCollection<UserDocument<TEntity>> GetUserDataCollection<TEntity>() 
+        public IMongoCollection<TEntity> GetCollection<TEntity>() 
+            => Database.GetCollection<TEntity>(typeof(TEntity).Name);
+        public IMongoCollection<Document<TEntity>> GetDataCollection<TEntity>() 
+            where TEntity : class => Database.GetCollection<Document<TEntity>>(typeof(TEntity).Name);
+        public IMongoCollection<UserDocument<TEntity>> GetUserDataCollection<TEntity>()
             where TEntity : class => Database.GetCollection<UserDocument<TEntity>>(typeof(TEntity).Name);
         public void DropDatabase() => MongoClient.DropDatabase(DatabaseName);
     }

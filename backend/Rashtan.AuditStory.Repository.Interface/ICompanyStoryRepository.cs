@@ -7,7 +7,7 @@ namespace Rashtan.AuditStory.Repository.Interface
 {
     public interface ICompanyStoryRepository
     {
-        Task<IEnumerable<Profile>> GetQuickInfosAsync(string userId);
+        Task<IEnumerable<StoryQuickInfo>> GetQuickInfosAsync(string userId);
         
         Task<Story> GetStoryAsync(string userId, Guid id);
         Task SaveStoryAsync(string userId, Story profile);

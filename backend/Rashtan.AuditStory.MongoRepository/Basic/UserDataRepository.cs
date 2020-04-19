@@ -15,7 +15,8 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
         {
         }
 
-        protected Task AddAsync(string userId, TData data) => AddAsync(new UserDocument<TData> { Data = data, UserId = userId });
+        protected Task AddAsync(string userId, TData data) 
+            => AddAsync(new UserDocument<TData> { Data = data, UserId = userId });
         protected Task<bool> SaveAllAsync(string userId, IEnumerable<TData> data) 
             => SaveAllAsync(data.Select(d => new UserDocument<TData> { Data = d, UserId = userId }));
 

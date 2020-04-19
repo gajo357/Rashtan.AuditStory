@@ -3,7 +3,8 @@ using System;
 
 namespace Rashtan.AuditStory.Repository.Interface.Models
 {
-    public class Document : IDocument
+    public class Document<TData> : IDocument
+        where TData : class
     {
         public Document()
         {
@@ -21,5 +22,10 @@ namespace Rashtan.AuditStory.Repository.Interface.Models
         /// The datetime in UTC at which the document was added.
         /// </summary>
         public DateTime AddedAtUtc { get; set; }
+
+        /// <summary>
+        /// Data carried by the document
+        /// </summary>
+        public TData Data { get; set; }
     }
 }

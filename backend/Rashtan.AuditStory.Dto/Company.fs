@@ -123,6 +123,18 @@ type CompanyStoryCreate = {
     Name: string
 }
 
+[<CLIMutable>]
+type StoryQuickInfo = {
+    Id: System.Guid
+    DateEdited: System.DateTime
+ 
+    Name: string
+    Tags: string[]
+    Star: bool
+    Flags: int
+    Category: string
+}
+
 module Empty =
     let emptyStory: Story = 
         {

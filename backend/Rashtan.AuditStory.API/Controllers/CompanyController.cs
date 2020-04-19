@@ -23,7 +23,7 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // GET api/company
         [HttpGet]
-        public Task<ActionResult<IEnumerable<Profile>>> GetCompanies() 
+        public Task<ActionResult<IEnumerable<StoryQuickInfo>>> GetCompanies() 
             => UnpackAsync(CompanyWorkflow.GetQuickInfosAsync(UserId));
 
         // POST api/company

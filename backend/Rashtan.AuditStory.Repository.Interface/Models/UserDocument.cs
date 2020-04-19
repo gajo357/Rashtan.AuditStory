@@ -1,10 +1,8 @@
 ﻿namespace Rashtan.AuditStory.Repository.Interface.Models
 {
-    public class UserDocument<TData> : Document
+    public class UserDocument<TData> : Document<TData>
         where TData : class
     {
         public string UserId { get; set; }
-
-        public TData Data { get; set; }
     }
 }
