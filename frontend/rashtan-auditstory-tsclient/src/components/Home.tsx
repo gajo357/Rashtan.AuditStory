@@ -33,6 +33,7 @@ interface Props {
 }
 
 const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [createStoryVisible, setCreateStoryVisible] = useState(false);
   const [filter, setFilter] = useState<CompanyFilter | undefined>();
@@ -40,8 +41,13 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    apiService.getCompanies().then(setCompanies).catch(showError);
+    setLoading(true);
     apiService.getCategories().then(setCategories).catch(showError);
+    apiService
+      .getCompanies()
+      .then(setCompanies)
+      .catch(showError)
+      .finally(() => setLoading(false));
 
     return () => setCreateStoryVisible(false);
   }, [apiService]);
@@ -91,6 +97,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         onBack={() => setOpen(true)}
       >
         <List
+          loading={loading}
           itemLayout="vertical"
           dataSource={companies.filter(
             (company) => !filter || filter.predicate(company)
