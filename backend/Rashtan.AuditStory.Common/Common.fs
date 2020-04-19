@@ -33,7 +33,7 @@ module Common =
         else 
             Ok ()
             
-    let validateGuid prop str =
+    let validateGuid prop (str: string) =
         let mutable result = Guid.Empty;
         match Guid.TryParse(str, &result) with
         | true -> Ok result            

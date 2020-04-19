@@ -14,7 +14,7 @@ namespace Rashtan.AuditStory.MongoRepository
         {
         }
 
-        public Task<Story> GetStoryAsync(string userId, Guid id) 
+        public Task<Story?> GetStoryAsync(string userId, Guid id) 
             => GetOneAsync(userId, CreateDataFilter($"{nameof(Story.Id)}", id));
         public Task<bool> DeleteStoryAsync(string userId, Guid id) 
             => DeleteAsync(userId, CreateDataFilter($"{nameof(Story.Id)}", id));

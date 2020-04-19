@@ -19,7 +19,7 @@ type TestCompanyValidator() =
         let dto = { dto with Name = name }
         let result = CompanyValidator.validateProfile dto
                 
-        if System.String.IsNullOrEmpty name then
+        if (System.String.IsNullOrEmpty name || System.String.IsNullOrEmpty(name.Trim())) then
             result = Error "Name: Cannot be empty"
         else 
             result = Error "Name: Has to be alphanumeric"

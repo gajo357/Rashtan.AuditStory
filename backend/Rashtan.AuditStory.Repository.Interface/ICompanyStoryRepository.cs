@@ -9,7 +9,7 @@ namespace Rashtan.AuditStory.Repository.Interface
     {
         Task<IEnumerable<StoryQuickInfo>> GetQuickInfosAsync(string userId);
         
-        Task<Story> GetStoryAsync(string userId, Guid id);
+        Task<Story?> GetStoryAsync(string userId, Guid id);
         Task SaveStoryAsync(string userId, Story profile);
         Task<bool> DeleteStoryAsync(string userId, Guid id);
     }

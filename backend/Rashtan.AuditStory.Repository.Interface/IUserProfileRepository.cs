@@ -5,7 +5,7 @@ namespace Rashtan.AuditStory.Repository.Interface
 {
     public interface IUserProfileRepository
     {
-        Task<UserProfile> GetProfileAsync(string userId);
+        Task<UserProfile?> GetProfileAsync(string userId);
         Task SaveProfileAsync(string userId, UserProfile profile);
     }
 }
