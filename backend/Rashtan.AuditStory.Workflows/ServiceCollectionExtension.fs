@@ -9,8 +9,8 @@ type ServiceCollectionExtension =
     [<Extension>]
     static member RegisterWorkflows(services: IServiceCollection) =
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>()
-                .AddSingleton<CompanyWorkflow>()
                 .AddSingleton<UserProfileWorkflow>()                
+                .AddSingleton<CompanyWorkflow>()
                 .AddSingleton<CategoryWorkflow>()                
                 .AddSingleton<CountryWorkflow>()
                 .AddSingleton<ChecklistWorkflow>()

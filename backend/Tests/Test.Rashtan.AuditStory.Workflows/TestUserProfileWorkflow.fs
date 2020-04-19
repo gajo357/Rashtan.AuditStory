@@ -1,5 +1,4 @@
-﻿
-namespace Tests
+﻿namespace Tests
 
 open NUnit.Framework
 open FsCheck.NUnit
@@ -12,17 +11,17 @@ open Foq
 [<TestFixture>]
 type TestUserProfileWorkflow() =
     [<Property(Arbitrary = [| typeof<InvalidUserGenerator> |])>]
-    member __.``SaveProfileAsync does not save invalid dto`` user email dto = 
+    member __.``SaveProfileAsync does not save invalid dto`` user dto = 
         async {
             let r = Mock<IUserProfileRepository>().Create()
             let w = UserProfileWorkflow(r)
 
-            let! result = w.SaveProfileAsync(user, email, dto) |> Async.AwaitTask
+            let! result = w.SaveProfileAsync(user, dto) |> Async.AwaitTask
             return result.IsError
         } |> Async.RunSynchronously
     
     [<Property(Arbitrary = [| typeof<ValidUserGenerator> |])>]
-    member __.``SaveProfileAsync saves valid dto`` user email  dto = 
+    member __.``SaveProfileAsync saves valid dto`` user  dto = 
         async {
             let r = Mock<IUserProfileRepository>.With(fun m ->
                 <@
@@ -31,7 +30,7 @@ type TestUserProfileWorkflow() =
             )
             let w = UserProfileWorkflow(r)
 
-            let! result = w.SaveProfileAsync(user, email, dto) |> Async.AwaitTask
+            let! result = w.SaveProfileAsync(user, dto) |> Async.AwaitTask
             
             return result.Result = true
         } |> Async.RunSynchronously    
@@ -49,4 +48,19 @@ type TestUserProfileWorkflow() =
             let! result = w.GetProfileAsync(user) |> Async.AwaitTask
 
             return result.Result = profile
+        } |> Async.RunSynchronously
+    [<Property(Arbitrary = [| typeof<ValidUserGenerator> |])>]
+    member __.``GetProfileAsync gets returns empty profile when no profile exists`` user = 
+        async {
+            let r = Mock<IUserProfileRepository>.With(fun m ->
+                <@
+                m.GetProfileAsync(user) --> 
+                    System.Threading.Tasks.Task.FromResult Unchecked.defaultof<Rashtan.AuditStory.Dto.UserProfile>
+                @>
+            )
+            let w = UserProfileWorkflow(r)
+
+            let! result = w.GetProfileAsync(user) |> Async.AwaitTask
+
+            return result.Result.Email = user
         } |> Async.RunSynchronously
