@@ -37,7 +37,6 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
   useEffect(() => {
     apiService.getUserProfile().then(setUserProfile).catch(showError);
     apiService.getCountries().then(setCountries).catch(showError);
-    return () => setSubmitting(false);
   }, [apiService]);
 
   const handleSubmit = (values: any) => {
@@ -65,7 +64,6 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
           style={navigationButtonStyle}
           onClick={() => {
             form.validateFields().then((values) => {
-              form.resetFields();
               handleSubmit(values as UserInfo);
             });
           }}
