@@ -8,20 +8,21 @@ using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.MongoRepository.Repositories
 {
-    internal class CountriesRepository : MongoRepository<Document<Country>>, ICountriesRepository
+    internal class ChecklistRepository : MongoRepository<Document<ChecklistItem>>, IChecklistRepository
     {
-        public CountriesRepository(IMongoContext context)
-            : base(context.GetDataCollection<Country>())
+        public ChecklistRepository(IMongoContext context) 
+            : base(context.GetDataCollection<ChecklistItem>())
         {
         }
 
-        public async Task<IEnumerable<Country>> GetCountriesAsync()
+        public async Task<IEnumerable<ChecklistItem>> GetChecklistItemsAsync()
         {
             var list = await GetAllAsync();
 
             return list.Select(s => s.Data);
         }
-        public Task<bool> SaveCountriesAsync(IEnumerable<Country> countries) 
-            => SaveAllAsync(countries.Select(s => new Document<Country> { Data = s }));
+
+        public Task<bool> SaveItemsAsync(IEnumerable<ChecklistItem> items)
+            => SaveAllAsync(items.Select(s => new Document<ChecklistItem> { Data = s }));
     }
 }

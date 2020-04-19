@@ -25,8 +25,8 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            var all = await Collection.FindAsync(Builders<TEntity>.Filter.Empty);
-            return all.ToList();
+            var result = await Collection.FindAsync(Builders<TEntity>.Filter.Empty);
+            return await result.ToListAsync();
         }
 
         public virtual async Task<bool> SaveAllAsync(IEnumerable<TEntity> entities)

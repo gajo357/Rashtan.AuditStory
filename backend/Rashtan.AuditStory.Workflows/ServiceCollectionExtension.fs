@@ -13,3 +13,4 @@ type ServiceCollectionExtension =
                 .AddSingleton<UserProfileWorkflow>()                
                 .AddSingleton<CategoryWorkflow>()                
                 .AddSingleton<CountryWorkflow>()
+                .AddSingleton<ChecklistWorkflow>()

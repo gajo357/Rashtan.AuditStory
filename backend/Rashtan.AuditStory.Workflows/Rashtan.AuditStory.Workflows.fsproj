@@ -9,6 +9,7 @@
     <Compile Include="UserProfileWorkflow.fs" />
     <Compile Include="CategoryWorkflow.fs" />
     <Compile Include="CountryWorkflow.fs" />
+    <Compile Include="ChecklistWorkflow.fs" />
     <Compile Include="ServiceCollectionExtension.fs" />
   </ItemGroup>
 
