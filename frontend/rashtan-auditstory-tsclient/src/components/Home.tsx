@@ -5,7 +5,8 @@ import {
   MenuOutlined,
   PlusCircleTwoTone,
 } from "@ant-design/icons";
-import { PageHeader, Drawer, List, Tag } from "antd";
+import { Drawer, List, Tag } from "antd";
+import Page from "./Page";
 import IApiService from "../services/IApiService";
 import { CompanyQuickInfo } from "../models/Company";
 import { showError } from "../models/Errors";
@@ -91,10 +92,9 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
           history={history}
         />
       </Drawer>
-      <PageHeader
+      <Page
         title={filter ? filter.title : "All stories"}
-        backIcon={<MenuOutlined></MenuOutlined>}
-        onBack={() => setOpen(true)}
+        backIcon={<MenuOutlined onClick={() => setOpen(true)}></MenuOutlined>}
       >
         <List
           loading={loading}
@@ -129,7 +129,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
             );
           }}
         ></List>
-      </PageHeader>
+      </Page>
 
       <AddUniqueValue
         title="Company name"

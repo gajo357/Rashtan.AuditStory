@@ -1,23 +1,11 @@
-import React, { useState, useEffect, CSSProperties } from "react";
+import React, { useState, useEffect } from "react";
 import { UserOutlined, CloseOutlined, CheckOutlined } from "@ant-design/icons";
-import {
-  Form,
-  Input,
-  Skeleton,
-  PageHeader,
-  Button,
-  Select,
-  Avatar,
-} from "antd";
+import { Form, Input, Skeleton, Select, Avatar } from "antd";
+import Page from "./Page";
 import { UserInfo } from "../models/UserInfo";
 import { Country } from "../models/Country";
 import IApiService from "../services/IApiService";
 import { showError } from "../models/Errors";
-
-const navigationButtonStyle: CSSProperties = {
-  fontSize: 20,
-  color: "black",
-};
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -53,21 +41,18 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
   const [form] = Form.useForm();
 
   return (
-    <PageHeader
+    <Page
       title="My account"
-      backIcon={<CloseOutlined style={navigationButtonStyle} />}
-      onBack={goBack}
+      backIcon={<CloseOutlined onClick={goBack} />}
       extra={
-        <Button
-          loading={submitting || !userProfile}
-          type="link"
-          style={navigationButtonStyle}
+        <CheckOutlined
           onClick={() => {
+            if (submitting || !userProfile) return;
             form.validateFields().then((values) => {
               handleSubmit(values as UserInfo);
             });
           }}
-          icon={<CheckOutlined />}
+          spin={submitting || !userProfile}
         />
       }
     >
@@ -134,7 +119,7 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
           </Form.Item>
         </Form>
       </Skeleton>
-    </PageHeader>
+    </Page>
   );
 };
 

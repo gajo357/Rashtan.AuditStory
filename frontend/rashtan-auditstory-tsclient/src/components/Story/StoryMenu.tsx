@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dropdown, Menu, Button, Modal } from "antd";
+import { Dropdown, Menu, Modal } from "antd";
 import {
   PlusCircleOutlined,
   DeleteOutlined,
@@ -24,7 +24,7 @@ const StoryMenu: React.FC<Props> = ({
 }) => {
   const [customPartModal, setCustomPartModal] = useState(false);
 
-  const menu = (company: CompanyStory) => (
+  const menu = (
     <Menu selectable={false}>
       <Menu.Item
         onClick={() => {
@@ -64,8 +64,8 @@ const StoryMenu: React.FC<Props> = ({
         }}
         onCancel={() => setCustomPartModal(false)}
       />
-      <Dropdown key="more" overlay={menu(company)}>
-        <Button icon={<MoreOutlined />} style={styles.moreButton} />
+      <Dropdown key="more" overlay={menu}>
+        <MoreOutlined style={styles.moreButton} />
       </Dropdown>
     </>
   );

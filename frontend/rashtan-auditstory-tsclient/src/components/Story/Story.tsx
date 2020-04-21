@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
-import { Spin, PageHeader, Tabs } from "antd";
+import { Spin, Tabs } from "antd";
 import IApiService from "../../services/IApiService";
 import {
   CompanyStory,
@@ -17,6 +17,7 @@ import StoryCustomPart from "./StoryCustomPart";
 import StoryChecklist from "./StoryChecklist";
 import StoryVerdict from "./StoryVerdict";
 import StoryMenu from "./StoryMenu";
+import Page from "../Page";
 import {
   addElement,
   replaceElement,
@@ -26,6 +27,7 @@ import Category from "../../models/Category";
 import { Currency } from "../../models/Country";
 import styles from "./Story-styles";
 import useInterval from "../../models/useInterval";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 interface Props {
   apiService: IApiService;
@@ -102,10 +104,9 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
       <Spin spinning={!company} tip="Loading" size="large">
         {company && (
           <div style={styles.root}>
-            <PageHeader
+            <Page
               title={company.profile.name}
-              onBack={goHome}
-              style={styles.pageHeader}
+              backIcon={<ArrowLeftOutlined onClick={goHome} />}
               extra={
                 <StoryMenu
                   company={company}
@@ -205,7 +206,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   />
                 </Tabs.TabPane>
               </Tabs>
-            </PageHeader>
+            </Page>
           </div>
         )}
       </Spin>

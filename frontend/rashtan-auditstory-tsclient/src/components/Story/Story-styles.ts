@@ -7,11 +7,6 @@ export default {
     textAlign: "left",
   } as CSSProperties,
   tabs: {} as CSSProperties,
-  pageHeader: {
-    minHeight: "100%",
-    background:
-      "linear-gradient(0deg, rgba(80,167,194,1) 0%, rgba(183,248,219,1) 100%)",
-  } as CSSProperties,
   moreButton: {
     border: "none",
     padding: 0,

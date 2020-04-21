@@ -1,7 +1,8 @@
 import React, { useState, useEffect, CSSProperties } from "react";
-import { Form, PageHeader, Row, Col, Input, Skeleton } from "antd";
+import { Form, Row, Col, Input, Skeleton } from "antd";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import EditColor from "./SimpleEditors/EditColor";
+import Page from "./Page";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
 import { showError } from "../models/Errors";
@@ -33,10 +34,11 @@ const CompaniesEdit: React.FC<Props> = ({ apiService, goBack }) => {
 
   const [form] = Form.useForm();
   return (
-    <PageHeader
+    <Page
       title="Edit categories"
-      backIcon={<CloseOutlined style={navigationButtonStyle} />}
-      onBack={goBack}
+      backIcon={
+        <CloseOutlined onClick={goBack} style={navigationButtonStyle} />
+      }
       extra={
         <CheckOutlined
           style={navigationButtonStyle}
@@ -86,7 +88,7 @@ const CompaniesEdit: React.FC<Props> = ({ apiService, goBack }) => {
           </Form.List>
         </Form>
       </Skeleton>
-    </PageHeader>
+    </Page>
   );
 };
 
