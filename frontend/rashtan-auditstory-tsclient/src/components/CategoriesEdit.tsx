@@ -1,4 +1,4 @@
-import React, { useState, useEffect, CSSProperties } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Input, Skeleton } from "antd";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import EditColor from "./SimpleEditors/EditColor";
@@ -6,11 +6,6 @@ import Page from "./Page";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
 import { showError } from "../models/Errors";
-
-const navigationButtonStyle: CSSProperties = {
-  fontSize: 20,
-  color: "black",
-};
 
 interface Props {
   apiService: IApiService;
@@ -36,12 +31,9 @@ const CompaniesEdit: React.FC<Props> = ({ apiService, goBack }) => {
   return (
     <Page
       title="Edit categories"
-      backIcon={
-        <CloseOutlined onClick={goBack} style={navigationButtonStyle} />
-      }
+      backIcon={<CloseOutlined onClick={goBack} />}
       extra={
         <CheckOutlined
-          style={navigationButtonStyle}
           onClick={() => {
             form.validateFields().then((values) => {
               form.resetFields();
