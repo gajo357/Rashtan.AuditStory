@@ -22,9 +22,13 @@ const createStoryStyle: CSSProperties = {
   fontSize: 36,
 };
 
-const storyItemStyle: (c: string) => CSSProperties = (color: string) => ({
-  cursor: "pointer",
-  backgroundColor: color,
+const storyItemStyle = (color: string) => ({
+  style: {
+    cursor: "pointer",
+    backgroundColor: color,
+    borderRadius: "20px",
+    margin: 5,
+  } as CSSProperties,
 });
 
 interface Props {
@@ -114,7 +118,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
               );
             return (
               <List.Item
-                style={storyItemStyle(categoryToColorMap(item.category))}
+                {...storyItemStyle(categoryToColorMap(item.category))}
                 onClick={() => openStory(item.id)}
                 actions={item.tags.map((tag) => (
                   <Tag>{tag}</Tag>
