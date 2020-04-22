@@ -16,27 +16,25 @@ const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
       <Form.List name="competitors">
         {(fields, { add, remove }) => (
           <div>
-            <Typography.Text strong style={styles.revenueBlockTitle}>
-              Competitors
-            </Typography.Text>
-            <Row gutter={[2, 2]}>
-              <Col span={8}>
-                <Typography.Text>Name</Typography.Text>
-              </Col>
-              <Col span={6}>
-                <Typography.Text>
-                  Market Cap{" "}
-                  {currency
-                    ? ` (${UnitOfSize[currency.unit]} ${currency.currency})`
-                    : ""}
-                </Typography.Text>
-              </Col>
-              <Col span={6}>
-                <Typography.Text>Market Share (%) </Typography.Text>
-              </Col>
-              <Col span={2}></Col>
-            </Row>
-
+            {fields.length > 0 && (
+              <Row gutter={[2, 2]}>
+                <Col span={8}>
+                  <Typography.Text>Name</Typography.Text>
+                </Col>
+                <Col span={6}>
+                  <Typography.Text>
+                    Market Cap{" "}
+                    {currency
+                      ? ` (${UnitOfSize[currency.unit]} ${currency.currency})`
+                      : ""}
+                  </Typography.Text>
+                </Col>
+                <Col span={6}>
+                  <Typography.Text>Market Share (%) </Typography.Text>
+                </Col>
+                <Col span={2}></Col>
+              </Row>
+            )}
             {fields.map((field) => (
               <Row key={field.name} style={styles.revenueRow}>
                 <Col span={8}>

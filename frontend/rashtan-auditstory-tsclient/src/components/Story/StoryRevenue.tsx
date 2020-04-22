@@ -11,19 +11,20 @@ const createList = (fieldName: string, title: string, streamName: string) => (
   <Form.List name={fieldName}>
     {(fields, { add, remove }) => (
       <div>
-        <Typography.Text strong style={styles.revenueBlockTitle}>
-          Revenue by {title}
-        </Typography.Text>
-        <Row gutter={[2, 2]}>
-          <Col span={12}>
-            <Typography.Text>{streamName}</Typography.Text>
-          </Col>
-          <Col span={8}>
-            <Typography.Text>Percent</Typography.Text>
-          </Col>
-          <Col span={4}></Col>
-        </Row>
-
+        <Typography.Title level={4} style={styles.revenueBlockTitle}>
+          {title}
+        </Typography.Title>
+        {fields.length > 0 && (
+          <Row gutter={[2, 2]}>
+            <Col span={12}>
+              <Typography.Text>{streamName}</Typography.Text>
+            </Col>
+            <Col span={8}>
+              <Typography.Text>Percent</Typography.Text>
+            </Col>
+            <Col span={4}></Col>
+          </Row>
+        )}
         {fields.map((field) => (
           <Row key={field.name} gutter={[2, 2]}>
             <Col span={12}>
@@ -58,7 +59,7 @@ const createList = (fieldName: string, title: string, streamName: string) => (
           type="dashed"
           icon={<PlusOutlined />}
         >
-          Add {title}
+          Add
         </Button>
       </div>
     )}
@@ -76,11 +77,13 @@ const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
         <InputWithCurrency placeholder="Total revenue" currency={currency} />
       </Form.Item>
 
-      {createList("byLocation", "location", "Location (country, state...)")}
-
-      {createList("byClient", "client", "Client name")}
-
-      {createList("byProduct", "product", "Product name")}
+      {createList("byProduct", "What do they make?", "Product name")}
+      {createList(
+        "byLocation",
+        "Where do they make it?",
+        "Location (country, state...)"
+      )}
+      {createList("byClient", "Who do they sell it to?", "Client name")}
 
       <Form.Item label="Comment" name="comment">
         <EditComment />
