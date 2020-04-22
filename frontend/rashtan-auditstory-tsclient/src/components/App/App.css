@@ -1,4 +1,6 @@
-@import "~antd/dist/antd.css";
+/* @import "~antd/dist/antd.css"; */
+@import "~antd/dist/antd.dark.css";
+/* @import "~antd/dist/antd.compact.css"; */
 @import "~react-quill/dist/quill.snow.css";
 
 .root {
@@ -8,7 +10,6 @@
 .App {
   text-align: center;
   position: "fixed";
-  background-color: "rgba(0, 0, 0, 0.3)";
 }
 
 .App-logo {
