@@ -36,17 +36,17 @@ const EditableTable: React.FC<Props> = ({ title, columns, fieldName }) => {
           {fields.length > 0 && (
             <Row gutter={[2, 2]}>
               {columns.map((c) => (
-                <Col span={6} key={c.title}>
+                <Col flex="150px" key={c.title}>
                   <Typography.Text>{c.title}</Typography.Text>
                 </Col>
               ))}
-              <Col span={1}></Col>
+              <Col flex="20px"></Col>
             </Row>
           )}
           {fields.map((field) => (
             <Row key={field.name} gutter={[2, 2]}>
               {columns.map((c) => (
-                <Col span={6}>
+                <Col flex="150px" key={c.title}>
                   <Form.Item
                     {...rowItem}
                     name={[field.name, c.fieldName]}
@@ -56,7 +56,7 @@ const EditableTable: React.FC<Props> = ({ title, columns, fieldName }) => {
                   </Form.Item>
                 </Col>
               ))}
-              <Col span={1}>
+              <Col flex="20px">
                 <MinusCircleOutlined
                   onClick={() => remove(field.name)}
                   {...{ style: styles.checklistDelete }}
