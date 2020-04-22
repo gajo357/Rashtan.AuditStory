@@ -28,7 +28,4 @@ export default {
   checklistUnusedItem: { cursor: "pointer" } as CSSProperties,
   addFlagButton: { marginTop: 10 } as CSSProperties,
   redFlagText: { color: "red", marginBottom: 5 } as CSSProperties,
-  revenueBlockTitle: { display: "block", marginTop: 10 } as CSSProperties,
-  revenueRow: { margin: 2 } as CSSProperties,
-  revenueRowItem: { margin: 0 } as CSSProperties,
 };
