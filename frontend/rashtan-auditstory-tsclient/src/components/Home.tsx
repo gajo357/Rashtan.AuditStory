@@ -5,7 +5,7 @@ import {
   MenuOutlined,
   PlusCircleTwoTone,
 } from "@ant-design/icons";
-import { Drawer, List, Tag } from "antd";
+import { Drawer, List, Tag, Space } from "antd";
 import Page from "./Page";
 import IApiService from "../services/IApiService";
 import { CompanyQuickInfo } from "../models/Company";
@@ -125,10 +125,23 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
                 ))}
               >
                 <List.Item.Meta
-                  title={item.name}
+                  title={
+                    <Space>
+                      {item.name}
+                      {item.star && <EditStar value />}
+                      {item.flags > 0 && (
+                        <span>
+                          <FlagTwoTone
+                            twoToneColor="red"
+                            style={{ marginRight: 2 }}
+                          />
+                          {item.flags}
+                        </span>
+                      )}
+                    </Space>
+                  }
                   description={item.dateEdited.toLocaleString()}
                 />
-                {favs}
               </List.Item>
             );
           }}
