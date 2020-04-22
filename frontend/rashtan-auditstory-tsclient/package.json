@@ -14,6 +14,7 @@
     "@types/react-router-dom": "^5.1.4",
     "antd": "^4.1.4",
     "auth0-js": "^9.13.2",
+    "bizcharts": "^3.5.8",
     "js-levenshtein": "^1.1.6",
     "react": "^16.13.1",
     "react-color": "^2.18.0",
