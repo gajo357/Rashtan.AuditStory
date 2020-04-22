@@ -4,6 +4,7 @@ import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import EditComment from "../SimpleEditors/EditComment";
 import EditableTable from "../EditableTable";
 import BarChart from "../BarChart";
+import PieChart from "../PieChart";
 import { CompanyCompetition, UnitOfSize } from "../../models/Company";
 
 const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
@@ -15,7 +16,14 @@ const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
     currency ? ` (${UnitOfSize[currency.unit]} ${currency.currency})` : ""
   }`;
 
-  const chartData = value.competitors.filter((c) => c && c.name && c.marketCap);
+  const chartDataCap = value.competitors.filter(
+    (c) => c && c.name && c.marketCap
+  );
+  const chartDataShare = value.competitors.filter(
+    (c) => c && c.name && c.marketShare
+  );
+
+  const chartStyle = { style: { width: "400px", display: "inline-block" } };
 
   return (
     <StoryPartForm title="Competition" value={value} onChange={onChange}>
@@ -39,15 +47,26 @@ const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
           },
         ]}
       />
-      {chartData.length > 0 && (
-        <BarChart
-          data={chartData}
-          xField="name"
-          yField="marketCap"
-          xTitle="Name"
-          yTitle={marketCapTitle}
-        />
-      )}
+      <span>
+        {chartDataCap.length > 0 && (
+          <BarChart
+            data={chartDataCap}
+            xField="name"
+            yField="marketCap"
+            xTitle="Name"
+            yTitle={marketCapTitle}
+            {...chartStyle}
+          />
+        )}
+        {chartDataShare.length > 0 && (
+          <PieChart
+            data={chartDataShare}
+            xField="name"
+            yField="marketShare"
+            {...chartStyle}
+          />
+        )}
+      </span>
       <Form.Item label="Industry growth" name="industryGrowth">
         <Input placeholder="Industry growth comment" />
       </Form.Item>
