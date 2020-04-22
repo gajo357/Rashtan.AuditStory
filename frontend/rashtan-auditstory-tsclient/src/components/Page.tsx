@@ -6,7 +6,6 @@ const baseStyle: CSSProperties = {
   display: "flex",
   flex: 1,
   fontSize: 24,
-  color: "white",
 };
 
 const headerStyle = {
@@ -17,7 +16,7 @@ const headerStyle = {
     left: 0,
     height: headerHeight,
     minWidth: "100%",
-    backgroundColor: "#7B1FA2",
+    backgroundColor: "#1f1f1f",
   } as CSSProperties,
 };
 
