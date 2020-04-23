@@ -90,7 +90,6 @@ export interface CompanyStoryMoat {
 
 export interface CompanyCompetition {
   competitors: CompanyCompetitor[];
-  industryGrowth: string;
   comment: string;
 }
 

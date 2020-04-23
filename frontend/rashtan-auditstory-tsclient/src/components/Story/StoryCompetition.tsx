@@ -67,9 +67,6 @@ const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
           />
         )}
       </span>
-      <Form.Item label="Industry growth" name="industryGrowth">
-        <Input placeholder="Industry growth comment" />
-      </Form.Item>
 
       <Form.Item label="Comment" name="comment">
         <EditComment />

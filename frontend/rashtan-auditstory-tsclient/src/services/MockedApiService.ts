@@ -74,7 +74,6 @@ export default class MockedApiService implements IApiService {
     },
     competition: {
       competitors: [],
-      industryGrowth: "",
       comment: "",
     },
     parts: [
