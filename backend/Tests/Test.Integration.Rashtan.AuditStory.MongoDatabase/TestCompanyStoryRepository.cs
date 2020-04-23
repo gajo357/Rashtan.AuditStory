@@ -20,7 +20,7 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
                 Industry = "Semiconductor",
                 MarketCap = 100,
                 Website = "https://www.micron.com/",
-                Tags = new string[0],
+                Tags = new[] { "Semiconductor" },
                 Unit = new CurrencyUnit
                 {
                     Currency = "USD",
@@ -59,14 +59,14 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             Revenue = new Revenue
             {
                 TotalRevenue = 0,
-                ByLocation = new RevenueItem[0],
-                ByClient = new RevenueItem[0],
-                ByProduct = new RevenueItem[0],
+                ByLocation = new[] { new RevenueItem("China", 13, 40) },
+                ByClient = new[] { new RevenueItem("Huawei", 13, 40) },
+                ByProduct = new [] { new RevenueItem("DRAM", 45, 30) },
                 Comment = ""
             },
             Competition = new Competition
             {
-                Competitors = new Competitor[0],
+                Competitors = new[] { new Competitor("Intel", 250, 25) },
                 Comment = ""
             },
             Parts = new CustomPart[] { 
@@ -84,7 +84,7 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             {
                 Star = true,
                 Category = "Wonderful",
-                Flags = new string[0],
+                Flags = new [] { "Simply horrible", "Too much debt" },
                 Comment = ""
             }
         };
