@@ -23,7 +23,7 @@ type Verdict = {
 [<CLIMutable>]
 type RevenueItem = {
     Stream: string
-    Percent: double
+    Value: double
 }
 
 [<CLIMutable>]
@@ -45,7 +45,6 @@ type Competitor = {
 [<CLIMutable>]
 type Competition = {
     Competitors: Competitor[]
-    IndustryGrowth: string
     Comment: string
 }
 
@@ -160,7 +159,6 @@ module Empty =
               }
             Competition = {
                 Competitors = [||]
-                IndustryGrowth = ""
                 Comment = ""
               }
 

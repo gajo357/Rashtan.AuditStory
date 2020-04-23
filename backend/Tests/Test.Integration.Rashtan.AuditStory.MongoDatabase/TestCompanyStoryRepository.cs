@@ -67,7 +67,6 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             Competition = new Competition
             {
                 Competitors = new Competitor[0],
-                IndustryGrowth = "",
                 Comment = ""
             },
             Parts = new CustomPart[] { 
