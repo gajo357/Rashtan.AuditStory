@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route, RouteProps, Redirect } from "react-router-dom";
-import { Typography, Button } from "antd";
+import { Typography, Button, Spin } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 import { History } from "history";
 import "./App.css";
@@ -29,14 +29,10 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
       .handleAuthentication()
       .then(sessionStarted(history))
       .catch(showError);
-    return (
-      <div>
-        <p>Starting session...</p>
-      </div>
-    );
+    return <Spin spinning tip="Starting session..." />;
   };
 
-  const CustomRoute = (props: RouteProps) => {
+  const AuthenticatedRoute = (props: RouteProps) => {
     if (authService.isAuthenticated()) {
       return <Route {...props} />;
     }
@@ -63,12 +59,12 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           </div>
         </Route>
 
-        <CustomRoute exact path="/terms">
+        <AuthenticatedRoute exact path="/terms">
           <Terms />
           <Footer />
-        </CustomRoute>
+        </AuthenticatedRoute>
 
-        <CustomRoute
+        <AuthenticatedRoute
           exact
           path="/"
           render={({ history }) => (
@@ -80,7 +76,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           )}
         />
 
-        <CustomRoute
+        <AuthenticatedRoute
           exact
           path="/story/:id"
           render={({ match, history }) => (
@@ -91,7 +87,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             />
           )}
         />
-        <CustomRoute
+        <AuthenticatedRoute
           exact
           path="/account"
           render={({ history }) => (
@@ -101,7 +97,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             />
           )}
         />
-        <CustomRoute
+        <AuthenticatedRoute
           exact
           path="/editCategories"
           render={({ history }) => (
@@ -111,7 +107,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             />
           )}
         />
-        <CustomRoute component={() => <Redirect to="/" />} />
+        <AuthenticatedRoute component={() => <Redirect to="/" />} />
       </Switch>
     </div>
   );
