@@ -6,6 +6,7 @@ import { UserInfo } from "../models/UserInfo";
 import { Country } from "../models/Country";
 import IApiService from "../services/IApiService";
 import { showError } from "../models/Errors";
+import stringMatch from "../models/stringMatch";
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -85,20 +86,11 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
               showSearch
               loading={countries.length === 0}
               filterOption={(inputValue, option) => {
-                if (!option) return false;
-                if (
-                  (option.title as string)
-                    .toLowerCase()
-                    .includes(inputValue.toLowerCase())
-                )
-                  return true;
-                if (
-                  (option.value as string)
-                    .toLowerCase()
-                    .includes(inputValue.toLowerCase())
-                )
-                  return true;
-                return false;
+                const search = stringMatch(inputValue);
+                return (
+                  search(option?.title as string) ||
+                  search(option?.value as string)
+                );
               }}
             >
               {countries.map((c) => (

@@ -2,6 +2,7 @@ import React from "react";
 import { Select, Avatar, Input } from "antd";
 import { CurrencyUnit, UnitOfSize } from "../../models/Company";
 import { Currency } from "../../models/Country";
+import stringMatch from "../../models/stringMatch";
 
 interface Props {
   value?: CurrencyUnit;
@@ -17,20 +18,10 @@ const CurrencyUnitEdit: React.FC<Props> = ({ value, onChange, currencies }) => {
         showSearch
         loading={currencies.length === 0}
         filterOption={(inputValue, option) => {
-          if (!option || !inputValue) return true;
-          if (
-            (option.title as string)
-              .toLowerCase()
-              .includes(inputValue.toLowerCase())
-          )
-            return true;
-          if (
-            (option.value as string)
-              .toLowerCase()
-              .includes(inputValue.toLowerCase())
-          )
-            return true;
-          return false;
+          const search = stringMatch(inputValue);
+          return (
+            search(option?.title as string) || search(option?.value as string)
+          );
         }}
         value={value?.currency}
         onChange={(v) =>
