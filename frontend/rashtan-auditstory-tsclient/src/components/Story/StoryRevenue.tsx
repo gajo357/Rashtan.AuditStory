@@ -5,6 +5,7 @@ import InputWithCurrency from "./InputWithCurrency";
 import EditComment from "../SimpleEditors/EditComment";
 import EditableTable from "../EditableTable";
 import PieChart from "../PieChart";
+import BarChart from "../BarChart";
 import { CompanyStoryRevenue, Revenue } from "../../models/Company";
 
 const createList = (fieldName: string, title: string, streamName: string) => (
@@ -18,19 +19,55 @@ const createList = (fieldName: string, title: string, streamName: string) => (
         editor: <Input placeholder={streamName} />,
       },
       {
-        title: "Value",
+        title: "Amount or percent",
         fieldName: "value",
         editor: <InputNumber placeholder="Value" />,
+      },
+      {
+        title: "Profitability",
+        fieldName: "profit",
+        editor: <InputNumber placeholder="Profit" />,
       },
     ]}
   />
 );
 
-const createPieChart = (data: Revenue[]) => {
+const chartStyle = { style: { display: "inline-block" } };
+const createCharts = (data: Revenue[], streamName: string) => {
+  return (
+    <span>
+      {createValueChart(data)}
+      {createProfitChart(data, streamName)}
+    </span>
+  );
+};
+
+const createValueChart = (data: Revenue[]) => {
   const filtered = data.filter((c) => c && c.stream && c.value);
   return (
     filtered.length > 0 && (
-      <PieChart data={filtered} xField="stream" yField="value" />
+      <PieChart
+        data={filtered}
+        xField="stream"
+        yField="value"
+        {...chartStyle}
+      />
+    )
+  );
+};
+
+const createProfitChart = (data: Revenue[], streamName: string) => {
+  const filtered = data.filter((c) => c && c.stream && c.profit);
+  return (
+    filtered.length > 0 && (
+      <BarChart
+        data={filtered}
+        xField="stream"
+        yField="profit"
+        xTitle={streamName}
+        yTitle="Profitability"
+        {...chartStyle}
+      />
     )
   );
 };
@@ -47,11 +84,11 @@ const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
       </Form.Item>
 
       {createList("byProduct", "What do they make?", "Product name")}
-      {createPieChart(value.byProduct)}
-      {createList("byLocation", "Where do they sell it?", "Ccountry, state...")}
-      {createPieChart(value.byLocation)}
+      {createCharts(value.byProduct, "Product name")}
+      {createList("byLocation", "Where do they sell it?", "Country, state...")}
+      {createCharts(value.byLocation, "Country, state...")}
       {createList("byClient", "Who do they sell it to?", "Client name")}
-      {createPieChart(value.byClient)}
+      {createCharts(value.byClient, "Client name")}
 
       <Form.Item label="Comment" name="comment">
         <EditComment />
