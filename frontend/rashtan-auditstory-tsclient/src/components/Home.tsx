@@ -5,7 +5,7 @@ import {
   MenuOutlined,
   PlusCircleTwoTone,
 } from "@ant-design/icons";
-import { Drawer, List, Tag, Space } from "antd";
+import { Drawer, List, Tag, Space, Input } from "antd";
 import Page from "./Page";
 import IApiService from "../services/IApiService";
 import { CompanyQuickInfo } from "../models/Company";
@@ -14,6 +14,7 @@ import Category from "../models/Category";
 import MainMenu, { CompanyFilter, createCategoryFilter } from "./MainMenu";
 import AddUniqueValue from "./AddUniqueValue";
 import EditStar from "./SimpleEditors/EditStar";
+import stringMatch from "../models/stringMatch";
 
 const createStoryStyle: CSSProperties = {
   position: "fixed",
@@ -44,6 +45,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
   const [filter, setFilter] = useState<CompanyFilter | undefined>();
   const [companies, setCompanies] = useState<CompanyQuickInfo[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -65,6 +67,16 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
 
   const openStory = (id: string) => {
     history.push(`/story/${id}`);
+  };
+
+  const companySearchFilter = (c: CompanyQuickInfo) => {
+    const localMatch = stringMatch(search);
+
+    return (
+      localMatch(c.name) ||
+      c.tags.find(localMatch) !== undefined ||
+      localMatch(c.category)
+    );
   };
 
   return (
@@ -100,52 +112,65 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         title={filter ? filter.title : "All stories"}
         backIcon={<MenuOutlined onClick={() => setOpen(true)}></MenuOutlined>}
       >
-        <List
-          loading={loading}
-          itemLayout="vertical"
-          dataSource={companies.filter(
-            (company) => !filter || filter.predicate(company)
-          )}
-          renderItem={(item: CompanyQuickInfo) => {
-            const favs = [];
-            if (item.star) favs.push(<EditStar value key="star" />);
-            if (item.flags)
-              favs.push(
-                <span key="flag" style={{ marginRight: 10 }}>
-                  <FlagTwoTone twoToneColor="red" style={{ marginRight: 8 }} />
-                  {item.flags}
-                </span>
+        <div>
+          <Input.Search
+            onChange={(e) => setSearch(e ? e.target.value : "")}
+            size="large"
+            enterButton
+            {...{ style: { marginBottom: 20 } }}
+          />
+          <List
+            loading={loading}
+            itemLayout="vertical"
+            dataSource={companies.filter(
+              (company) =>
+                (!filter || filter.predicate(company)) &&
+                companySearchFilter(company)
+            )}
+            renderItem={(item: CompanyQuickInfo) => {
+              const favs = [];
+              if (item.star) favs.push(<EditStar value key="star" />);
+              if (item.flags)
+                favs.push(
+                  <span key="flag" style={{ marginRight: 10 }}>
+                    <FlagTwoTone
+                      twoToneColor="red"
+                      style={{ marginRight: 8 }}
+                    />
+                    {item.flags}
+                  </span>
+                );
+              return (
+                <List.Item
+                  {...storyItemStyle(categoryToColorMap(item.category))}
+                  onClick={() => openStory(item.id)}
+                  actions={item.tags.map((tag) => (
+                    <Tag>{tag}</Tag>
+                  ))}
+                >
+                  <List.Item.Meta
+                    title={
+                      <Space>
+                        {item.name}
+                        {item.star && <EditStar value />}
+                        {item.flags > 0 && (
+                          <span>
+                            <FlagTwoTone
+                              twoToneColor="red"
+                              style={{ marginRight: 2 }}
+                            />
+                            {item.flags}
+                          </span>
+                        )}
+                      </Space>
+                    }
+                    description={item.dateEdited.toLocaleString()}
+                  />
+                </List.Item>
               );
-            return (
-              <List.Item
-                {...storyItemStyle(categoryToColorMap(item.category))}
-                onClick={() => openStory(item.id)}
-                actions={item.tags.map((tag) => (
-                  <Tag>{tag}</Tag>
-                ))}
-              >
-                <List.Item.Meta
-                  title={
-                    <Space>
-                      {item.name}
-                      {item.star && <EditStar value />}
-                      {item.flags > 0 && (
-                        <span>
-                          <FlagTwoTone
-                            twoToneColor="red"
-                            style={{ marginRight: 2 }}
-                          />
-                          {item.flags}
-                        </span>
-                      )}
-                    </Space>
-                  }
-                  description={item.dateEdited.toLocaleString()}
-                />
-              </List.Item>
-            );
-          }}
-        ></List>
+            }}
+          />
+        </div>
       </Page>
 
       <AddUniqueValue
@@ -165,7 +190,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
       />
 
       <PlusCircleTwoTone
-        style={createStoryStyle}
+        {...{ style: createStoryStyle }}
         onClick={() => setCreateStoryVisible(true)}
       />
     </div>
