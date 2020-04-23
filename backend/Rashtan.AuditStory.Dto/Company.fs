@@ -24,6 +24,7 @@ type Verdict = {
 type RevenueItem = {
     Stream: string
     Value: double
+    Profit: double
 }
 
 [<CLIMutable>]
