@@ -110,7 +110,7 @@ export interface CompanyStoryRevenue {
 
 export interface Revenue {
   stream: string;
-  percent: number;
+  value: number;
 }
 
 export interface CompanyVerdict {

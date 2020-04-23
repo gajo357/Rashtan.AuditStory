@@ -4,7 +4,8 @@ import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import InputWithCurrency from "./InputWithCurrency";
 import EditComment from "../SimpleEditors/EditComment";
 import EditableTable from "../EditableTable";
-import { CompanyStoryRevenue } from "../../models/Company";
+import PieChart from "../PieChart";
+import { CompanyStoryRevenue, Revenue } from "../../models/Company";
 
 const createList = (fieldName: string, title: string, streamName: string) => (
   <EditableTable
@@ -17,13 +18,22 @@ const createList = (fieldName: string, title: string, streamName: string) => (
         editor: <Input placeholder={streamName} />,
       },
       {
-        title: "Percent",
-        fieldName: "percent",
-        editor: <InputNumber placeholder="Percent" />,
+        title: "Value",
+        fieldName: "value",
+        editor: <InputNumber placeholder="Value" />,
       },
     ]}
   />
 );
+
+const createPieChart = (data: Revenue[]) => {
+  const filtered = data.filter((c) => c && c.stream && c.value);
+  return (
+    filtered.length > 0 && (
+      <PieChart data={filtered} xField="stream" yField="value" />
+    )
+  );
+};
 
 const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
   value,
@@ -37,12 +47,11 @@ const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
       </Form.Item>
 
       {createList("byProduct", "What do they make?", "Product name")}
-      {createList(
-        "byLocation",
-        "Where do they make it?",
-        "Location (country, state...)"
-      )}
+      {createPieChart(value.byProduct)}
+      {createList("byLocation", "Where do they sell it?", "Ccountry, state...")}
+      {createPieChart(value.byLocation)}
       {createList("byClient", "Who do they sell it to?", "Client name")}
+      {createPieChart(value.byClient)}
 
       <Form.Item label="Comment" name="comment">
         <EditComment />

@@ -23,7 +23,7 @@ const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
     (c) => c && c.name && c.marketShare
   );
 
-  const chartStyle = { style: { width: "400px", display: "inline-block" } };
+  const chartStyle = { style: { display: "inline-block" } };
 
   return (
     <StoryPartForm title="Competition" value={value} onChange={onChange}>

@@ -12,7 +12,7 @@ interface Props {
 const PieChart: React.FC<Props> = ({ data, xField, yField, ...rest }) => {
   const colorSet = createColorSet(data, xField);
   return (
-    <Chart data={data} forceFit height={300} {...rest}>
+    <Chart data={data} forceFit height={300} width={400} {...rest}>
       <Coord type="theta" />
       <Tooltip showTitle={false} />
       <Geom
