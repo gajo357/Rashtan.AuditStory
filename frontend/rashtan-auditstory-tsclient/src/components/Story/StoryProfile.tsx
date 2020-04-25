@@ -22,7 +22,7 @@ const StoryProfile: React.FC<StoryPartPropsWithExtraData<
         name="tags"
         rules={[{ required: false }]}
       >
-        <Select mode="tags" />
+        <Select mode="tags" placeholder="Make your own custom tags" />
       </Form.Item>
 
       <Form.Item
