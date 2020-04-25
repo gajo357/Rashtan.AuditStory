@@ -23,6 +23,10 @@ const createStoryStyle: CSSProperties = {
   fontSize: 36,
 };
 
+const searchStyle = {
+  style: { margin: "0 auto", marginBottom: 20, maxWidth: 600 } as CSSProperties,
+};
+
 const storyItemStyle = (color: string) => ({
   style: {
     cursor: "pointer",
@@ -117,7 +121,8 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
             onChange={(e) => setSearch(e ? e.target.value : "")}
             size="large"
             enterButton
-            {...{ style: { marginBottom: 20 } }}
+            {...searchStyle}
+            placeholder="Search by company name, tags or category"
           />
           <List
             loading={loading}
