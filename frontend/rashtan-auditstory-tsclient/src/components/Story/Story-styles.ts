@@ -19,7 +19,12 @@ export default {
     marginLeft: 5,
     fontSize: "24px",
   } as CSSProperties,
-  checklistQuestion: { width: "50%" } as CSSProperties,
+  checklistQuestion: {
+    width: "50%",
+    borderStyle: "solid",
+    borderColor: "white",
+    borderWidth: 1,
+  } as CSSProperties,
   checklistUnusedItem: { cursor: "pointer" } as CSSProperties,
   addFlagButton: { marginTop: 10 } as CSSProperties,
   redFlagText: { color: "red", marginBottom: 5 } as CSSProperties,

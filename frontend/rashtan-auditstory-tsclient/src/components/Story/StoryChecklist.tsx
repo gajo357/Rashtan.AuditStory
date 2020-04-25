@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Input, Rate, Button, List, Form, Typography } from "antd";
-import { ChecklistItem } from "../../models/Company";
 import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
+import AddUniqueValue from "../AddUniqueValue";
+import ReadOnlyTextEdit from "../SimpleEditors/ReadOnlyTextEdit";
 import {
   addElement,
   replaceElement,
   removeElement,
 } from "../../models/ArrayUpdate";
+import { ChecklistItem } from "../../models/Company";
 import styles from "./Story-styles";
-import AddUniqueValue from "../AddUniqueValue";
 
 const StoryChecklist: React.FC<StoryPartPropsWithExtraData<
   ChecklistItem[],
@@ -44,11 +45,7 @@ const StoryChecklist: React.FC<StoryPartPropsWithExtraData<
       {value.map((item) => (
         <Input.Group compact key={item.question}>
           <Form.Item style={styles.checklistQuestion}>
-            <Input
-              disabled
-              placeholder="Checklist item"
-              defaultValue={item.question}
-            />
+            <ReadOnlyTextEdit value={item.question} />
           </Form.Item>
 
           <Form.Item>
