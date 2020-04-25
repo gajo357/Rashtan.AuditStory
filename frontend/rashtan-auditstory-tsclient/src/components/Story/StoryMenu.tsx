@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import { Dropdown, Menu, Modal } from "antd";
-import {
-  PlusCircleOutlined,
-  DeleteOutlined,
-  MoreOutlined,
-} from "@ant-design/icons";
+import { Modal, Space, Tooltip } from "antd";
+import { DeleteOutlined, SisternodeOutlined } from "@ant-design/icons";
 import AddUniqueValue from "../AddUniqueValue";
 import { CompanyStory } from "../../models/Company";
-import styles from "./Story-styles";
 
 interface Props {
   company: CompanyStory;
@@ -24,34 +19,6 @@ const StoryMenu: React.FC<Props> = ({
 }) => {
   const [customPartModal, setCustomPartModal] = useState(false);
 
-  const menu = (
-    <Menu selectable={false}>
-      <Menu.Item
-        onClick={() => {
-          setCustomPartModal(true);
-        }}
-        disabled={saving}
-      >
-        <PlusCircleOutlined />
-        Custom part
-      </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          Modal.confirm({
-            title: "Are you sure delete this story?",
-            onOk() {
-              remove();
-            },
-          });
-        }}
-        disabled={saving}
-      >
-        <DeleteOutlined />
-        Delete
-      </Menu.Item>
-    </Menu>
-  );
-
   return (
     <>
       <AddUniqueValue
@@ -64,9 +31,29 @@ const StoryMenu: React.FC<Props> = ({
         }}
         onCancel={() => setCustomPartModal(false)}
       />
-      <Dropdown key="more" overlay={menu}>
-        <MoreOutlined style={styles.moreButton} />
-      </Dropdown>
+      <Space style={{ position: "relative", top: -7 }}>
+        <Tooltip title="Add custom chapter">
+          <SisternodeOutlined
+            onClick={() => {
+              setCustomPartModal(true);
+            }}
+          />
+        </Tooltip>
+        <Tooltip title="Delete story">
+          <DeleteOutlined
+            onClick={() => {
+              !saving &&
+                Modal.confirm({
+                  title: "Are you sure delete this story?",
+                  onOk() {
+                    remove();
+                  },
+                });
+            }}
+            spin={saving}
+          />
+        </Tooltip>
+      </Space>
     </>
   );
 };

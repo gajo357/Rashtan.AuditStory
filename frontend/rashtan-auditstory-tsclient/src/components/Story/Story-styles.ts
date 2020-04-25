@@ -7,11 +7,6 @@ export default {
     textAlign: "left",
   } as CSSProperties,
   tabs: {} as CSSProperties,
-  moreButton: {
-    border: "none",
-    padding: 0,
-    backgroundColor: "transparent",
-  } as CSSProperties,
   checklistRating: {
     marginLeft: 10,
     position: "relative",
