@@ -51,6 +51,7 @@ const backIconStyle = {
     ...iconStyle,
     justifyContent: "flex-start",
     paddingLeft: 5,
+    maxWidth: 40,
   } as CSSProperties,
 };
 const rightIconStyle = {
