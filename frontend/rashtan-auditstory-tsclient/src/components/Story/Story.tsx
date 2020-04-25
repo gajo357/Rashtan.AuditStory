@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
 import { Tabs } from "antd";
+import { ArrowLeftOutlined, CheckOutlined } from "@ant-design/icons";
 import IApiService from "../../services/IApiService";
 import {
   CompanyStory,
@@ -26,8 +27,6 @@ import {
 import Category from "../../models/Category";
 import { Currency } from "../../models/Country";
 import styles from "./Story-styles";
-import useInterval from "../../models/useInterval";
-import { ArrowLeftOutlined } from "@ant-design/icons";
 
 interface Props {
   apiService: IApiService;
@@ -70,7 +69,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
     if (curr) setCurrency({ ...company.profile.unit, currency: curr.symbol });
   }, [currencies, company]);
 
-  useInterval(() => {
+  const save = () => {
     if (company && unsavedChanges && !saving) {
       console.log(company);
       setUnsavedChanges(false);
@@ -85,7 +84,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
         })
         .finally(() => setSaving(false));
     }
-  }, 5000);
+  };
 
   if (!id) return <Redirect to="/" />;
 
@@ -104,7 +103,13 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
         <Page
           loading={!company}
           title={company ? company.profile.name : "Story"}
-          backIcon={<ArrowLeftOutlined onClick={goHome} />}
+          backIcon={
+            unsavedChanges ? (
+              <CheckOutlined onClick={save} spin={saving} />
+            ) : (
+              <ArrowLeftOutlined onClick={goHome} />
+            )
+          }
           extra={
             company && (
               <StoryMenu
