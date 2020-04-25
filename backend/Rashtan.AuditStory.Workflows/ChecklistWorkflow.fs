@@ -8,7 +8,7 @@ type ChecklistWorkflow(repository: IChecklistRepository) =
     member __.GetChecklistItemsAsync() = 
         asyncResult {
            let! countries = repository.GetChecklistItemsAsync() |> Async.AwaitTask
-           return countries
+           return countries |> Seq.truncate 10
         } |> CsResult.fromAsyncResult
 
     member __.SaveItemsAsync(items) = 
