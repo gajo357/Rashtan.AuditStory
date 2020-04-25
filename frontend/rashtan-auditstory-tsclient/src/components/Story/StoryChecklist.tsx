@@ -84,13 +84,11 @@ const StoryChecklist: React.FC<StoryPartPropsWithExtraData<
 
       {unusedItems && unusedItems.length > 0 && (
         <List
+          style={{ marginTop: 50 }}
           header={
-            <Typography.Title level={4}>Possible questions</Typography.Title>
+            <Typography.Title level={4}>Top 10 (click to add)</Typography.Title>
           }
           itemLayout="vertical"
-          pagination={{
-            pageSize: 3,
-          }}
           dataSource={unusedItems}
           renderItem={(item) => (
             <List.Item
