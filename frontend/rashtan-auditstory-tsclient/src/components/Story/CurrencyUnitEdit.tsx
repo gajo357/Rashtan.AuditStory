@@ -15,6 +15,7 @@ const CurrencyUnitEdit: React.FC<Props> = ({ value, onChange, currencies }) => {
     <Input.Group compact>
       <Select
         style={{ width: "70%" }}
+        placeholder="Select currency"
         showSearch
         loading={currencies.length === 0}
         filterOption={(inputValue, option) => {
@@ -47,6 +48,7 @@ const CurrencyUnitEdit: React.FC<Props> = ({ value, onChange, currencies }) => {
       </Select>
       <Select
         style={{ width: "30%" }}
+        placeholder="Select unit"
         value={value?.unit}
         onChange={(v) =>
           onChange &&
