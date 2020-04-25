@@ -20,7 +20,7 @@ const createStoryStyle: CSSProperties = {
   position: "fixed",
   bottom: 20,
   right: 20,
-  fontSize: 36,
+  fontSize: 50,
 };
 
 const searchStyle = {
@@ -197,6 +197,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
       <PlusCircleTwoTone
         {...{ style: createStoryStyle }}
         onClick={() => setCreateStoryVisible(true)}
+        twoToneColor="#388E3C"
       />
     </div>
   );
