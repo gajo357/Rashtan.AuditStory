@@ -62,25 +62,23 @@ const MainMenu: React.FC<Props> = ({
         }
       />
       <Menu selectable={false} mode="vertical">
-        <Menu.ItemGroup>
-          <Menu.Item onClick={() => setFilter(undefined)}>
-            <UnorderedListOutlined />
-            All stories
-          </Menu.Item>
-          <Menu.Item
-            onClick={() =>
-              setFilter({ title: "My favourites", predicate: (c) => c.star })
-            }
-          >
-            <StarOutlined />
-            My favourites
-          </Menu.Item>
-        </Menu.ItemGroup>
+        <Menu.Item onClick={() => setFilter(undefined)}>
+          <UnorderedListOutlined />
+          All stories
+        </Menu.Item>
+        <Menu.Item
+          onClick={() =>
+            setFilter({ title: "My favourites", predicate: (c) => c.star })
+          }
+        >
+          <StarOutlined />
+          My favourites
+        </Menu.Item>
         <Menu.Divider></Menu.Divider>
         <Menu.ItemGroup
           title={
             <Row>
-              <Col flex="auto">Categories</Col>
+              <Col flex="auto">CATEGORIES</Col>
               <Col flex="30px">
                 <Button
                   style={{ position: "relative", top: -5 }}
@@ -107,16 +105,14 @@ const MainMenu: React.FC<Props> = ({
           </Menu.Item>
         </Menu.ItemGroup>
         <Menu.Divider></Menu.Divider>
-        <Menu.ItemGroup>
-          <Menu.Item onClick={() => history.push("/account")}>
-            <UserOutlined />
-            Account
-          </Menu.Item>
-          <Menu.Item onClick={logOut}>
-            <LogoutOutlined />
-            LOG OUT
-          </Menu.Item>
-        </Menu.ItemGroup>
+        <Menu.Item onClick={() => history.push("/account")}>
+          <UserOutlined />
+          Account
+        </Menu.Item>
+        <Menu.Item onClick={logOut}>
+          <LogoutOutlined />
+          LOG OUT
+        </Menu.Item>
       </Menu>
     </div>
   );
