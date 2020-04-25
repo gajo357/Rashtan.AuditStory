@@ -85,9 +85,17 @@ const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
 
       {createList("byProduct", "What do they make?", "Product name")}
       {createCharts(value.byProduct, "Product name")}
-      {createList("byLocation", "Where do they sell it?", "Country, state...")}
+      {createList(
+        "byLocation",
+        "Where do they sell their products?",
+        "Country, state..."
+      )}
       {createCharts(value.byLocation, "Country, state...")}
-      {createList("byClient", "Who do they sell it to?", "Client name")}
+      {createList(
+        "byClient",
+        "Who do they sell their products to?",
+        "Client name"
+      )}
       {createCharts(value.byClient, "Client name")}
 
       <Form.Item label="Comment" name="comment">
