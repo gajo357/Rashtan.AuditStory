@@ -1,4 +1,5 @@
 import React, { CSSProperties } from "react";
+import { Spin } from "antd";
 
 const headerHeight = 50;
 
@@ -67,13 +68,24 @@ interface Props {
   title: string;
   extra?: React.ReactNode;
 
+  loading: boolean;
   children: React.ReactNode;
 }
 
-const Page: React.FC<Props> = ({ backIcon, title, extra, children }) => {
+const Page: React.FC<Props> = ({
+  backIcon,
+  title,
+  extra,
+  loading,
+  children,
+}) => {
   return (
     <div>
-      <div {...bodyStyle}>{children}</div>
+      <div {...bodyStyle}>
+        <Spin spinning={loading} tip="Loading" size="large">
+          {children}
+        </Spin>
+      </div>
       <div {...headerStyle}>
         <div {...backIconStyle}>{backIcon}</div>
         <div {...titleStyle}>{title}</div>

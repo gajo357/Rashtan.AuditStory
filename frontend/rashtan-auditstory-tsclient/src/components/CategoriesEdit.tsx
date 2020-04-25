@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Row, Col, Input, Skeleton } from "antd";
+import { Form, Row, Col, Input } from "antd";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import EditColor from "./SimpleEditors/EditColor";
 import Page from "./Page";
@@ -31,23 +31,25 @@ const CompaniesEdit: React.FC<Props> = ({ apiService, goBack }) => {
   return (
     <Page
       title="Edit categories"
+      loading={!categories}
       backIcon={<CloseOutlined onClick={goBack} />}
       extra={
-        <CheckOutlined
-          onClick={() => {
-            form.validateFields().then((values) => {
-              form.resetFields();
-              const c = values as Categories;
-              apiService
-                .saveCategories(c.categories)
-                .then(goBack)
-                .catch(showError);
-            });
-          }}
-        />
+        categories && (
+          <CheckOutlined
+            onClick={() => {
+              form.validateFields().then((values) => {
+                const c = values as Categories;
+                apiService
+                  .saveCategories(c.categories)
+                  .then(goBack)
+                  .catch(showError);
+              });
+            }}
+          />
+        )
       }
     >
-      <Skeleton active loading={!categories}>
+      {categories && (
         <Form form={form} initialValues={categories}>
           <Form.List name="categories">
             {(fields, { remove }) => (
@@ -79,7 +81,7 @@ const CompaniesEdit: React.FC<Props> = ({ apiService, goBack }) => {
             )}
           </Form.List>
         </Form>
-      </Skeleton>
+      )}
     </Page>
   );
 };

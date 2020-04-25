@@ -113,6 +113,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         />
       </Drawer>
       <Page
+        loading={loading}
         title={filter ? filter.title : "All stories"}
         backIcon={<MenuOutlined onClick={() => setOpen(true)}></MenuOutlined>}
       >
@@ -125,7 +126,6 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
             placeholder="Search by company name, tags or category"
           />
           <List
-            loading={loading}
             itemLayout="vertical"
             dataSource={companies.filter(
               (company) =>

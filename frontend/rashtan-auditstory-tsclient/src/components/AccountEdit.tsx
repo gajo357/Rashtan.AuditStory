@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { UserOutlined, CloseOutlined, CheckOutlined } from "@ant-design/icons";
-import { Form, Input, Skeleton, Select, Avatar } from "antd";
+import { Form, Input, Select, Avatar } from "antd";
 import Page from "./Page";
 import { UserInfo } from "../models/UserInfo";
 import { Country } from "../models/Country";
@@ -44,6 +44,7 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
   return (
     <Page
       title="My account"
+      loading={!userProfile}
       backIcon={<CloseOutlined onClick={goBack} />}
       extra={
         <CheckOutlined
@@ -57,60 +58,59 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
         />
       }
     >
-      <Skeleton loading={!userProfile} active>
-        <Form
-          {...formItemLayout}
-          form={form}
-          initialValues={userProfile}
-          layout="horizontal"
+      <Form
+        {...formItemLayout}
+        form={form}
+        initialValues={userProfile}
+        layout="horizontal"
+      >
+        <Form.Item
+          label="Username"
+          name="name"
+          rules={[{ required: true, message: "Please input your username!" }]}
         >
-          <Form.Item
-            label="Username"
-            name="name"
-            rules={[{ required: true, message: "Please input your username!" }]}
+          <Input
+            autoComplete="fname"
+            prefix={<UserOutlined />}
+            placeholder="Username"
+          />
+        </Form.Item>
+        <Form.Item label="City" name="city">
+          <Input autoComplete="billing address-level2" placeholder="City" />
+        </Form.Item>
+        <Form.Item label="State/Province/Region" name="state">
+          <Input placeholder="State/Province/Region" />
+        </Form.Item>
+        <Form.Item label="Country" name="country">
+          <Select
+            style={{ textAlign: "left" }}
+            showSearch
+            loading={countries.length === 0}
+            filterOption={(inputValue, option) => {
+              const search = stringMatch(inputValue);
+              return (
+                search(option?.title as string) ||
+                search(option?.value as string)
+              );
+            }}
           >
-            <Input
-              autoComplete="fname"
-              prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
-              placeholder="Username"
-            />
-          </Form.Item>
-          <Form.Item label="City" name="city">
-            <Input autoComplete="billing address-level2" placeholder="City" />
-          </Form.Item>
-          <Form.Item label="State/Province/Region" name="state">
-            <Input placeholder="State/Province/Region" />
-          </Form.Item>
-          <Form.Item label="Country" name="country">
-            <Select
-              showSearch
-              loading={countries.length === 0}
-              filterOption={(inputValue, option) => {
-                const search = stringMatch(inputValue);
-                return (
-                  search(option?.title as string) ||
-                  search(option?.value as string)
-                );
-              }}
-            >
-              {countries.map((c) => (
-                <Select.Option
-                  value={c.alpha3Code}
-                  key={c.alpha3Code}
-                  title={c.name}
-                >
-                  <Avatar
-                    src={c.flag}
-                    size={20}
-                    style={{ position: "relative", top: -2, marginRight: 10 }}
-                  />
-                  {c.name} ({c.alpha3Code})
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </Form>
-      </Skeleton>
+            {countries.map((c) => (
+              <Select.Option
+                value={c.alpha3Code}
+                key={c.alpha3Code}
+                title={c.name}
+              >
+                <Avatar
+                  src={c.flag}
+                  size={20}
+                  style={{ position: "relative", top: -2, marginRight: 10 }}
+                />
+                {c.name} ({c.alpha3Code})
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Form>
     </Page>
   );
 };
