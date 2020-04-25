@@ -42,6 +42,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [currencies, setCurrencies] = React.useState<Currency[]>([]);
   const [currency, setCurrency] = React.useState<CurrencyUnit>();
+  const [activeKey, setActiveKey] = useState("1");
 
   useEffect(() => {
     if (!id) return;
@@ -93,6 +94,8 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
     setUnsavedChanges(true);
   };
 
+  const customPartKey = (index: number) => (100 + index).toString();
+
   return (
     <>
       <Prompt
@@ -120,6 +123,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                     content: "",
                   });
                   updateCompany({ ...company, parts: parts });
+                  setActiveKey(customPartKey(company.parts.length));
                 }}
                 remove={() =>
                   apiService
@@ -133,7 +137,13 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
           }
         >
           {company && (
-            <Tabs tabPosition="right" style={styles.tabs} size="small">
+            <Tabs
+              tabPosition="right"
+              style={styles.tabs}
+              size="small"
+              activeKey={activeKey}
+              onChange={setActiveKey}
+            >
               <Tabs.TabPane tab="Profile" key="1">
                 <StoryProfile
                   value={{ ...company.profile }}
@@ -176,13 +186,14 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
               </Tabs.TabPane>
 
               {company.parts.map((part, i) => (
-                <Tabs.TabPane tab={part.title} key={(100 + i).toString()}>
+                <Tabs.TabPane tab={part.title} key={customPartKey(i)}>
                   <StoryCustomPart
                     key={part.title}
                     data={part}
                     delete={() => {
                       const c = removeElement(company.parts, part);
                       updateCompany({ ...company, parts: c });
+                      setActiveKey("1");
                     }}
                     dataChanged={(p) => {
                       const c = replaceElement(company.parts, part, p);
