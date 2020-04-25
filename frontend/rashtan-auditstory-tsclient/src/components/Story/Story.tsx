@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
-import { Tabs } from "antd";
+import { Tabs, Button } from "antd";
 import { ArrowLeftOutlined, CheckOutlined } from "@ant-design/icons";
 import IApiService from "../../services/IApiService";
 import {
@@ -27,6 +27,7 @@ import {
 import Category from "../../models/Category";
 import { Currency } from "../../models/Country";
 import styles from "./Story-styles";
+import AddUniqueValue from "../AddUniqueValue";
 
 interface Props {
   apiService: IApiService;
@@ -43,6 +44,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
   const [currencies, setCurrencies] = React.useState<Currency[]>([]);
   const [currency, setCurrency] = React.useState<CurrencyUnit>();
   const [activeKey, setActiveKey] = useState("1");
+  const [customPartModal, setCustomPartModal] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -102,6 +104,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
         message="You have unsaved changes, are you sure you want to leave?"
         when={unsavedChanges}
       />
+
       <div style={styles.root}>
         <Page
           loading={!company}
@@ -116,15 +119,6 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
           extra={
             company && (
               <StoryMenu
-                company={company}
-                addCustomPart={(title) => {
-                  const parts = addElement(company.parts, {
-                    title,
-                    content: "",
-                  });
-                  updateCompany({ ...company, parts: parts });
-                  setActiveKey(customPartKey(company.parts.length));
-                }}
                 remove={() =>
                   apiService
                     .deleteCompanyStory(company.id)
@@ -137,88 +131,114 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
           }
         >
           {company && (
-            <Tabs
-              tabPosition="right"
-              style={styles.tabs}
-              size="small"
-              activeKey={activeKey}
-              onChange={setActiveKey}
-            >
-              <Tabs.TabPane tab="Profile" key="1">
-                <StoryProfile
-                  value={{ ...company.profile }}
-                  onChange={(p) => updateCompany({ ...company, profile: p })}
-                  extraData={currencies}
-                  currency={currency}
-                />
-              </Tabs.TabPane>
-
-              <Tabs.TabPane tab="Revenue" key="2">
-                <StoryRevenue
-                  value={company.revenue}
-                  onChange={(p) => updateCompany({ ...company, revenue: p })}
-                  currency={currency}
-                />
-              </Tabs.TabPane>
-
-              <Tabs.TabPane tab="Competition" key="3">
-                <StoryCompetition
-                  value={company.competition}
-                  onChange={(p) =>
-                    updateCompany({ ...company, competition: p })
-                  }
-                  currency={currency}
-                />
-              </Tabs.TabPane>
-
-              <Tabs.TabPane tab="MOAT" key="4">
-                <StoryMoat
-                  value={company.moat}
-                  onChange={(p) => updateCompany({ ...company, moat: p })}
-                />
-              </Tabs.TabPane>
-
-              <Tabs.TabPane tab="Management" key="5">
-                <StoryManagement
-                  value={company.management}
-                  onChange={(p) => updateCompany({ ...company, management: p })}
-                />
-              </Tabs.TabPane>
-
-              {company.parts.map((part, i) => (
-                <Tabs.TabPane tab={part.title} key={customPartKey(i)}>
-                  <StoryCustomPart
-                    key={part.title}
-                    data={part}
-                    delete={() => {
-                      const c = removeElement(company.parts, part);
-                      updateCompany({ ...company, parts: c });
-                      setActiveKey("1");
-                    }}
-                    dataChanged={(p) => {
-                      const c = replaceElement(company.parts, part, p);
-                      updateCompany({ ...company, parts: c });
-                    }}
+            <>
+              <Tabs
+                tabPosition="right"
+                style={styles.tabs}
+                size="small"
+                activeKey={activeKey}
+                onChange={setActiveKey}
+                tabBarExtraContent={
+                  <Button onClick={() => setCustomPartModal(true)}>
+                    Add chapter
+                  </Button>
+                }
+              >
+                <Tabs.TabPane tab="Profile" key="1">
+                  <StoryProfile
+                    value={{ ...company.profile }}
+                    onChange={(p) => updateCompany({ ...company, profile: p })}
+                    extraData={currencies}
+                    currency={currency}
                   />
                 </Tabs.TabPane>
-              ))}
 
-              <Tabs.TabPane tab="Checklist" key="6">
-                <StoryChecklist
-                  value={company.checklist}
-                  onChange={(p) => updateCompany({ ...company, checklist: p })}
-                  extraData={checklistItems}
-                />
-              </Tabs.TabPane>
+                <Tabs.TabPane tab="Revenue" key="2">
+                  <StoryRevenue
+                    value={company.revenue}
+                    onChange={(p) => updateCompany({ ...company, revenue: p })}
+                    currency={currency}
+                  />
+                </Tabs.TabPane>
 
-              <Tabs.TabPane tab="Verdict" key="7">
-                <StoryVerdict
-                  value={company.verdict}
-                  onChange={(p) => updateCompany({ ...company, verdict: p })}
-                  extraData={categories}
-                />
-              </Tabs.TabPane>
-            </Tabs>
+                <Tabs.TabPane tab="Competition" key="3">
+                  <StoryCompetition
+                    value={company.competition}
+                    onChange={(p) =>
+                      updateCompany({ ...company, competition: p })
+                    }
+                    currency={currency}
+                  />
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="MOAT" key="4">
+                  <StoryMoat
+                    value={company.moat}
+                    onChange={(p) => updateCompany({ ...company, moat: p })}
+                  />
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="Management" key="5">
+                  <StoryManagement
+                    value={company.management}
+                    onChange={(p) =>
+                      updateCompany({ ...company, management: p })
+                    }
+                  />
+                </Tabs.TabPane>
+
+                {company.parts.map((part, i) => (
+                  <Tabs.TabPane tab={part.title} key={customPartKey(i)}>
+                    <StoryCustomPart
+                      key={part.title}
+                      data={part}
+                      delete={() => {
+                        const c = removeElement(company.parts, part);
+                        updateCompany({ ...company, parts: c });
+                        setActiveKey("1");
+                      }}
+                      dataChanged={(p) => {
+                        const c = replaceElement(company.parts, part, p);
+                        updateCompany({ ...company, parts: c });
+                      }}
+                    />
+                  </Tabs.TabPane>
+                ))}
+
+                <Tabs.TabPane tab="Checklist" key="6">
+                  <StoryChecklist
+                    value={company.checklist}
+                    onChange={(p) =>
+                      updateCompany({ ...company, checklist: p })
+                    }
+                    extraData={checklistItems}
+                  />
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="Verdict" key="7">
+                  <StoryVerdict
+                    value={company.verdict}
+                    onChange={(p) => updateCompany({ ...company, verdict: p })}
+                    extraData={categories}
+                  />
+                </Tabs.TabPane>
+              </Tabs>
+              <AddUniqueValue
+                title="New Chapter"
+                visible={customPartModal}
+                existingItems={company.parts.map((c) => c.title)}
+                onCreate={(title) => {
+                  const parts = addElement(company.parts, {
+                    title,
+                    content: "",
+                  });
+                  updateCompany({ ...company, parts: parts });
+                  setActiveKey(customPartKey(company.parts.length));
+                  setCustomPartModal(false);
+                }}
+                onCancel={() => setCustomPartModal(false)}
+              />
+            </>
           )}
         </Page>
       </div>

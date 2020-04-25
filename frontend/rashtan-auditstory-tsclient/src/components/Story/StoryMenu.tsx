@@ -1,60 +1,28 @@
-import React, { useState } from "react";
-import { Modal, Space, Tooltip } from "antd";
-import { DeleteOutlined, SisternodeOutlined } from "@ant-design/icons";
-import AddUniqueValue from "../AddUniqueValue";
-import { CompanyStory } from "../../models/Company";
+import React from "react";
+import { Modal, Tooltip } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 
 interface Props {
-  company: CompanyStory;
   saving: boolean;
   remove: () => void;
-  addCustomPart: (title: string) => void;
 }
 
-const StoryMenu: React.FC<Props> = ({
-  company,
-  remove,
-  addCustomPart,
-  saving,
-}) => {
-  const [customPartModal, setCustomPartModal] = useState(false);
-
+const StoryMenu: React.FC<Props> = ({ remove, saving }) => {
   return (
-    <>
-      <AddUniqueValue
-        title="New Chapter"
-        visible={customPartModal}
-        existingItems={company.parts.map((c) => c.title)}
-        onCreate={(title) => {
-          addCustomPart(title);
-          setCustomPartModal(false);
+    <Tooltip title="Delete story">
+      <DeleteOutlined
+        onClick={() => {
+          !saving &&
+            Modal.confirm({
+              title: "Are you sure delete this story?",
+              onOk() {
+                remove();
+              },
+            });
         }}
-        onCancel={() => setCustomPartModal(false)}
+        spin={saving}
       />
-      <Space style={{ position: "relative", top: -7 }}>
-        <Tooltip title="Add custom chapter">
-          <SisternodeOutlined
-            onClick={() => {
-              setCustomPartModal(true);
-            }}
-          />
-        </Tooltip>
-        <Tooltip title="Delete story">
-          <DeleteOutlined
-            onClick={() => {
-              !saving &&
-                Modal.confirm({
-                  title: "Are you sure delete this story?",
-                  onOk() {
-                    remove();
-                  },
-                });
-            }}
-            spin={saving}
-          />
-        </Tooltip>
-      </Space>
-    </>
+    </Tooltip>
   );
 };
 
