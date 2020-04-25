@@ -1,6 +1,6 @@
 import React from "react";
-import { GlobalOutlined, TagsOutlined } from "@ant-design/icons";
-import { Form, Input, Button, Select } from "antd";
+import { TagsOutlined } from "@ant-design/icons";
+import { Form, Input, Select } from "antd";
 import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
 import CurrencyUnitEdit from "./CurrencyUnitEdit";
 import InputWithCurrency from "./InputWithCurrency";
@@ -33,24 +33,8 @@ const StoryProfile: React.FC<StoryPartPropsWithExtraData<
         <Input placeholder="Company name" />
       </Form.Item>
 
-      <Form.Item
-        label="Website"
-        name="website"
-        rules={[{ required: true, message: "Website is required" }]}
-      >
-        <Input
-          placeholder="Company website"
-          addonBefore={
-            value.website && (
-              <Button
-                icon={<GlobalOutlined />}
-                type="link"
-                href={value.website}
-                target="_blank"
-              />
-            )
-          }
-        />
+      <Form.Item label="Website" name="website">
+        <Input placeholder="Company website" />
       </Form.Item>
 
       <Form.Item label="Currency" name="unit">
