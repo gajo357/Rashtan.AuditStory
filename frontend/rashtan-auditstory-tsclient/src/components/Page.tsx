@@ -23,6 +23,8 @@ const headerStyle = {
 const bodyStyle = {
   style: {
     paddingTop: headerHeight + 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     minWidth: "100%",
     minHeight: "100%",
   } as CSSProperties,
