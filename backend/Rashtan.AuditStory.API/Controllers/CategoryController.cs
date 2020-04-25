@@ -22,7 +22,7 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // GET api/checklist
         [HttpGet]
-        public Task<ActionResult<IEnumerable<Category>>> Get()
+        public Task<ActionResult<Category[]>> Get()
             => UnpackAsync(CategoryWorkflow.GetCategories(UserId));
 
         [HttpPut]

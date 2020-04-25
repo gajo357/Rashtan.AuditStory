@@ -7,8 +7,11 @@ open Rashtan.AuditStory.Common
 type CategoryWorkflow(repository: ICategoriesRepository) = 
     member __.GetCategories(user) = 
         asyncResult {
-           let! b = repository.GetCategoriesAsync(user) |> Async.AwaitTask
-           return b
+           let! result = repository.GetCategoriesAsync(user) |> Async.AwaitTask
+           let result = result |> Seq.toArray
+           if result |> Seq.isEmpty then
+                return Rashtan.AuditStory.Dto.Category.defaultCategories
+           else return result
         } |> CsResult.fromAsyncResult
     member __.SaveCategory(user, category) = 
         asyncResult {
