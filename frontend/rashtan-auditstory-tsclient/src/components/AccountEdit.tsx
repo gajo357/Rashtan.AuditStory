@@ -58,59 +58,61 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
         />
       }
     >
-      <Form
-        {...formItemLayout}
-        form={form}
-        initialValues={userProfile}
-        layout="horizontal"
-      >
-        <Form.Item
-          label="Username"
-          name="name"
-          rules={[{ required: true, message: "Please input your username!" }]}
+      {userProfile && (
+        <Form
+          {...formItemLayout}
+          form={form}
+          initialValues={userProfile}
+          layout="horizontal"
         >
-          <Input
-            autoComplete="fname"
-            prefix={<UserOutlined />}
-            placeholder="Username"
-          />
-        </Form.Item>
-        <Form.Item label="City" name="city">
-          <Input autoComplete="billing address-level2" placeholder="City" />
-        </Form.Item>
-        <Form.Item label="State/Province/Region" name="state">
-          <Input placeholder="State/Province/Region" />
-        </Form.Item>
-        <Form.Item label="Country" name="country">
-          <Select
-            style={{ textAlign: "left" }}
-            showSearch
-            loading={countries.length === 0}
-            filterOption={(inputValue, option) => {
-              const search = stringMatch(inputValue);
-              return (
-                search(option?.title as string) ||
-                search(option?.value as string)
-              );
-            }}
+          <Form.Item
+            label="Username"
+            name="name"
+            rules={[{ required: true, message: "Please input your username!" }]}
           >
-            {countries.map((c) => (
-              <Select.Option
-                value={c.alpha3Code}
-                key={c.alpha3Code}
-                title={c.name}
-              >
-                <Avatar
-                  src={c.flag}
-                  size={20}
-                  style={{ position: "relative", top: -2, marginRight: 10 }}
-                />
-                {c.name} ({c.alpha3Code})
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-      </Form>
+            <Input
+              autoComplete="fname"
+              prefix={<UserOutlined />}
+              placeholder="Username"
+            />
+          </Form.Item>
+          <Form.Item label="City" name="city">
+            <Input autoComplete="billing address-level2" placeholder="City" />
+          </Form.Item>
+          <Form.Item label="State/Province/Region" name="state">
+            <Input placeholder="State/Province/Region" />
+          </Form.Item>
+          <Form.Item label="Country" name="country">
+            <Select
+              style={{ textAlign: "left" }}
+              showSearch
+              loading={countries.length === 0}
+              filterOption={(inputValue, option) => {
+                const search = stringMatch(inputValue);
+                return (
+                  search(option?.title as string) ||
+                  search(option?.value as string)
+                );
+              }}
+            >
+              {countries.map((c) => (
+                <Select.Option
+                  value={c.alpha3Code}
+                  key={c.alpha3Code}
+                  title={c.name}
+                >
+                  <Avatar
+                    src={c.flag}
+                    size={20}
+                    style={{ position: "relative", top: -2, marginRight: 10 }}
+                  />
+                  {c.name} ({c.alpha3Code})
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </Form>
+      )}
     </Page>
   );
 };
