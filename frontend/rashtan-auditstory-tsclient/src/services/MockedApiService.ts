@@ -37,6 +37,7 @@ export default class MockedApiService implements IApiService {
       marketCap: 100,
       website: "https://www.micron.com/",
       tags: ["semiconductor"],
+      comment: "",
     },
     moat: {
       kinds: [MoatKind.Brand],

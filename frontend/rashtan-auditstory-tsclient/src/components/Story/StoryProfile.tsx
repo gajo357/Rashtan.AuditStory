@@ -4,6 +4,7 @@ import { Form, Input, Select } from "antd";
 import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
 import CurrencyUnitEdit from "./CurrencyUnitEdit";
 import InputWithCurrency from "./InputWithCurrency";
+import EditComment from "../SimpleEditors/EditComment";
 import { CompanyProfile } from "../../models/Company";
 import { Currency } from "../../models/Country";
 
@@ -47,6 +48,10 @@ const StoryProfile: React.FC<StoryPartPropsWithExtraData<
 
       <Form.Item label="Industry" name="industry">
         <Input placeholder="Industry" />
+      </Form.Item>
+
+      <Form.Item label="Description" name="comment">
+        <EditComment placeholder="Short description on company and why you got interested" />
       </Form.Item>
     </StoryPartForm>
   );

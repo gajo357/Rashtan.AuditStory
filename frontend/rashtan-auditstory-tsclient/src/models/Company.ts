@@ -44,6 +44,7 @@ export interface CompanyProfile {
   marketCap: number;
   website: string;
   tags: string[];
+  comment: string;
 }
 
 export interface CurrencyUnit {
