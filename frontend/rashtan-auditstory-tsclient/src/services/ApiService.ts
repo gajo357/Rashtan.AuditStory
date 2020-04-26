@@ -18,12 +18,10 @@ export default class ApiService implements IApiService {
     this.authService = authService;
   }
 
-  private token = () => this.authService.getAccessToken();
-
-  private defaultHeaders = async () => ({
+  private createDefaultHeaders = (token: any) => ({
     headers: new Headers({
       Accept: "application/json",
-      Authorization: `Bearer ${await this.token()}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     }),
   });
@@ -44,7 +42,8 @@ export default class ApiService implements IApiService {
     path: string,
     body?: any
   ) => {
-    const headers = await this.defaultHeaders();
+    const token = await this.authService.getAccessToken();
+    const headers = this.createDefaultHeaders(token);
     const bodyString = body ? JSON.stringify(body) : undefined;
 
     const result = await fetch(BASE_API + path, {
@@ -56,16 +55,16 @@ export default class ApiService implements IApiService {
     return await this.unwrapResponse<TResult>(result);
   };
 
-  private getCommand = async <TResult>(path: string) =>
+  private getCommand = <TResult>(path: string) =>
     this.baseCommand<TResult>("GET", path);
 
-  private deleteCommand = async <TResult>(path: string) =>
+  private deleteCommand = <TResult>(path: string) =>
     this.baseCommand<TResult>("DELETE", path);
 
-  private postCommand = async <TBody, TResult>(path: string, body: TBody) =>
+  private postCommand = <TBody, TResult>(path: string, body: TBody) =>
     this.baseCommand<TResult>("POST", path, body);
 
-  private putCommand = async <TBody, TResult>(path: string, body: TBody) =>
+  private putCommand = <TBody, TResult>(path: string, body: TBody) =>
     this.baseCommand<TResult>("PUT", path, body);
 
   private companyApi = "api/company";
