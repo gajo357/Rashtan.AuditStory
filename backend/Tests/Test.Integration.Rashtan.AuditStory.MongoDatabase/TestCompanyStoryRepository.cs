@@ -25,7 +25,8 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
                 {
                     Currency = "USD",
                     Unit = UnitOfSize.Thousand
-                }
+                },
+                Comment = "I found it somewhere over the reinbow"
             },
             Moat = new Moat
             {

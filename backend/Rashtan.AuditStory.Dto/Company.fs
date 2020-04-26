@@ -98,6 +98,7 @@ type Profile = {
     MarketCap: double
     Website: string
     Tags: string[]
+    Comment: string
 }
 
 [<CLIMutable>]
@@ -150,6 +151,7 @@ module Empty =
                 MarketCap = 0.
                 Website = ""
                 Tags = [||]
+                Comment = ""
               }
             Revenue = {
                 TotalRevenue = 0.

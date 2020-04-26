@@ -37,6 +37,7 @@ type ValidCompanyProfileGenerator =
             let! curr = ValidTypesGenerator.String().Generator
             let! mc = ValidTypesGenerator.Double().Generator
             let! industry = ValidTypesGenerator.String().Generator
+            let! comment = ValidTypesGenerator.String().Generator
             
             return {
                 Name = name
@@ -48,6 +49,7 @@ type ValidCompanyProfileGenerator =
                     Currency = curr
                     Unit = UnitOfSize.Thousand
                 }
+                Comment = comment
             }
         } |> Arb.fromGen
         
@@ -68,6 +70,7 @@ type InvalidCompanyProfileGenerator =
             let! curr = InvalidTypesGenerator.String().Generator
             let! mc = InvalidTypesGenerator.Double().Generator
             let! industry = InvalidTypesGenerator.String().Generator
+            let! comment = InvalidTypesGenerator.String().Generator
             
             return {
                 Name = name
@@ -79,6 +82,7 @@ type InvalidCompanyProfileGenerator =
                     Currency = curr
                     Unit = UnitOfSize.Thousand
                 }
+                Comment = comment
             }
         } |> Arb.fromGen
 
