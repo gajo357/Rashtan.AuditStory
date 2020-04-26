@@ -1,65 +1,39 @@
-import { WebAuth } from "auth0-js";
 import { AUTH_CONFIG, BASE_ADDRESS } from "./Auth0Config";
+import { Auth0Client } from "@auth0/auth0-spa-js";
 
 export default class AuthService {
-  auth0: WebAuth;
+  auth0: Auth0Client;
 
   constructor() {
-    this.auth0 = new WebAuth({
+    this.auth0 = new Auth0Client({
       domain: AUTH_CONFIG.domain,
-      clientID: AUTH_CONFIG.clientID,
-      redirectUri: AUTH_CONFIG.redirectUri,
+      client_id: AUTH_CONFIG.clientID,
+      redirect_uri: AUTH_CONFIG.redirectUri,
       audience: AUTH_CONFIG.audience,
       responseType: "token id_token",
-      scope: "openid profile"
+      scope: "openid profile",
+      useRefreshTokens: true,
+      cacheLocation: "localstorage",
     });
   }
 
-  logIn = () => {
-    this.auth0.authorize();
-  };
+  logIn = () => this.auth0.loginWithRedirect();
 
-  logOut = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("expires_at");
-    this.auth0.logout({ returnTo: BASE_ADDRESS });
-  };
+  logOut = () => this.auth0.logout({ returnTo: BASE_ADDRESS + "login" });
 
-  handleAuthentication = () => {
-    return new Promise((resolve, reject) => {
-      this.auth0.parseHash((err, authResult) => {
-        if (err) return reject(`${err.error}: ${err.errorDescription}`);
-        if (!authResult || !authResult.accessToken) {
-          return reject("No token");
-        }
+  handleAuthentication = () => this.auth0.handleRedirectCallback();
 
-        this.setSession(authResult.expiresIn, authResult.accessToken);
-        resolve();
-      });
-    });
-  };
+  isAuthenticated = () => this.auth0.isAuthenticated();
 
-  setSession = (expiresIn: number | undefined, accessToken: string) => {
-    expiresIn = expiresIn ? expiresIn * 1000 : 0;
-    let expiresAt = JSON.stringify(expiresIn + new Date().getTime());
-    localStorage.setItem("expires_at", expiresAt);
-    localStorage.setItem("access_token", accessToken);
-  };
-
-  isAuthenticated = () => {
-    const expiresAtString = localStorage.getItem("expires_at");
-    if (!expiresAtString) return false;
-    const expiresAt = JSON.parse(expiresAtString);
-    const currentTime = new Date().getTime();
-
-    return currentTime < expiresAt;
-  };
-
-  getAccessToken = () => {
-    const accessToken = localStorage.getItem("access_token");
-    if (!accessToken) {
-      return "";
+  getAccessToken = async () => {
+    try {
+      const isAuth = await this.isAuthenticated();
+      if (isAuth) {
+        return await this.auth0.getTokenSilently();
+      }
+      await this.logIn();
+    } catch {
+      await this.logIn();
     }
-    return accessToken;
   };
 }

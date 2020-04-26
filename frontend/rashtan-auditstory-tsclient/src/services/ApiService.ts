@@ -20,10 +20,10 @@ export default class ApiService implements IApiService {
 
   private token = () => this.authService.getAccessToken();
 
-  private defaultHeaders = () => ({
+  private defaultHeaders = async () => ({
     headers: new Headers({
       Accept: "application/json",
-      Authorization: `Bearer ${this.token()}`,
+      Authorization: `Bearer ${await this.token()}`,
       "Content-Type": "application/json",
     }),
   });
@@ -39,29 +39,34 @@ export default class ApiService implements IApiService {
     throw new Error(json);
   };
 
-  private getCommand = <TResult>(path: string) =>
-    fetch(BASE_API + path, this.defaultHeaders()).then((r) =>
-      this.unwrapResponse<TResult>(r)
-    );
-  private deleteCommand = <TResult>(path: string) =>
-    fetch(BASE_API + path, {
-      ...this.defaultHeaders(),
-      method: "DELETE",
-    }).then((r) => this.unwrapResponse<TResult>(r));
+  private baseCommand = async <TResult>(
+    method: string,
+    path: string,
+    body?: any
+  ) => {
+    const headers = await this.defaultHeaders();
+    const bodyString = body ? JSON.stringify(body) : undefined;
 
-  private postCommand = <TBody, TResult>(path: string, body: TBody) =>
-    fetch(BASE_API + path, {
-      ...this.defaultHeaders(),
-      body: JSON.stringify(body),
-      method: "POST",
-    }).then((r) => this.unwrapResponse<TResult>(r));
+    const result = await fetch(BASE_API + path, {
+      ...headers,
+      method,
+      body: bodyString,
+    });
 
-  private putCommand = <TBody, TResult>(path: string, body: TBody) =>
-    fetch(BASE_API + path, {
-      ...this.defaultHeaders(),
-      body: JSON.stringify(body),
-      method: "PUT",
-    }).then((r) => this.unwrapResponse<TResult>(r));
+    return await this.unwrapResponse<TResult>(result);
+  };
+
+  private getCommand = async <TResult>(path: string) =>
+    this.baseCommand<TResult>("GET", path);
+
+  private deleteCommand = async <TResult>(path: string) =>
+    this.baseCommand<TResult>("DELETE", path);
+
+  private postCommand = async <TBody, TResult>(path: string, body: TBody) =>
+    this.baseCommand<TResult>("POST", path, body);
+
+  private putCommand = async <TBody, TResult>(path: string, body: TBody) =>
+    this.baseCommand<TResult>("PUT", path, body);
 
   private companyApi = "api/company";
   getCompanies = () =>

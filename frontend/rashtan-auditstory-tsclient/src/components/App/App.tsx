@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, RouteProps, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { Typography, Button, Spin } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 import { History } from "history";
@@ -12,7 +12,6 @@ import Home from "../Home";
 import CategoriesEdit from "../CategoriesEdit";
 import IApiService from "../../services/IApiService";
 import AuthService from "../../services/AuthService";
-import { showError } from "../../models/Errors";
 
 interface Props {
   apiService: IApiService;
@@ -20,23 +19,31 @@ interface Props {
 }
 
 const App: React.FC<Props> = ({ apiService, authService }) => {
-  const sessionStarted = (history: History) => () => {
-    history.push("/");
-  };
-
   const startSession = (history: History) => {
     authService
       .handleAuthentication()
-      .then(sessionStarted(history))
-      .catch(showError);
+      .then(() => history.push("/"))
+      .catch(authService.logIn);
     return <Spin spinning tip="Starting session..." />;
   };
 
-  const AuthenticatedRoute = (props: RouteProps) => {
-    if (authService.isAuthenticated()) {
-      return <Route {...props} />;
-    }
-    return <Redirect to="/login" />;
+  const login = (history: History) => {
+    authService.isAuthenticated().then((v) => {
+      if (v) history.push("/");
+    });
+
+    return (
+      <div>
+        <Typography.Title>AuditStory</Typography.Title>
+        <Button
+          icon={<LoginOutlined />}
+          type="primary"
+          onClick={authService.logIn}
+        >
+          Log In
+        </Button>
+      </div>
+    );
   };
 
   return (
@@ -46,25 +53,14 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           path="/startSession"
           render={({ history }) => startSession(history)}
         />
-        <Route exact path="/login">
-          <div>
-            <Typography.Title>AuditStory</Typography.Title>
-            <Button
-              icon={<LoginOutlined />}
-              type="primary"
-              onClick={() => authService.logIn()}
-            >
-              Log In
-            </Button>
-          </div>
-        </Route>
+        <Route exact path="/login" render={({ history }) => login(history)} />
 
-        <AuthenticatedRoute exact path="/terms">
+        <Route exact path="/terms">
           <Terms />
           <Footer />
-        </AuthenticatedRoute>
+        </Route>
 
-        <AuthenticatedRoute
+        <Route
           exact
           path="/"
           render={({ history }) => (
@@ -76,7 +72,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           )}
         />
 
-        <AuthenticatedRoute
+        <Route
           exact
           path="/story/:id"
           render={({ match, history }) => (
@@ -87,7 +83,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             />
           )}
         />
-        <AuthenticatedRoute
+        <Route
           exact
           path="/account"
           render={({ history }) => (
@@ -97,7 +93,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             />
           )}
         />
-        <AuthenticatedRoute
+        <Route
           exact
           path="/editCategories"
           render={({ history }) => (
@@ -107,7 +103,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             />
           )}
         />
-        <AuthenticatedRoute component={() => <Redirect to="/" />} />
+        <Route component={() => <Redirect to="/" />} />
       </Switch>
     </div>
   );
