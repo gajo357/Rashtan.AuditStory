@@ -11,9 +11,9 @@ const EditRichText: React.FC<Props> = ({ value, onChange, placeholder }) => {
   return (
     <ReactQuill
       theme="snow"
+      onChange={(value) => onChange && onChange(value)}
+      value={value}
       placeholder={placeholder ? placeholder : "Write whatever you want:)"}
-      defaultValue={value}
-      onChange={(content) => onChange && onChange(content)}
     />
   );
 };

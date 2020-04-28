@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "antd";
+import EditRichText from "./EditRichText";
 
 interface Props {
   value?: string;
@@ -9,11 +9,10 @@ interface Props {
 
 const EditComment: React.FC<Props> = ({ value, onChange, placeholder }) => {
   return (
-    <Input.TextArea
+    <EditRichText
       placeholder={placeholder ? placeholder : "Conclusion, sources, ..."}
-      rows={5}
       value={value}
-      onChange={(e) => onChange && onChange(e.target.value)}
+      onChange={onChange}
     />
   );
 };
