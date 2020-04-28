@@ -41,10 +41,3 @@
     transform: rotate(360deg);
   }
 }
-
-.ant-form-item-control {
-  max-width: 100%;
-}
-.ant-input-number {
-  min-width: 100%;
-}
