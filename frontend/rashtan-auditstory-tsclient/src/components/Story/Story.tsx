@@ -133,7 +133,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
           {company && (
             <>
               <Tabs
-                tabPosition="right"
+                tabPosition="top"
                 style={styles.tabs}
                 size="small"
                 activeKey={activeKey}
