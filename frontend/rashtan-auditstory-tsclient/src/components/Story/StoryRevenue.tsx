@@ -6,8 +6,8 @@ import EditComment from "../SimpleEditors/EditComment";
 import PieChart from "../PieChart";
 import BarChart from "../BarChart";
 import {
-  CompanyRevenue,
-  RevenueStream,
+  RevenueDto,
+  RevenueStreamDto,
   CurrencyUnit,
 } from "../../models/Company";
 import EditRichText from "../SimpleEditors/EditRichText";
@@ -67,7 +67,7 @@ const createList = (currency: CurrencyUnit | undefined) => (
   </Form.List>
 );
 
-const createCharts = (data: RevenueStream[]) => {
+const createCharts = (data: RevenueStreamDto[]) => {
   return (
     <span>
       {createValueChart(data)}
@@ -76,7 +76,7 @@ const createCharts = (data: RevenueStream[]) => {
   );
 };
 
-const createValueChart = (data: RevenueStream[]) => {
+const createValueChart = (data: RevenueStreamDto[]) => {
   const filtered = data.filter((c) => c && c.name && c.revenue);
   return (
     filtered.length > 1 && (
@@ -90,7 +90,7 @@ const createValueChart = (data: RevenueStream[]) => {
   );
 };
 
-const createProfitChart = (data: RevenueStream[]) => {
+const createProfitChart = (data: RevenueStreamDto[]) => {
   const filtered = data.filter((c) => c && c.name && c.profit);
   return (
     filtered.length > 1 && (
@@ -106,7 +106,7 @@ const createProfitChart = (data: RevenueStream[]) => {
   );
 };
 
-const StoryRevenue: React.FC<StoryPartProps<CompanyRevenue>> = ({
+const StoryRevenue: React.FC<StoryPartProps<RevenueDto>> = ({
   value,
   onChange,
   currency,

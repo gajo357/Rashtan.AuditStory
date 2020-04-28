@@ -5,7 +5,7 @@ import { ArrowLeftOutlined, CheckOutlined } from "@ant-design/icons";
 import IApiService from "../../services/IApiService";
 import {
   CompanyStory,
-  ChecklistItem,
+  ChecklistItemDto,
   CurrencyUnit,
 } from "../../models/Company";
 import { showError, showNotification } from "../../models/Errors";
@@ -37,7 +37,7 @@ interface Props {
 
 const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
   const [company, setCompany] = useState<CompanyStory>();
-  const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>([]);
+  const [checklistItems, setChecklistItems] = useState<ChecklistItemDto[]>([]);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [saving, setSaving] = useState(false);
   const [categories, setCategories] = React.useState<Category[]>([]);

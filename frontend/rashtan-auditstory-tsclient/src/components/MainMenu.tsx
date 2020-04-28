@@ -11,19 +11,19 @@ import { Menu, Button, Row, Col } from "antd";
 import NewCategoryEdit from "./NewCategoryEdit";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
-import { CompanyQuickInfo } from "../models/Company";
+import { QuickInfoDto } from "../models/Company";
 import { showError } from "../models/Errors";
 
 export interface CompanyFilter {
   title: string;
-  predicate: (c: CompanyQuickInfo) => boolean;
+  predicate: (c: QuickInfoDto) => boolean;
 }
 
 export const createCategoryFilter: (c: Category) => CompanyFilter = (
   category: Category
 ) => ({
   title: category.name,
-  predicate: (comp: CompanyQuickInfo) => comp.category === category.name,
+  predicate: (comp: QuickInfoDto) => comp.category === category.name,
 });
 
 interface Props {

@@ -1,5 +1,5 @@
 //
-export interface CompanyStoryCreate {
+export interface StoryCreateDto {
   name: string;
 }
 
@@ -12,21 +12,21 @@ export enum UnitOfSize {
 export interface CompanyStory {
   id: string;
 
-  profile: CompanyProfile;
-  revenue: CompanyRevenue;
-  competition: CompanyCompetition;
+  profile: ProfileDto;
+  revenue: RevenueDto;
+  competition: CompetitionDto;
 
-  management: CompanyStoryManagement;
-  moat: CompanyStoryMoat;
+  management: ManagementDto;
+  moat: MoatDto;
 
-  parts: CompanyStoryCustomPart[];
+  parts: CustomPartDto[];
 
-  checklist: ChecklistItem[];
+  checklist: ChecklistItemDto[];
 
-  verdict: CompanyVerdict;
+  verdict: VerdictDto;
 }
 
-export interface CompanyQuickInfo {
+export interface QuickInfoDto {
   id: string;
 
   name: string;
@@ -37,7 +37,7 @@ export interface CompanyQuickInfo {
   tags: string[];
 }
 
-export interface CompanyProfile {
+export interface ProfileDto {
   name: string;
   industry: string;
   unit: CurrencyUnit;
@@ -52,7 +52,7 @@ export interface CurrencyUnit {
   unit: UnitOfSize;
 }
 
-export interface CompanyStoryManagement {
+export interface ManagementDto {
   ceoTrust: number;
   ceoFounder: boolean;
   ceoMajorShareholder: boolean;
@@ -76,7 +76,7 @@ export enum MoatKind {
   Switching = 4,
 }
 
-export interface CompanyStoryMoat {
+export interface MoatDto {
   kinds: MoatKind[];
   mainAdvantage: string;
   durable: string;
@@ -89,25 +89,25 @@ export interface CompanyStoryMoat {
   comment: string;
 }
 
-export interface CompanyCompetition {
-  competitors: CompanyCompetitor[];
+export interface CompetitionDto {
+  competitors: CompetitorDto[];
   comment: string;
 }
 
-export interface CompanyCompetitor {
+export interface CompetitorDto {
   name: string;
   marketCap: number;
   marketShare: number;
 }
 
-export interface CompanyRevenue {
+export interface RevenueDto {
   intro: string;
   totalRevenue: number;
-  products: RevenueStream[];
+  products: RevenueStreamDto[];
   comment: string;
 }
 
-export interface RevenueStream {
+export interface RevenueStreamDto {
   name: string;
   description: string;
   revenue: number;
@@ -115,19 +115,19 @@ export interface RevenueStream {
   growth: number;
 }
 
-export interface CompanyVerdict {
+export interface VerdictDto {
   star: boolean;
   flags: string[];
   category: string;
   comment: string;
 }
 
-export interface CompanyStoryCustomPart {
+export interface CustomPartDto {
   title: string;
   content: string;
 }
 
-export interface ChecklistItem {
+export interface ChecklistItemDto {
   question: string;
   response: number;
 }

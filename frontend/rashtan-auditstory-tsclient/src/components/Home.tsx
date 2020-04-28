@@ -8,7 +8,7 @@ import {
 import { Drawer, List, Tag, Space, Input } from "antd";
 import Page from "./Page";
 import IApiService from "../services/IApiService";
-import { CompanyQuickInfo } from "../models/Company";
+import { QuickInfoDto } from "../models/Company";
 import { showError } from "../models/Errors";
 import Category from "../models/Category";
 import MainMenu, { CompanyFilter, createCategoryFilter } from "./MainMenu";
@@ -47,7 +47,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
   const [open, setOpen] = useState(false);
   const [createStoryVisible, setCreateStoryVisible] = useState(false);
   const [filter, setFilter] = useState<CompanyFilter | undefined>();
-  const [companies, setCompanies] = useState<CompanyQuickInfo[]>([]);
+  const [companies, setCompanies] = useState<QuickInfoDto[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [search, setSearch] = useState("");
 
@@ -73,7 +73,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
     history.push(`/story/${id}`);
   };
 
-  const companySearchFilter = (c: CompanyQuickInfo) => {
+  const companySearchFilter = (c: QuickInfoDto) => {
     const localMatch = stringMatch(search);
 
     return (
@@ -132,7 +132,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
                 (!filter || filter.predicate(company)) &&
                 companySearchFilter(company)
             )}
-            renderItem={(item: CompanyQuickInfo) => {
+            renderItem={(item: QuickInfoDto) => {
               const favs = [];
               if (item.star) favs.push(<EditStar value key="star" />);
               if (item.flags)

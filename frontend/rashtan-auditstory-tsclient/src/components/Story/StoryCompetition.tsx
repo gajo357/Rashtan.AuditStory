@@ -5,10 +5,10 @@ import EditComment from "../SimpleEditors/EditComment";
 import EditableTable from "../EditableTable";
 import BarChart from "../BarChart";
 import PieChart from "../PieChart";
-import { CompanyCompetition } from "../../models/Company";
+import { CompetitionDto } from "../../models/Company";
 import { currencyString } from "../../models/Helpers";
 
-const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
+const StoryCompetition: React.FC<StoryPartProps<CompetitionDto>> = ({
   value,
   onChange,
   currency,

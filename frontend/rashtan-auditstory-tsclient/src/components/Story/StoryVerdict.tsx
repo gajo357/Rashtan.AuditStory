@@ -5,7 +5,7 @@ import {
   MinusCircleOutlined,
 } from "@ant-design/icons";
 import { Form, Input, Button, Select, Row, Col } from "antd";
-import { CompanyVerdict } from "../../models/Company";
+import { VerdictDto } from "../../models/Company";
 import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
 import EditStar from "../SimpleEditors/EditStar";
 import EditComment from "../SimpleEditors/EditComment";
@@ -15,7 +15,7 @@ import styles from "./Story-styles";
 import { removeElement, addElement } from "../../models/ArrayUpdate";
 
 const StoryVerdict: React.FC<StoryPartPropsWithExtraData<
-  CompanyVerdict,
+  VerdictDto,
   Category
 >> = ({ value, onChange, extraData: categories }) => {
   const [flagModalVisible, setFlagModalVisible] = useState(false);

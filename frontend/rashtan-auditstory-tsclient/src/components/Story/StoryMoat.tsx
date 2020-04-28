@@ -2,14 +2,11 @@ import React from "react";
 import { Form, Input, InputNumber, Select } from "antd";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import EditComment from "../SimpleEditors/EditComment";
-import { CompanyStoryMoat, MoatKind } from "../../models/Company";
+import { MoatDto, MoatKind } from "../../models/Company";
 
 const { Option } = Select;
 
-const StoryMoat: React.FC<StoryPartProps<CompanyStoryMoat>> = ({
-  value,
-  onChange,
-}) => (
+const StoryMoat: React.FC<StoryPartProps<MoatDto>> = ({ value, onChange }) => (
   <StoryPartForm title="MOAT" value={value} onChange={onChange}>
     <Form.Item label="Kinds of moat" name="kinds">
       <Select placeholder="Kinds of moat" mode="multiple">

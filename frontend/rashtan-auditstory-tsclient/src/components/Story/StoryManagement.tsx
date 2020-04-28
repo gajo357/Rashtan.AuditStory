@@ -2,9 +2,9 @@ import React from "react";
 import { Form, Input, Switch, InputNumber, Rate } from "antd";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import EditComment from "../SimpleEditors/EditComment";
-import { CompanyStoryManagement } from "../../models/Company";
+import { ManagementDto } from "../../models/Company";
 
-const StoryManagement: React.FC<StoryPartProps<CompanyStoryManagement>> = ({
+const StoryManagement: React.FC<StoryPartProps<ManagementDto>> = ({
   value,
   onChange,
 }) => (

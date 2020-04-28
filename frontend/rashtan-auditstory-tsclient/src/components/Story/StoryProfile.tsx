@@ -5,11 +5,11 @@ import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
 import CurrencyUnitEdit from "./CurrencyUnitEdit";
 import InputWithCurrency from "./InputWithCurrency";
 import EditComment from "../SimpleEditors/EditComment";
-import { CompanyProfile } from "../../models/Company";
+import { ProfileDto } from "../../models/Company";
 import { Currency } from "../../models/Country";
 
 const StoryProfile: React.FC<StoryPartPropsWithExtraData<
-  CompanyProfile,
+  ProfileDto,
   Currency
 >> = ({ value, onChange, currency, extraData }) => {
   return (

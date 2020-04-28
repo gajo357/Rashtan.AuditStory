@@ -1,8 +1,8 @@
 import AuthService from "./AuthService";
 import {
   CompanyStory,
-  CompanyStoryCreate,
-  ChecklistItem,
+  StoryCreateDto,
+  ChecklistItemDto,
 } from "../models/Company";
 import { BASE_API } from "./Auth0Config";
 import { UserInfo } from "../models/UserInfo";
@@ -72,8 +72,8 @@ export default class ApiService implements IApiService {
     this.getCommand<any[]>(this.companyApi).then((comps) =>
       comps.map((c) => ({ ...c, dateEdited: new Date(c.dateEdited) }))
     );
-  createNewStory = (company: CompanyStoryCreate) =>
-    this.postCommand<CompanyStoryCreate, string>(this.companyApi, company);
+  createNewStory = (company: StoryCreateDto) =>
+    this.postCommand<StoryCreateDto, string>(this.companyApi, company);
 
   private storyApi = "api/story";
   getCompanyStory = (id: string) =>
@@ -95,7 +95,8 @@ export default class ApiService implements IApiService {
   saveCategories = (categories: Category[]) =>
     this.postCommand<Category[], void>(this.categoryApi, categories);
 
-  getChecklistItems = () => this.getCommand<ChecklistItem[]>("api/checklist");
+  getChecklistItems = () =>
+    this.getCommand<ChecklistItemDto[]>("api/checklist");
 
   private countryApi = "api/country";
   getCountries = () =>

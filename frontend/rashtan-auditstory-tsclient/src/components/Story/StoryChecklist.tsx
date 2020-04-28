@@ -9,12 +9,12 @@ import {
   replaceElement,
   removeElement,
 } from "../../models/ArrayUpdate";
-import { ChecklistItem } from "../../models/Company";
+import { ChecklistItemDto } from "../../models/Company";
 import styles from "./Story-styles";
 
 const StoryChecklist: React.FC<StoryPartPropsWithExtraData<
-  ChecklistItem[],
-  ChecklistItem
+  ChecklistItemDto[],
+  ChecklistItemDto
 >> = ({ value, onChange, extraData }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -22,15 +22,18 @@ const StoryChecklist: React.FC<StoryPartPropsWithExtraData<
     extraData &&
     extraData.filter((s) => !value.some((d) => d.question === s.question));
 
-  const addItem = (item: ChecklistItem) => {
+  const addItem = (item: ChecklistItemDto) => {
     const c = addElement(value, item);
     onChange(c);
   };
-  const remove = (item: ChecklistItem) => {
+  const remove = (item: ChecklistItemDto) => {
     const c = removeElement(value, item);
     onChange(c);
   };
-  const itemChanged = (original: ChecklistItem, replacement: ChecklistItem) => {
+  const itemChanged = (
+    original: ChecklistItemDto,
+    replacement: ChecklistItemDto
+  ) => {
     const c = replaceElement(value, original, replacement);
     onChange(c);
   };

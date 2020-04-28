@@ -3,12 +3,12 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import StoryPartForm from "./StoryPartForm";
 import EditRichText from "./../SimpleEditors/EditRichText";
-import { CompanyStoryCustomPart } from "../../models/Company";
+import { CustomPartDto } from "../../models/Company";
 
 interface Props {
-  data: CompanyStoryCustomPart;
+  data: CustomPartDto;
   delete: () => void;
-  dataChanged: (data: CompanyStoryCustomPart) => void;
+  dataChanged: (data: CustomPartDto) => void;
 }
 
 const StoryCustomPart: React.FC<Props> = ({

@@ -1,10 +1,10 @@
 import AuthService from "./AuthService";
 import {
-  CompanyProfile,
+  ProfileDto,
   CompanyStory,
   MoatKind,
-  ChecklistItem,
-  CompanyQuickInfo,
+  ChecklistItemDto,
+  QuickInfoDto,
   UnitOfSize,
 } from "../models/Company";
 import { UserInfo } from "../models/UserInfo";
@@ -95,7 +95,7 @@ export default class MockedApiService implements IApiService {
   };
 
   getCompanies = () =>
-    this.resolved<CompanyQuickInfo[]>([
+    this.resolved<QuickInfoDto[]>([
       {
         id: "12345678",
         name: "Micron Technologies",
@@ -115,7 +115,7 @@ export default class MockedApiService implements IApiService {
         tags: ["steel", "cheap"],
       },
     ]);
-  getCompany = () => this.rejected<CompanyProfile>();
+  getCompany = () => this.rejected<ProfileDto>();
 
   createNewStory = () => this.resolved(this.micronStory.id);
 
@@ -154,7 +154,7 @@ export default class MockedApiService implements IApiService {
   };
 
   getChecklistItems = () =>
-    this.resolved<ChecklistItem[]>([
+    this.resolved<ChecklistItemDto[]>([
       { question: "Do you understand the company?", response: 1.5 },
       { question: "Are you affected by latest fad?", response: 4.5 },
       { question: "Are rushed by someone to buy?", response: 4.5 },
