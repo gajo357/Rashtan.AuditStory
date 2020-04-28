@@ -18,6 +18,7 @@ const headerStyle = {
     height: headerHeight,
     minWidth: "100%",
     backgroundColor: "#1f1f1f",
+    color: "white",
   } as CSSProperties,
 };
 
