@@ -1,53 +1,87 @@
 import React from "react";
-import { Form, Input, InputNumber } from "antd";
+import { Form, Input, Button } from "antd";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import EditComment from "../SimpleEditors/EditComment";
-import EditableTable from "../EditableTable";
 import BarChart from "../BarChart";
 import PieChart from "../PieChart";
 import { CompetitionDto } from "../../models/Company";
 import { currencyString } from "../../models/Helpers";
+import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import styles from "./Story-styles";
+import InputWithCurrency from "./InputWithCurrency";
 
 const StoryCompetition: React.FC<StoryPartProps<CompetitionDto>> = ({
   value,
   onChange,
   currency,
 }) => {
-  const marketCapTitle = `Market Cap ${currencyString(currency)}`;
+  const marketCapTitle = `Market Cap${currencyString(currency)}`;
 
   const chartDataCap = value.competitors.filter(
     (c) => c && c.name && c.marketCap
   );
-  const chartDataShare = value.competitors.filter(
-    (c) => c && c.name && c.marketShare
+  const chartDataRevenue = value.competitors.filter(
+    (c) => c && c.name && c.revenue
+  );
+  const chartDataMargin = value.competitors.filter(
+    (c) => c && c.name && c.margin
   );
 
   const chartStyle = { style: { display: "inline-block" } };
 
   return (
     <StoryPartForm title="Competition" value={value} onChange={onChange}>
-      <EditableTable
-        fieldName="competitors"
-        columns={[
-          {
-            title: "Name",
-            fieldName: "name",
-            editor: <Input placeholder="Name" />,
-          },
-          {
-            title: marketCapTitle,
-            fieldName: "marketCap",
-            editor: <InputNumber placeholder="Market Cap" />,
-          },
-          {
-            title: "Market Share (%)",
-            fieldName: "marketShare",
-            editor: <InputNumber placeholder="Market Share (%)" />,
-          },
-        ]}
-      />
+      <Form.List name="competitors">
+        {(fields, { add, remove }) => (
+          <div>
+            {fields.map((field) => (
+              <div key={field.name}>
+                <Button
+                  type="danger"
+                  icon={<DeleteOutlined />}
+                  onClick={() => remove(field.name)}
+                >
+                  Delete
+                </Button>
+                <Form.Item
+                  label="Name"
+                  name={[field.name, "name"]}
+                  rules={[{ required: true }]}
+                >
+                  <Input placeholder="Company name" />
+                </Form.Item>
+
+                <Form.Item label="Market Cap" name={[field.name, "marketCap"]}>
+                  <InputWithCurrency
+                    placeholder="Market Cap"
+                    currency={currency}
+                  />
+                </Form.Item>
+                <Form.Item label="Revenue" name={[field.name, "revenue"]}>
+                  <InputWithCurrency
+                    placeholder="Revenue"
+                    currency={currency}
+                  />
+                </Form.Item>
+                <Form.Item label="Op Margin (%)" name={[field.name, "margin"]}>
+                  <Input placeholder="Operating Margin" />
+                </Form.Item>
+              </div>
+            ))}
+
+            <Button
+              {...{ style: { ...styles.addFlagButton, marginBottom: 10 } }}
+              onClick={() => add()}
+              type="dashed"
+              icon={<PlusOutlined />}
+            >
+              Add competitor
+            </Button>
+          </div>
+        )}
+      </Form.List>
       <span>
-        {chartDataCap.length > 0 && (
+        {chartDataCap.length > 1 && (
           <BarChart
             data={chartDataCap}
             xField="name"
@@ -57,11 +91,21 @@ const StoryCompetition: React.FC<StoryPartProps<CompetitionDto>> = ({
             {...chartStyle}
           />
         )}
-        {chartDataShare.length > 0 && (
+        {chartDataRevenue.length > 1 && (
           <PieChart
-            data={chartDataShare}
+            data={chartDataRevenue}
             xField="name"
-            yField="marketShare"
+            yField="revenue"
+            {...chartStyle}
+          />
+        )}
+        {chartDataMargin.length > 1 && (
+          <BarChart
+            data={chartDataMargin}
+            xField="name"
+            yField="margin"
+            xTitle="Name"
+            yTitle="Operating Margin (%)"
             {...chartStyle}
           />
         )}

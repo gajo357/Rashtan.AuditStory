@@ -97,7 +97,8 @@ export interface CompetitionDto {
 export interface CompetitorDto {
   name: string;
   marketCap: number;
-  marketShare: number;
+  revenue: number;
+  margin: number;
 }
 
 export interface RevenueDto {
