@@ -7,6 +7,14 @@ export default {
     textAlign: "left",
   } as CSSProperties,
   tabs: {} as CSSProperties,
+  revenueItem: {
+    borderStyle: "solid",
+    borderColor: "white",
+    borderWidth: 1,
+    borderRadius: "5px",
+    margin: "5px 0 5px 0",
+    padding: "5px",
+  } as CSSProperties,
   checklistRating: {
     marginLeft: 10,
     position: "relative",

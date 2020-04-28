@@ -23,7 +23,7 @@ const createList = (currency: CurrencyUnit | undefined) => (
         <Typography.Title level={4}>What do they make?</Typography.Title>
 
         {fields.map((field) => (
-          <div key={field.name}>
+          <div key={field.name} style={styles.revenueItem}>
             <Button
               type="danger"
               icon={<DeleteOutlined />}
