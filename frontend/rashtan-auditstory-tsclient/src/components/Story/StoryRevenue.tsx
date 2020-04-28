@@ -1,102 +1,128 @@
 import React from "react";
-import { Form, Input, InputNumber } from "antd";
+import { Form, Input, Typography, Button } from "antd";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import InputWithCurrency from "./InputWithCurrency";
 import EditComment from "../SimpleEditors/EditComment";
-import EditableTable from "../EditableTable";
 import PieChart from "../PieChart";
 import BarChart from "../BarChart";
-import { CompanyStoryRevenue, Revenue } from "../../models/Company";
-
-const createList = (fieldName: string, title: string, streamName: string) => (
-  <EditableTable
-    title={title}
-    fieldName={fieldName}
-    columns={[
-      {
-        title: streamName,
-        fieldName: "stream",
-        editor: <Input placeholder={streamName} />,
-      },
-      {
-        title: "Amount or percent",
-        fieldName: "value",
-        editor: <InputNumber placeholder="Value" />,
-      },
-      {
-        title: "Profitability",
-        fieldName: "profit",
-        editor: <InputNumber placeholder="Profit" />,
-      },
-    ]}
-  />
-);
+import {
+  CompanyRevenue,
+  RevenueStream,
+  CurrencyUnit,
+} from "../../models/Company";
+import EditRichText from "../SimpleEditors/EditRichText";
+import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import styles from "./Story-styles";
 
 const chartStyle = { style: { display: "inline-block" } };
-const createCharts = (data: Revenue[], streamName: string) => {
+
+const createList = (currency: CurrencyUnit | undefined) => (
+  <Form.List name="products">
+    {(fields, { add, remove }) => (
+      <div>
+        <Typography.Title level={4}>What do they make?</Typography.Title>
+
+        {fields.map((field) => (
+          <div key={field.name}>
+            <Button
+              type="danger"
+              icon={<DeleteOutlined />}
+              onClick={() => remove(field.name)}
+            >
+              Delete product
+            </Button>
+            <Form.Item
+              label="Product"
+              name={[field.name, "name"]}
+              rules={[{ required: true }]}
+            >
+              <Input placeholder="Product" />
+            </Form.Item>
+
+            <Form.Item label={`Revenue`} name={[field.name, "revenue"]}>
+              <InputWithCurrency placeholder="Revenue" currency={currency} />
+            </Form.Item>
+            <Form.Item label="Yield (%)" name={[field.name, "profit"]}>
+              <Input placeholder="Profit" />
+            </Form.Item>
+            <Form.Item label="5-year growth (%)" name={[field.name, "growth"]}>
+              <Input placeholder="Growth" />
+            </Form.Item>
+
+            <Form.Item label="Description" name={[field.name, "description"]}>
+              <EditRichText placeholder="Description" />
+            </Form.Item>
+          </div>
+        ))}
+        <Button
+          {...{ style: { ...styles.addFlagButton, marginBottom: 10 } }}
+          onClick={() => add()}
+          type="dashed"
+          icon={<PlusOutlined />}
+        >
+          Add
+        </Button>
+      </div>
+    )}
+  </Form.List>
+);
+
+const createCharts = (data: RevenueStream[]) => {
   return (
     <span>
       {createValueChart(data)}
-      {createProfitChart(data, streamName)}
+      {createProfitChart(data)}
     </span>
   );
 };
 
-const createValueChart = (data: Revenue[]) => {
-  const filtered = data.filter((c) => c && c.stream && c.value);
+const createValueChart = (data: RevenueStream[]) => {
+  const filtered = data.filter((c) => c && c.name && c.revenue);
   return (
-    filtered.length > 0 && (
+    filtered.length > 1 && (
       <PieChart
         data={filtered}
-        xField="stream"
-        yField="value"
+        xField="name"
+        yField="revenue"
         {...chartStyle}
       />
     )
   );
 };
 
-const createProfitChart = (data: Revenue[], streamName: string) => {
-  const filtered = data.filter((c) => c && c.stream && c.profit);
+const createProfitChart = (data: RevenueStream[]) => {
+  const filtered = data.filter((c) => c && c.name && c.profit);
   return (
-    filtered.length > 0 && (
+    filtered.length > 1 && (
       <BarChart
         data={filtered}
-        xField="stream"
+        xField="name"
         yField="profit"
-        xTitle={streamName}
-        yTitle="Profitability"
+        xTitle="Product"
+        yTitle="Yeild (%)"
         {...chartStyle}
       />
     )
   );
 };
 
-const StoryRevenue: React.FC<StoryPartProps<CompanyStoryRevenue>> = ({
+const StoryRevenue: React.FC<StoryPartProps<CompanyRevenue>> = ({
   value,
   onChange,
   currency,
 }) => {
   return (
-    <StoryPartForm title="Revenue Streams" value={value} onChange={onChange}>
+    <StoryPartForm title="Products" value={value} onChange={onChange}>
+      <Form.Item label="Introduction" name="intro">
+        <EditRichText placeholder="Intro, sources of" />
+      </Form.Item>
+
       <Form.Item label="Total revenue" name="totalRevenue">
         <InputWithCurrency placeholder="Total revenue" currency={currency} />
       </Form.Item>
 
-      {createList("byProduct", "What do they make?", "Product name")}
-      {createCharts(value.byProduct, "Product name")}
-      {createList(
-        "byLocation",
-        "Where do they sell their products?",
-        "Country, state..."
-      )}
-      {createCharts(value.byLocation, "Country, state...")}
-      {createList(
-        "byClient",
-        "Who do they sell their products to?",
-        "Client name"
-      )}
-      {createCharts(value.byClient, "Client name")}
+      {createList(currency)}
+      {createCharts(value.products)}
 
       <Form.Item label="Comment" name="comment">
         <EditComment />

@@ -13,7 +13,7 @@ export interface CompanyStory {
   id: string;
 
   profile: CompanyProfile;
-  revenue: CompanyStoryRevenue;
+  revenue: CompanyRevenue;
   competition: CompanyCompetition;
 
   management: CompanyStoryManagement;
@@ -100,18 +100,19 @@ export interface CompanyCompetitor {
   marketShare: number;
 }
 
-export interface CompanyStoryRevenue {
+export interface CompanyRevenue {
+  intro: string;
   totalRevenue: number;
-  byLocation: Revenue[];
-  byClient: Revenue[];
-  byProduct: Revenue[];
+  products: RevenueStream[];
   comment: string;
 }
 
-export interface Revenue {
-  stream: string;
-  value: number;
+export interface RevenueStream {
+  name: string;
+  description: string;
+  revenue: number;
   profit: number;
+  growth: number;
 }
 
 export interface CompanyVerdict {

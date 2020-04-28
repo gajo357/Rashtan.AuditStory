@@ -4,14 +4,15 @@ import ReactQuill from "react-quill";
 interface Props {
   value?: string;
   onChange?: (value: string) => void;
+  placeholder?: string;
 }
 
-const EditRichText: React.FC<Props> = ({ value, onChange }) => {
+const EditRichText: React.FC<Props> = ({ value, onChange, placeholder }) => {
   return (
     <ReactQuill
       theme="snow"
-      placeholder="Write whatever you want:)"
-      value={value}
+      placeholder={placeholder ? placeholder : "Write whatever you want:)"}
+      defaultValue={value}
       onChange={(content) => onChange && onChange(content)}
     />
   );

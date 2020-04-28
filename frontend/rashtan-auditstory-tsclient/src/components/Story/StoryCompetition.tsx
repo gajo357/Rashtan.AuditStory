@@ -5,16 +5,15 @@ import EditComment from "../SimpleEditors/EditComment";
 import EditableTable from "../EditableTable";
 import BarChart from "../BarChart";
 import PieChart from "../PieChart";
-import { CompanyCompetition, UnitOfSize } from "../../models/Company";
+import { CompanyCompetition } from "../../models/Company";
+import { currencyString } from "../../models/Helpers";
 
 const StoryCompetition: React.FC<StoryPartProps<CompanyCompetition>> = ({
   value,
   onChange,
   currency,
 }) => {
-  const marketCapTitle = `Market Cap ${
-    currency ? ` (${UnitOfSize[currency.unit]} ${currency.currency})` : ""
-  }`;
+  const marketCapTitle = `Market Cap ${currencyString(currency)}`;
 
   const chartDataCap = value.competitors.filter(
     (c) => c && c.name && c.marketCap
