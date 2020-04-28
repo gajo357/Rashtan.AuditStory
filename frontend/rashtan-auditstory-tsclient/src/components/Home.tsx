@@ -14,7 +14,7 @@ import Category from "../models/Category";
 import MainMenu, { CompanyFilter, createCategoryFilter } from "./MainMenu";
 import AddUniqueValue from "./AddUniqueValue";
 import EditStar from "./SimpleEditors/EditStar";
-import stringMatch from "../models/stringMatch";
+import { stringMatch } from "../models/Helpers";
 
 const createStoryStyle: CSSProperties = {
   position: "fixed",

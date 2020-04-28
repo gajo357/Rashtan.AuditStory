@@ -6,7 +6,7 @@ import { UserInfo } from "../models/UserInfo";
 import { Country } from "../models/Country";
 import IApiService from "../services/IApiService";
 import { showError } from "../models/Errors";
-import stringMatch from "../models/stringMatch";
+import { stringMatch } from "../models/Helpers";
 
 const formItemLayout = {
   labelCol: { span: 4 },

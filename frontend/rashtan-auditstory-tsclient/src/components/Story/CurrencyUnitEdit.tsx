@@ -2,7 +2,7 @@ import React from "react";
 import { Select, Avatar, Input } from "antd";
 import { CurrencyUnit, UnitOfSize } from "../../models/Company";
 import { Currency } from "../../models/Country";
-import stringMatch from "../../models/stringMatch";
+import { stringMatch } from "../../models/Helpers";
 
 interface Props {
   value?: CurrencyUnit;
