@@ -60,14 +60,12 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
             Revenue = new Revenue
             {
                 TotalRevenue = 0,
-                ByLocation = new[] { new RevenueItem("China", 13, 40) },
-                ByClient = new[] { new RevenueItem("Huawei", 13, 40) },
-                ByProduct = new [] { new RevenueItem("DRAM", 45, 30) },
+                Products = new [] { new RevenueItem("DRAM", "some", 45, 30, 5) },
                 Comment = ""
             },
             Competition = new Competition
             {
-                Competitors = new[] { new Competitor("Intel", 250, 25) },
+                Competitors = new[] { new Competitor("Intel", 250, 25, 30) },
                 Comment = ""
             },
             Parts = new CustomPart[] { 

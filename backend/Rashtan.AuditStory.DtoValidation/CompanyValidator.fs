@@ -27,9 +27,7 @@ let validateProfile (dto: Profile) = result {
 let validateRevenue (dto: Revenue) = result {
     return {
         dto with
-            ByClient = dto.ByClient |> Array.filter itemNotNull
-            ByLocation = dto.ByLocation |> Array.filter itemNotNull
-            ByProduct = dto.ByProduct |> Array.filter itemNotNull
+            Products = dto.Products |> Array.filter itemNotNull
     }
 }
 

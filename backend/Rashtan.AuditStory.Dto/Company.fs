@@ -22,17 +22,18 @@ type Verdict = {
 
 [<CLIMutable>]
 type RevenueItem = {
-    Stream: string
-    Value: double
+    Name: string
+    Description: string
+    Revenue: double
     Profit: double
+    Growth: double
 }
 
 [<CLIMutable>]
 type Revenue = {
+    Intro: string
     TotalRevenue: double
-    ByLocation: RevenueItem[]
-    ByClient: RevenueItem[]
-    ByProduct: RevenueItem[]
+    Products: RevenueItem[]
     Comment: string
 }
 
@@ -40,7 +41,8 @@ type Revenue = {
 type Competitor = {
     Name: string
     MarketCap: double
-    MarketShare: double
+    Revenue: double
+    Margin: double
 }
 
 [<CLIMutable>]
@@ -154,10 +156,9 @@ module Empty =
                 Comment = ""
               }
             Revenue = {
+                Intro = ""
                 TotalRevenue = 0.
-                ByLocation = [||]
-                ByClient = [||]
-                ByProduct = [||]
+                Products = [||]
                 Comment = ""
               }
             Competition = {
