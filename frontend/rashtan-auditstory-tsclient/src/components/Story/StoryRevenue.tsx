@@ -60,7 +60,7 @@ const createList = (currency: CurrencyUnit | undefined) => (
           type="dashed"
           icon={<PlusOutlined />}
         >
-          Add
+          Add product
         </Button>
       </div>
     )}
