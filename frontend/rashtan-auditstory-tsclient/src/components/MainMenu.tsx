@@ -6,6 +6,9 @@ import {
   BookFilled,
   StarOutlined,
   UserOutlined,
+  MessageOutlined,
+  QuestionCircleOutlined,
+  CopyrightOutlined,
 } from "@ant-design/icons";
 import { Menu, Button, Row, Col } from "antd";
 import NewCategoryEdit from "./NewCategoryEdit";
@@ -62,19 +65,21 @@ const MainMenu: React.FC<Props> = ({
         }
       />
       <Menu selectable={false} mode="vertical">
-        <Menu.Item onClick={() => setFilter(undefined)}>
-          <UnorderedListOutlined />
+        <Menu.Item
+          onClick={() => setFilter(undefined)}
+          icon={<UnorderedListOutlined />}
+        >
           All stories
         </Menu.Item>
         <Menu.Item
           onClick={() =>
             setFilter({ title: "My favourites", predicate: (c) => c.star })
           }
+          icon={<StarOutlined />}
         >
-          <StarOutlined />
           My favourites
         </Menu.Item>
-        <Menu.Divider></Menu.Divider>
+        <Menu.Divider />
         <Menu.ItemGroup
           title={
             <Row>
@@ -95,8 +100,8 @@ const MainMenu: React.FC<Props> = ({
             <Menu.Item
               onClick={() => setFilter(createCategoryFilter(c))}
               key={c.name}
+              icon={<BookFilled style={{ color: c.color }} />}
             >
-              <BookFilled style={{ color: c.color }} />
               {c.name}
             </Menu.Item>
           ))}
@@ -104,14 +109,32 @@ const MainMenu: React.FC<Props> = ({
             <Button type="link">NEW</Button>
           </Menu.Item>
         </Menu.ItemGroup>
-        <Menu.Divider></Menu.Divider>
-        <Menu.Item onClick={() => history.push("/account")}>
-          <UserOutlined />
+        <Menu.Divider />
+        <Menu.Item
+          onClick={() => history.push("/account")}
+          icon={<UserOutlined />}
+        >
           Account
         </Menu.Item>
-        <Menu.Item onClick={logOut}>
-          <LogoutOutlined />
+        <Menu.Item icon={<QuestionCircleOutlined />}>Help</Menu.Item>
+        <Menu.Item icon={<MessageOutlined />}>Send feedback</Menu.Item>
+        <Menu.Divider />
+        <Menu.Item onClick={logOut} icon={<LogoutOutlined />}>
           LOG OUT
+        </Menu.Item>
+
+        <Menu.Item
+          style={{ marginTop: 20 }}
+          onClick={() => history.push("/about")}
+        >
+          <strong>About</strong>
+        </Menu.Item>
+        <Menu.Item onClick={() => history.push("/terms")}>
+          <strong>Terms</strong>
+        </Menu.Item>
+        <Menu.Item style={{ marginTop: 40 }}>
+          <CopyrightOutlined />
+          2020 Rashtan
         </Menu.Item>
       </Menu>
     </div>
