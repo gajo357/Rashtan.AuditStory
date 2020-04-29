@@ -46,11 +46,6 @@ export default class MockedApiService implements IApiService {
       mainAdvantage: "",
       durable: "",
 
-      bvps: 0,
-      eps: 0,
-      ocps: 0,
-      sgr: 0,
-
       comment: "",
     },
     management: {
@@ -62,16 +57,26 @@ export default class MockedApiService implements IApiService {
       ceoCandor: 2.5,
       ableAndTalented: 3.5,
 
-      roe: 0,
-      roic: 0,
-      debt: 0,
-
       comment: "",
     },
     revenue: {
       intro: "",
       totalRevenue: 0,
       products: [],
+      comment: "",
+    },
+    profitability: {
+      roe: 0,
+      roic: 0,
+      debt: 0,
+
+      ebit: { margin: 15, growth: 4 },
+      fcf: { margin: 16, growth: 5 },
+      opc: { margin: 17, growth: 6 },
+
+      salesGrowth: 8,
+      bookGrowth: 10,
+
       comment: "",
     },
     competition: {

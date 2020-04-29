@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Switch, InputNumber, Rate } from "antd";
+import { Form, Switch, InputNumber, Rate } from "antd";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import EditComment from "../SimpleEditors/EditComment";
 import { ManagementDto } from "../../models/Company";
@@ -37,18 +37,6 @@ const StoryManagement: React.FC<StoryPartProps<ManagementDto>> = ({
     <Form.Item label="Able and talented" name="ableAndTalented">
       <Rate allowHalf={true} />
     </Form.Item>
-
-    <Input.Group>
-      <Form.Item label="ROE (%)" name="roe">
-        <InputNumber placeholder="ROE" step={0.1} />
-      </Form.Item>
-      <Form.Item label="ROIC (%)" name="roic">
-        <InputNumber placeholder="ROIC" step={0.1} />
-      </Form.Item>
-      <Form.Item label="Debt over Earnings" name="debt">
-        <InputNumber placeholder="Debt over Earnings" min={0} step={0.1} />
-      </Form.Item>
-    </Input.Group>
 
     <Form.Item label="Comment" name="comment">
       <EditComment />

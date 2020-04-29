@@ -51,6 +51,28 @@ type Competition = {
     Comment: string
 }
 
+[<CLIMutable>]
+type Growth = {
+  Margin: double
+  Growth: double
+}
+
+[<CLIMutable>]
+type Profitability = {
+  Roe: double
+  Roic: double
+  Debt: double
+
+  Ebit: Growth
+  Fcf: Growth
+  Opc: Growth
+
+  SalesGrowth: double
+  BookGrowth: double
+
+  Comment: string
+}
+
 type MoatKind = Brand=0 | Price=1 | Secrets=2 | Toll=3 | Switching=4 
 
 [<CLIMutable>]
@@ -58,11 +80,6 @@ type Moat = {
     Kinds: MoatKind[]
     MainAdvantage: string
     Durable: string
-
-    Bvps: double
-    Eps: double
-    Ocps: double
-    Sgr: double
 
     Comment: string;
 }
@@ -76,10 +93,6 @@ type Management = {
 
     CeoCandor: double
     AbleAndTalented: double
-
-    Roe: double
-    Roic: double
-    Debt: double
 
     Comment: string;
 }
@@ -111,6 +124,7 @@ type Story = {
 
     Profile: Profile
     Revenue: Revenue
+    Profitability: Profitability
     Competition: Competition
 
     Management: Management
@@ -165,6 +179,20 @@ module Empty =
                 Products = [||]
                 Comment = ""
               }
+            Profitability = {
+                Roe = 0.
+                Roic = 0.
+                Debt = 0.
+
+                SalesGrowth = 0.
+                BookGrowth = 0.
+
+                Ebit = { Margin = 0.; Growth = 0. }
+                Fcf = { Margin = 0.; Growth = 0. }
+                Opc = { Margin = 0.; Growth = 0. }
+
+                Comment = ""
+            }
             Competition = {
                 Competitors = [||]
                 Comment = ""
@@ -179,21 +207,12 @@ module Empty =
                 CeoCandor = 0.
                 AbleAndTalented = 0.
 
-                Roe = 0.
-                Roic = 0.
-                Debt = 0.
-
                 Comment = ""
               }
             Moat = {
                 Kinds = [||]
                 MainAdvantage = ""
                 Durable = ""
-
-                Bvps = 0.
-                Eps = 0.
-                Ocps = 0.
-                Sgr = 0.
 
                 Comment = ""
               }

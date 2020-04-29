@@ -36,11 +36,6 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
                 MainAdvantage = "",
                 Durable = "",
 
-                Bvps = 0,
-                Eps = 0,
-                Ocps = 0,
-                Sgr = 0,
-
                 Comment = ""
             },
             Management = new Management
@@ -53,16 +48,28 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
                 CeoCandor = 2.5,
                 AbleAndTalented = 3.5,
 
+                Comment = ""
+            },
+
+            Revenue = new Revenue
+            {
+                TotalRevenue = 0,
+                Products = new[] { new RevenueItem("DRAM", "some", 45, 30, 5) },
+                Comment = ""
+            },
+            Profitability = new Profitability
+            {
                 Roe = 0,
                 Roic = 0,
                 Debt = 0,
 
-                Comment = ""
-            },
-            Revenue = new Revenue
-            {
-                TotalRevenue = 0,
-                Products = new [] { new RevenueItem("DRAM", "some", 45, 30, 5) },
+                SalesGrowth = 15,
+                BookGrowth = 15,
+
+                Ebit = new Growth(15, 5),
+                Fcf = new Growth(16, 6),
+                Opc = new Growth(17, 7),
+
                 Comment = ""
             },
             Competition = new Competition

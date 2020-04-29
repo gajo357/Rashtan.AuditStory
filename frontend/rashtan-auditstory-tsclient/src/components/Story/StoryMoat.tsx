@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, InputNumber, Select } from "antd";
+import { Form, Input, Select } from "antd";
 import StoryPartForm, { StoryPartProps } from "./StoryPartForm";
 import EditComment from "../SimpleEditors/EditComment";
 import { MoatDto, MoatKind } from "../../models/Company";
@@ -24,24 +24,6 @@ const StoryMoat: React.FC<StoryPartProps<MoatDto>> = ({ value, onChange }) => (
     <Form.Item label="Is moat durable?" name="durable">
       <Input placeholder="Is moat durable?" />
     </Form.Item>
-
-    <Input.Group>
-      <Form.Item label="BVPS growth (%)" name="bvps">
-        <InputNumber placeholder="Book Value per Share growth (%)" step={0.1} />
-      </Form.Item>
-      <Form.Item label="EPS growth (%)" name="eps">
-        <InputNumber placeholder="Earnings per Share growth (%)" step={0.1} />
-      </Form.Item>
-      <Form.Item label="OCPS growth (%)" name="ocps">
-        <InputNumber
-          placeholder="Operating Cash per Share growth (%)"
-          step={0.1}
-        />
-      </Form.Item>
-      <Form.Item label="Sales growth (%)" name="sgr">
-        <InputNumber placeholder="Sales growth (%)" step={0.1} />
-      </Form.Item>
-    </Input.Group>
 
     <Form.Item label="Comment" name="comment">
       <EditComment />

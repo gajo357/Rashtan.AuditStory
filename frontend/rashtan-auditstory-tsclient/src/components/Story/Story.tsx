@@ -17,6 +17,7 @@ import StoryCompetition from "./StoryCompetition";
 import StoryCustomPart from "./StoryCustomPart";
 import StoryChecklist from "./StoryChecklist";
 import StoryVerdict from "./StoryVerdict";
+import StoryProfit from "./StoryProfit";
 import StoryMenu from "./StoryMenu";
 import Page from "../Page";
 import {
@@ -161,7 +162,17 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   />
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="Competition" key="3">
+                <Tabs.TabPane tab="Profitability" key="3">
+                  <StoryProfit
+                    value={company.profitability}
+                    onChange={(p) =>
+                      updateCompany({ ...company, profitability: p })
+                    }
+                    currency={currency}
+                  />
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="Competition" key="4">
                   <StoryCompetition
                     value={company.competition}
                     onChange={(p) =>
@@ -171,14 +182,14 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   />
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="MOAT" key="4">
+                <Tabs.TabPane tab="MOAT" key="5">
                   <StoryMoat
                     value={company.moat}
                     onChange={(p) => updateCompany({ ...company, moat: p })}
                   />
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="Management" key="5">
+                <Tabs.TabPane tab="Management" key="6">
                   <StoryManagement
                     value={company.management}
                     onChange={(p) =>
@@ -205,7 +216,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   </Tabs.TabPane>
                 ))}
 
-                <Tabs.TabPane tab="Checklist" key="6">
+                <Tabs.TabPane tab="Checklist" key="7">
                   <StoryChecklist
                     value={company.checklist}
                     onChange={(p) =>
@@ -215,7 +226,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   />
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="Verdict" key="7">
+                <Tabs.TabPane tab="Verdict" key="8">
                   <StoryVerdict
                     value={company.verdict}
                     onChange={(p) => updateCompany({ ...company, verdict: p })}

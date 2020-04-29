@@ -14,6 +14,7 @@ export interface CompanyStory {
 
   profile: ProfileDto;
   revenue: RevenueDto;
+  profitability: ProfitabilityDto;
   competition: CompetitionDto;
 
   management: ManagementDto;
@@ -63,10 +64,6 @@ export interface ManagementDto {
   ceoCandor: number;
   ableAndTalented: number;
 
-  roe: number;
-  roic: number;
-  debt: number;
-
   comment: string;
 }
 
@@ -82,11 +79,6 @@ export interface MoatDto {
   kinds: MoatKind[];
   mainAdvantage: string;
   durable: string;
-
-  bvps: number;
-  eps: number;
-  ocps: number;
-  sgr: number;
 
   comment: string;
 }
@@ -116,6 +108,26 @@ export interface RevenueStreamDto {
   revenue: number;
   profit: number;
   growth: number;
+}
+
+export interface GrowthDto {
+  margin: number;
+  growth: number;
+}
+
+export interface ProfitabilityDto {
+  roe: number;
+  roic: number;
+  debt: number;
+
+  ebit: GrowthDto;
+  fcf: GrowthDto;
+  opc: GrowthDto;
+
+  salesGrowth: number;
+  bookGrowth: number;
+
+  comment: string;
 }
 
 export interface VerdictDto {
