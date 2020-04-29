@@ -1,12 +1,10 @@
 import React, { CSSProperties } from "react";
 import { Spin } from "antd";
 
-const headerHeight = 50;
+const headerHeight = 56;
 
 const baseStyle: CSSProperties = {
   display: "flex",
-  flex: 1,
-  fontSize: 24,
 };
 
 const headerStyle = {
@@ -17,8 +15,13 @@ const headerStyle = {
     left: 0,
     height: headerHeight,
     minWidth: "100%",
-    backgroundColor: "#1f1f1f",
+    background: "transparent",
+    backgroundColor: "#1c1c1c",
+    padding: "0 16px",
+    alignItems: "center",
+    justifyContent: "space-between",
     color: "white",
+    zIndex: 2020,
   } as CSSProperties,
 };
 
@@ -35,7 +38,8 @@ const bodyStyle = {
 const titleStyle = {
   style: {
     ...baseStyle,
-    flexGrow: 4,
+    flex: 1,
+    paddingLeft: "5px",
     justifyContent: "flex-start",
     whiteSpace: "nowrap",
     overflow: "hidden",
@@ -45,22 +49,20 @@ const titleStyle = {
 
 const iconStyle: CSSProperties = {
   ...baseStyle,
-  paddingTop: 7,
+  flexDirection: "row",
+  fontSize: 20,
+  alignItems: "center",
 };
 
 const backIconStyle = {
   style: {
     ...iconStyle,
-    justifyContent: "flex-start",
-    paddingLeft: 5,
-    maxWidth: 40,
   } as CSSProperties,
 };
 const rightIconStyle = {
   style: {
     ...iconStyle,
     justifyContent: "flex-end",
-    paddingRight: 5,
   } as CSSProperties,
 };
 
