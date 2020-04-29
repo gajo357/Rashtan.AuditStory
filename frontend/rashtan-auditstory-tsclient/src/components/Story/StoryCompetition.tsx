@@ -37,7 +37,7 @@ const StoryCompetition: React.FC<StoryPartProps<CompetitionDto>> = ({
             {fields.map((field) => (
               <div key={field.name} style={styles.revenueItem}>
                 <Button
-                  type="danger"
+                  danger
                   icon={<DeleteOutlined />}
                   onClick={() => remove(field.name)}
                 >
