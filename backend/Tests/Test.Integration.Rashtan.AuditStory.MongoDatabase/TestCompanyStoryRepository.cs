@@ -84,6 +84,22 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
                     Content = "<p><strong><u>Custom meaning</u></strong></p>"
                  }
             },
+            ProsCons = new ProsCons
+            {
+                Pro1 = "Great",
+                Pro2 = "Superb",
+                Pro3 = "Excellent",
+
+                Con1 = "Debt",
+                Con2 = "Awful",
+                Con3 = "Terrible",
+
+                Re1 = "Not so much",
+                Re2 = "Naaah",
+                Re3 = "Really?",
+
+                Comment = "And some"
+            },
             Checklist = new ChecklistItem[] {
               new ChecklistItem { Question = "Are any gurus invested in it?", Response = 0.5 },
               new ChecklistItem { Question = "Does it align with your values?", Response = 2.5 }

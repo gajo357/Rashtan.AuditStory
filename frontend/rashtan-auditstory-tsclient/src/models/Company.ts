@@ -24,6 +24,8 @@ export interface CompanyStory {
 
   checklist: ChecklistItemDto[];
 
+  prosCons: ProsConsDto;
+
   verdict: VerdictDto;
 }
 
@@ -126,6 +128,22 @@ export interface ProfitabilityDto {
 
   salesGrowth: number;
   bookGrowth: number;
+
+  comment: string;
+}
+
+export interface ProsConsDto {
+  pro1: string;
+  pro2: string;
+  pro3: string;
+
+  con1: string;
+  con2: string;
+  con3: string;
+
+  re1: string;
+  re2: string;
+  re3: string;
 
   comment: string;
 }

@@ -18,6 +18,7 @@ import StoryCustomPart from "./StoryCustomPart";
 import StoryChecklist from "./StoryChecklist";
 import StoryVerdict from "./StoryVerdict";
 import StoryProfit from "./StoryProfit";
+import StoryProsCons from "./StoryProsCons";
 import StoryMenu from "./StoryMenu";
 import Page from "../Page";
 import {
@@ -216,7 +217,14 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   </Tabs.TabPane>
                 ))}
 
-                <Tabs.TabPane tab="Checklist" key="7">
+                <Tabs.TabPane tab="Pros and Cons" key="7">
+                  <StoryProsCons
+                    value={company.prosCons}
+                    onChange={(p) => updateCompany({ ...company, prosCons: p })}
+                  />
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="Checklist" key="8">
                   <StoryChecklist
                     value={company.checklist}
                     onChange={(p) =>
@@ -226,7 +234,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                   />
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="Verdict" key="8">
+                <Tabs.TabPane tab="Verdict" key="10">
                   <StoryVerdict
                     value={company.verdict}
                     onChange={(p) => updateCompany({ ...company, verdict: p })}

@@ -93,6 +93,21 @@ export default class MockedApiService implements IApiService {
       { question: "Are any gurus invested in it?", response: 0.5 },
       { question: "Does it align with your values?", response: 2.5 },
     ],
+    prosCons: {
+      pro1: "",
+      pro2: "",
+      pro3: "",
+
+      con1: "",
+      con2: "",
+      con3: "",
+
+      re1: "",
+      re2: "",
+      re3: "",
+
+      comment: "",
+    },
     verdict: {
       category: "Wonderfull",
       flags: ["Some event"],

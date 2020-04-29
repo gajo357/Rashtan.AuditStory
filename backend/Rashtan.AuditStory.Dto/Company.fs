@@ -21,6 +21,23 @@ type Verdict = {
 }
 
 [<CLIMutable>]
+type ProsCons = {
+  Pro1: string;
+  Pro2: string;
+  Pro3: string;
+
+  Con1: string;
+  Con2: string;
+  Con3: string;
+
+  Re1: string;
+  Re2: string;
+  Re3: string;
+
+  Comment: string;
+}
+
+[<CLIMutable>]
 type RevenueItem = {
     Name: string
     Description: string
@@ -132,6 +149,8 @@ type Story = {
 
     Parts: CustomPart[]
 
+    ProsCons: ProsCons
+
     Checklist: ChecklistItem[]
 
     Verdict: Verdict
@@ -218,6 +237,23 @@ module Empty =
               }
 
             Parts = [||]
+
+            ProsCons = {
+                Pro1 = ""
+                Pro2 = ""
+                Pro3 = ""
+
+                Con1 = ""
+                Con2 = ""
+                Con3 = ""
+
+                Re1 = ""
+                Re2 = ""
+                Re3 = ""
+
+                Comment = ""
+              }
+              
 
             Checklist = [||]
 
