@@ -99,6 +99,8 @@ type Profile = {
     Unit: CurrencyUnit
     MarketCap: double
     Website: string
+    Address: string
+    NoEmployees: int
     Tags: string[]
     Comment: string
 }
@@ -152,6 +154,8 @@ module Empty =
                 }
                 MarketCap = 0.
                 Website = ""
+                Address = ""
+                NoEmployees = 0
                 Tags = [||]
                 Comment = ""
               }

@@ -1,6 +1,6 @@
 import React from "react";
 import { TagsOutlined } from "@ant-design/icons";
-import { Form, Input, Select } from "antd";
+import { Form, Input, Select, InputNumber } from "antd";
 import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
 import CurrencyUnitEdit from "./CurrencyUnitEdit";
 import InputWithCurrency from "./InputWithCurrency";
@@ -38,12 +38,20 @@ const StoryProfile: React.FC<StoryPartPropsWithExtraData<
         <Input placeholder="Company website" />
       </Form.Item>
 
+      <Form.Item label="Address" name="address">
+        <Input placeholder="Company address" />
+      </Form.Item>
+
       <Form.Item label="Currency" name="unit">
         <CurrencyUnitEdit currencies={extraData} />
       </Form.Item>
 
       <Form.Item label="Market cap" name="marketCap">
         <InputWithCurrency placeholder="Market cap" currency={currency} />
+      </Form.Item>
+
+      <Form.Item label="Number of employees" name="noEmployees">
+        <InputNumber placeholder="No. Employees" />
       </Form.Item>
 
       <Form.Item label="Industry" name="industry">

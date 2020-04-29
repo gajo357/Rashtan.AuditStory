@@ -36,6 +36,8 @@ export default class MockedApiService implements IApiService {
       industry: "Semiconductor",
       marketCap: 100,
       website: "https://www.micron.com/",
+      address: "Prvi Put 1, Trebinje",
+      noEmployees: 20000,
       tags: ["semiconductor"],
       comment: "",
     },

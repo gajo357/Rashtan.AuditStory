@@ -43,6 +43,8 @@ export interface ProfileDto {
   unit: CurrencyUnit;
   marketCap: number;
   website: string;
+  address: string;
+  noEmployees: number;
   tags: string[];
   comment: string;
 }

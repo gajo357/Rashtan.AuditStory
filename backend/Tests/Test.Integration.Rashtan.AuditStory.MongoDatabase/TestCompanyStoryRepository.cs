@@ -20,6 +20,8 @@ namespace Test.Integration.Rashtan.AuditStory.MongoDatabase
                 Industry = "Semiconductor",
                 MarketCap = 100,
                 Website = "https://www.micron.com/",
+                Address = "Prvi Put 1, Trebinje",
+                NoEmployees = 20000,
                 Tags = new[] { "Semiconductor" },
                 Unit = new CurrencyUnit
                 {

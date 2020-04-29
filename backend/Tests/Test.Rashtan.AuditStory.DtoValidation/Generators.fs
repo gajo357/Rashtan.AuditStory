@@ -36,12 +36,16 @@ type ValidCompanyProfileGenerator =
             let! website = ValidTypesGenerator.String().Generator
             let! curr = ValidTypesGenerator.String().Generator
             let! mc = ValidTypesGenerator.Double().Generator
+            let! noEmp = ValidTypesGenerator.Int().Generator
+            let! address = ValidTypesGenerator.String().Generator
             let! industry = ValidTypesGenerator.String().Generator
             let! comment = ValidTypesGenerator.String().Generator
             
             return {
                 Name = name
                 Website = website
+                Address = address
+                NoEmployees = noEmp
                 MarketCap = mc
                 Industry = industry
                 Tags = [| name; website; industry; curr |]
@@ -69,12 +73,16 @@ type InvalidCompanyProfileGenerator =
             let! website = InvalidTypesGenerator.String().Generator
             let! curr = InvalidTypesGenerator.String().Generator
             let! mc = InvalidTypesGenerator.Double().Generator
+            let! noEmp = InvalidTypesGenerator.Int().Generator
+            let! address = InvalidTypesGenerator.String().Generator
             let! industry = InvalidTypesGenerator.String().Generator
             let! comment = InvalidTypesGenerator.String().Generator
             
             return {
                 Name = name
                 Website = website
+                Address = address
+                NoEmployees = noEmp
                 MarketCap = mc
                 Industry = industry
                 Tags = [| null; ""; name; name |]
