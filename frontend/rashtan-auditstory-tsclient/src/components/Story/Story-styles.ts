@@ -29,9 +29,10 @@ export default {
   } as CSSProperties,
   checklistQuestion: {
     width: "50%",
-    borderStyle: "solid",
-    borderColor: "white",
+    borderStyle: "dotted",
+    borderColor: "black",
     borderWidth: 1,
+    paddingLeft: 5,
   } as CSSProperties,
   checklistUnusedItem: { cursor: "pointer" } as CSSProperties,
   addFlagButton: { marginTop: 10 } as CSSProperties,
