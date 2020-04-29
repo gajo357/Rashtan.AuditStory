@@ -8,8 +8,8 @@ export default {
   } as CSSProperties,
   tabs: {} as CSSProperties,
   revenueItem: {
-    borderStyle: "solid",
-    borderColor: "white",
+    borderStyle: "dotted",
+    borderColor: "black",
     borderWidth: 1,
     borderRadius: "5px",
     margin: "5px 0 5px 0",
