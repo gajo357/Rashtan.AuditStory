@@ -1,10 +1,6 @@
 import React, { useEffect, CSSProperties, useState } from "react";
 import { History } from "history";
-import {
-  FlagTwoTone,
-  MenuOutlined,
-  PlusCircleTwoTone,
-} from "@ant-design/icons";
+import { FlagTwoTone, MenuOutlined, PlusCircleFilled } from "@ant-design/icons";
 import { Drawer, List, Tag, Space, Input } from "antd";
 import Page from "./Page";
 import IApiService from "../services/IApiService";
@@ -21,6 +17,7 @@ const createStoryStyle: CSSProperties = {
   bottom: 20,
   right: 20,
   fontSize: 50,
+  color: "#388E3C",
 };
 
 const searchStyle = {
@@ -196,10 +193,9 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         existingItems={companies.map((m) => m.name)}
       />
 
-      <PlusCircleTwoTone
+      <PlusCircleFilled
         {...{ style: createStoryStyle }}
         onClick={() => setCreateStoryVisible(true)}
-        twoToneColor="#388E3C"
       />
     </div>
   );
