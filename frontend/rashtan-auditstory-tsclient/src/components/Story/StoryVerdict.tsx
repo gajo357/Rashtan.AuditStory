@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import {
-  BookTwoTone,
   PlusOutlined,
   MinusCircleOutlined,
+  BookFilled,
 } from "@ant-design/icons";
 import { Form, Input, Button, Select, Row, Col } from "antd";
 import { VerdictDto } from "../../models/Company";
@@ -27,7 +27,7 @@ const StoryVerdict: React.FC<StoryPartPropsWithExtraData<
           {categories.map((c) => (
             <Select.Option value={c.name} key={c.name}>
               <span>
-                <BookTwoTone twoToneColor={c.color} />
+                <BookFilled style={{ color: c.color, marginRight: 5 }} />
                 {c.name}
               </span>
             </Select.Option>
