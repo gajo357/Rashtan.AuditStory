@@ -44,12 +44,12 @@ interface Props {
 
 const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [createStoryVisible, setCreateStoryVisible] = useState(false);
   const [filter, setFilter] = useState<CompanyFilter | undefined>();
   const [companies, setCompanies] = useState<QuickInfoDto[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [search, setSearch] = useState("");
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -67,14 +67,14 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
     const c = categories.find((c) => c.name === name);
     return (c ? c.color : "#FFFFFF") + "50";
   };
-  const onClose = () => setOpen(false);
+  const onClose = () => setMenuOpen(false);
 
   const openStory = (id: string) => {
     history.push(`/story/${id}`);
   };
 
   const companySearchFilter = (c: QuickInfoDto) => {
-    const localMatch = stringMatch(search);
+    const localMatch = stringMatch(searchText);
 
     return (
       localMatch(c.name) ||
@@ -89,7 +89,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         title="AuditStory"
         placement="left"
         onClose={onClose}
-        visible={open}
+        visible={menuOpen}
       >
         <MainMenu
           apiService={apiService}
@@ -115,11 +115,13 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
       <Page
         loading={loading}
         title={filter ? filter.title : "All stories"}
-        backIcon={<MenuOutlined onClick={() => setOpen(true)}></MenuOutlined>}
+        backIcon={
+          <MenuOutlined onClick={() => setMenuOpen((v) => !v)}></MenuOutlined>
+        }
       >
         <div>
           <Input.Search
-            onChange={(e) => setSearch(e ? e.target.value : "")}
+            onChange={(e) => setSearchText(e ? e.target.value : "")}
             size="large"
             enterButton
             {...searchStyle}
