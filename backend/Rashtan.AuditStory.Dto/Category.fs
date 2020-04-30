@@ -13,7 +13,7 @@ module Category =
                 Color = "#4CAF50"
             }
             {
-                Name = "Too complicated"
+                Name = "Too hard"
                 Color = "#FF5722"
             }
             {
