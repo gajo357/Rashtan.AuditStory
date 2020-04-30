@@ -4,7 +4,6 @@ import { Typography, Button, Spin } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 import { History } from "history";
 import "./App.css";
-import Footer from "../Footer";
 import Terms from "../Terms";
 import AccountEdit from "../AccountEdit";
 import Story from "../Story/Story";
@@ -19,17 +18,19 @@ interface Props {
 }
 
 const App: React.FC<Props> = ({ apiService, authService }) => {
+  const goHome = (history: History) => () => history.push("/");
+
   const startSession = (history: History) => {
     authService
       .handleAuthentication()
-      .then(() => history.push("/"))
+      .then(goHome(history))
       .catch(authService.logIn);
     return <Spin spinning tip="Starting session..." />;
   };
 
   const login = (history: History) => {
     authService.isAuthenticated().then((v) => {
-      if (v) history.push("/");
+      if (v) goHome(history);
     });
 
     return (
@@ -55,10 +56,11 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
         />
         <Route exact path="/login" render={({ history }) => login(history)} />
 
-        <Route exact path="/terms">
-          <Terms />
-          <Footer />
-        </Route>
+        <Route
+          exact
+          path="/terms"
+          render={({ history }) => <Terms goBack={goHome(history)} />}
+        />
 
         <Route
           exact
@@ -79,7 +81,7 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             <Story
               apiService={apiService}
               id={match.params["id"]}
-              goHome={() => history.push("/")}
+              goHome={goHome(history)}
             />
           )}
         />
@@ -87,20 +89,14 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           exact
           path="/account"
           render={({ history }) => (
-            <AccountEdit
-              apiService={apiService}
-              goBack={() => history.push("/")}
-            />
+            <AccountEdit apiService={apiService} goBack={goHome(history)} />
           )}
         />
         <Route
           exact
           path="/editCategories"
           render={({ history }) => (
-            <CategoriesEdit
-              apiService={apiService}
-              goBack={() => history.push("/")}
-            />
+            <CategoriesEdit apiService={apiService} goBack={goHome(history)} />
           )}
         />
         <Route component={() => <Redirect to="/" />} />
