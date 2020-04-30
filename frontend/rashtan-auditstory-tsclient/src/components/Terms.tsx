@@ -13,415 +13,608 @@ const Terms: React.FC<Props> = ({ goBack }) => (
     backIcon={<ArrowLeftOutlined onClick={goBack} />}
   >
     <div style={{ textAlign: "left" }}>
-      <h2>Terms of Service</h2>
-      <b>The short version:</b>
-      <br />
-      <br />
-      (1)　'Audit Story' creates and sells a digital book at auditstory.com.
-      <br />
-      (2)　'Readers' purchase the book sold by Audit Story.
-      <br />
-      (3)　Readers must sign up with a Google account to purchase and read our
-      book.
-      <br />
-      (4)　We use Stripe to securely process payments and do not provide
-      refunds.
-      <br />
-      (5)　We reserve the right to cancel a Reader's account or block a Reader
-      from using Audit Story at any time, with or without reason.
-      <br />
-      (6)　We reserve the right to stop ugrading packages and providing support
-      for our book with 1 month's notice.
-      <br />
-      <br /> <b>The long version:</b>
-      <br />
-      <br />
-      This Terms of Use Agreement (“Agreement”) constitutes a legally binding
-      agreement made between you, whether personally or on behalf of an entity
-      (“user” or “you”) and Audit Story (“Company” or “we” or “us” or “our”),
-      concerning your access to and use of the auditstory.com website (the
-      “Website”). The Website sells a digital book to "Readers" (“Company
-      Services”). All users who are minors in the jurisdiction in which they
-      reside (generally under the age of 18) are not permitted to register for
-      the Website or use the Company Services. You accept and agree to be bound
-      by this agreement by continuing to use the website. If you do not agree to
-      abide by this agreement, or to modifications that company may make to this
-      agreement in the future, do not use or access the company services or the
-      website.
-      <br />
-      <br /> <b>Regarding Your Registration</b>
-      <br />
-      <br />
-      By using the Company Services, you represent and warrant that:
-      <br />
-      (1)　all registration information you submit is truthful and accurate;
-      <br />
-      (2)　you will maintain the accuracy of such information;
-      <br />
-      (3)　you will keep your password confidential and will be responsible for
-      all use of your password and account;
-      <br />
-      (4)　you are not a minor in the jurisdiction in which you reside, or if a
-      minor, you have received parental permission to use this Website; and
-      <br />
-      (5)　your use of the Company Services does not violate any applicable law
-      or regulation.
-      <br />
-      <br />
-      You also agree to:
-      <br />
-      (1) provide true, accurate, current and complete information about
-      yourself as prompted by the Website’s registration form and
-      <br /> (2) maintain and promptly update registration data to keep it true,
-      accurate, current and complete. If you provide any information that is
-      untrue, inaccurate, not current or incomplete, or Company has reasonable
-      grounds to suspect that such information is untrue, inaccurate, not
-      current or incomplete, Company has the right to suspend or terminate your
-      account and refuse any and all current or future use of the Website (or
-      any portion thereof).
-      <br />
-      <br /> <b>Submissions</b>
-      <br />
-      <br />
-      You acknowledge and agree that any questions, comments, suggestions,
-      ideas, feedback or other information about the Website or the Company
-      Services ("Submissions") provided by you to Company are non-confidential
-      and Company shall be entitled to the unrestricted use and dissemination of
-      these Submissions for any purpose, commercial or otherwise, without
-      acknowledgment or compensation to you.
-      <br />
-      <br /> <b>Prohibited Activities</b>
-      <br />
-      <br />
-      You may not access or use the Website for any other purpose other than
-      that for which Company makes it available. The Website may not be used in
-      connection with any commercial endeavors except those that are
-      specifically endorsed or approved by Company. Prohibited activity
-      includes, but is not limited to:
-      <br />
-      (1)　attempting to bypass any measures of the Website designed to prevent
-      or restrict access to the Website, or any portion of the Website
-      <br />
-      (2)　attempting to impersonate another user or person or using the
-      username of another user
-      <br />
-      (3)　deciphering, decompiling, disassembling or reverse engineering any of
-      the software comprising or in any way making up a part of the Website
-      <br />
-      (4)　deleting the copyright or other proprietary rights notice from any
-      Website content
-      <br />
-      (5)　engaging in any automated use of the system, such as using any data
-      mining, robots or similar data gathering and extraction tools
-      <br />
-      (6)　except as may be the result of standard search engine or Internet
-      browser usage, using or launching, developing or distributing any
-      automated system, including, without limitation, any spider, robot (or
-      "bot"), cheat utility, scraper or offline reader that accesses the
-      Website, or using or launching any unauthorized script or other software
-      <br />
-      (7)　harassing, annoying, intimidating or threatening any Company
-      employees or agents engaged in providing any portion of the Company
-      Services to you
-      <br />
-      (8)　interfering with, disrupting, or creating an undue burden on the
-      Website or the networks or services connected to the Website
-      <br />
-      (9)　making any unauthorized use of the Company Services, including
-      collecting usernames and/or email addresses of users by electronic or
-      other means for the purpose of sending unsolicited email, or creating user
-      accounts by automated means or under false pretenses
-      <br />
-      (10)　selling or otherwise transferring your profile
-      <br />
-      (11)　systematic retrieval of data or other content from the Website to
-      create or compile, directly or indirectly, a collection, compilation,
-      database or directory without written permission from Company
-      <br />
-      (12)　tricking, defrauding or misleading Company and other users,
-      especially in any attempt to learn sensitive account information such as
-      passwords
-      <br />
-      (13)　using any information obtained from the Website in order to harass,
-      abuse, or harm another person
-      <br />
-      (14)　using the Company Services as part of any effort to compete with
-      Company or to provide services as a service bureau
-      <br />
-      (15)　using the Website in a manner inconsistent with any and all
-      applicable laws and regulations.
-      <br />
-      <br /> <b>Intellectual Property Rights</b>
-      <br />
-      <br />
-      The content on the Website (“Company Content”) and the trademarks, service
-      marks and logos contained therein (“Marks”) are owned by Company, and are
-      subject to copyright and other intellectual property rights under United
-      States and foreign laws and international conventions. Company Content,
-      includes, without limitation, all source code, databases, functionality,
-      software, website designs, audio, video, text, photographs and graphics.
-      All Company graphics, logos, designs, page headers, button icons, scripts
-      and service names are registered trademarks, common law trademarks or
-      trade dress of Company in the United States and/or other countries.
-      Company's trademarks and trade dress may not be used, including as part of
-      trademarks and/or as part of domain names, in connection with any product
-      or service in any manner that is likely to cause confusion and may not be
-      copied, imitated, or used, in whole or in part, without the prior written
-      permission of the Company. Company Content on the Website is provided to
-      you “AS IS” for your information and personal use only and may not be
-      used, copied, reproduced, aggregated, distributed, transmitted, broadcast,
-      displayed, sold, licensed, or otherwise exploited for any other purposes
-      whatsoever without the prior written consent of the respective owners.
-      Provided that you are eligible to use the Website, you are granted a
-      limited license to access and use the Website and the Company Content and
-      to download or print a copy of any portion of the Company Content to which
-      you have properly gained access solely for your personal, non-commercial
-      use. Company reserves all rights not expressly granted to you in and to
-      the Website and Company Content and Marks.
-      <br />
-      <br /> <b>Third Party Websites and Content</b>
-      <br />
-      <br />
-      The Website contains (or you may be sent through the Website or the
-      Company Services) links to other websites ("Third Party Websites"). Such
-      Third Party Websites are not investigated, monitored or checked for
-      accuracy, appropriateness, or completeness by us, and we are not
-      responsible for any Third Party Websites accessed through the Website.
-      Linking to any Third Party Website does not imply approval or endorsement
-      thereof by us. If you decide to leave the Website and access the Third
-      Party Websites, you do so at your own risk and you should be aware that
-      our terms and policies no longer govern.
-      <br />
-      <br /> <b>Payments</b>
-      <br />
-      <br />
-      Company securely processes all payments through Stripe
-      (https://stripe.com/). You may be subject to terms and conditions
-      governing use of Stripe’s service and personal information collection
-      practices. Please review such terms and conditions and privacy policy
-      before using the services.In connection with your payment, you will be
-      asked to provide customary billing information such as name, billing
-      address and credit card information. You agree to pay Audit Story for any
-      of its books you receive in accordance with these Terms. Company reserves
-      the right to correct any errors or mistakes in pricing that it makes even
-      if it has already requested or received payment. Company may change prices
-      at any time. All payments must be made in U.S. dollars. Company does not
-      provide refunds.
-      <br />
-      <br /> <b>Term and Termination</b>
-      <br />
-      <br />
-      This Agreement shall remain in full force and effect while you use the
-      Website or are otherwise a user or member of the Website, as applicable.
-      You may terminate your use or participation at any time, for any reason,
-      by following the instructions for terminating user accounts in your
-      account settings, if available, or by contacting us using the contact
-      information below. Without limiting any other provision of this agreement,
-      company reserves the right to, in company’s sole discretion and without
-      notice or liability, deny access to and use of the website and the company
-      services, to any person for any reason or for no reason at all, and
-      company may terminate your use or participation in the website and the
-      company services, revoke your access to a purchased book, delete your
-      profile and any content or information that you have posted at any time,
-      without warning, in company’s sole discretion. In order to protect the
-      integrity of the Website and Company Services, Company reserves the right
-      at any time in its sole discretion to block certain IP addresses from
-      accessing the Website and Company Services. Company also reserves the
-      right to block users on Github from contributing to company’s Github
-      organization and repositories. Any provisions of this Agreement that, in
-      order to fulfill the purposes of such provisions, need to survive the
-      termination or expiration of this Agreement, shall be deemed to survive
-      for as long as necessary to fulfill such purposes. You understand that
-      certain states allow you to cancel this agreement, without any penalty or
-      obligation, at any time prior to midnight of company’s third business day
-      following the date of this agreement, excluding sundays and holidays. To
-      cancel, contact us during normal business hours using the contact
-      information listed below. If Company terminates or suspends your account
-      for any reason, you are prohibited from registering and creating a new
-      account under your name, a fake or borrowed name, or the name of any third
-      party, even if you may be acting on behalf of the third party. In addition
-      to terminating or suspending your account, Company reserves the right to
-      take appropriate legal action, including without limitation pursuing
-      civil, criminal, and injunctive redress.
-      <br />
-      <br /> <b>Modifications:</b>
-      <br />
-      <br />
-      To Agreement
-      <br /> Company may modify this Agreement from time to time. Any and all
-      changes to this Agreement will be posted on the Website and revisions will
-      be indicated by date. You agree to be bound to any changes to this
-      Agreement when you use the Company Services after any such modification
-      becomes effective. Company may also, in its discretion, choose to alert
-      all users with whom it maintains email information of such modifications
-      by means of an email to their most recently provided email address. It is
-      therefore important that you regularly review this Agreement and keep your
-      contact information current in your account settings to ensure you are
-      informed of changes. You agree that you will periodically check the
-      Website for updates to this Agreement and you will read the messages we
-      send you to inform you of any changes. Modifications to this Agreement
-      shall be effective after posting.
-      <br />
-      <br /> To Services
-      <br />
-      Company reserves the right at any time to modify or discontinue,
-      temporarily or permanently, the Company Services (or any part thereof)
-      with or without notice. You agree that Company shall not be liable to you
-      or to any third party for any modification, suspension or discontinuance
-      of the Company Services.
-      <br />
-      <br /> <b>Notices</b>
-      <br />
-      <br />
-      Except as explicitly stated otherwise, any notices given to Company shall
-      be given by email to the address listed in the contact information below.
-      Any notices given to you shall be given to the email address you provided
-      during the registration process, or such other address as each party may
-      specify. Notice shall be deemed to be given twenty-four (24) hours after
-      the email is sent, unless the sending party is notified that the email
-      address is invalid.
-      <br />
-      <br /> <b>User Data</b>
-      <br />
-      <br />
-      Our Website will maintain certain data that you transfer to the Website
-      for the purpose of the performance of the Company Services, as well as
-      data relating to your use of the Company Services. Although we perform
-      regular routine backups of data, you are primarily responsible for all
-      data that you have transferred or that relates to any activity you have
-      undertaken using the Company Services. You agree that Company shall have
-      no liability to you for any loss or corruption of any such data, and you
-      hereby waive any right of action against Company arising from any such
-      loss or corruption of such data.
-      <hr />
-      <br /> <h2>Privacy Policy</h2>
-      <b>The short version:</b>
-      <br />
-      <br />
-      1)　'Audit Story' creates and sells a digital book at auditstory.com.
-      <br />
-      (2)　'Readers' purchase the book sold by Audit Story.
-      <br />
-      (3)　We do not show ads on any of our products and we do not sell any of
-      your information to third parties.
-      <br />
-      (4)　Readers must sign up with a Google account to purchase and read
-      books.
-      <br />
-      (5) We use Google solely for signing up and logging in. We do not access,
-      store, or sell any information from your Google account or your Audit
-      Story account.
-      <br />
-      (6) We use Stripe to securely process payments. We do not store any
-      payment information in our databases.
-      <br />
-      <br /> <b>The long version:</b>
-      <br />
-      <br />
-      Please read our privacy policy carefully to get a clear understanding of
-      how we use, protect or otherwise handle your Personally Identifiable
-      Information in accordance with our website. You will be notified of any
-      Privacy Policy changes on our Privacy Policy Page.
-      <br />
-      <br />
-      <b>
-        What personal information do we ask people to provide on our website?
-      </b>
-      <br />
-      <br />
-      When registering or placing an order on our site, as appropriate, you may
-      be asked to enter your name, email address, credit card information or
-      other details to help you with your experience. Readers sign up for our
-      Audit Story using their Google account. We do not access your Google
-      account, and we do not store any information from your Google account or
-      sell any of your information to third parties.
-      <br />
-      <br />
-      <b>How do we use your information?</b>
-      <br />
-      <br />
-      We may use the information you provide when you register, make a purchase,
-      use other site features in the following ways:
-      <br /> (1)　To improve our website in order to better serve you.
-      <br />
-      (2)　To allow us to better service you in responding to your customer
-      service requests.
-      <br />
-      (3)　To process your transactions.
-      <br />
-      (4)　To send emails regarding your order.
-      <br />
-      <br />
-      We send you emails in order to:
-      <br />
-      (1)　Provide information, respond to inquiries, and/or other requests or
-      questions.
-      <br />
-      (2)　Process orders and to send information and updates pertaining to
-      orders.
-      <br />
-      (3)　Provide you additional information related to your product and/or
-      service.
-      <br />
-      <br />
-      <b>How do we protect your information?</b>
-      <br />
-      <br />
-      Your personal information is contained behind secured networks and is only
-      accessible by a limited number of persons who have special access rights
-      to such systems, and are required to keep the information confidential. In
-      addition, all sensitive/credit information you supply is encrypted via
-      Secure Socket Layer (SSL) technology. We implement a variety of security
-      measures when a user places an order or enters, submits, or accesses their
-      information to maintain the safety of your personal information. All
-      transactions are processed through a gateway provider (Stripe) and are not
-      stored or processed on our servers. You can change your personal
-      information by logging into your account.
-      <br />
-      <br /> <b>Do we use 'cookies'?</b>
-      <br />
-      <br /> Yes. Cookies are small files that a site or its service provider
-      transfers to your computer's hard drive through your Web browser (if you
-      allow) that enables the site's or service provider's systems to recognize
-      your browser and capture and remember certain information. We use cookies
-      to authenticate when you login and logout of our app. We do not use
-      cookies to track your online browsing behavior or show advertisements or
-      marketing materials. We do not allow any type of advertising on our
-      website. You can choose to have your computer warn you each time a cookie
-      is being sent, or you can choose to turn off all cookies. You do this
-      through your browser settings. Since each browser is a little different,
-      look at your browser's Help Menu to learn the correct way to modify your
-      cookies. If you turn cookies off, some of the features that make your site
-      experience more efficient may not function properly. It will not affect
-      the functionality of the site.
-      <br />
-      <br /> <b>Third-party disclosure</b>
-      <br />
-      <br /> We do not sell, trade, or otherwise transfer to outside parties
-      your Personally Identifiable Information. We do not include or offer
-      third-party products or services on our website. We do not allow
-      third-party behavioral tracking.**Google**We use Google Analytics to
-      monitor our site traffic and understand from which sites users come to our
-      site. We do not use Google AdSense on our website. To prevent collection
-      of your data by Google Analytics, you can opt out by using the Google
-      Analytics Opt Out Browser add on.
-      <br />
-      <br />
-      <b>How does our site handle Do Not Track signals?</b>
-      <br />
-      <br /> We honor Do Not Track signals and Do Not Track, plant cookies, or
-      use advertising when a Do Not Track (DNT) browser mechanism is in place.
-      <br />
-      <br />
-      <b>Contacting Us</b>
-      <br />
-      <br /> If there are any questions regarding these terms of service of
-      privacy policy, or to resolve any complain with the Company, please
-      contact us:
-      <br />
-      auditstory.com
-      <br />
-      auditstory@gmail.com
+      <h2 style={{ textAlign: "center" }}>
+        <b>TERMS AND CONDITIONS</b>
+      </h2>
+      <p>Last updated: 2020-05-11</p>
+      <p>
+        1. <b>Introduction</b>
+      </p>
+      <p>
+        Welcome to <b>AuditStory</b> (“Company”, “we”, “our”, “us”)!
+      </p>
+      <p>
+        These Terms of Service (“Terms”, “Terms of Service”) govern your use of
+        our website located at <b>auditstory.com</b> (together or individually
+        “Service”) operated by <b>AuditStory</b>.
+      </p>
+      <p>
+        Our Privacy Policy also governs your use of our Service and explains how
+        we collect, safeguard and disclose information that results from your
+        use of our web pages.
+      </p>
+      <p>
+        Your agreement with us includes these Terms and our Privacy Policy
+        (“Agreements”). You acknowledge that you have read and understood
+        Agreements, and agree to be bound of them.
+      </p>
+      <p>
+        If you do not agree with (or cannot comply with) Agreements, then you
+        may not use the Service, but please let us know by emailing at{" "}
+        <b>auditstory@gmail.com</b> so we can try to find a solution. These
+        Terms apply to all visitors, users and others who wish to access or use
+        Service.
+      </p>
+      <p>
+        2. <b>Communications</b>
+      </p>
+      <p>
+        By using our Service, you agree to subscribe to newsletters, marketing
+        or promotional materials and other information we may send. However, you
+        may opt out of receiving any, or all, of these communications from us by
+        following the unsubscribe link or by emailing at auditstory@gmail.com.
+      </p>
+      <p>
+        3. <b>Purchases</b>
+      </p>
+      <p>
+        If you wish to purchase any product or service made available through
+        Service (“Purchase”), you may be asked to supply certain information
+        relevant to your Purchase including but not limited to, your credit or
+        debit card number, the expiration date of your card, your billing
+        address, and your shipping information.
+      </p>
+      <p>
+        You represent and warrant that: (i) you have the legal right to use any
+        card(s) or other payment method(s) in connection with any Purchase; and
+        that (ii) the information you supply to us is true, correct and
+        complete.
+      </p>
+      <p>
+        We may employ the use of third party services for the purpose of
+        facilitating payment and the completion of Purchases. By submitting your
+        information, you grant us the right to provide the information to these
+        third parties subject to our Privacy Policy.
+      </p>
+      <p>
+        We reserve the right to refuse or cancel your order at any time for
+        reasons including but not limited to: product or service availability,
+        errors in the description or price of the product or service, error in
+        your order or other reasons.
+      </p>
+      <p>
+        We reserve the right to refuse or cancel your order if fraud or an
+        unauthorized or illegal transaction is suspected.
+      </p>
+      <p>
+        4. <b>Contests, Sweepstakes and Promotions</b>
+      </p>
+      <p>
+        Any contests, sweepstakes or other promotions (collectively,
+        “Promotions”) made available through Service may be governed by rules
+        that are separate from these Terms of Service. If you participate in any
+        Promotions, please review the applicable rules as well as our Privacy
+        Policy. If the rules for a Promotion conflict with these Terms of
+        Service, Promotion rules will apply.
+      </p>
+      <p>
+        5. <b>Subscriptions</b>
+      </p>
+      <p>
+        Some parts of Service are billed on a subscription basis
+        ("Subscription(s)"). You will be billed in advance on a recurring and
+        periodic basis ("Billing Cycle"). Billing cycles will be set depending
+        on the type of subscription plan you select when purchasing a
+        Subscription.
+      </p>
+      <p>
+        At the end of each Billing Cycle, your Subscription will automatically
+        renew under the exact same conditions unless you cancel it or AuditStory
+        cancels it. You may cancel your Subscription renewal either through your
+        online account management page or by contacting auditstory@gmail.com
+        customer support team.
+      </p>
+      <p>
+        A valid payment method is required to process the payment for your
+        subscription. You shall provide AuditStory with accurate and complete
+        billing information that may include but not limited to full name,
+        address, state, postal or zip code, telephone number, and a valid
+        payment method information. By submitting such payment information, you
+        automatically authorize AuditStory to charge all Subscription fees
+        incurred through your account to any such payment instruments.
+      </p>
+      <p>
+        Should automatic billing fail to occur for any reason, AuditStory
+        reserves the right to terminate your access to the Service with
+        immediate effect.
+      </p>
+      <p>
+        6. <b>Free Trial</b>
+      </p>
+      <p>
+        AuditStory may, at its sole discretion, offer a Subscription with a free
+        trial for a limited period of time ("Free Trial").
+      </p>
+      <p>
+        You may be required to enter your billing information in order to sign
+        up for Free Trial.
+      </p>
+      <p>
+        If you do enter your billing information when signing up for Free Trial,
+        you will not be charged by AuditStory until Free Trial has expired. On
+        the last day of Free Trial period, unless you cancelled your
+        Subscription, you will be automatically charged the applicable
+        Subscription fees for the type of Subscription you have selected.
+      </p>
+      <p>
+        At any time and without notice, AuditStory reserves the right to (i)
+        modify Terms of Service of Free Trial offer, or (ii) cancel such Free
+        Trial offer.
+      </p>
+      <p>
+        7. <b>Fee Changes</b>
+      </p>
+      <p>
+        AuditStory, in its sole discretion and at any time, may modify
+        Subscription fees for the Subscriptions. Any Subscription fee change
+        will become effective at the end of the then-current Billing Cycle.
+      </p>
+      <p>
+        AuditStory will provide you with a reasonable prior notice of any change
+        in Subscription fees to give you an opportunity to terminate your
+        Subscription before such change becomes effective.
+      </p>
+      <p>
+        Your continued use of Service after Subscription fee change comes into
+        effect constitutes your agreement to pay the modified Subscription fee
+        amount.
+      </p>
+      <p>
+        8. <b>Refunds</b>
+      </p>
+      <p>
+        We issue refunds for Contracts within <b>60 days</b> of the original
+        purchase of the Contract.
+      </p>
+      <p>
+        9. <b>Content</b>
+      </p>
+      <p>
+        Our Service allows you to post, link, store, share and otherwise make
+        available certain information, text, graphics, videos, or other material
+        (“Content”). You are responsible for Content that you post on or through
+        Service, including its legality, reliability, and appropriateness.
+      </p>
+      <p>
+        By posting Content on or through Service, You represent and warrant
+        that: (i) Content is yours (you own it) and/or you have the right to use
+        it and the right to grant us the rights and license as provided in these
+        Terms, and (ii) that the posting of your Content on or through Service
+        does not violate the privacy rights, publicity rights, copyrights,
+        contract rights or any other rights of any person or entity. We reserve
+        the right to terminate the account of anyone found to be infringing on a
+        copyright.
+      </p>
+      <p>
+        You retain any and all of your rights to any Content you submit, post or
+        display on or through Service and you are responsible for protecting
+        those rights. We take no responsibility and assume no liability for
+        Content you or any third party posts on or through Service. However, by
+        posting Content using Service you grant us the right and license to use,
+        modify, publicly perform, publicly display, reproduce, and distribute
+        such Content on and through Service. You agree that this license
+        includes the right for us to make your Content available to other users
+        of Service, who may also use your Content subject to these Terms.
+      </p>
+      <p>
+        AuditStory has the right but not the obligation to monitor and edit all
+        Content provided by users.
+      </p>
+      <p>
+        In addition, Content found on or through this Service are the property
+        of AuditStory or used with permission. You may not distribute, modify,
+        transmit, reuse, download, repost, copy, or use said Content, whether in
+        whole or in part, for commercial purposes or for personal gain, without
+        express advance written permission from us.
+      </p>
+      <p>
+        10. <b>Prohibited Uses</b>
+      </p>
+      <p>
+        You may use Service only for lawful purposes and in accordance with
+        Terms. You agree not to use Service:
+      </p>
+      <p>
+        0.1. In any way that violates any applicable national or international
+        law or regulation.
+      </p>
+      <p>
+        0.2. For the purpose of exploiting, harming, or attempting to exploit or
+        harm minors in any way by exposing them to inappropriate content or
+        otherwise.
+      </p>
+      <p>
+        0.3. To transmit, or procure the sending of, any advertising or
+        promotional material, including any “junk mail”, “chain letter,” “spam,”
+        or any other similar solicitation.
+      </p>
+      <p>
+        0.4. To impersonate or attempt to impersonate Company, a Company
+        employee, another user, or any other person or entity.
+      </p>
+      <p>
+        0.5. In any way that infringes upon the rights of others, or in any way
+        is illegal, threatening, fraudulent, or harmful, or in connection with
+        any unlawful, illegal, fraudulent, or harmful purpose or activity.
+      </p>
+      <p>
+        0.6. To engage in any other conduct that restricts or inhibits anyone’s
+        use or enjoyment of Service, or which, as determined by us, may harm or
+        offend Company or users of Service or expose them to liability.
+      </p>
+      <p>Additionally, you agree not to:</p>
+      <p>
+        0.1. Use Service in any manner that could disable, overburden, damage,
+        or impair Service or interfere with any other party’s use of Service,
+        including their ability to engage in real time activities through
+        Service.
+      </p>
+      <p>
+        0.2. Use any robot, spider, or other automatic device, process, or means
+        to access Service for any purpose, including monitoring or copying any
+        of the material on Service.
+      </p>
+      <p>
+        0.3. Use any manual process to monitor or copy any of the material on
+        Service or for any other unauthorized purpose without our prior written
+        consent.
+      </p>
+      <p>
+        0.4. Use any device, software, or routine that interferes with the
+        proper working of Service.
+      </p>
+      <p>
+        0.5. Introduce any viruses, trojan horses, worms, logic bombs, or other
+        material which is malicious or technologically harmful.
+      </p>
+      <p>
+        0.6. Attempt to gain unauthorized access to, interfere with, damage, or
+        disrupt any parts of Service, the server on which Service is stored, or
+        any server, computer, or database connected to Service.
+      </p>
+      <p>
+        0.7. Attack Service via a denial-of-service attack or a distributed
+        denial-of-service attack.
+      </p>
+      <p>0.8. Take any action that may damage or falsify Company rating.</p>
+      <p>
+        0.9. Otherwise attempt to interfere with the proper working of Service.
+      </p>
+      <p>
+        11. <b>Analytics</b>
+      </p>
+      <p>
+        We may use third-party Service Providers to monitor and analyze the use
+        of our Service.
+      </p>
+      <p>
+        12. <b>No Use By Minors</b>
+      </p>
+      <p>
+        Service is intended only for access and use by individuals at least
+        eighteen (18) years old. By accessing or using Service, you warrant and
+        represent that you are at least eighteen (18) years of age and with the
+        full authority, right, and capacity to enter into this agreement and
+        abide by all of the terms and conditions of Terms. If you are not at
+        least eighteen (18) years old, you are prohibited from both the access
+        and usage of Service.
+      </p>
+      <p>
+        13. <b>Accounts</b>
+      </p>
+      <p>
+        When you create an account with us, you guarantee that you are above the
+        age of 18, and that the information you provide us is accurate,
+        complete, and current at all times. Inaccurate, incomplete, or obsolete
+        information may result in the immediate termination of your account on
+        Service.
+      </p>
+      <p>
+        You are responsible for maintaining the confidentiality of your account
+        and password, including but not limited to the restriction of access to
+        your computer and/or account. You agree to accept responsibility for any
+        and all activities or actions that occur under your account and/or
+        password, whether your password is with our Service or a third-party
+        service. You must notify us immediately upon becoming aware of any
+        breach of security or unauthorized use of your account.
+      </p>
+      <p>
+        You may not use as a username the name of another person or entity or
+        that is not lawfully available for use, a name or trademark that is
+        subject to any rights of another person or entity other than you,
+        without appropriate authorization. You may not use as a username any
+        name that is offensive, vulgar or obscene.
+      </p>
+      <p>
+        We reserve the right to refuse service, terminate accounts, remove or
+        edit content, or cancel orders in our sole discretion.
+      </p>
+      <p>
+        14. <b>Intellectual Property</b>
+      </p>
+      <p>
+        Service and its original content (excluding Content provided by users),
+        features and functionality are and will remain the exclusive property of
+        AuditStory and its licensors. Service is protected by copyright,
+        trademark, and other laws of and foreign countries. Our trademarks may
+        not be used in connection with any product or service without the prior
+        written consent of AuditStory.
+      </p>
+      <p>
+        15. <b>Copyright Policy</b>
+      </p>
+      <p>
+        We respect the intellectual property rights of others. It is our policy
+        to respond to any claim that Content posted on Service infringes on the
+        copyright or other intellectual property rights (“Infringement”) of any
+        person or entity.
+      </p>
+      <p>
+        If you are a copyright owner, or authorized on behalf of one, and you
+        believe that the copyrighted work has been copied in a way that
+        constitutes copyright infringement, please submit your claim via email
+        to auditstory@gmail.com, with the subject line: “Copyright Infringement”
+        and include in your claim a detailed description of the alleged
+        Infringement as detailed below, under “DMCA Notice and Procedure for
+        Copyright Infringement Claims”
+      </p>
+      <p>
+        You may be held accountable for damages (including costs and attorneys’
+        fees) for misrepresentation or bad-faith claims on the infringement of
+        any Content found on and/or through Service on your copyright.
+      </p>
+      <p>
+        16. <b>DMCA Notice and Procedure for Copyright Infringement Claims</b>
+      </p>
+      <p>
+        You may submit a notification pursuant to the Digital Millennium
+        Copyright Act (DMCA) by providing our Copyright Agent with the following
+        information in writing (see 17 U.S.C 512(c)(3) for further detail):
+      </p>
+      <p>
+        0.1. an electronic or physical signature of the person authorized to act
+        on behalf of the owner of the copyright’s interest;
+      </p>
+      <p>
+        0.2. a description of the copyrighted work that you claim has been
+        infringed, including the URL (i.e., web page address) of the location
+        where the copyrighted work exists or a copy of the copyrighted work;
+      </p>
+      <p>
+        0.3. identification of the URL or other specific location on Service
+        where the material that you claim is infringing is located;
+      </p>
+      <p>0.4. your address, telephone number, and email address;</p>
+      <p>
+        0.5. a statement by you that you have a good faith belief that the
+        disputed use is not authorized by the copyright owner, its agent, or the
+        law;
+      </p>
+      <p>
+        0.6. a statement by you, made under penalty of perjury, that the above
+        information in your notice is accurate and that you are the copyright
+        owner or authorized to act on the copyright owner’s behalf.
+      </p>
+      <p>
+        You can contact our Copyright Agent via email at auditstory@gmail.com.
+      </p>
+      <p>
+        17. <b>Error Reporting and Feedback</b>
+      </p>
+      <p>
+        You may provide us either directly at auditstory@gmail.com or via third
+        party sites and tools with information and feedback concerning errors,
+        suggestions for improvements, ideas, problems, complaints, and other
+        matters related to our Service (“Feedback”). You acknowledge and agree
+        that: (i) you shall not retain, acquire or assert any intellectual
+        property right or other right, title or interest in or to the Feedback;
+        (ii) Company may have development ideas similar to the Feedback; (iii)
+        Feedback does not contain confidential information or proprietary
+        information from you or any third party; and (iv) Company is not under
+        any obligation of confidentiality with respect to the Feedback. In the
+        event the transfer of the ownership to the Feedback is not possible due
+        to applicable mandatory laws, you grant Company and its affiliates an
+        exclusive, transferable, irrevocable, free-of-charge, sub-licensable,
+        unlimited and perpetual right to use (including copy, modify, create
+        derivative works, publish, distribute and commercialize) Feedback in any
+        manner and for any purpose.
+      </p>
+      <p>
+        18. <b>Links To Other Web Sites</b>
+      </p>
+      <p>
+        Our Service may contain links to third party web sites or services that
+        are not owned or controlled by AuditStory.
+      </p>
+      <p>
+        AuditStory has no control over, and assumes no responsibility for the
+        content, privacy policies, or practices of any third party web sites or
+        services. We do not warrant the offerings of any of these
+        entities/individuals or their websites.
+      </p>
+      <p>
+        For example, the outlined Terms of Service have been created using{" "}
+        <a href="https://policymaker.io/">PolicyMaker.io</a>, a free web
+        application for generating high-quality legal documents. PolicyMaker’s
+        free{" "}
+        <a href="https://policymaker.io/terms-and-conditions/">
+          Terms and Conditions
+        </a>{" "}
+        generator is an easy-to-use free tool for creating an excellent Terms of
+        Service template for a website, blog, online store or app.
+      </p>
+      <p>
+        YOU ACKNOWLEDGE AND AGREE THAT COMPANY SHALL NOT BE RESPONSIBLE OR
+        LIABLE, DIRECTLY OR INDIRECTLY, FOR ANY DAMAGE OR LOSS CAUSED OR ALLEGED
+        TO BE CAUSED BY OR IN CONNECTION WITH USE OF OR RELIANCE ON ANY SUCH
+        CONTENT, GOODS OR SERVICES AVAILABLE ON OR THROUGH ANY SUCH THIRD PARTY
+        WEB SITES OR SERVICES.
+      </p>
+      <p>
+        WE STRONGLY ADVISE YOU TO READ THE TERMS OF SERVICE AND PRIVACY POLICIES
+        OF ANY THIRD PARTY WEB SITES OR SERVICES THAT YOU VISIT.
+      </p>
+      <p>
+        19. <b>Disclaimer Of Warranty</b>
+      </p>
+      <p>
+        THESE SERVICES ARE PROVIDED BY COMPANY ON AN “AS IS” AND “AS AVAILABLE”
+        BASIS. COMPANY MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND,
+        EXPRESS OR IMPLIED, AS TO THE OPERATION OF THEIR SERVICES, OR THE
+        INFORMATION, CONTENT OR MATERIALS INCLUDED THEREIN. YOU EXPRESSLY AGREE
+        THAT YOUR USE OF THESE SERVICES, THEIR CONTENT, AND ANY SERVICES OR
+        ITEMS OBTAINED FROM US IS AT YOUR SOLE RISK.
+      </p>
+      <p>
+        NEITHER COMPANY NOR ANY PERSON ASSOCIATED WITH COMPANY MAKES ANY
+        WARRANTY OR REPRESENTATION WITH RESPECT TO THE COMPLETENESS, SECURITY,
+        RELIABILITY, QUALITY, ACCURACY, OR AVAILABILITY OF THE SERVICES. WITHOUT
+        LIMITING THE FOREGOING, NEITHER COMPANY NOR ANYONE ASSOCIATED WITH
+        COMPANY REPRESENTS OR WARRANTS THAT THE SERVICES, THEIR CONTENT, OR ANY
+        SERVICES OR ITEMS OBTAINED THROUGH THE SERVICES WILL BE ACCURATE,
+        RELIABLE, ERROR-FREE, OR UNINTERRUPTED, THAT DEFECTS WILL BE CORRECTED,
+        THAT THE SERVICES OR THE SERVER THAT MAKES IT AVAILABLE ARE FREE OF
+        VIRUSES OR OTHER HARMFUL COMPONENTS OR THAT THE SERVICES OR ANY SERVICES
+        OR ITEMS OBTAINED THROUGH THE SERVICES WILL OTHERWISE MEET YOUR NEEDS OR
+        EXPECTATIONS.
+      </p>
+      <p>
+        COMPANY HEREBY DISCLAIMS ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR
+        IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING BUT NOT LIMITED TO ANY
+        WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT, AND FITNESS FOR
+        PARTICULAR PURPOSE.
+      </p>
+      <p>
+        THE FOREGOING DOES NOT AFFECT ANY WARRANTIES WHICH CANNOT BE EXCLUDED OR
+        LIMITED UNDER APPLICABLE LAW.
+      </p>
+      <p>
+        20. <b>Limitation Of Liability</b>
+      </p>
+      <p>
+        EXCEPT AS PROHIBITED BY LAW, YOU WILL HOLD US AND OUR OFFICERS,
+        DIRECTORS, EMPLOYEES, AND AGENTS HARMLESS FOR ANY INDIRECT, PUNITIVE,
+        SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGE, HOWEVER IT ARISES
+        (INCLUDING ATTORNEYS’ FEES AND ALL RELATED COSTS AND EXPENSES OF
+        LITIGATION AND ARBITRATION, OR AT TRIAL OR ON APPEAL, IF ANY, WHETHER OR
+        NOT LITIGATION OR ARBITRATION IS INSTITUTED), WHETHER IN AN ACTION OF
+        CONTRACT, NEGLIGENCE, OR OTHER TORTIOUS ACTION, OR ARISING OUT OF OR IN
+        CONNECTION WITH THIS AGREEMENT, INCLUDING WITHOUT LIMITATION ANY CLAIM
+        FOR PERSONAL INJURY OR PROPERTY DAMAGE, ARISING FROM THIS AGREEMENT AND
+        ANY VIOLATION BY YOU OF ANY FEDERAL, STATE, OR LOCAL LAWS, STATUTES,
+        RULES, OR REGULATIONS, EVEN IF COMPANY HAS BEEN PREVIOUSLY ADVISED OF
+        THE POSSIBILITY OF SUCH DAMAGE. EXCEPT AS PROHIBITED BY LAW, IF THERE IS
+        LIABILITY FOUND ON THE PART OF COMPANY, IT WILL BE LIMITED TO THE AMOUNT
+        PAID FOR THE PRODUCTS AND/OR SERVICES, AND UNDER NO CIRCUMSTANCES WILL
+        THERE BE CONSEQUENTIAL OR PUNITIVE DAMAGES. SOME STATES DO NOT ALLOW THE
+        EXCLUSION OR LIMITATION OF PUNITIVE, INCIDENTAL OR CONSEQUENTIAL
+        DAMAGES, SO THE PRIOR LIMITATION OR EXCLUSION MAY NOT APPLY TO YOU.
+      </p>
+      <p>
+        21. <b>Termination</b>
+      </p>
+      <p>
+        We may terminate or suspend your account and bar access to Service
+        immediately, without prior notice or liability, under our sole
+        discretion, for any reason whatsoever and without limitation, including
+        but not limited to a breach of Terms.
+      </p>
+      <p>
+        If you wish to terminate your account, you may simply discontinue using
+        Service.
+      </p>
+      <p>
+        All provisions of Terms which by their nature should survive termination
+        shall survive termination, including, without limitation, ownership
+        provisions, warranty disclaimers, indemnity and limitations of
+        liability.
+      </p>
+      <p>
+        22. <b>Governing Law</b>
+      </p>
+      <p>
+        These Terms shall be governed and construed in accordance with the laws
+        of Bosnia and Herzegovina, which governing law applies to agreement
+        without regard to its conflict of law provisions.
+      </p>
+      <p>
+        Our failure to enforce any right or provision of these Terms will not be
+        considered a waiver of those rights. If any provision of these Terms is
+        held to be invalid or unenforceable by a court, the remaining provisions
+        of these Terms will remain in effect. These Terms constitute the entire
+        agreement between us regarding our Service and supersede and replace any
+        prior agreements we might have had between us regarding Service.
+      </p>
+      <p>
+        23. <b>Changes To Service</b>
+      </p>
+      <p>
+        We reserve the right to withdraw or amend our Service, and any service
+        or material we provide via Service, in our sole discretion without
+        notice. We will not be liable if for any reason all or any part of
+        Service is unavailable at any time or for any period. From time to time,
+        we may restrict access to some parts of Service, or the entire Service,
+        to users, including registered users.
+      </p>
+      <p>
+        24. <b>Amendments To Terms</b>
+      </p>
+      <p>
+        We may amend Terms at any time by posting the amended terms on this
+        site. It is your responsibility to review these Terms periodically.
+      </p>
+      <p>
+        Your continued use of the Platform following the posting of revised
+        Terms means that you accept and agree to the changes. You are expected
+        to check this page frequently so you are aware of any changes, as they
+        are binding on you.
+      </p>
+      <p>
+        By continuing to access or use our Service after any revisions become
+        effective, you agree to be bound by the revised terms. If you do not
+        agree to the new terms, you are no longer authorized to use Service.
+      </p>
+      <p>
+        25. <b>Waiver And Severability</b>
+      </p>
+      <p>
+        No waiver by Company of any term or condition set forth in Terms shall
+        be deemed a further or continuing waiver of such term or condition or a
+        waiver of any other term or condition, and any failure of Company to
+        assert a right or provision under Terms shall not constitute a waiver of
+        such right or provision.
+      </p>
+      <p>
+        If any provision of Terms is held by a court or other tribunal of
+        competent jurisdiction to be invalid, illegal or unenforceable for any
+        reason, such provision shall be eliminated or limited to the minimum
+        extent such that the remaining provisions of Terms will continue in full
+        force and effect.
+      </p>
+      <p>
+        26. <b>Acknowledgement</b>
+      </p>
+      <p>
+        BY USING SERVICE OR OTHER SERVICES PROVIDED BY US, YOU ACKNOWLEDGE THAT
+        YOU HAVE READ THESE TERMS OF SERVICE AND AGREE TO BE BOUND BY THEM.
+      </p>
+      <p>
+        27. <b>Contact Us</b>
+      </p>
+      <p>
+        Please send your feedback, comments, requests for technical support by
+        email: <b>auditstory@gmail.com</b>.
+      </p>
     </div>
   </Page>
 );
