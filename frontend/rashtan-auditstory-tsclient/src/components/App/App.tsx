@@ -5,6 +5,7 @@ import { LoginOutlined } from "@ant-design/icons";
 import { History } from "history";
 import "./App.css";
 import Terms from "../Terms";
+import About from "../About";
 import AccountEdit from "../AccountEdit";
 import Story from "../Story/Story";
 import Home from "../Home";
@@ -58,12 +59,6 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
 
         <Route
           exact
-          path="/terms"
-          render={({ history }) => <Terms goBack={goHome(history)} />}
-        />
-
-        <Route
-          exact
           path="/"
           render={({ history }) => (
             <Home
@@ -99,6 +94,19 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
             <CategoriesEdit apiService={apiService} goBack={goHome(history)} />
           )}
         />
+
+        <Route
+          exact
+          path="/terms"
+          render={({ history }) => <Terms goBack={goHome(history)} />}
+        />
+
+        <Route
+          exact
+          path="/about"
+          render={({ history }) => <About goBack={goHome(history)} />}
+        />
+
         <Route component={() => <Redirect to="/" />} />
       </Switch>
     </div>
