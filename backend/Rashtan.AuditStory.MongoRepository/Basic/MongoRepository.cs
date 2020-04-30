@@ -32,17 +32,19 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
         public virtual async Task<bool> SaveAllAsync(IEnumerable<TEntity> entities)
         {
             var result = await Collection.DeleteManyAsync(Builders<TEntity>.Filter.Empty);
+            await Collection.InsertManyAsync(entities,
+                new InsertManyOptions { BypassDocumentValidation = true, IsOrdered = false });
 
-            var chunkSize = 20;
-            foreach (var g in entities
-                .Select((x, i) => new { Index = i, Value = x })
-                .GroupBy(x => x.Index / chunkSize)
-                .Select(x => x.Select(v => v.Value)))
-            {
-                await Collection.InsertManyAsync(g,
-                    new InsertManyOptions { BypassDocumentValidation = true, IsOrdered = false });
-                await Task.Delay(1000);
-            }
+            //var chunkSize = 20;
+            //foreach (var g in entities
+            //    .Select((x, i) => new { Index = i, Value = x })
+            //    .GroupBy(x => x.Index / chunkSize)
+            //    .Select(x => x.Select(v => v.Value)))
+            //{
+            //    await Collection.InsertManyAsync(entities,
+            //        new InsertManyOptions { BypassDocumentValidation = true, IsOrdered = false });
+            //    await Task.Delay(1000);
+            //}
 
             return result.IsAcknowledged;
         }
