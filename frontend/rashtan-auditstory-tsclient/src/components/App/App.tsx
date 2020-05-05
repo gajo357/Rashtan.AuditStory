@@ -5,7 +5,6 @@ import { LoginOutlined } from "@ant-design/icons";
 import { History } from "history";
 import "./App.css";
 import Terms from "../Terms";
-import About from "../About";
 import AccountEdit from "../AccountEdit";
 import Story from "../Story/Story";
 import Home from "../Home";
