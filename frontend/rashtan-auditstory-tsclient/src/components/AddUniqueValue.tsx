@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Form, Input } from "antd";
 
 interface Props {
   title: string;
   existingItems: string[];
   visible: boolean;
-  onCreate: (title: string) => void;
   onCancel: () => void;
+  onCreate?: (title: string) => void;
+  onCreateAsync?: (title: string) => Promise<void>;
 }
 
 const itemName = "item";
@@ -16,8 +17,11 @@ const AddUniqueValue: React.FC<Props> = ({
   existingItems,
   visible,
   onCreate,
+  onCreateAsync,
   onCancel,
 }) => {
+  const [creating, setCreating] = useState(false);
+
   const [form] = Form.useForm();
 
   const itemValidator = (_: any, value: string) => {
@@ -34,9 +38,16 @@ const AddUniqueValue: React.FC<Props> = ({
       title={title}
       okText="Add"
       cancelText="Cancel"
+      okButtonProps={{ loading: creating }}
+      cancelButtonProps={{ disabled: creating }}
       onOk={() => {
         form.validateFields().then((values) => {
-          onCreate(values[itemName]);
+          const value = values[itemName];
+          onCreate && onCreate(value);
+          if (onCreateAsync) {
+            setCreating(true);
+            onCreateAsync(value).catch(() => setCreating(false));
+          }
         });
       }}
       onCancel={() => {

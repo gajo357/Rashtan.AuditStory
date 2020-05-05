@@ -181,15 +181,15 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         title="Company name"
         visible={createStoryVisible}
         onCancel={() => setCreateStoryVisible(false)}
-        onCreate={(title) => {
+        onCreateAsync={(title) =>
           apiService
             .createNewStory({ name: title })
             .then(openStory)
             .catch((e) => {
               setCreateStoryVisible(false);
               showError(e);
-            });
-        }}
+            })
+        }
         existingItems={companies.map((m) => m.name)}
       />
 
