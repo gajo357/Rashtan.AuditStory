@@ -139,12 +139,6 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           render={({ history }) => <Terms goBack={goHome(history)} />}
         />
 
-        <Route
-          exact
-          path="/about"
-          render={({ history }) => <About goBack={goHome(history)} />}
-        />
-
         <CreateUserRoute
           exact
           path="/createUser"
