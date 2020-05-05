@@ -16,6 +16,7 @@ type UserProfileWorkflow(repository: IUserProfileRepository) =
                     Country = ""
                     State = ""
                     City = ""
+                    Agreement = false
                 }
 
                 return dto

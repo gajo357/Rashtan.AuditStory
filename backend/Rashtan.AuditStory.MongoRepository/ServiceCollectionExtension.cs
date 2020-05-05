@@ -14,6 +14,7 @@ namespace Rashtan.AuditStory.MongoRepository
                 .AddSingleton<IUserProfileRepository, UserProfileRepository>()
                 .AddSingleton<ICategoriesRepository, CategoriesRepository>()
                 .AddSingleton<IChecklistRepository, ChecklistRepository>()
-                .AddSingleton<ICountriesRepository, CountriesRepository>();
+                .AddSingleton<ICountriesRepository, CountriesRepository>()
+                .AddSingleton<IPaymentRepository, PaymentRepository>();
     }
 }

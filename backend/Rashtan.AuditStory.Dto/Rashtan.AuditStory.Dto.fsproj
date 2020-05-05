@@ -10,6 +10,7 @@
     <Compile Include="Category.fs" />
     <Compile Include="Currency.fs" />
     <Compile Include="User.fs" />
+    <Compile Include="Payment.fs" />
   </ItemGroup>
 
   <ItemGroup>

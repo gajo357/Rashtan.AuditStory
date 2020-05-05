@@ -41,6 +41,12 @@ namespace Rashtan.AuditStory.MongoRepository.Basic
 
             return data?.Data;
         }
+        protected async Task<bool> ExistsAsync<TFilterValue>(string userId, params DataFilter<TFilterValue>[] dataFilters)
+        {
+            var result = await GetOneAsync(userId, dataFilters);
+
+            return result != null;
+        }
 
         protected async Task<IEnumerable<TData>> GetAllAsync(string userId, params DataFilter<string>[] dataFilters)
         {

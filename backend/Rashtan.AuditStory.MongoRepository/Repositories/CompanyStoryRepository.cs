@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.MongoRepository
 {
-    public class CompanyStoryRepository : UserDataRepository<Story>, ICompanyStoryRepository
+    internal class CompanyStoryRepository : UserDataRepository<Story>, ICompanyStoryRepository
     {
         public CompanyStoryRepository(IMongoContext context) : base(context)
         {

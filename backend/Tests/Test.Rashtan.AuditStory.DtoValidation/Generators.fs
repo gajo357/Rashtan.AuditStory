@@ -118,6 +118,7 @@ type InvalidUserGenerator =
                 Country = country
                 State = state
                 City = city
+                Agreement = false
             }
         } |> Arb.fromGen
 
@@ -136,5 +137,6 @@ type ValidUserGenerator =
                 Country = country
                 State = state
                 City = city
+                Agreement = true
             }
         } |> Arb.fromGen

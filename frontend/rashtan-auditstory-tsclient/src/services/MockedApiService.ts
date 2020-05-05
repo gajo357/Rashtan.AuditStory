@@ -7,7 +7,7 @@ import {
   QuickInfoDto,
   UnitOfSize,
 } from "../models/Company";
-import { UserInfo } from "../models/UserInfo";
+import { UserInfoDto, UserStatusDto, PaymentStatus } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { UserError, ResponseError, ValidationError } from "../models/Errors";
 import Category from "../models/Category";
@@ -145,15 +145,21 @@ export default class MockedApiService implements IApiService {
   saveCompanyStory = (_: CompanyStory) => this.resolved(true);
   deleteCompanyStory = () => this.resolved(true);
 
+  getUserStatus = () =>
+    this.resolved<UserStatusDto>({
+      message: "Not payed at all",
+      status: PaymentStatus.New,
+    });
   getUserProfile = () =>
-    this.resolved<UserInfo>({
+    this.resolved<UserInfoDto>({
       name: "Alan",
       email: "alan@alan.com",
       city: "NY",
       state: "Penn",
       country: "USA",
+      agreement: true,
     });
-  saveUserProfile = (user: UserInfo) => this.resolved(user);
+  saveUserProfile = (user: UserInfoDto) => this.resolved(user);
 
   categories = [
     {

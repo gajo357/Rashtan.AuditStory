@@ -5,7 +5,7 @@ import {
   ChecklistItemDto,
 } from "../models/Company";
 import { BASE_API } from "./Auth0Config";
-import { UserInfo } from "../models/UserInfo";
+import { UserInfoDto, UserStatusDto } from "../models/UserInfo";
 import IApiService from "./IApiService";
 import { UserError } from "../models/Errors";
 import Category from "../models/Category";
@@ -84,9 +84,12 @@ export default class ApiService implements IApiService {
     this.deleteCommand<boolean>(`${this.storyApi}?id=${id}`);
 
   private userProfileApi = "api/userprofile";
-  getUserProfile = () => this.getCommand<UserInfo>(this.userProfileApi);
-  saveUserProfile = (user: UserInfo) =>
-    this.postCommand<UserInfo, UserInfo>(this.userProfileApi, user);
+  getUserProfile = () => this.getCommand<UserInfoDto>(this.userProfileApi);
+  saveUserProfile = (user: UserInfoDto) =>
+    this.postCommand<UserInfoDto, UserInfoDto>(this.userProfileApi, user);
+
+  private userStatusApi = "api/userstatus";
+  getUserStatus = () => this.getCommand<UserStatusDto>(this.userStatusApi);
 
   private categoryApi = "api/category";
   getCategories = () => this.getCommand<Category[]>(this.categoryApi);

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { UserOutlined, CloseOutlined, CheckOutlined } from "@ant-design/icons";
-import { Form, Input, Select, Avatar } from "antd";
+import { Form, Input, Select, Avatar, Checkbox, Button, Modal } from "antd";
+import { FormInstance } from "antd/lib/form";
 import Page from "./Page";
-import { UserInfo } from "../models/UserInfo";
+import { TermsAndConditions } from "./Terms";
+import { UserInfoDto } from "../models/UserInfo";
 import { Country } from "../models/Country";
 import IApiService from "../services/IApiService";
 import { showError } from "../models/Errors";
@@ -13,6 +15,98 @@ const formItemLayout = {
   wrapperCol: { span: 14 },
 };
 
+interface UserFormProps {
+  countries: Country[];
+  userProfile: UserInfoDto;
+  form: FormInstance;
+  showAcceptance: boolean;
+}
+
+const UserForm: React.FC<UserFormProps> = ({
+  countries,
+  userProfile,
+  form,
+  showAcceptance,
+}) => (
+  <Form
+    {...formItemLayout}
+    form={form}
+    initialValues={userProfile}
+    layout="horizontal"
+  >
+    <Form.Item
+      label="Username"
+      name="name"
+      rules={[{ required: true, message: "Please input your username!" }]}
+    >
+      <Input
+        autoComplete="fname"
+        prefix={<UserOutlined />}
+        placeholder="Username"
+      />
+    </Form.Item>
+    <Form.Item label="City" name="city">
+      <Input autoComplete="billing address-level2" placeholder="City" />
+    </Form.Item>
+    <Form.Item label="State/Province/Region" name="state">
+      <Input placeholder="State/Province/Region" />
+    </Form.Item>
+    <Form.Item label="Country" name="country">
+      <Select
+        style={{ textAlign: "left" }}
+        showSearch
+        loading={countries.length === 0}
+        filterOption={(inputValue, option) => {
+          const search = stringMatch(inputValue);
+          return (
+            search(option?.title as string) || search(option?.value as string)
+          );
+        }}
+      >
+        {countries.map((c) => (
+          <Select.Option value={c.alpha3Code} key={c.alpha3Code} title={c.name}>
+            <Avatar
+              src={c.flag}
+              size={20}
+              style={{ position: "relative", top: -2, marginRight: 10 }}
+            />
+            {c.name} ({c.alpha3Code})
+          </Select.Option>
+        ))}
+      </Select>
+    </Form.Item>
+    {showAcceptance && (
+      <Form.Item
+        name="agreement"
+        valuePropName="checked"
+        rules={[
+          {
+            validator: (_, value) =>
+              value
+                ? Promise.resolve()
+                : Promise.reject("Should accept agreement"),
+          },
+        ]}
+      >
+        <Checkbox>
+          I have read and accept the{" "}
+          <Button
+            type="link"
+            onClick={() => {
+              Modal.info({
+                title: "Terms and Conditions",
+                content: <TermsAndConditions />,
+              });
+            }}
+          >
+            Terms and Conditions
+          </Button>
+        </Checkbox>
+      </Form.Item>
+    )}
+  </Form>
+);
+
 interface Props {
   apiService: IApiService;
   goBack: () => void;
@@ -20,7 +114,7 @@ interface Props {
 
 const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
   const [submitting, setSubmitting] = useState(false);
-  const [userProfile, setUserProfile] = useState<UserInfo | undefined>();
+  const [userProfile, setUserProfile] = useState<UserInfoDto | undefined>();
   const [countries, setCountries] = useState<Country[]>([]);
 
   useEffect(() => {
@@ -51,7 +145,7 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
           onClick={() => {
             if (submitting || !userProfile) return;
             form.validateFields().then((values) => {
-              handleSubmit(values as UserInfo);
+              handleSubmit(values as UserInfoDto);
             });
           }}
           spin={submitting || !userProfile}
@@ -59,62 +153,16 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
       }
     >
       {userProfile && (
-        <Form
-          {...formItemLayout}
+        <UserForm
+          countries={countries}
+          userProfile={userProfile}
           form={form}
-          initialValues={userProfile}
-          layout="horizontal"
-        >
-          <Form.Item
-            label="Username"
-            name="name"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input
-              autoComplete="fname"
-              prefix={<UserOutlined />}
-              placeholder="Username"
-            />
-          </Form.Item>
-          <Form.Item label="City" name="city">
-            <Input autoComplete="billing address-level2" placeholder="City" />
-          </Form.Item>
-          <Form.Item label="State/Province/Region" name="state">
-            <Input placeholder="State/Province/Region" />
-          </Form.Item>
-          <Form.Item label="Country" name="country">
-            <Select
-              style={{ textAlign: "left" }}
-              showSearch
-              loading={countries.length === 0}
-              filterOption={(inputValue, option) => {
-                const search = stringMatch(inputValue);
-                return (
-                  search(option?.title as string) ||
-                  search(option?.value as string)
-                );
-              }}
-            >
-              {countries.map((c) => (
-                <Select.Option
-                  value={c.alpha3Code}
-                  key={c.alpha3Code}
-                  title={c.name}
-                >
-                  <Avatar
-                    src={c.flag}
-                    size={20}
-                    style={{ position: "relative", top: -2, marginRight: 10 }}
-                  />
-                  {c.name} ({c.alpha3Code})
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </Form>
+          showAcceptance={false}
+        />
       )}
     </Page>
   );
 };
 
 export default AccountEdit;
+export { UserForm };

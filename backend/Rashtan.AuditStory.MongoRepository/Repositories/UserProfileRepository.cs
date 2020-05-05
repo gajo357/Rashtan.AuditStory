@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.MongoRepository
 {
-    public class UserProfileRepository : UserDataRepository<UserProfile>, IUserProfileRepository
+    internal class UserProfileRepository : UserDataRepository<UserProfile>, IUserProfileRepository
     {
         public UserProfileRepository(IMongoContext context) : base(context)
         {

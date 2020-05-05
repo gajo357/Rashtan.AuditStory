@@ -4,7 +4,7 @@ import {
   StoryCreateDto,
   ChecklistItemDto,
 } from "../models/Company";
-import { UserInfo } from "../models/UserInfo";
+import { UserInfoDto, UserStatusDto } from "../models/UserInfo";
 import AuthService from "./AuthService";
 import Category from "../models/Category";
 import { Country, Currency } from "../models/Country";
@@ -19,8 +19,9 @@ export default interface IApiService {
   saveCompanyStory: (story: CompanyStory) => Promise<boolean>;
   deleteCompanyStory: (id: string) => Promise<boolean>;
 
-  getUserProfile: () => Promise<UserInfo>;
-  saveUserProfile: (user: UserInfo) => Promise<UserInfo>;
+  getUserStatus: () => Promise<UserStatusDto>;
+  getUserProfile: () => Promise<UserInfoDto>;
+  saveUserProfile: (user: UserInfoDto) => Promise<UserInfoDto>;
 
   getChecklistItems: () => Promise<ChecklistItemDto[]>;
 
