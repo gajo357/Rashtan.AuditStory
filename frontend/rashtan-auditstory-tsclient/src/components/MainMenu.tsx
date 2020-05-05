@@ -123,12 +123,6 @@ const MainMenu: React.FC<Props> = ({
           LOG OUT
         </Menu.Item>
 
-        <Menu.Item
-          style={{ marginTop: 20 }}
-          onClick={() => history.push("/about")}
-        >
-          <strong>About</strong>
-        </Menu.Item>
         <Menu.Item onClick={() => history.push("/terms")}>
           <strong>Terms</strong>
         </Menu.Item>
