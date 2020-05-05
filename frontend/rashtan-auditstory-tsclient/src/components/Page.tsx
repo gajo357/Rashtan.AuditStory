@@ -20,7 +20,7 @@ const headerStyle = {
     alignItems: "center",
     justifyContent: "space-between",
     color: "white",
-    zIndex: 2020,
+    zIndex: 1001,
   } as CSSProperties,
 };
 
