@@ -12,6 +12,7 @@ _ReSharper.*
 bin
 obj
 packages
+publish
 appsettings.json
 appsettings.test.json
 *.pubxml
