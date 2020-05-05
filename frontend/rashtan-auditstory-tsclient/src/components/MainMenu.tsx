@@ -128,7 +128,7 @@ const MainMenu: React.FC<Props> = ({
         </Menu.Item>
         <Menu.Item style={{ marginTop: 40 }}>
           <CopyrightOutlined />
-          2020 Rashtan
+          2020 AuditStory
         </Menu.Item>
       </Menu>
     </div>
