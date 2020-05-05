@@ -36,7 +36,6 @@ const AddUniqueValue: React.FC<Props> = ({
       cancelText="Cancel"
       onOk={() => {
         form.validateFields().then((values) => {
-          form.resetFields();
           onCreate(values[itemName]);
         });
       }}
