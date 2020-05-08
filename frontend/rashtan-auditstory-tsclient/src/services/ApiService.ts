@@ -101,9 +101,6 @@ export default class ApiService implements IApiService {
   getChecklistItems = () =>
     this.getCommand<ChecklistItemDto[]>("api/checklist");
 
-  private countryApi = "api/country";
-  getCountries = () =>
-    this.getCommand<Country[]>(this.countryApi + "/countries");
-  getCurrencies = () =>
-    this.getCommand<Currency[]>(this.countryApi + "/currencies");
+  getCountries = () => this.getCommand<Country[]>("api/country");
+  getCurrencies = () => this.getCommand<Currency[]>("api/currency");
 }

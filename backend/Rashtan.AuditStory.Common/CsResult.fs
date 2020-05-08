@@ -33,3 +33,7 @@ type CsResult =
             CsResult<'a>.createResult n
         | false -> 
             CsResult<'a>.createError result.Error
+
+    static member CreateResult (result: 'TResult) =
+        CsResult<'TResult>.createResult(result)
+
