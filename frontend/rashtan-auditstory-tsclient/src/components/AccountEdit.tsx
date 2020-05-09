@@ -9,6 +9,7 @@ import { Country } from "../models/Country";
 import IApiService from "../services/IApiService";
 import { showError } from "../models/Errors";
 import { stringMatch } from "../models/Helpers";
+import withLogin from "./withLogin";
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -164,5 +165,5 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
   );
 };
 
-export default AccountEdit;
+export default withLogin(AccountEdit);
 export { UserForm };

@@ -11,6 +11,8 @@ import MainMenu, { CompanyFilter, createCategoryFilter } from "./MainMenu";
 import AddUniqueValue from "./AddUniqueValue";
 import EditStar from "./SimpleEditors/EditStar";
 import { stringMatch } from "../models/Helpers";
+import withLogin from "./withLogin";
+import withPayment from "./withPayment";
 
 const createStoryStyle: CSSProperties = {
   position: "fixed",
@@ -201,4 +203,4 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
   );
 };
 
-export default Home;
+export default withLogin(withPayment(Home));

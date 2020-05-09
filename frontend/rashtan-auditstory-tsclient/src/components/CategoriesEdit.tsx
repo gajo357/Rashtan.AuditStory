@@ -6,6 +6,7 @@ import Page from "./Page";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
 import { showError } from "../models/Errors";
+import withLogin from "./withLogin";
 
 interface Props {
   apiService: IApiService;
@@ -16,7 +17,7 @@ interface Categories {
   categories: Category[];
 }
 
-const CompaniesEdit: React.FC<Props> = ({ apiService, goBack }) => {
+const CategoriesEdit: React.FC<Props> = ({ apiService, goBack }) => {
   const [categories, setCategories] = useState<Categories | undefined>(
     undefined
   );
@@ -86,4 +87,4 @@ const CompaniesEdit: React.FC<Props> = ({ apiService, goBack }) => {
   );
 };
 
-export default CompaniesEdit;
+export default withLogin(CategoriesEdit);

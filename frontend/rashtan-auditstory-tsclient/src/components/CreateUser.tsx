@@ -7,6 +7,7 @@ import IApiService from "../services/IApiService";
 import { UserInfoDto } from "../models/UserInfo";
 import { Country } from "../models/Country";
 import { showError } from "../models/Errors";
+import withLogin from "./withLogin";
 
 const stepsContent = {
   marginTop: "16px",
@@ -96,4 +97,4 @@ const CreateUser: React.FC<Props> = ({ apiService }) => {
   );
 };
 
-export default CreateUser;
+export default withLogin(CreateUser);

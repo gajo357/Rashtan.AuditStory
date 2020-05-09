@@ -31,9 +31,10 @@ export default class AuthService {
       if (isAuth) {
         return await this.auth0.getTokenSilently();
       }
-      await this.logIn();
-    } catch {
-      await this.logIn();
+      return "";
+    } catch (e) {
+      console.log(e);
+      return "";
     }
   };
 }
