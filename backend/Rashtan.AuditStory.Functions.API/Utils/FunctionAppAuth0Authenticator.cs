@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -13,6 +12,12 @@ namespace Rashtan.AuditStory.Functions.API.Utils
     // This is a singleton, since we want to share the Auth0Authenticator instance across all function app invocations in this appdomain.
     public class FunctionAppAuth0Authenticator
     {
+        /// <summary>
+        /// Small optimization to skip calling Auth0 UserInfo all the time.
+        /// We make it static, well aware that the life span of Functions is short
+        /// </summary>
+        private static IDictionary<string, UserInfo> UserDictionary { get; } = new Dictionary<string, UserInfo>();
+
         // I'm using a Lazy here just so that exceptions on startup are in the scope of a function execution.
         // I'm using PublicationOnly so that exceptions during creation are retried on the next execution.
         private TokenAuthenticator TokenAuthenticator { get; }
@@ -39,26 +44,27 @@ namespace Rashtan.AuditStory.Functions.API.Utils
                 if (header.IsError)
                     return CsResult<string>.createError(header.Error);
 
-                var userInfoTask = TokenAuthenticator.Auth0Userinfo(header.Result);
-                var claimsPrincipalTask = TokenAuthenticator.AuthenticateAsync(header.Result.Parameter);
-
-                await Task.WhenAll(userInfoTask, claimsPrincipalTask);
-
-                var claimsPrincipal = claimsPrincipalTask.Result;
+                // authenticate the token, most of the time it will run sinchronously
+                var claimsPrincipal= await TokenAuthenticator.AuthenticateAsync(header.Result.Parameter);
                 if (claimsPrincipal.IsError)
                     return CsResult<string>.createError(claimsPrincipal.Error);
 
-                var userInfo = userInfoTask.Result;
+                // see if the user is already in the dictionary
+                var sub = claimsPrincipal.Result.Claims.FirstOrDefault(s => s.Type.Contains("nameidentifier")).Value;
+                if (UserDictionary.ContainsKey(sub))
+                    return CsResult.CreateResult(UserDictionary[sub].Email);
+
+                // otherwise call the Auth0 to get the info
+                var userInfo = await TokenAuthenticator.Auth0Userinfo(header.Result);
                 if (userInfo.IsError)
                     return CsResult<string>.createError(userInfo.Error);
                 if (userInfo.Result.Email_verified && !string.IsNullOrEmpty(userInfo.Result.Email))
-                    return CsResult.CreateResult<string>(userInfo.Result.Email);
+                {
+                    UserDictionary.Add(sub, userInfo.Result);
+                    return CsResult.CreateResult(userInfo.Result.Email);
+                }
 
-                var userId = ExtractEmailFromClaims(claimsPrincipal.Result);
-                if (string.IsNullOrEmpty(userId))
-                    return CsResult<string>.createError("Token does not contain e-mail information");
-
-                return CsResult.CreateResult<string>(userId);
+                return CsResult<string>.createError("User e-mail could not be retrieved");
             }
             catch (Exception ex)
             {
@@ -66,9 +72,6 @@ namespace Rashtan.AuditStory.Functions.API.Utils
                 throw;
             }
         }
-
-        private static string? ExtractEmailFromClaims(ClaimsPrincipal claimsPrincipal)
-            => claimsPrincipal.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
 
         /// <summary>
         /// Extracts the AuthenticationHeaderValue from the request.

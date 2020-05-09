@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace Rashtan.AuditStory.Functions.API.Utils
 {
-    public static class ResultHandler
+    public static class FunctionRunner
     {
         public static IActionResult UnwrapResult<T>(this CsResult<T> result)
         {
