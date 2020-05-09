@@ -29,7 +29,6 @@ const withPayment = <P extends Props>(
         })
         .catch(showError);
     }, [props.apiService]);
-    console.log(status);
 
     if (!status) return <Spin spinning />;
 

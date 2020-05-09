@@ -22,7 +22,6 @@ const withLogin = <P extends Props>(
           setLoggedIn(false);
         });
     }, [props.apiService]);
-    console.log(loggedIn);
 
     if (loggedIn === false) return <Redirect to="/login" />;
     if (loggedIn === true) return <WrappedComponent {...props} />;
