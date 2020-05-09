@@ -6,7 +6,7 @@ open Rashtan.AuditStory.Dto
 open System.Threading.Tasks
 
 type IUserStatusWorkflow =
-    abstract member GetUserStatusAsync: user: string -> Task<CsResult<PaymentStatus>>
+    abstract member GetUserStatusAsync: user: string -> Task<CsResult<UserStatus>>
     abstract member CheckWriteAccess: user: string -> AsyncResult<unit,string>
     abstract member CheckReadAccess: user: string -> AsyncResult<unit,string>
 
@@ -35,8 +35,12 @@ type UserStatusWorkflow'(dateTimeProvider: IDateTimeProvider, getUserStatusAsync
     interface IUserStatusWorkflow with
         member __.GetUserStatusAsync user = 
             async {
-                let! s = getUserStatusAsync user
-                return s |> fst |> Ok
+                let! (status, date) = getUserStatusAsync user
+                let message = 
+                    if status = PaymentStatus.Expired then
+                        sprintf "Your subscription expired on %A" date
+                    else ""
+                return { Status = status; Message = message } |> Ok
             } |> CsResult.fromAsyncResult
 
         member __.CheckWriteAccess user = async {

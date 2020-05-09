@@ -20,7 +20,7 @@ namespace Rashtan.AuditStory.API.Controllers
 
         // GET api/userstatus
         [HttpGet]
-        public Task<ActionResult<PaymentStatus>> Get()
+        public Task<ActionResult<UserStatus>> Get()
             => UnpackAsync(UserStatusWorkflow.GetUserStatusAsync(UserId));
     }
 }
