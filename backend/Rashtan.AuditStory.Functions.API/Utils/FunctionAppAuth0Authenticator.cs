@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -33,9 +35,24 @@ namespace Rashtan.AuditStory.Functions.API.Utils
         {
             try
             {
-                var claimsPrincipal = await TokenAuthenticator.AuthenticateAsync(request);
+                var header = ExtractHeader(request);
+                if (header.IsError)
+                    return CsResult<string>.createError(header.Error);
+
+                var userInfoTask = TokenAuthenticator.Auth0Userinfo(header.Result);
+                var claimsPrincipalTask = TokenAuthenticator.AuthenticateAsync(header.Result.Parameter);
+
+                await Task.WhenAll(userInfoTask, claimsPrincipalTask);
+
+                var claimsPrincipal = claimsPrincipalTask.Result;
                 if (claimsPrincipal.IsError)
                     return CsResult<string>.createError(claimsPrincipal.Error);
+
+                var userInfo = userInfoTask.Result;
+                if (userInfo.IsError)
+                    return CsResult<string>.createError(userInfo.Error);
+                if (userInfo.Result.Email_verified && !string.IsNullOrEmpty(userInfo.Result.Email))
+                    return CsResult.CreateResult<string>(userInfo.Result.Email);
 
                 var userId = ExtractEmailFromClaims(claimsPrincipal.Result);
                 if (string.IsNullOrEmpty(userId))
@@ -53,5 +70,37 @@ namespace Rashtan.AuditStory.Functions.API.Utils
         private static string? ExtractEmailFromClaims(ClaimsPrincipal claimsPrincipal)
             => claimsPrincipal.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
 
-}
+        /// <summary>
+        /// Extracts the AuthenticationHeaderValue from the request.
+        /// </summary>
+        /// <param name="request">The HTTP request.</param>
+        public static CsResult<AuthenticationHeaderValue> ExtractHeader(HttpRequest request)
+        {
+            // Get a StringValues object that represents the content of the Authorization header found in the given
+            // headers.
+            // Note that the default for a IHeaderDictionary is a StringValues object with one null string.
+            var rawAuthorizationHeaderValue = request.Headers
+                .SingleOrDefault(x => x.Key == "Authorization") // Case sensitive.
+                .Value;
+
+            if (rawAuthorizationHeaderValue.Count != 1)
+            {
+                // StringValues' Count will be zero if there is no Authorization header
+                // and greater than one if there are more than one Authorization headers.
+                return CsResult<AuthenticationHeaderValue>.createError("No Authorization header");
+            }
+
+            // We got a value from the Authorization header.
+
+            if (!AuthenticationHeaderValue.TryParse(
+                    rawAuthorizationHeaderValue, // StringValues automatically convert to string.
+                    out AuthenticationHeaderValue authenticationHeaderValue))
+            {
+                // Invalid token format.
+                return CsResult<AuthenticationHeaderValue>.createError("Cannot parse Authorization header");
+            }
+
+            return CsResult.CreateResult(authenticationHeaderValue);
+        }
+    }
 }

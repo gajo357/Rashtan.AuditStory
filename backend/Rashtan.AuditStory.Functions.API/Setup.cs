@@ -17,6 +17,7 @@ namespace Rashtan.AuditStory.Functions.API
             var configurationRoot = serviceProvider.GetService<IConfiguration>();
 
             builder.Services
+                .AddHttpClient()
                 .AddSingleton(configurationRoot)
                 .AddSingleton<TokenAuthenticator>()
                 .AddSingleton<FunctionAppAuth0Authenticator>()
