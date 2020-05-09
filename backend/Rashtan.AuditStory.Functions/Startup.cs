@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Rashtan.AuditStory.MongoRepository;
 using Rashtan.AuditStory.PaypalPayment;
 using Rashtan.AuditStory.Workflows;
-using System.Net.Http;
 
 [assembly: FunctionsStartup(typeof(Rashtan.AuditStory.Functions.Startup))]
 
