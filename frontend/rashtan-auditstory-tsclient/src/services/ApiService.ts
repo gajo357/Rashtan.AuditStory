@@ -26,7 +26,7 @@ export default class ApiService implements IApiService {
     }),
   });
 
-  private unwrapResponse = async <TResult>(r: Response) => {
+  public static unwrapResponse = async <TResult>(r: Response) => {
     const json = await r.json();
     if (r.ok) {
       return json as TResult;
@@ -52,7 +52,7 @@ export default class ApiService implements IApiService {
       body: bodyString,
     });
 
-    return await this.unwrapResponse<TResult>(result);
+    return await ApiService.unwrapResponse<TResult>(result);
   };
 
   private getCommand = <TResult>(path: string) =>
