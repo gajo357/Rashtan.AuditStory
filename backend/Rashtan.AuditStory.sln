@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{62C19420-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{E59752FD-348B-4D09-BA48-7053BFDD7B4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rashtan.AuditStory.Functions.API", "Rashtan.AuditStory.Functions.API\Rashtan.AuditStory.Functions.API.csproj", "{837EA12F-8D41-4329-952F-A76453DD62DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rashtan.AuditStory.Functions.API", "Rashtan.AuditStory.Functions.API\Rashtan.AuditStory.Functions.API.csproj", "{837EA12F-8D41-4329-952F-A76453DD62DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
