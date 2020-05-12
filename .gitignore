@@ -13,6 +13,7 @@ bin
 obj
 packages
 publish
+launchSettings.json
 appsettings.json
 appsettings.test.json
 *.pubxml
