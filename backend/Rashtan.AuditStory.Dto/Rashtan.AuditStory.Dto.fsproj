@@ -11,6 +11,7 @@
     <Compile Include="Currency.fs" />
     <Compile Include="User.fs" />
     <Compile Include="Payment.fs" />
+    <Compile Include="Email.fs" />
   </ItemGroup>
 
   <ItemGroup>

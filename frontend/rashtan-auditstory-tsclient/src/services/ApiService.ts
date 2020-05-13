@@ -10,6 +10,7 @@ import IApiService from "./IApiService";
 import { UserError } from "../models/Errors";
 import Category from "../models/Category";
 import { Country, Currency } from "../models/Country";
+import Email from "../models/Email";
 
 export default class ApiService implements IApiService {
   public authService: AuthService;
@@ -103,4 +104,9 @@ export default class ApiService implements IApiService {
 
   getCountries = () => this.getCommand<Country[]>("api/country");
   getCurrencies = () => this.getCommand<Currency[]>("api/currency");
+
+  sendFeedback = (email: Email) =>
+    this.postCommand<Email, boolean>("api/sendFeedback", email);
+  askForHelp = (email: Email) =>
+    this.postCommand<Email, boolean>("api/askForHelp", email);
 }

@@ -13,6 +13,7 @@ import { UserError, ResponseError, ValidationError } from "../models/Errors";
 import Category from "../models/Category";
 import { Country } from "../models/Country";
 import { CountriesAPI } from "./Auth0Config";
+import Email from "../models/Email";
 
 export default class MockedApiService implements IApiService {
   public authService: AuthService;
@@ -148,7 +149,7 @@ export default class MockedApiService implements IApiService {
   getUserStatus = () =>
     this.resolved<UserStatusDto>({
       message: "Not payed at all",
-      status: PaymentStatus.New,
+      status: PaymentStatus.Paying,
     });
   getUserProfile = () =>
     this.resolved<UserInfoDto>({
@@ -222,4 +223,7 @@ export default class MockedApiService implements IApiService {
 
       throw new Error(json);
     });
+
+  sendFeedback = (email: Email) => this.resolved(true);
+  askForHelp = (email: Email) => this.resolved(true);
 }

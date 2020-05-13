@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Rashtan.AuditStory.Email;
 using Rashtan.AuditStory.Functions.API.Utils;
 using Rashtan.AuditStory.MongoRepository;
 using Rashtan.AuditStory.Workflows;
@@ -21,6 +22,7 @@ namespace Rashtan.AuditStory.Functions.API
                 .AddSingleton(configurationRoot)
                 .AddSingleton<TokenAuthenticator>()
                 .AddSingleton<FunctionAppAuth0Authenticator>()
+                .RegisterEmailServices()
                 .RegisterRepositoryServices()
                 .RegisterWorkflows();
         }

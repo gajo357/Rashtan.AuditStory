@@ -8,6 +8,7 @@ import { UserInfoDto, UserStatusDto } from "../models/UserInfo";
 import AuthService from "./AuthService";
 import Category from "../models/Category";
 import { Country, Currency } from "../models/Country";
+import Email from "../models/Email";
 
 export default interface IApiService {
   authService: AuthService;
@@ -31,4 +32,7 @@ export default interface IApiService {
 
   getCountries: () => Promise<Country[]>;
   getCurrencies: () => Promise<Currency[]>;
+
+  sendFeedback: (email: Email) => Promise<boolean>;
+  askForHelp: (email: Email) => Promise<boolean>;
 }

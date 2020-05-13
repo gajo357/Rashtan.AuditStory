@@ -12,6 +12,7 @@ import {
 } from "@ant-design/icons";
 import { Menu, Button, Row, Col } from "antd";
 import NewCategoryEdit from "./NewCategoryEdit";
+import EmailSender from "./EmailSender";
 import IApiService from "../services/IApiService";
 import Category from "../models/Category";
 import { QuickInfoDto } from "../models/Company";
@@ -46,24 +47,40 @@ const MainMenu: React.FC<Props> = ({
   logOut,
   history,
 }) => {
-  const [visible, setVisible] = useState(false);
+  const [newCategoryVisible, setNewCategoryVisible] = useState(false);
+  const [feedbackVisible, setFeedbackVisible] = useState(false);
+  const [helpVisible, setHelpVisible] = useState(false);
 
   return (
     <div>
       <NewCategoryEdit
-        visible={visible}
+        visible={newCategoryVisible}
         categories={categories}
-        onClose={() => setVisible(false)}
+        onClose={() => setNewCategoryVisible(false)}
         onCreate={(category) =>
           apiService
             .saveCategory(category)
             .then(onCategoryAdded)
             .catch(showError)
             .finally(() => {
-              setVisible(false);
+              setNewCategoryVisible(false);
             })
         }
       />
+
+      <EmailSender
+        title="Send feedback"
+        visible={feedbackVisible}
+        onSend={apiService.sendFeedback}
+        onClose={() => setFeedbackVisible(false)}
+      />
+      <EmailSender
+        title="Ask for help"
+        visible={helpVisible}
+        onSend={apiService.askForHelp}
+        onClose={() => setHelpVisible(false)}
+      />
+
       <Menu selectable={false} mode="vertical">
         <Menu.Item
           onClick={() => setFilter(undefined)}
@@ -105,7 +122,7 @@ const MainMenu: React.FC<Props> = ({
               {c.name}
             </Menu.Item>
           ))}
-          <Menu.Item onClick={() => setVisible(true)}>
+          <Menu.Item onClick={() => setNewCategoryVisible(true)}>
             <Button type="link">NEW</Button>
           </Menu.Item>
         </Menu.ItemGroup>
@@ -116,8 +133,18 @@ const MainMenu: React.FC<Props> = ({
         >
           Account
         </Menu.Item>
-        <Menu.Item icon={<QuestionCircleOutlined />}>Help</Menu.Item>
-        <Menu.Item icon={<MessageOutlined />}>Send feedback</Menu.Item>
+        <Menu.Item
+          onClick={() => setHelpVisible(true)}
+          icon={<QuestionCircleOutlined />}
+        >
+          Help
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => setFeedbackVisible(true)}
+          icon={<MessageOutlined />}
+        >
+          Send feedback
+        </Menu.Item>
         <Menu.Divider />
         <Menu.Item onClick={logOut} icon={<LogoutOutlined />}>
           LOG OUT
