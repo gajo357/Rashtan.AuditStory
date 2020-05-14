@@ -35,8 +35,11 @@ namespace Rashtan.AuditStory.Email
             var msg = MailHelper.CreateSingleEmail(fromAddress, toAddress, email.Subject, string.Empty, email.Content);
 
             var response = await Client.SendEmailAsync(msg);
-            
-            return CsResult.CreateResult(response.StatusCode == System.Net.HttpStatusCode.Accepted);
+            if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
+                return CsResult.CreateResult(true);
+
+            var content = await response.Body.ReadAsStringAsync();
+            return CsResult<bool>.createError(content);
         }
     }
 }
