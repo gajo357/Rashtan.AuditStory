@@ -28,14 +28,24 @@ export default class ApiService implements IApiService {
   });
 
   public static unwrapResponse = async <TResult>(r: Response) => {
-    const json = await r.json();
     if (r.ok) {
+      const json = await r.json();
       return json as TResult;
-    } else if (r.status === 400) {
-      throw new UserError(r.status, json);
     }
 
-    throw new Error(json);
+    if (r.status === 500) {
+      throw new UserError(
+        r.status,
+        "An unexpected error has occured, please write to our support with the description and the steps to reproduce it."
+      );
+    }
+
+    const errorText = await r.text();
+    if (r.status === 400) {
+      throw new UserError(r.status, errorText);
+    }
+
+    throw new Error(errorText);
   };
 
   private baseCommand = async <TResult>(
