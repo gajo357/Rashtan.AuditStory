@@ -15,7 +15,7 @@ namespace Rashtan.AuditStory.Functions.API.Utils
         public static IActionResult UnwrapResult<T>(this CsResult<T> result)
         {
             if (result.IsError)
-                new BadRequestObjectResult(result.Error);
+                new BadRequestErrorMessageResult(result.Error);
 
             return new OkObjectResult(result.Result);
         }
