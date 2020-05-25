@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.Email
 {
-    public class EmailService : IEmailService
+    internal class EmailService : IEmailService
     {
         public EmailService(IConfiguration configuration)
         {
@@ -14,9 +14,11 @@ namespace Rashtan.AuditStory.Email
 
             FeedbackEmail = emailSection["FeedbackEmail"];
             HelpEmail = emailSection["HelpEmail"];
+            SenderEmail = emailSection["SenderEmail"];
             Client = new SendGridClient(emailSection["ApiKey"]);
         }
 
+        private string SenderEmail { get; }
         private string FeedbackEmail { get; }
         private string HelpEmail { get; }
         private SendGridClient Client { get; }
@@ -29,10 +31,11 @@ namespace Rashtan.AuditStory.Email
 
         private async Task<CsResult<bool>> SendEmailAsync(string from, string to, Dto.Email email)
         {
-            var fromAddress = new EmailAddress(from, email.Name);
+            var fromAddress = new EmailAddress(SenderEmail);
             var toAddress = new EmailAddress(to);
 
             var msg = MailHelper.CreateSingleEmail(fromAddress, toAddress, email.Subject, string.Empty, email.Content);
+            msg.SetReplyTo(new EmailAddress(from, email.Name));
 
             var response = await Client.SendEmailAsync(msg);
             if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
