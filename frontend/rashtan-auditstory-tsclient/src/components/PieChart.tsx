@@ -1,5 +1,12 @@
 import React from "react";
-import { Chart, Geom, Tooltip, Coord, Label } from "bizcharts";
+import {
+  Chart,
+  Tooltip,
+  Coordinate,
+  Axis,
+  Interval,
+  Interaction
+} from "bizcharts";
 import { createColorSet } from "./BarChart";
 
 interface Props {
@@ -12,16 +19,29 @@ interface Props {
 const PieChart: React.FC<Props> = ({ data, xField, yField, ...rest }) => {
   const colorSet = createColorSet(data, xField);
   return (
-    <Chart data={data} forceFit height={300} width={400} {...rest}>
-      <Coord type="theta" />
+    <Chart data={data} autoFit height={300} width={400} {...rest}>
+      <Coordinate type="theta" />
       <Tooltip showTitle={false} />
-      <Geom
-        type="intervalStack"
+      <Axis visible={false} />
+
+      <Interval
         position={yField}
-        color={[xField, (value) => colorSet[value]]}
-      >
-        <Label content={xField} />
-      </Geom>
+        color={[xField, value => colorSet[value]]}
+        adjust="stack"
+        style={{
+          lineWidth: 1,
+          stroke: "#fff"
+        }}
+        label={[
+          "count",
+          {
+            content: data => {
+              return `${data.item}: ${data.percent * 100}%`;
+            }
+          }
+        ]}
+      />
+      <Interaction type="element-single-selected" />
     </Chart>
   );
 };

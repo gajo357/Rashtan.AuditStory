@@ -1,5 +1,5 @@
 import React from "react";
-import { Chart, Geom, Axis, Tooltip } from "bizcharts";
+import { Chart, Axis, Tooltip, Interval } from "bizcharts";
 
 const colors = [
   "#008FFB",
@@ -10,7 +10,7 @@ const colors = [
   "#13D8AA",
   "#D7263D",
   "#F86624",
-  "#7D02EB",
+  "#7D02EB"
 ];
 
 export const createColorSet = (data: any[], xField: string) => {
@@ -44,21 +44,13 @@ const BarChart: React.FC<Props> = ({
   scale[yField] = { alias: yTitle };
 
   return (
-    <Chart
-      data={data}
-      forceFit
-      height={300}
-      width={400}
-      scale={scale}
-      {...rest}
-    >
+    <Chart data={data} autoFit height={300} width={400} scale={scale} {...rest}>
       <Axis name={xField} title />
       <Axis name={yField} title />
       <Tooltip />
-      <Geom
-        type="interval"
+      <Interval
         position={`${xField}*${yField}`}
-        color={[xField, (value) => colorSet[value]]}
+        color={[xField, (value: any) => colorSet[value]]}
       />
     </Chart>
   );
