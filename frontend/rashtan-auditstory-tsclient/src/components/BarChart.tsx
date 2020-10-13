@@ -41,13 +41,13 @@ const BarChart: React.FC<Props> = ({
 
   const scale: { [id: string]: any } = {};
   scale[xField] = { alias: xTitle };
-  scale[yField] = { alias: yTitle };
+  scale[yField] = { alias: yTitle, min: 0 };
 
   return (
     <Chart data={data} autoFit height={300} width={400} scale={scale} {...rest}>
       <Axis name={xField} title />
       <Axis name={yField} title />
-      <Tooltip />
+      <Tooltip shared />
       <Interval
         position={`${xField}*${yField}`}
         color={[xField, (value: any) => colorSet[value]]}

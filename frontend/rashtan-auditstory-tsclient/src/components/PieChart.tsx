@@ -32,14 +32,6 @@ const PieChart: React.FC<Props> = ({ data, xField, yField, ...rest }) => {
           lineWidth: 1,
           stroke: "#fff"
         }}
-        label={[
-          "count",
-          {
-            content: data => {
-              return `${data.item}: ${data.percent * 100}%`;
-            }
-          }
-        ]}
       />
       <Interaction type="element-single-selected" />
     </Chart>
