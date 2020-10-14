@@ -9,22 +9,23 @@ import { currencyString } from "../../models/Helpers";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import styles from "./Story-styles";
 import InputWithCurrency from "./InputWithCurrency";
+import EditNumber from "../SimpleEditors/EditNumber";
 
 const StoryCompetition: React.FC<StoryPartProps<CompetitionDto>> = ({
   value,
   onChange,
-  currency,
+  currency
 }) => {
   const marketCapTitle = `Market Cap${currencyString(currency)}`;
 
   const chartDataCap = value.competitors.filter(
-    (c) => c && c.name && c.marketCap
+    c => c && c.name && c.marketCap
   );
   const chartDataRevenue = value.competitors.filter(
-    (c) => c && c.name && c.revenue
+    c => c && c.name && c.revenue
   );
   const chartDataMargin = value.competitors.filter(
-    (c) => c && c.name && c.margin
+    c => c && c.name && c.margin
   );
 
   const chartStyle = { style: { display: "inline-block" } };
@@ -34,7 +35,7 @@ const StoryCompetition: React.FC<StoryPartProps<CompetitionDto>> = ({
       <Form.List name="competitors">
         {(fields, { add, remove }) => (
           <div>
-            {fields.map((field) => (
+            {fields.map(field => (
               <div key={field.name} style={styles.revenueItem}>
                 <Button
                   danger
@@ -64,7 +65,7 @@ const StoryCompetition: React.FC<StoryPartProps<CompetitionDto>> = ({
                   />
                 </Form.Item>
                 <Form.Item label="Op Margin (%)" name={[field.name, "margin"]}>
-                  <Input placeholder="Operating Margin" />
+                  <EditNumber placeholder="Operating Margin" />
                 </Form.Item>
               </div>
             ))}

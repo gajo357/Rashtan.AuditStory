@@ -1,27 +1,21 @@
 import React, { ComponentType, useEffect, useState } from "react";
 import { Spin } from "antd";
 import { Redirect } from "react-router-dom";
-import IApiService from "../services/IApiService";
+import { useAuthContext } from "../context/AuthProvider";
 
-interface Props {
-  apiService: IApiService;
-}
-
-const withLogin = <P extends Props>(
-  WrappedComponent: ComponentType<P>
-): React.FC<P> => {
-  return (props) => {
+const withLogin = <P,>(WrappedComponent: ComponentType<P>): React.FC<P> => {
+  return props => {
+    const { isAuthenticated } = useAuthContext();
     const [loggedIn, setLoggedIn] = useState<boolean>();
 
     useEffect(() => {
-      props.apiService.authService
-        .isAuthenticated()
+      isAuthenticated()
         .then(setLoggedIn)
-        .catch((e) => {
+        .catch(e => {
           console.log(e);
           setLoggedIn(false);
         });
-    }, [props.apiService]);
+    }, []);
 
     if (loggedIn === false) return <Redirect to="/login" />;
     if (loggedIn === true) return <WrappedComponent {...props} />;

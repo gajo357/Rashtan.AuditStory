@@ -3,7 +3,6 @@ import { History } from "history";
 import { FlagTwoTone, MenuOutlined, PlusCircleFilled } from "@ant-design/icons";
 import { Drawer, List, Tag, Space, Input } from "antd";
 import Page from "./Page";
-import IApiService from "../services/IApiService";
 import { QuickInfoDto } from "../models/Company";
 import { showError } from "../models/Errors";
 import Category from "../models/Category";
@@ -13,17 +12,18 @@ import EditStar from "./SimpleEditors/EditStar";
 import { stringMatch } from "../models/Helpers";
 import withLogin from "./withLogin";
 import withPayment from "./withPayment";
+import { useApiService } from "../context/ApiProvider";
 
 const createStoryStyle: CSSProperties = {
   position: "fixed",
   bottom: 20,
   right: 20,
   fontSize: 50,
-  color: "#388E3C",
+  color: "#388E3C"
 };
 
 const searchStyle = {
-  style: { margin: "0 auto", marginBottom: 20, maxWidth: 600 } as CSSProperties,
+  style: { margin: "0 auto", marginBottom: 20, maxWidth: 600 } as CSSProperties
 };
 
 const storyItemStyle = (color: string) => ({
@@ -31,17 +31,15 @@ const storyItemStyle = (color: string) => ({
     cursor: "pointer",
     backgroundColor: color,
     borderRadius: "20px",
-    margin: 5,
-  } as CSSProperties,
+    margin: 5
+  } as CSSProperties
 });
 
 interface Props {
-  apiService: IApiService;
-  logOut: () => void;
   history: History;
 }
 
-const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
+const Home: React.FC<Props> = ({ history }) => {
   const [loading, setLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [createStoryVisible, setCreateStoryVisible] = useState(false);
@@ -49,21 +47,21 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
   const [companies, setCompanies] = useState<QuickInfoDto[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchText, setSearchText] = useState("");
+  const { getCategories, getCompanies, createNewStory } = useApiService();
 
   useEffect(() => {
     setLoading(true);
-    apiService.getCategories().then(setCategories).catch(showError);
-    apiService
-      .getCompanies()
+    getCategories().then(setCategories).catch(showError);
+    getCompanies()
       .then(setCompanies)
       .catch(showError)
       .finally(() => setLoading(false));
 
     return () => setCreateStoryVisible(false);
-  }, [apiService]);
+  }, []);
 
   const categoryToColorMap = (name: string) => {
-    const c = categories.find((c) => c.name === name);
+    const c = categories.find(c => c.name === name);
     return (c ? c.color : "#FFFFFF") + "50";
   };
   const onClose = () => setMenuOpen(false);
@@ -91,10 +89,8 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         visible={menuOpen}
       >
         <MainMenu
-          apiService={apiService}
-          onCategoryAdded={(c) => {
-            apiService
-              .getCategories()
+          onCategoryAdded={c => {
+            getCategories()
               .then(setCategories)
               .catch(showError)
               .finally(() => {
@@ -102,12 +98,11 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
                 onClose();
               });
           }}
-          setFilter={(f) => {
+          setFilter={f => {
             setFilter(f);
             onClose();
           }}
           categories={categories}
-          logOut={logOut}
           history={history}
         />
       </Drawer>
@@ -115,12 +110,12 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         loading={loading}
         title={filter ? filter.title : "All stories"}
         backIcon={
-          <MenuOutlined onClick={() => setMenuOpen((v) => !v)}></MenuOutlined>
+          <MenuOutlined onClick={() => setMenuOpen(v => !v)}></MenuOutlined>
         }
       >
         <div>
           <Input.Search
-            onChange={(e) => setSearchText(e ? e.target.value : "")}
+            onChange={e => setSearchText(e ? e.target.value : "")}
             size="large"
             enterButton
             {...searchStyle}
@@ -129,7 +124,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
           <List
             itemLayout="vertical"
             dataSource={companies.filter(
-              (company) =>
+              company =>
                 (!filter || filter.predicate(company)) &&
                 companySearchFilter(company)
             )}
@@ -150,7 +145,7 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
                 <List.Item
                   {...storyItemStyle(categoryToColorMap(item.category))}
                   onClick={() => openStory(item.id)}
-                  actions={item.tags.map((tag) => (
+                  actions={item.tags.map(tag => (
                     <Tag>{tag}</Tag>
                   ))}
                 >
@@ -183,16 +178,15 @@ const Home: React.FC<Props> = ({ apiService, logOut, history }) => {
         title="Company name"
         visible={createStoryVisible}
         onCancel={() => setCreateStoryVisible(false)}
-        onCreateAsync={(title) =>
-          apiService
-            .createNewStory({ name: title })
+        onCreateAsync={title =>
+          createNewStory({ name: title })
             .then(openStory)
-            .catch((e) => {
+            .catch(e => {
               setCreateStoryVisible(false);
               showError(e);
             })
         }
-        existingItems={companies.map((m) => m.name)}
+        existingItems={companies.map(m => m.name)}
       />
 
       <PlusCircleFilled

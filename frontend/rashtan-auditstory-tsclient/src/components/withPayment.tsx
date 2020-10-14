@@ -1,34 +1,28 @@
 import React, { ComponentType, useEffect, useState } from "react";
 import { Spin, notification } from "antd";
 import { Redirect } from "react-router-dom";
-import IApiService from "../services/IApiService";
 import { UserStatusDto, PaymentStatus } from "../models/UserInfo";
 import { showError } from "../models/Errors";
+import { useApiService } from "../context/ApiProvider";
 
-interface Props {
-  apiService: IApiService;
-}
-
-const withPayment = <P extends Props>(
-  WrappedComponent: ComponentType<P>
-): React.FC<P> => {
-  return (props) => {
+const withPayment = <P,>(WrappedComponent: ComponentType<P>): React.FC<P> => {
+  return props => {
+    const { getUserStatus } = useApiService();
     const [status, setStatus] = useState<UserStatusDto>();
 
     useEffect(() => {
-      props.apiService
-        .getUserStatus()
-        .then((s) => {
+      getUserStatus()
+        .then(s => {
           setStatus(s);
           if (s.message)
             notification["warning"]({
               message: "User Status",
               description: s.message,
-              duration: 10,
+              duration: 10
             });
         })
         .catch(showError);
-    }, [props.apiService]);
+    }, []);
 
     if (!status) return <Spin spinning />;
 

@@ -6,14 +6,14 @@ import Page from "./Page";
 import { TermsAndConditions } from "./Terms";
 import { UserInfoDto } from "../models/UserInfo";
 import { Country } from "../models/Country";
-import IApiService from "../services/IApiService";
 import { showError } from "../models/Errors";
 import { stringMatch } from "../models/Helpers";
 import withLogin from "./withLogin";
+import { useApiService } from "../context/ApiProvider";
 
 const formItemLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 14 },
+  wrapperCol: { span: 14 }
 };
 
 interface UserFormProps {
@@ -27,7 +27,7 @@ const UserForm: React.FC<UserFormProps> = ({
   countries,
   userProfile,
   form,
-  showAcceptance,
+  showAcceptance
 }) => (
   <Form
     {...formItemLayout}
@@ -64,7 +64,7 @@ const UserForm: React.FC<UserFormProps> = ({
           );
         }}
       >
-        {countries.map((c) => (
+        {countries.map(c => (
           <Select.Option value={c.alpha3Code} key={c.alpha3Code} title={c.name}>
             <Avatar
               src={c.flag}
@@ -85,8 +85,8 @@ const UserForm: React.FC<UserFormProps> = ({
             validator: (_, value) =>
               value
                 ? Promise.resolve()
-                : Promise.reject("Should accept agreement"),
-          },
+                : Promise.reject("Should accept agreement")
+          }
         ]}
       >
         <Checkbox>
@@ -96,7 +96,7 @@ const UserForm: React.FC<UserFormProps> = ({
             onClick={() => {
               Modal.info({
                 title: "Terms and Conditions",
-                content: <TermsAndConditions />,
+                content: <TermsAndConditions />
               });
             }}
           >
@@ -109,26 +109,26 @@ const UserForm: React.FC<UserFormProps> = ({
 );
 
 interface Props {
-  apiService: IApiService;
   goBack: () => void;
 }
 
-const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
+const AccountEdit: React.FC<Props> = ({ goBack }) => {
   const [submitting, setSubmitting] = useState(false);
   const [userProfile, setUserProfile] = useState<UserInfoDto | undefined>();
   const [countries, setCountries] = useState<Country[]>([]);
 
+  const { getUserProfile, getCountries, saveUserProfile } = useApiService();
+
   useEffect(() => {
-    apiService.getUserProfile().then(setUserProfile).catch(showError);
-    apiService.getCountries().then(setCountries).catch(showError);
-  }, [apiService]);
+    getUserProfile().then(setUserProfile).catch(showError);
+    getCountries().then(setCountries).catch(showError);
+  }, []);
 
   const handleSubmit = (values: any) => {
     setSubmitting(true);
-    apiService
-      .saveUserProfile(values)
+    saveUserProfile(values)
       .then(goBack)
-      .catch((e) => {
+      .catch(e => {
         showError(e);
         setSubmitting(false);
       });
@@ -145,7 +145,7 @@ const AccountEdit: React.FC<Props> = ({ apiService, goBack }) => {
         <CheckOutlined
           onClick={() => {
             if (submitting || !userProfile) return;
-            form.validateFields().then((values) => {
+            form.validateFields().then(values => {
               handleSubmit(values as UserInfoDto);
             });
           }}

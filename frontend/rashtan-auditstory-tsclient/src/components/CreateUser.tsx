@@ -3,11 +3,11 @@ import { UserOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Form, Steps, Spin, Button } from "antd";
 import { UserForm } from "./AccountEdit";
 import PaymentPlans from "./PaymentPlans";
-import IApiService from "../services/IApiService";
 import { UserInfoDto } from "../models/UserInfo";
 import { Country } from "../models/Country";
 import { showError } from "../models/Errors";
 import withLogin from "./withLogin";
+import { useApiService } from "../context/ApiProvider";
 
 const stepsContent = {
   marginTop: "16px",
@@ -16,37 +16,36 @@ const stepsContent = {
   backgroundColor: "#fafafa",
   minHeight: "200px",
   textAlign: "center",
-  paddingTop: "80px",
+  paddingTop: "80px"
 } as CSSProperties;
 
 const stepsAction = {
-  marginTop: "24px",
+  marginTop: "24px"
 };
 
 interface Props {
-  apiService: IApiService;
   goBack: () => void;
 }
 
-const CreateUser: React.FC<Props> = ({ apiService }) => {
+const CreateUser: React.FC<Props> = ({}) => {
   const [submitting, setSubmitting] = useState(false);
   const [current, setCurrent] = useState(0);
   const [userProfile, setUserProfile] = useState<UserInfoDto | undefined>();
   const [countries, setCountries] = useState<Country[]>([]);
+  const { getUserProfile, getCountries, saveUserProfile } = useApiService();
 
   useEffect(() => {
-    apiService.getUserProfile().then(setUserProfile).catch(showError);
-    apiService.getCountries().then(setCountries).catch(showError);
-  }, [apiService]);
+    getUserProfile().then(setUserProfile).catch(showError);
+    getCountries().then(setCountries).catch(showError);
+  }, []);
 
   const next = () => setCurrent(current + 1);
 
   const handleSaveUser = () => {
     if (submitting || !userProfile) return;
-    form.validateFields().then((values) => {
+    form.validateFields().then(values => {
       setSubmitting(true);
-      apiService
-        .saveUserProfile(values as UserInfoDto)
+      saveUserProfile(values as UserInfoDto)
         .then(next)
         .catch(showError)
         .finally(() => setSubmitting(false));
@@ -74,20 +73,20 @@ const CreateUser: React.FC<Props> = ({ apiService }) => {
         <Button type="primary" onClick={handleSaveUser} loading={submitting}>
           Create account
         </Button>
-      ),
+      )
     },
     {
       title: "Choose a plan",
       icon: <ShoppingCartOutlined />,
       content: <PaymentPlans />,
-      actions: <> </>,
-    },
+      actions: <> </>
+    }
   ];
 
   return (
     <div style={{ padding: "10px", textAlign: "center" }}>
       <Steps current={current}>
-        {steps.map((s) => (
+        {steps.map(s => (
           <Steps.Step title={s.title} icon={s.icon} key={s.title} />
         ))}
       </Steps>

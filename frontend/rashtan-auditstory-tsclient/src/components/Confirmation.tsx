@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import { Button, Typography, Progress } from "antd";
-import IApiService from "../services/IApiService";
 import { PaymentStatus } from "../models/UserInfo";
 import { showError } from "../models/Errors";
 import useInterval from "../models/useInterval";
+import { useApiService } from "../context/ApiProvider";
 
 interface Props {
-  apiService: IApiService;
   goHome: () => void;
 }
 
-const Confirmation: React.FC<Props> = ({ apiService, goHome }) => {
+const Confirmation: React.FC<Props> = ({ goHome }) => {
   const [enabled, setEnabled] = useState(false);
   const [count, setCount] = useState(0);
+  const { getUserStatus } = useApiService();
 
   const duration = 60;
 
   useInterval(() => {
-    apiService
-      .getUserStatus()
-      .then((s) => {
+    getUserStatus()
+      .then(s => {
         if (s.status === PaymentStatus.Paying) setEnabled(true);
       })
       .catch(showError);
@@ -28,7 +27,7 @@ const Confirmation: React.FC<Props> = ({ apiService, goHome }) => {
   useInterval(() => {
     if (count < duration) {
       if (enabled) setCount(duration);
-      else setCount((c) => c + 1);
+      else setCount(c => c + 1);
     } else setCount(0);
   }, 1000);
 
@@ -42,7 +41,7 @@ const Confirmation: React.FC<Props> = ({ apiService, goHome }) => {
       <Progress
         strokeColor={{
           "0%": "#108ee9",
-          "100%": "#87d068",
+          "100%": "#87d068"
         }}
         percent={(count * 100) / duration}
         showInfo={false}

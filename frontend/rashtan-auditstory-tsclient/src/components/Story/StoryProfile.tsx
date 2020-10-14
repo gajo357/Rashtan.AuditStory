@@ -1,12 +1,13 @@
 import React from "react";
 import { TagsOutlined } from "@ant-design/icons";
-import { Form, Input, Select, InputNumber } from "antd";
+import { Form, Input, Select } from "antd";
 import StoryPartForm, { StoryPartPropsWithExtraData } from "./StoryPartForm";
 import CurrencyUnitEdit from "./CurrencyUnitEdit";
 import InputWithCurrency from "./InputWithCurrency";
 import EditComment from "../SimpleEditors/EditComment";
 import { ProfileDto } from "../../models/Company";
 import { Currency } from "../../models/Country";
+import EditNumber from "../SimpleEditors/EditNumber";
 
 const StoryProfile: React.FC<StoryPartPropsWithExtraData<
   ProfileDto,
@@ -51,7 +52,7 @@ const StoryProfile: React.FC<StoryPartPropsWithExtraData<
       </Form.Item>
 
       <Form.Item label="Number of employees" name="noEmployees">
-        <InputNumber placeholder="No. Employees" />
+        <EditNumber placeholder="No. Employees" />
       </Form.Item>
 
       <Form.Item label="Industry" name="industry">

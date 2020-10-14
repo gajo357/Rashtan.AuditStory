@@ -2,7 +2,7 @@ import AuthService from "./AuthService";
 import {
   CompanyStory,
   StoryCreateDto,
-  ChecklistItemDto,
+  ChecklistItemDto
 } from "../models/Company";
 import { BASE_API } from "./Auth0Config";
 import { UserInfoDto, UserStatusDto } from "../models/UserInfo";
@@ -13,18 +13,18 @@ import { Country, Currency } from "../models/Country";
 import Email from "../models/Email";
 
 export default class ApiService implements IApiService {
-  public authService: AuthService;
+  private getAccessToken: () => Promise<string>;
 
-  constructor(authService: AuthService) {
-    this.authService = authService;
+  constructor(getAccessToken: () => Promise<string>) {
+    this.getAccessToken = getAccessToken;
   }
 
   private createDefaultHeaders = (token: any) => ({
     headers: new Headers({
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    }),
+      "Content-Type": "application/json"
+    })
   });
 
   public static unwrapResponse = async <TResult>(r: Response) => {
@@ -53,14 +53,14 @@ export default class ApiService implements IApiService {
     path: string,
     body?: any
   ) => {
-    const token = await this.authService.getAccessToken();
+    const token = await this.getAccessToken();
     const headers = this.createDefaultHeaders(token);
     const bodyString = body ? JSON.stringify(body) : undefined;
 
     const result = await fetch(BASE_API + path, {
       ...headers,
       method,
-      body: bodyString,
+      body: bodyString
     });
 
     return await ApiService.unwrapResponse<TResult>(result);
@@ -80,8 +80,8 @@ export default class ApiService implements IApiService {
 
   private companyApi = "api/company";
   getCompanies = () =>
-    this.getCommand<any[]>(this.companyApi).then((comps) =>
-      comps.map((c) => ({ ...c, dateEdited: new Date(c.dateEdited) }))
+    this.getCommand<any[]>(this.companyApi).then(comps =>
+      comps.map(c => ({ ...c, dateEdited: new Date(c.dateEdited) }))
     );
   createNewStory = (company: StoryCreateDto) =>
     this.postCommand<StoryCreateDto, string>(this.companyApi, company);

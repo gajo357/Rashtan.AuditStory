@@ -3,13 +3,12 @@ import { Form, Row, Col, Input } from "antd";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import EditColor from "./SimpleEditors/EditColor";
 import Page from "./Page";
-import IApiService from "../services/IApiService";
 import Category from "../models/Category";
 import { showError } from "../models/Errors";
 import withLogin from "./withLogin";
+import { useApiService } from "../context/ApiProvider";
 
 interface Props {
-  apiService: IApiService;
   goBack: () => void;
 }
 
@@ -17,16 +16,17 @@ interface Categories {
   categories: Category[];
 }
 
-const CategoriesEdit: React.FC<Props> = ({ apiService, goBack }) => {
+const CategoriesEdit: React.FC<Props> = ({ goBack }) => {
   const [categories, setCategories] = useState<Categories | undefined>(
     undefined
   );
+  const { getCategories, saveCategories } = useApiService();
+
   useEffect(() => {
-    apiService
-      .getCategories()
-      .then((categories) => setCategories({ categories }))
+    getCategories()
+      .then(categories => setCategories({ categories }))
       .catch(showError);
-  }, [apiService]);
+  }, []);
 
   const [form] = Form.useForm();
   return (
@@ -38,12 +38,9 @@ const CategoriesEdit: React.FC<Props> = ({ apiService, goBack }) => {
         categories && (
           <CheckOutlined
             onClick={() => {
-              form.validateFields().then((values) => {
+              form.validateFields().then(values => {
                 const c = values as Categories;
-                apiService
-                  .saveCategories(c.categories)
-                  .then(goBack)
-                  .catch(showError);
+                saveCategories(c.categories).then(goBack).catch(showError);
               });
             }}
           />
@@ -55,7 +52,7 @@ const CategoriesEdit: React.FC<Props> = ({ apiService, goBack }) => {
           <Form.List name="categories">
             {(fields, { remove }) => (
               <div>
-                {fields.map((field) => (
+                {fields.map(field => (
                   <Row key={field.name} gutter={[2, 2]}>
                     <Col flex="30px">
                       <Form.Item

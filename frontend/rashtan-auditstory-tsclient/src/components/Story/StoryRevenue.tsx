@@ -8,11 +8,12 @@ import BarChart from "../BarChart";
 import {
   RevenueDto,
   RevenueStreamDto,
-  CurrencyUnit,
+  CurrencyUnit
 } from "../../models/Company";
 import EditRichText from "../SimpleEditors/EditRichText";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import styles from "./Story-styles";
+import EditNumber from "../SimpleEditors/EditNumber";
 
 const chartStyle = { style: { display: "inline-block" } };
 
@@ -22,7 +23,7 @@ const createList = (currency: CurrencyUnit | undefined) => (
       <div>
         <Typography.Title level={4}>What do they make?</Typography.Title>
 
-        {fields.map((field) => (
+        {fields.map(field => (
           <div key={field.name} style={styles.revenueItem}>
             <Button
               danger
@@ -43,10 +44,10 @@ const createList = (currency: CurrencyUnit | undefined) => (
               <InputWithCurrency placeholder="Revenue" currency={currency} />
             </Form.Item>
             <Form.Item label="Yield (%)" name={[field.name, "profit"]}>
-              <Input placeholder="Profit" />
+              <EditNumber placeholder="Profit" />
             </Form.Item>
             <Form.Item label="5-year growth (%)" name={[field.name, "growth"]}>
-              <Input placeholder="Growth" />
+              <EditNumber placeholder="Growth" />
             </Form.Item>
 
             <Form.Item label="Description" name={[field.name, "description"]}>
@@ -77,7 +78,7 @@ const createCharts = (data: RevenueStreamDto[]) => {
 };
 
 const createValueChart = (data: RevenueStreamDto[]) => {
-  const filtered = data.filter((c) => c && c.name && c.revenue);
+  const filtered = data.filter(c => c && c.name && c.revenue);
   return (
     filtered.length > 1 && (
       <PieChart
@@ -91,7 +92,7 @@ const createValueChart = (data: RevenueStreamDto[]) => {
 };
 
 const createProfitChart = (data: RevenueStreamDto[]) => {
-  const filtered = data.filter((c) => c && c.name && c.profit);
+  const filtered = data.filter(c => c && c.name && c.profit);
   return (
     filtered.length > 1 && (
       <BarChart
@@ -109,7 +110,7 @@ const createProfitChart = (data: RevenueStreamDto[]) => {
 const StoryRevenue: React.FC<StoryPartProps<RevenueDto>> = ({
   value,
   onChange,
-  currency,
+  currency
 }) => {
   return (
     <StoryPartForm title="Products" value={value} onChange={onChange}>

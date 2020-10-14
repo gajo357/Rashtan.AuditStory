@@ -8,15 +8,16 @@ import {
   UserOutlined,
   MessageOutlined,
   QuestionCircleOutlined,
-  CopyrightOutlined,
+  CopyrightOutlined
 } from "@ant-design/icons";
 import { Menu, Button, Row, Col } from "antd";
 import NewCategoryEdit from "./NewCategoryEdit";
 import EmailSender from "./EmailSender";
-import IApiService from "../services/IApiService";
 import Category from "../models/Category";
 import { QuickInfoDto } from "../models/Company";
 import { showError } from "../models/Errors";
+import { useApiService } from "../context/ApiProvider";
+import { useAuthContext } from "../context/AuthProvider";
 
 export interface CompanyFilter {
   title: string;
@@ -27,15 +28,13 @@ export const createCategoryFilter: (c: Category) => CompanyFilter = (
   category: Category
 ) => ({
   title: category.name,
-  predicate: (comp: QuickInfoDto) => comp.category === category.name,
+  predicate: (comp: QuickInfoDto) => comp.category === category.name
 });
 
 interface Props {
   categories: Category[];
   onCategoryAdded: (category: Category) => void;
   setFilter: (f: CompanyFilter | undefined) => void;
-  apiService: IApiService;
-  logOut: () => void;
   history: History;
 }
 
@@ -43,13 +42,13 @@ const MainMenu: React.FC<Props> = ({
   categories,
   onCategoryAdded,
   setFilter,
-  apiService,
-  logOut,
-  history,
+  history
 }) => {
   const [newCategoryVisible, setNewCategoryVisible] = useState(false);
   const [feedbackVisible, setFeedbackVisible] = useState(false);
   const [helpVisible, setHelpVisible] = useState(false);
+  const { sendFeedback, askForHelp, saveCategory } = useApiService();
+  const { logOut } = useAuthContext();
 
   return (
     <div>
@@ -57,9 +56,8 @@ const MainMenu: React.FC<Props> = ({
         visible={newCategoryVisible}
         categories={categories}
         onClose={() => setNewCategoryVisible(false)}
-        onCreate={(category) =>
-          apiService
-            .saveCategory(category)
+        onCreate={category =>
+          saveCategory(category)
             .then(onCategoryAdded)
             .catch(showError)
             .finally(() => {
@@ -71,13 +69,13 @@ const MainMenu: React.FC<Props> = ({
       <EmailSender
         title="Send feedback"
         visible={feedbackVisible}
-        onSend={apiService.sendFeedback}
+        onSend={sendFeedback}
         onClose={() => setFeedbackVisible(false)}
       />
       <EmailSender
         title="Ask for help"
         visible={helpVisible}
-        onSend={apiService.askForHelp}
+        onSend={askForHelp}
         onClose={() => setHelpVisible(false)}
       />
 
@@ -90,7 +88,7 @@ const MainMenu: React.FC<Props> = ({
         </Menu.Item>
         <Menu.Item
           onClick={() =>
-            setFilter({ title: "My favourites", predicate: (c) => c.star })
+            setFilter({ title: "My favourites", predicate: c => c.star })
           }
           icon={<StarOutlined />}
         >
@@ -113,7 +111,7 @@ const MainMenu: React.FC<Props> = ({
             </Row>
           }
         >
-          {categories.map((c) => (
+          {categories.map(c => (
             <Menu.Item
               onClick={() => setFilter(createCategoryFilter(c))}
               key={c.name}

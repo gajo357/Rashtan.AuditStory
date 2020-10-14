@@ -41,7 +41,7 @@ const BarChart: React.FC<Props> = ({
 
   const scale: { [id: string]: any } = {};
   scale[xField] = { alias: xTitle };
-  scale[yField] = { alias: yTitle, min: 0 };
+  scale[yField] = { alias: yTitle };
 
   return (
     <Chart data={data} autoFit height={300} width={400} scale={scale} {...rest}>

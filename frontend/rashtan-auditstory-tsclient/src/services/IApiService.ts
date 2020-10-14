@@ -2,17 +2,14 @@ import {
   QuickInfoDto,
   CompanyStory,
   StoryCreateDto,
-  ChecklistItemDto,
+  ChecklistItemDto
 } from "../models/Company";
 import { UserInfoDto, UserStatusDto } from "../models/UserInfo";
-import AuthService from "./AuthService";
 import Category from "../models/Category";
 import { Country, Currency } from "../models/Country";
 import Email from "../models/Email";
 
 export default interface IApiService {
-  authService: AuthService;
-
   getCompanies: () => Promise<QuickInfoDto[]>;
   createNewStory: (company: StoryCreateDto) => Promise<string>;
 

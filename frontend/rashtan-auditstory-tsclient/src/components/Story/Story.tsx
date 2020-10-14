@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Redirect, Prompt } from "react-router";
 import { Tabs, Button } from "antd";
 import { ArrowLeftOutlined, CheckOutlined } from "@ant-design/icons";
-import IApiService from "../../services/IApiService";
 import {
   CompanyStory,
   ChecklistItemDto,
-  CurrencyUnit,
+  CurrencyUnit
 } from "../../models/Company";
 import { showError, showNotification } from "../../models/Errors";
 import StoryProfile from "./StoryProfile";
@@ -24,7 +23,7 @@ import Page from "../Page";
 import {
   addElement,
   replaceElement,
-  removeElement,
+  removeElement
 } from "../../models/ArrayUpdate";
 import Category from "../../models/Category";
 import { Currency } from "../../models/Country";
@@ -32,14 +31,14 @@ import styles from "./Story-styles";
 import AddUniqueValue from "../AddUniqueValue";
 import withLogin from "../withLogin";
 import withPayment from "../withPayment";
+import { useApiService } from "../../context/ApiProvider";
 
 interface Props {
-  apiService: IApiService;
   id: string;
   goHome: () => void;
 }
 
-const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
+const Story: React.FC<Props> = ({ id, goHome }) => {
   const [company, setCompany] = useState<CompanyStory>();
   const [checklistItems, setChecklistItems] = useState<ChecklistItemDto[]>([]);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
@@ -50,29 +49,35 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
   const [activeKey, setActiveKey] = useState("1");
   const [customPartModal, setCustomPartModal] = useState(false);
 
+  const {
+    getCompanyStory,
+    getChecklistItems,
+    getCategories,
+    getCurrencies,
+    saveCompanyStory,
+    deleteCompanyStory
+  } = useApiService();
+
   useEffect(() => {
     if (!id) return;
 
-    apiService
-      .getCompanyStory(id)
-      .then((c) => {
+    getCompanyStory(id)
+      .then(c => {
         setCompany(c);
         setCurrency(c.profile.unit);
       })
       .then(() => setUnsavedChanges(false))
       .catch(showError);
 
-    apiService.getChecklistItems().then(setChecklistItems).catch(showError);
-    apiService.getCategories().then(setCategories).catch(showError);
-    apiService.getCurrencies().then(setCurrencies).catch(showError);
-  }, [apiService, id]);
+    getChecklistItems().then(setChecklistItems).catch(showError);
+    getCategories().then(setCategories).catch(showError);
+    getCurrencies().then(setCurrencies).catch(showError);
+  }, [id]);
 
   useEffect(() => {
     if (currencies.length === 0 || !company) return;
 
-    const curr = currencies.find(
-      (c) => c.code === company.profile.unit.currency
-    );
+    const curr = currencies.find(c => c.code === company.profile.unit.currency);
     if (curr) setCurrency({ ...company.profile.unit, currency: curr.symbol });
   }, [currencies, company]);
 
@@ -81,9 +86,8 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
       console.log(company);
       setUnsavedChanges(false);
       setSaving(true);
-      apiService
-        .saveCompanyStory(company)
-        .catch((e) => {
+      saveCompanyStory(company)
+        .catch(e => {
           // if we did not succeed in saving, we try again
           setUnsavedChanges(true);
           setSaving(false);
@@ -124,10 +128,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
             company && (
               <StoryMenu
                 remove={() =>
-                  apiService
-                    .deleteCompanyStory(company.id)
-                    .catch(showError)
-                    .then(goHome)
+                  deleteCompanyStory(company.id).catch(showError).then(goHome)
                 }
                 saving={saving}
               />
@@ -151,7 +152,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                 <Tabs.TabPane tab="Profile" key="1">
                   <StoryProfile
                     value={{ ...company.profile }}
-                    onChange={(p) => updateCompany({ ...company, profile: p })}
+                    onChange={p => updateCompany({ ...company, profile: p })}
                     extraData={currencies}
                     currency={currency}
                   />
@@ -160,7 +161,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                 <Tabs.TabPane tab="Revenue" key="2">
                   <StoryRevenue
                     value={company.revenue}
-                    onChange={(p) => updateCompany({ ...company, revenue: p })}
+                    onChange={p => updateCompany({ ...company, revenue: p })}
                     currency={currency}
                   />
                 </Tabs.TabPane>
@@ -168,7 +169,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                 <Tabs.TabPane tab="Profitability" key="3">
                   <StoryProfit
                     value={company.profitability}
-                    onChange={(p) =>
+                    onChange={p =>
                       updateCompany({ ...company, profitability: p })
                     }
                     currency={currency}
@@ -178,7 +179,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                 <Tabs.TabPane tab="Competition" key="4">
                   <StoryCompetition
                     value={company.competition}
-                    onChange={(p) =>
+                    onChange={p =>
                       updateCompany({ ...company, competition: p })
                     }
                     currency={currency}
@@ -188,16 +189,14 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                 <Tabs.TabPane tab="MOAT" key="5">
                   <StoryMoat
                     value={company.moat}
-                    onChange={(p) => updateCompany({ ...company, moat: p })}
+                    onChange={p => updateCompany({ ...company, moat: p })}
                   />
                 </Tabs.TabPane>
 
                 <Tabs.TabPane tab="Management" key="6">
                   <StoryManagement
                     value={company.management}
-                    onChange={(p) =>
-                      updateCompany({ ...company, management: p })
-                    }
+                    onChange={p => updateCompany({ ...company, management: p })}
                   />
                 </Tabs.TabPane>
 
@@ -211,7 +210,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                         updateCompany({ ...company, parts: c });
                         setActiveKey("1");
                       }}
-                      dataChanged={(p) => {
+                      dataChanged={p => {
                         const c = replaceElement(company.parts, part, p);
                         updateCompany({ ...company, parts: c });
                       }}
@@ -222,16 +221,14 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                 <Tabs.TabPane tab="Pros and Cons" key="7">
                   <StoryProsCons
                     value={company.prosCons}
-                    onChange={(p) => updateCompany({ ...company, prosCons: p })}
+                    onChange={p => updateCompany({ ...company, prosCons: p })}
                   />
                 </Tabs.TabPane>
 
                 <Tabs.TabPane tab="Checklist" key="8">
                   <StoryChecklist
                     value={company.checklist}
-                    onChange={(p) =>
-                      updateCompany({ ...company, checklist: p })
-                    }
+                    onChange={p => updateCompany({ ...company, checklist: p })}
                     extraData={checklistItems}
                   />
                 </Tabs.TabPane>
@@ -239,7 +236,7 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
                 <Tabs.TabPane tab="Verdict" key="10">
                   <StoryVerdict
                     value={company.verdict}
-                    onChange={(p) => updateCompany({ ...company, verdict: p })}
+                    onChange={p => updateCompany({ ...company, verdict: p })}
                     extraData={categories}
                   />
                 </Tabs.TabPane>
@@ -247,11 +244,11 @@ const Story: React.FC<Props> = ({ apiService, id, goHome }) => {
               <AddUniqueValue
                 title="New Chapter"
                 visible={customPartModal}
-                existingItems={company.parts.map((c) => c.title)}
-                onCreate={(title) => {
+                existingItems={company.parts.map(c => c.title)}
+                onCreate={title => {
                   const parts = addElement(company.parts, {
                     title,
-                    content: "",
+                    content: ""
                   });
                   updateCompany({ ...company, parts: parts });
                   setActiveKey(customPartKey(company.parts.length));

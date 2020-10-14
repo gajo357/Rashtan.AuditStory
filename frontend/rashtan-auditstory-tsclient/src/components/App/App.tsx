@@ -10,39 +10,28 @@ import Story from "../Story/Story";
 import Home from "../Home";
 import CategoriesEdit from "../CategoriesEdit";
 import Confirmation from "../Confirmation";
-import IApiService from "../../services/IApiService";
-import AuthService from "../../services/AuthService";
 import CreateUser from "../CreateUser";
+import { useAuthContext } from "../../context/AuthProvider";
 
-interface Props {
-  apiService: IApiService;
-  authService: AuthService;
-}
+const App: React.FC = () => {
+  const { logIn, handleAuthentication, isAuthenticated } = useAuthContext();
 
-const App: React.FC<Props> = ({ apiService, authService }) => {
   const goHome = (history: History) => () => history.push("/");
 
   const startSession = (history: History) => {
-    authService
-      .handleAuthentication()
-      .then(goHome(history))
-      .catch(authService.logIn);
+    handleAuthentication().then(goHome(history)).catch(logIn);
     return <Spin spinning tip="Starting session..." />;
   };
 
   const login = (history: History) => {
-    authService.isAuthenticated().then((v) => {
+    isAuthenticated().then(v => {
       if (v) goHome(history);
     });
 
     return (
       <div>
         <Typography.Title>AuditStory</Typography.Title>
-        <Button
-          icon={<LoginOutlined />}
-          type="primary"
-          onClick={authService.logIn}
-        >
+        <Button icon={<LoginOutlined />} type="primary" onClick={logIn}>
           Log In
         </Button>
       </div>
@@ -62,26 +51,18 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
           exact
           path="/story/:id"
           render={({ match, history }) => (
-            <Story
-              apiService={apiService}
-              id={match.params["id"]}
-              goHome={goHome(history)}
-            />
+            <Story id={match.params["id"]} goHome={goHome(history)} />
           )}
         />
         <Route
           exact
           path="/account"
-          render={({ history }) => (
-            <AccountEdit apiService={apiService} goBack={goHome(history)} />
-          )}
+          render={({ history }) => <AccountEdit goBack={goHome(history)} />}
         />
         <Route
           exact
           path="/editCategories"
-          render={({ history }) => (
-            <CategoriesEdit apiService={apiService} goBack={goHome(history)} />
-          )}
+          render={({ history }) => <CategoriesEdit goBack={goHome(history)} />}
         />
 
         <Route
@@ -93,28 +74,18 @@ const App: React.FC<Props> = ({ apiService, authService }) => {
         <Route
           exact
           path="/createUser"
-          render={({ history }) => (
-            <CreateUser apiService={apiService} goBack={goHome(history)} />
-          )}
+          render={({ history }) => <CreateUser goBack={goHome(history)} />}
         />
 
         <Route
           path="/confirmation"
-          render={({ history }) => (
-            <Confirmation apiService={apiService} goHome={goHome(history)} />
-          )}
+          render={({ history }) => <Confirmation goHome={goHome(history)} />}
         />
 
         <Route
           exact
           path="/"
-          render={({ history }) => (
-            <Home
-              apiService={apiService}
-              history={history}
-              logOut={authService.logOut}
-            />
-          )}
+          render={({ history }) => <Home history={history} />}
         />
 
         <Route component={() => <Redirect to="/" />} />

@@ -4,16 +4,16 @@ import "./index.css";
 import App from "./components/App/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
-import AuthService from "./services/AuthService";
-import ApiService from "./services/ApiService";
-// import MockedApiService from "./services/MockedApiService";
-
-const authService = new AuthService();
-const apiService = new ApiService(authService);
+import { AuthProvider } from "./context/AuthProvider";
+import { ApiProvider } from "./context/ApiProvider";
 
 ReactDOM.render(
   <BrowserRouter>
-    <App authService={authService} apiService={apiService} />
+    <AuthProvider>
+      <ApiProvider>
+        <App />
+      </ApiProvider>
+    </AuthProvider>
   </BrowserRouter>,
   document.getElementById("root")
 );
