@@ -1,0 +1,73 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+jobs:
+
+- job: buildandtest
+  pool:
+    vmImage: $(vmImageName)
+
+  steps:
+  - task: NuGetToolInstaller@1
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'restore'
+      projects: 'backend/Rashtan.AuditStory.API/Rashtan.AuditStory.API.csproj'
+      feedsToUse: 'select'
+      vstsFeed: '44780adf-a180-4e24-bf8e-5a68eb5a1d8b'
+      
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      projects: 'backend/Rashtan.AuditStory.API/Rashtan.AuditStory.API.csproj'
+      arguments: '--configuration $(buildConfiguration)'
+    displayName: 'dotnet build $(buildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'test'
+      projects: 'backend/Tests/**/*.csproj'
+      arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: true
+      zipAfterPublish: true
+      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      ArtifactName: 'drop'
+
+- job: deploy
+  pool:
+    vmImage: $(vmImageName)
+  dependsOn: buildandtest
+  condition: succeeded()
+  steps:
+    # download the artifact drop from the previous job
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: $(azureSubscription)
+        appType: 'webAppLinux'
+        appName: $(appName)
+        package: $(Build.ArtifactStagingDirectory)/**/*.zip
