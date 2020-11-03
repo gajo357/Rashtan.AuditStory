@@ -14,8 +14,8 @@ interface ProviderProps {
 
 const ApiProvider: React.FC<ProviderProps> = ({ children }) => {
   const { getAccessToken } = useAuthContext();
-  const apiService = new MockedApiService();
-  //   const apiService = new ApiService(getAccessToken);
+  // const apiService = new MockedApiService();
+  const apiService = new ApiService(getAccessToken);
 
   return (
     <ApiContext.Provider value={apiService}>{children}</ApiContext.Provider>
