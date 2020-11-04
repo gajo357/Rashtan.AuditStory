@@ -50,21 +50,21 @@ stages:
         publishLocation: Container
 
   - job: Publish
-      displayName: Publish
-      dependsOn: Build
-      condition: succeeded()
-      pool:
-        vmImage: $(vmImageName)
+    displayName: Publish
+    dependsOn: Build
+    condition: succeeded()
+    pool:
+      vmImage: $(vmImageName)
 
-      steps:
-      # download the artifact drop from the previous job
-      - task: DownloadBuildArtifacts@0
-        inputs:
-          artifactName: drop
-      - task: AzureRmWebAppDeployment@4
-        inputs:
-          ConnectionType: 'AzureRM'
-          azureSubscription: '$(azureSubscription)'
-          appType: 'webApp'
-          WebAppName: '$(webAppName)'
-          packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    steps:
+    # download the artifact drop from the previous job
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        artifactName: drop
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: '$(azureSubscription)'
+        appType: 'webApp'
+        WebAppName: '$(webAppName)'
+        packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
