@@ -27,25 +27,13 @@ stages:
     - task: YarnInstaller@3
       inputs:
         versionSpec: '1.x'
-    - task: Yarn@3
-      displayName: 'Yarn install'
-      inputs:
-        projectDirectory: 'frontend/rashtan-auditstory-tsclient'
-        arguments: install
-    - task: Yarn@3
-      displayName: 'Yarn build'
-      inputs:
-        projectDirectory: 'frontend/rashtan-auditstory-tsclient'
-        arguments: 'build'
-        productionMode: true
     - task: CmdLine@2
       inputs:
         script: |
-          dir
           cd frontend/rashtan-auditstory-tsclient
+          yarn install
+          yarn build
           dir
-          
-          echo Hello world'
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
