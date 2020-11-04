@@ -62,8 +62,6 @@ jobs:
     # download the artifact drop from the previous job
     - task: DownloadBuildArtifacts@0
       inputs:
-        buildType: 'current'
-        downloadType: 'single'
         artifactName: 'drop'
     - task: AzureWebApp@1
       inputs:
