@@ -7,12 +7,6 @@ trigger:
 - master
 
 variables:
-
-  # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'f4eccde0-ac9c-4d3e-bad1-69cdf0bc258a'
-
-  # Web app name
-  webAppName: 'auditstory'
   
   # Environment name
   environmentName: 'auditstory'
@@ -30,17 +24,35 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
+    - task: YarnInstaller@3
+      inputs:
+        versionSpec: '1.x'
+    - task: Yarn@3
+      displayName: 'Yarn install'
+      inputs:
+        projectDirectory: 'frontend/rashtan-auditstory-tsclient'
+        arguments: install
+    - task: Yarn@3
+      displayName: 'Yarn build'
+      inputs:
+        projectDirectory: 'frontend/rashtan-auditstory-tsclient'
+        arguments: 'build'
+        productionMode: true
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+        rootFolderOrFile: 'frontend/rashtan-auditstory-tsclient/build'
         includeRootFolder: false
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
-
-    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      artifact: drop
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish build artifact'
+      inputs: 
+        pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop' 
+        publishLocation: Container
 
 - stage: Deploy
   displayName: Deploy stage
@@ -55,17 +67,14 @@ stages:
     strategy:
       runOnce:
         deploy:
-          steps:            
-          - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: auditstory'
+          steps:
+          
+          - task: DownloadBuildArtifacts@0
             inputs:
-              azureSubscription: $(azureSubscription)
-              appType: webAppLinux
-              WebAppName: $(webAppName)
-              packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              RuntimeStack: 'NODE|10.10'
-              StartupCommand: 'npm run start'
-              ScriptType: 'Inline Script'
-              InlineScript: |
-                npm install
-                npm run build --if-present
+              artifactName: drop
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              appType: 'webApp'
+              WebAppName: '$(webAppName)'
+              packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
