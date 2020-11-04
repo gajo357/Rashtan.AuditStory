@@ -38,6 +38,14 @@ stages:
         projectDirectory: 'frontend/rashtan-auditstory-tsclient'
         arguments: 'build'
         productionMode: true
+    - task: CmdLine@2
+      inputs:
+        script: |
+          dir
+          cd frontend/rashtan-auditstory-tsclient
+          dir
+          
+          echo Hello world'
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
