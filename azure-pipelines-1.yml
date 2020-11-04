@@ -63,14 +63,10 @@ stages:
     strategy:
       runOnce:
         deploy:
-          steps:
-          
-          - task: DownloadBuildArtifacts@0
-            inputs:
-              artifactName: drop
+          steps:          
           - task: AzureRmWebAppDeployment@4
             inputs:
               azureSubscription: '$(azureSubscription)'
               appType: 'webApp'
               WebAppName: '$(webAppName)'
-              packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+              packageForLinux: '**/*.zip'
