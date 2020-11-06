@@ -29,10 +29,10 @@ const withPayment = <P,>(WrappedComponent: ComponentType<P>): React.FC<P> => {
     switch (status.status) {
       case PaymentStatus.New:
         return <Redirect to="/createUser" />;
-      case PaymentStatus.Paying:
-        return <WrappedComponent {...props} />;
       case PaymentStatus.Expired:
         return <Redirect to="/" />;
+      default:
+        return <WrappedComponent {...props} />;
     }
   };
 };
