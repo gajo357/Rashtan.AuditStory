@@ -23,6 +23,7 @@ jobs:
   - task: NuGetToolInstaller@1
 
   - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
     inputs:
       command: 'restore'
       projects: 'backend/Rashtan.AuditStory.API/Rashtan.AuditStory.API.csproj'
@@ -30,21 +31,24 @@ jobs:
       vstsFeed: '44780adf-a180-4e24-bf8e-5a68eb5a1d8b'
       
   - task: DotNetCoreCLI@2
+    displayName: 'dotnet build $(buildConfiguration)'
     inputs:
       command: 'build'
       projects: 'backend/Rashtan.AuditStory.API/Rashtan.AuditStory.API.csproj'
       arguments: '--configuration $(buildConfiguration)'
-    displayName: 'dotnet build $(buildConfiguration)'
 
   - task: DotNetCoreCLI@2
+    displayName: 'dotnet test'
     inputs:
       command: 'test'
-      projects: 'backend/Tests/**/*.csproj'
+      projects: 'backend/Tests/**/*.fsproj'
       arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
 
   - task: DotNetCoreCLI@2
+    displayName: 'dotnet publish'
     inputs:
       command: 'publish'
+      projects: 'backend/Rashtan.AuditStory.API/Rashtan.AuditStory.API.csproj'
       publishWebProjects: true
       zipAfterPublish: true
       arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
@@ -62,8 +66,6 @@ jobs:
     # download the artifact drop from the previous job
     - task: DownloadBuildArtifacts@0
       inputs:
-        buildType: 'current'
-        downloadType: 'single'
         artifactName: 'drop'
     - task: AzureWebApp@1
       inputs:
