@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rashtan.AuditStory.API.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public class CountryController : UserBasedController
@@ -20,18 +20,14 @@ namespace Rashtan.AuditStory.API.Controllers
             CountryWorkflow = countryWorkflow;
         }
 
-        // GET api/country/countries
+        // GET api/country
         [HttpGet]
-        public Task<ActionResult<IEnumerable<Country>>> Countries()
+        public Task<ActionResult<IEnumerable<Country>>> Get()
             => UnpackAsync(CountryWorkflow.GetCountriesAsync());
 
-        // GET api/country/Currencies
-        [HttpGet]
-        public Task<ActionResult<IEnumerable<Currency>>> Currencies()
-            => UnpackAsync(CountryWorkflow.GetCurrenciesAsync());
-
+        // POST api/country
         [HttpPost]
-        public Task<ActionResult<bool>> Countries(IEnumerable<Country> countries)
+        public Task<ActionResult<bool>> Post(IEnumerable<Country> countries)
             => UnpackAsync(CountryWorkflow.SaveCountriesAsync(countries));
     }
 }
