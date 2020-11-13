@@ -20,15 +20,19 @@ jobs:
     vmImage: $(vmImageName)
 
   steps:
+  - task: UseDotNet@2
+    displayName: 'Install .Net 5 SDK'
+    inputs:
+      packageType: 'sdk'
+      version: '5.0.100'
+      
   - task: NuGetToolInstaller@1
-
+  
   - task: DotNetCoreCLI@2
     displayName: 'dotnet restore'
     inputs:
       command: 'restore'
       projects: 'backend/Rashtan.AuditStory.API/Rashtan.AuditStory.API.csproj'
-      feedsToUse: 'select'
-      vstsFeed: '44780adf-a180-4e24-bf8e-5a68eb5a1d8b'
       
   - task: DotNetCoreCLI@2
     displayName: 'dotnet build $(buildConfiguration)'
