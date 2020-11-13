@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json.Serialization;
 using Rashtan.AuditStory.MongoRepository;
 using Rashtan.AuditStory.Workflows;
+using System.Text.Json;
 
 namespace Rashtan.AuditStory.API
 {
@@ -46,12 +46,11 @@ namespace Rashtan.AuditStory.API
             services.AddAuthorizationCore();
 
             services.AddControllers()
-                .AddNewtonsoftJson(options =>
-                    {
-                        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                        options.SerializerSettings.DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore;
-                        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    });
+                .AddJsonOptions(o =>
+                {
+                    o.JsonSerializerOptions.IgnoreNullValues = true;
+                    o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,7 +67,7 @@ namespace Rashtan.AuditStory.API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             app.UseCors("MyPolicy");
 
             app.UseHttpsRedirection();
