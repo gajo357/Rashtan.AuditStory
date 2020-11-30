@@ -30,7 +30,6 @@ import { Currency } from "../../models/Country";
 import styles from "./Story-styles";
 import AddUniqueValue from "../AddUniqueValue";
 import withLogin from "../withLogin";
-import withPayment from "../withPayment";
 import { useApiService } from "../../context/ApiProvider";
 
 interface Props {
@@ -264,4 +263,4 @@ const Story: React.FC<Props> = ({ id, goHome }) => {
   );
 };
 
-export default withLogin(withPayment(Story));
+export default withLogin(Story);

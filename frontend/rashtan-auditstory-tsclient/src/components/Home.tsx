@@ -11,7 +11,6 @@ import AddUniqueValue from "./AddUniqueValue";
 import EditStar from "./SimpleEditors/EditStar";
 import { stringMatch } from "../models/Helpers";
 import withLogin from "./withLogin";
-import withPayment from "./withPayment";
 import { useApiService } from "../context/ApiProvider";
 
 const createStoryStyle: CSSProperties = {
@@ -197,4 +196,4 @@ const Home: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withLogin(withPayment(Home));
+export default withLogin(Home);
