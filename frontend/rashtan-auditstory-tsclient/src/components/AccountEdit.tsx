@@ -9,7 +9,8 @@ import { Country } from "../models/Country";
 import { showError } from "../models/Errors";
 import { stringMatch } from "../models/Helpers";
 import withLogin from "./withLogin";
-import { useApiService } from "../context/ApiProvider";
+import { useApiService } from "../hooks/ApiProvider";
+import useNavigation from "../hooks/useNavigation";
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -108,14 +109,13 @@ const UserForm: React.FC<UserFormProps> = ({
   </Form>
 );
 
-interface Props {
-  goBack: () => void;
-}
+interface Props {}
 
-const AccountEdit: React.FC<Props> = ({ goBack }) => {
+const AccountEdit: React.FC<Props> = () => {
   const [submitting, setSubmitting] = useState(false);
   const [userProfile, setUserProfile] = useState<UserInfoDto | undefined>();
   const [countries, setCountries] = useState<Country[]>([]);
+  const { goHome } = useNavigation();
 
   const { getUserProfile, getCountries, saveUserProfile } = useApiService();
 
@@ -127,7 +127,7 @@ const AccountEdit: React.FC<Props> = ({ goBack }) => {
   const handleSubmit = (values: any) => {
     setSubmitting(true);
     saveUserProfile(values)
-      .then(goBack)
+      .then(goHome)
       .catch(e => {
         showError(e);
         setSubmitting(false);
@@ -140,7 +140,7 @@ const AccountEdit: React.FC<Props> = ({ goBack }) => {
     <Page
       title="My account"
       loading={!userProfile}
-      backIcon={<CloseOutlined onClick={goBack} />}
+      backIcon={<CloseOutlined onClick={goHome} />}
       extra={
         <CheckOutlined
           onClick={() => {

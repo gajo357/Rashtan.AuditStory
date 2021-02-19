@@ -4,8 +4,8 @@ import "./index.css";
 import App from "./components/App/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "./context/AuthProvider";
-import { ApiProvider } from "./context/ApiProvider";
+import { AuthProvider } from "./hooks/AuthProvider";
+import { ApiProvider } from "./hooks/ApiProvider";
 
 ReactDOM.render(
   <BrowserRouter>

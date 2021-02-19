@@ -26,3 +26,14 @@
 .App-link {
   color: #61dafb;
 }
+
+.google-login {
+  background-color: #fffbff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.google-login svg {
+  width: 1em;
+  height: 1em;
+  margin-right: 1em;
+}

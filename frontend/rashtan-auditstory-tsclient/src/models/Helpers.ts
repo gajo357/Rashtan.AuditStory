@@ -1,7 +1,6 @@
-import { BASE_API } from "../services/Auth0Config";
 import { UnitOfSize, CurrencyUnit } from "./Company";
 import { CagrDto } from "./Calculation";
-import ApiService from "../services/ApiService";
+import { apiFetch } from "../hooks/useApi";
 
 const stringMatch = (searchString: string) => (input: string) => {
   return (
@@ -17,13 +16,6 @@ const currencyString = (currency: CurrencyUnit | undefined) =>
 export { stringMatch, currencyString };
 
 const calculateCagr = (cagr: CagrDto) =>
-  fetch(`${BASE_API}/api/calculations/cagr`, {
-    headers: new Headers({
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    }),
-    method: "POST",
-    body: JSON.stringify(cagr),
-  }).then(async (r) => await ApiService.unwrapResponse<number>(r));
+  apiFetch<number>("POST", "api/calculations/cagr", undefined, cagr);
 
 export { calculateCagr };

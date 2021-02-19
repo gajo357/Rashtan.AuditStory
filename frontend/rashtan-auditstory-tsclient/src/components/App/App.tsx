@@ -1,8 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { Typography, Button, Spin } from "antd";
-import { LoginOutlined } from "@ant-design/icons";
-import { History } from "history";
+import { Spin } from "antd";
 import "./App.css";
 import Terms from "../Terms";
 import AccountEdit from "../AccountEdit";
@@ -11,82 +9,42 @@ import Home from "../Home";
 import CategoriesEdit from "../CategoriesEdit";
 import Confirmation from "../Confirmation";
 import CreateUser from "../CreateUser";
-import { useAuthContext } from "../../context/AuthProvider";
+import { useAuthContext } from "../../hooks/AuthProvider";
+import VerifyEmail from "../Auth/VerifyEmail";
+import Login from "../Auth/Login";
+import NonAuthRoute from "../Navigation/NonAuthRoute";
+import AuthRoute from "../Navigation/AuthRoute";
+import Register from "../Auth/Register";
+import ForgotPassword from "../Auth/ForgotPassword";
 
 const App: React.FC = () => {
-  const { logIn, handleAuthentication, isAuthenticated } = useAuthContext();
+  const { loadingAuthState, user } = useAuthContext();
 
-  const goHome = (history: History) => () => history.push("/");
-
-  const startSession = (history: History) => {
-    handleAuthentication().then(goHome(history)).catch(logIn);
-    return <Spin spinning tip="Starting session..." />;
-  };
-
-  const login = (history: History) => {
-    isAuthenticated().then(v => {
-      if (v) goHome(history);
-    });
-
-    return (
-      <div>
-        <Typography.Title>AuditStory</Typography.Title>
-        <Button icon={<LoginOutlined />} type="primary" onClick={logIn}>
-          Log In
-        </Button>
-      </div>
-    );
-  };
+  if (loadingAuthState) return <Spin tip="Logging you in, please wait..." />;
+  if (user && !user.emailVerified) return <VerifyEmail />;
 
   return (
     <div className={"App root"}>
       <Switch>
-        <Route
-          path="/startSession"
-          render={({ history }) => startSession(history)}
-        />
-        <Route exact path="/login" render={({ history }) => login(history)} />
+        <NonAuthRoute path="/login" component={Login} exact />
+        <NonAuthRoute path="/register" component={Register} />
+        <NonAuthRoute path="/forgot-password" component={ForgotPassword} />
 
-        <Route
+        <AuthRoute
           exact
           path="/story/:id"
-          render={({ match, history }) => (
-            <Story id={match.params["id"]} goHome={goHome(history)} />
-          )}
+          render={({ match }) => <Story id={match.params["id"]} />}
         />
-        <Route
-          exact
-          path="/account"
-          render={({ history }) => <AccountEdit goBack={goHome(history)} />}
-        />
-        <Route
-          exact
-          path="/editCategories"
-          render={({ history }) => <CategoriesEdit goBack={goHome(history)} />}
-        />
+        <AuthRoute exact path="/account" component={AccountEdit} />
+        <AuthRoute exact path="/editCategories" component={CategoriesEdit} />
 
-        <Route
-          exact
-          path="/terms"
-          render={({ history }) => <Terms goBack={goHome(history)} />}
-        />
+        <Route exact path="/terms" component={Terms} />
 
-        <Route
-          exact
-          path="/createUser"
-          render={({ history }) => <CreateUser goBack={goHome(history)} />}
-        />
+        <AuthRoute exact path="/createUser" component={CreateUser} />
 
-        <Route
-          path="/confirmation"
-          render={({ history }) => <Confirmation goHome={goHome(history)} />}
-        />
+        <AuthRoute path="/confirmation" component={Confirmation} />
 
-        <Route
-          exact
-          path="/"
-          render={({ history }) => <Home history={history} />}
-        />
+        <AuthRoute exact path="/" component={Home} />
 
         <Route component={() => <Redirect to="/" />} />
       </Switch>

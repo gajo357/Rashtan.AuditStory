@@ -3,16 +3,14 @@ import { Button, Typography, Progress } from "antd";
 import { PaymentStatus } from "../models/UserInfo";
 import { showError } from "../models/Errors";
 import useInterval from "../models/useInterval";
-import { useApiService } from "../context/ApiProvider";
+import { useApiService } from "../hooks/ApiProvider";
+import useNavigation from "../hooks/useNavigation";
 
-interface Props {
-  goHome: () => void;
-}
-
-const Confirmation: React.FC<Props> = ({ goHome }) => {
+const Confirmation: React.FC = () => {
   const [enabled, setEnabled] = useState(false);
   const [count, setCount] = useState(0);
   const { getUserStatus } = useApiService();
+  const { goHome } = useNavigation();
 
   const duration = 60;
 

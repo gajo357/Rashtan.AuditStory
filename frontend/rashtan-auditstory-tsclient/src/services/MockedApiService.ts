@@ -1,4 +1,3 @@
-import AuthService from "./AuthService";
 import {
   ProfileDto,
   CompanyStory,
@@ -12,7 +11,7 @@ import IApiService from "./IApiService";
 import { UserError, ResponseError, ValidationError } from "../models/Errors";
 import Category from "../models/Category";
 import { Country } from "../models/Country";
-import { CountriesAPI } from "./Auth0Config";
+import { CountriesAPI } from "./Config";
 import Email from "../models/Email";
 
 export default class MockedApiService implements IApiService {

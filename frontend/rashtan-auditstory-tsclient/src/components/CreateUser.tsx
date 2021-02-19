@@ -7,7 +7,7 @@ import { UserInfoDto } from "../models/UserInfo";
 import { Country } from "../models/Country";
 import { showError } from "../models/Errors";
 import withLogin from "./withLogin";
-import { useApiService } from "../context/ApiProvider";
+import { useApiService } from "../hooks/ApiProvider";
 
 const stepsContent = {
   marginTop: "16px",
@@ -23,11 +23,7 @@ const stepsAction = {
   marginTop: "24px"
 };
 
-interface Props {
-  goBack: () => void;
-}
-
-const CreateUser: React.FC<Props> = ({}) => {
+const CreateUser: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [current, setCurrent] = useState(0);
   const [userProfile, setUserProfile] = useState<UserInfoDto | undefined>();

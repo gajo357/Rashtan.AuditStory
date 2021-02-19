@@ -1,5 +1,4 @@
 import React, { useEffect, CSSProperties, useState } from "react";
-import { History } from "history";
 import { FlagTwoTone, MenuOutlined, PlusCircleFilled } from "@ant-design/icons";
 import { Drawer, List, Tag, Space, Input } from "antd";
 import Page from "./Page";
@@ -11,7 +10,8 @@ import AddUniqueValue from "./AddUniqueValue";
 import EditStar from "./SimpleEditors/EditStar";
 import { stringMatch } from "../models/Helpers";
 import withLogin from "./withLogin";
-import { useApiService } from "../context/ApiProvider";
+import { useApiService } from "../hooks/ApiProvider";
+import useNavigation from "../hooks/useNavigation";
 
 const createStoryStyle: CSSProperties = {
   position: "fixed",
@@ -34,11 +34,7 @@ const storyItemStyle = (color: string) => ({
   } as CSSProperties
 });
 
-interface Props {
-  history: History;
-}
-
-const Home: React.FC<Props> = ({ history }) => {
+const Home: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [createStoryVisible, setCreateStoryVisible] = useState(false);
@@ -47,6 +43,7 @@ const Home: React.FC<Props> = ({ history }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchText, setSearchText] = useState("");
   const { getCategories, getCompanies, createNewStory } = useApiService();
+  const { history } = useNavigation();
 
   useEffect(() => {
     setLoading(true);
@@ -65,9 +62,7 @@ const Home: React.FC<Props> = ({ history }) => {
   };
   const onClose = () => setMenuOpen(false);
 
-  const openStory = (id: string) => {
-    history.push(`/story/${id}`);
-  };
+  const openStory = (id: string) => history.push(`/story/${id}`);
 
   const companySearchFilter = (c: QuickInfoDto) => {
     const localMatch = stringMatch(searchText);
@@ -102,7 +97,6 @@ const Home: React.FC<Props> = ({ history }) => {
             onClose();
           }}
           categories={categories}
-          history={history}
         />
       </Drawer>
       <Page

@@ -1,21 +1,21 @@
 import React from "react";
 import Page from "./Page";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import useNavigation from "../hooks/useNavigation";
 
-interface Props {
-  goBack: () => void;
-}
+const Terms: React.FC = () => {
+  const { goHome } = useNavigation();
 
-const Terms: React.FC<Props> = ({ goBack }) => (
-  <Page
-    loading={false}
-    title="Terms and conditions"
-    backIcon={<ArrowLeftOutlined onClick={goBack} />}
-  >
-    <TermsAndConditions />
-  </Page>
-);
-
+  return (
+    <Page
+      loading={false}
+      title="Terms and conditions"
+      backIcon={<ArrowLeftOutlined onClick={goHome} />}
+    >
+      <TermsAndConditions />
+    </Page>
+  );
+};
 const TermsAndConditions = () => (
   <div style={{ textAlign: "left" }}>
     <h2 style={{ textAlign: "center" }}>

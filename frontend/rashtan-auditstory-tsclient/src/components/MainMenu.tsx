@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { History } from "history";
 import {
   LogoutOutlined,
   UnorderedListOutlined,
@@ -16,8 +15,9 @@ import EmailSender from "./EmailSender";
 import Category from "../models/Category";
 import { QuickInfoDto } from "../models/Company";
 import { showError } from "../models/Errors";
-import { useApiService } from "../context/ApiProvider";
-import { useAuthContext } from "../context/AuthProvider";
+import { useApiService } from "../hooks/ApiProvider";
+import { useAuthContext } from "../hooks/AuthProvider";
+import useNavigation from "../hooks/useNavigation";
 
 export interface CompanyFilter {
   title: string;
@@ -35,20 +35,19 @@ interface Props {
   categories: Category[];
   onCategoryAdded: (category: Category) => void;
   setFilter: (f: CompanyFilter | undefined) => void;
-  history: History;
 }
 
 const MainMenu: React.FC<Props> = ({
   categories,
   onCategoryAdded,
-  setFilter,
-  history
+  setFilter
 }) => {
   const [newCategoryVisible, setNewCategoryVisible] = useState(false);
   const [feedbackVisible, setFeedbackVisible] = useState(false);
   const [helpVisible, setHelpVisible] = useState(false);
   const { sendFeedback, askForHelp, saveCategory } = useApiService();
-  const { logOut } = useAuthContext();
+  const { logout } = useAuthContext();
+  const { history } = useNavigation();
 
   return (
     <div>
@@ -144,7 +143,7 @@ const MainMenu: React.FC<Props> = ({
           Send feedback
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={logOut} icon={<LogoutOutlined />}>
+        <Menu.Item onClick={logout} icon={<LogoutOutlined />}>
           LOG OUT
         </Menu.Item>
 

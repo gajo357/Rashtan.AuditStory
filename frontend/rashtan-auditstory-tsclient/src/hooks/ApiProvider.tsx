@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import IApiService from "../services/IApiService";
 import ApiService from "../services/ApiService";
 import MockedApiService from "../services/MockedApiService";
-import { useAuthContext } from "./AuthProvider";
+import useApi from "./useApi";
 
 const ApiContext = React.createContext<IApiService>(new MockedApiService());
 
@@ -13,9 +13,9 @@ interface ProviderProps {
 }
 
 const ApiProvider: React.FC<ProviderProps> = ({ children }) => {
-  const { getAccessToken } = useAuthContext();
+  const { apiGet, apiPost, apiPut, apiDelete } = useApi();
   // const apiService = new MockedApiService();
-  const apiService = new ApiService(getAccessToken);
+  const apiService = new ApiService(apiGet, apiPost, apiPut, apiDelete);
 
   return (
     <ApiContext.Provider value={apiService}>{children}</ApiContext.Provider>

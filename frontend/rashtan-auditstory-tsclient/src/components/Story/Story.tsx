@@ -30,14 +30,14 @@ import { Currency } from "../../models/Country";
 import styles from "./Story-styles";
 import AddUniqueValue from "../AddUniqueValue";
 import withLogin from "../withLogin";
-import { useApiService } from "../../context/ApiProvider";
+import { useApiService } from "../../hooks/ApiProvider";
+import useNavigation from "../../hooks/useNavigation";
 
 interface Props {
   id: string;
-  goHome: () => void;
 }
 
-const Story: React.FC<Props> = ({ id, goHome }) => {
+const Story: React.FC<Props> = ({ id }) => {
   const [company, setCompany] = useState<CompanyStory>();
   const [checklistItems, setChecklistItems] = useState<ChecklistItemDto[]>([]);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
@@ -47,6 +47,7 @@ const Story: React.FC<Props> = ({ id, goHome }) => {
   const [currency, setCurrency] = React.useState<CurrencyUnit>();
   const [activeKey, setActiveKey] = useState("1");
   const [customPartModal, setCustomPartModal] = useState(false);
+  const { goHome } = useNavigation();
 
   const {
     getCompanyStory,

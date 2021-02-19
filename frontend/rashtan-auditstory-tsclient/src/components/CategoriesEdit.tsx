@@ -6,21 +6,19 @@ import Page from "./Page";
 import Category from "../models/Category";
 import { showError } from "../models/Errors";
 import withLogin from "./withLogin";
-import { useApiService } from "../context/ApiProvider";
-
-interface Props {
-  goBack: () => void;
-}
+import { useApiService } from "../hooks/ApiProvider";
+import useNavigation from "../hooks/useNavigation";
 
 interface Categories {
   categories: Category[];
 }
 
-const CategoriesEdit: React.FC<Props> = ({ goBack }) => {
+const CategoriesEdit: React.FC = () => {
   const [categories, setCategories] = useState<Categories | undefined>(
     undefined
   );
   const { getCategories, saveCategories } = useApiService();
+  const { goHome } = useNavigation();
 
   useEffect(() => {
     getCategories()
@@ -33,14 +31,14 @@ const CategoriesEdit: React.FC<Props> = ({ goBack }) => {
     <Page
       title="Edit categories"
       loading={!categories}
-      backIcon={<CloseOutlined onClick={goBack} />}
+      backIcon={<CloseOutlined onClick={goHome} />}
       extra={
         categories && (
           <CheckOutlined
             onClick={() => {
               form.validateFields().then(values => {
                 const c = values as Categories;
-                saveCategories(c.categories).then(goBack).catch(showError);
+                saveCategories(c.categories).then(goHome).catch(showError);
               });
             }}
           />

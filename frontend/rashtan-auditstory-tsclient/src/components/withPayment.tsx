@@ -3,7 +3,7 @@ import { Spin, notification } from "antd";
 import { Redirect } from "react-router-dom";
 import { UserStatusDto, PaymentStatus } from "../models/UserInfo";
 import { showError } from "../models/Errors";
-import { useApiService } from "../context/ApiProvider";
+import { useApiService } from "../hooks/ApiProvider";
 
 const withPayment = <P,>(WrappedComponent: ComponentType<P>): React.FC<P> => {
   return props => {
