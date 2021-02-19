@@ -48,21 +48,21 @@ const extractUserInfo: (
     email: user.email,
     emailVerified: user.emailVerified,
     userId,
-    sendEmailVerification: (code: string | null) => {
+    sendEmailVerification: () => {
       // we take the current user, because the user object that was passed in might be unavailable
-      const u = currentUser();
-      if (!u || u === null) return Promise.resolve();
+      const fbUser = currentUser();
+      if (!fbUser) return Promise.resolve();
 
-      return u.sendEmailVerification({
-        url: code ? `${BASE_ADDRESS}invitation?code=${code}` : `${BASE_ADDRESS}`
+      return fbUser.sendEmailVerification({
+        url: BASE_ADDRESS
         // TODO: Add options for opening Continue button in the app
       });
     },
-    getIdToken: b => {
+    getIdToken: forceRefresh => {
       // we take the current user, because the user object that was passed in might be unavailable
-      const u = currentUser();
-      if (!u || u === null) return Promise.resolve(undefined);
-      return u.getIdToken(b);
+      const fbUser = currentUser();
+      if (!fbUser) return Promise.resolve(undefined);
+      return fbUser.getIdToken(forceRefresh);
     }
   };
 };
